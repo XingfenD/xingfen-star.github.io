@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="此博客参考如下资料搭建：\nHugo中文文档\n莱特雷-letere的个人博客\n如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog\nHugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<title>hugo&#43;GithubIO自建博客踩坑实录</title>
+
+<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/'>
+
+<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.70b9e0fc395b156ef316fd39d36c41361e20bcb909a8eb58938a460d5fd1f01a.css"><meta property='og:title' content="hugo+GithubIO自建博客踩坑实录">
+<meta property='og:description' content="此博客参考如下资料搭建：\nHugo中文文档\n莱特雷-letere的个人博客\n如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog\nHugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/'>
+<meta property='og:site_name' content='远楒'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2025-02-02T12:54:45&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
+<meta name="twitter:title" content="hugo+GithubIO自建博客踩坑实录">
+<meta name="twitter:description" content="此博客参考如下资料搭建：\nHugo中文文档\n莱特雷-letere的个人博客\n如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog\nHugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
+    <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/xingfen-star.github.io/">
+                
+                    
+
+                    
+                        
+                        <img src="/xingfen-star.github.io/img/avatar_hu_e75ba5eda9add5a4.png" width="300"
+                            height="279" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😉</span>
+                
+            </figure>
+            
+        
+
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/xingfen-star.github.io">远楒</a></h1>
+            <h2 class="site-description">星分.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a
+                        href='https://space.bilibili.com/473214036'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg class="icon" style="width: 24;height: 24;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 2299 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1461"><path d="M1775.840814 322.588002c6.0164 1.002733 53.144869-9.525967 55.150336-6.016401 3.0082 4.5123 24.065601 155.92504 18.550567 156.927774s-44.621635 10.027334-44.621635 10.027334c-3.0082-20.556034-28.577901-147.903173-29.079268-160.938707m75.205003-14.539634l20.556034 162.944174c10.5287-0.501367 53.144869-3.509567 57.155803-4.010934-6.0164-61.668103-16.545101-158.933241-16.545101-158.93324-20.054668-4.010934-41.112069-4.010934-61.166736 0m-40.610702 226.116376s92.752838-23.564234 126.344406-12.0328c17.046467 61.668103 48.131202 407.611118 51.139402 421.649386-21.057401 2.506833-90.246004 8.523234-95.761037 10.027333-4.5123-26.071068-81.72277-403.098818-81.722771-419.643919m343.436183-207.565809c5.515034 1.5041 54.648969-5.013667 55.150335-1.5041 1.002733 12.032801 6.0164 157.42914 0.501367 157.930507s-44.621635 4.010934-44.621635 4.010934c-1.002733-20.054668-12.032801-146.90044-11.030067-160.437341m75.70637-4.010933l4.010933 160.938707c10.5287 0 52.643502 2.506833 57.155803 2.005467-1.002733-61.668103 0-158.933241 0-158.933241-20.054668-3.509567-40.610702-5.013667-61.166736-4.010933m-64.676303 216.089043s94.758304-12.534167 126.845772 2.506833c7.019134 72.196803 6.0164 408.613852 7.019134 422.652119-21.558768 0-90.246004 1.002733-95.761038 2.005467-1.002733-26.071068-39.607968-410.619319-38.103868-427.164419m-220.099977-413.627519c54.648969 278.759879 96.262404 755.058234 97.766504 785.641602 0 0 43.117535 1.002733 91.750105 4.010934C2105.740095 614.383415 2070.644427 134.575493 2071.145794 119.033126c-12.032801-13.536901-126.344406 6.0164-126.344406 6.0164m-120.328005 659.297196c-10.5287-78.213204-290.291313-166.955108-447.720454-138.377206 0 0-19.553301-172.470141-27.073801-339.425248-6.517767-143.390873-1.002733-282.770813 0.501366-305.833681-10.5287-7.5205-123.837572 46.627102-185.004308 69.188603 0 0 73.199537 309.844614 126.344406 952.59671 0 0 84.730971 9.0246 230.12731-19.051934s317.365114-115.815705 302.825481-219.097244m-341.932083 140.88404l-24.566967-176.982441c6.0164-3.0082 156.927774 53.144869 172.971507 63.172203-2.506833 11.030067-148.40454 113.810238-148.40454 113.810238M610.664628 322.588002c6.0164 1.002733 53.144869-9.525967 55.150335-6.016401 3.0082 4.5123 24.065601 155.92504 18.550568 156.927774s-44.621635 10.027334-44.621635 10.027334c-3.0082-20.556034-28.577901-147.903173-29.079268-160.938707m75.205003-14.539634l20.556034 162.944174c10.5287-0.501367 53.144869-3.509567 57.155803-4.010934-6.517767-61.668103-16.545101-158.933241-16.545101-158.93324-20.054668-4.010934-41.112069-4.010934-61.166736 0m-40.610702 226.116376s92.752838-23.564234 126.344406-12.0328c17.046467 61.668103 48.131202 407.611118 51.139402 421.649386-21.057401 2.506833-90.246004 8.523234-95.761037 10.027333-4.5123-26.071068-81.72277-403.098818-81.722771-419.643919m343.436182-207.565809c5.515034 1.5041 54.648969-5.013667 55.150336-1.5041 1.002733 12.032801 6.0164 157.42914 0.501367 157.930507s-44.621635 4.010934-44.621635 4.010934c-1.002733-20.054668-11.531434-146.90044-11.030068-160.437341m75.706371-4.010933l4.010933 160.938707c10.5287 0 52.643502 2.506833 57.155803 2.005467-1.002733-61.668103 0-158.933241 0-158.933241-20.054668-3.509567-40.610702-4.5123-61.166736-4.010933m-64.676303 216.089043s94.758304-12.534167 126.845772 2.506833c7.019134 72.196803 6.0164 408.613852 7.019134 422.652119-21.558768 0-90.246004 1.002733-95.761038 2.005467-0.501367-26.071068-39.607968-410.619319-38.103868-427.164419m-220.099977-413.627519c54.648969 278.759879 96.262404 755.058234 97.766504 785.641602 0 0 43.117535 1.002733 91.750105 4.010934-28.577901-300.318647-63.67357-780.126569-63.172203-796.170303-12.032801-13.035534-126.344406 6.517767-126.344406 6.517767m-120.328005 659.297196c-10.5287-78.213204-290.291313-166.955108-447.720454-138.377206 0 0-19.553301-172.470141-27.073801-339.425248-6.517767-143.390873-1.002733-282.770813 0.501366-305.833681C174.475608-6.308547 61.166736 47.337689 0 69.89919c0 0 73.199537 309.844614 126.344406 952.59671 0 0 84.730971 9.0246 230.12731-19.051934s317.365114-115.815705 302.825481-219.097244m-341.932083 140.88404l-24.566967-176.982441c6.0164-3.0082 156.927774 53.144869 172.971507 63.172203-2.506833 11.030067-148.40454 113.810238-148.40454 113.810238" p-id="1462"></path></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a
+                        href='https://github.com/xingfend'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <?xml version="1.0" encoding="UTF-8"?><svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M29.3444 30.4765C31.7481 29.977 33.9292 29.1108 35.6247 27.8391C38.5202 25.6676 40 22.3136 40 18.9999C40 16.6752 39.1187 14.505 37.5929 12.6668C36.7427 11.6425 39.2295 3.99989 37.02 5.02919C34.8105 6.05848 31.5708 8.33679 29.8726 7.83398C28.0545 7.29565 26.0733 6.99989 24 6.99989C22.1992 6.99989 20.4679 7.22301 18.8526 7.6344C16.5046 8.23237 14.2591 5.99989 12 5.02919C9.74086 4.05848 10.9736 11.9632 10.3026 12.7944C8.84119 14.6051 8 16.7288 8 18.9999C8 22.3136 9.79086 25.6676 12.6863 27.8391C14.6151 29.2857 17.034 30.2076 19.7401 30.6619" stroke="#707070" stroke-width="4" stroke-linecap="round"/><path d="M19.7397 30.6619C18.5812 31.937 18.002 33.1478 18.002 34.2944C18.002 35.441 18.002 38.3464 18.002 43.0106" stroke="#707070" stroke-width="4" stroke-linecap="round"/><path d="M29.3446 30.4766C30.4423 31.9174 30.9912 33.211 30.9912 34.3576C30.9912 35.5042 30.9912 38.3885 30.9912 43.0107" stroke="#707070" stroke-width="4" stroke-linecap="round"/><path d="M6 31.2155C6.89887 31.3254 7.56554 31.7387 8 32.4554C8.65169 33.5303 11.0742 37.518 13.8251 37.518C15.6591 37.518 17.0515 37.518 18.0024 37.518" stroke="#707070" stroke-width="4" stroke-linecap="round"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/xingfen-star.github.io/post/hugo-githubio/">
+                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu_ff5ad4d28c51d20e.png"
+                        srcset="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu_ff5ad4d28c51d20e.png 800w, /xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu_cccd05d7b8bb16bf.png 1600w"
+                        width="800" 
+                        height="304" 
+                        loading="lazy"
+                        alt="Featured image of post hugo&#43;GithubIO自建博客踩坑实录" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/xingfen-star.github.io/categories/test/" style="background-color: #DA9721; color: #fff;">
+                测试
+            </a>
+        
+            <a href="/xingfen-star.github.io/categories/blog/" style="background-color: #2a9d8f; color: #fff;">
+                博客搭建
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/xingfen-star.github.io/post/hugo-githubio/">hugo&#43;GithubIO自建博客踩坑实录</a>
+        </h2>
+
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 02, 2025</time>
+            </div>
+        
+
+        
+        <div class="article-lastmod">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time>
+                    Feb 02, 2025 12:54 UTC
+                </time>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    1 minute read
+                </time>
+            </div>
+        
+
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>此博客参考如下资料搭建：</p>
+<blockquote>
+<p><a class="link" href="https://hugo.opendocs.io/"  target="_blank" rel="noopener"
+    >Hugo中文文档</a></p>
+<p><a class="link" href="https://letere-gzj.github.io/hugo-stack/"  target="_blank" rel="noopener"
+    >莱特雷-letere的个人博客</a></p>
+<p><a class="link" href="https://krislinzhao.github.io/docs/create-a-wesite-using-github-pages-and-hugo/"  target="_blank" rel="noopener"
+    >如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog</a></p>
+<p><a class="link" href="https://tomial.github.io/posts/hugo%E4%BD%BF%E7%94%A8github-action%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0github-pages/"  target="_blank" rel="noopener"
+    >Hugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog</a></p></blockquote>
+<h2 id="不能正确渲染主题---20250128">不能正确渲染主题 - 2025.01.28
+</h2><p>    此博客采用源码-博客页分离的结构搭建。</p>
+<p>    源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过<code>hugo -D</code>命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到<a class="link" href="https://github.com/XingfenD/xingfen-star.github.io.git"  target="_blank" rel="noopener"
+    >GitHub - XingfenD/xingfen-star.github.io</a>仓库中。</p>
+<p>    在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。</p>
+<p>    我在github action中添加步骤<code>Print Directory</code>以打印路径信息，最终定位此问题并修复，完整的githu action如下。</p>
+<p>    最终博客项目的结构为三个仓库：</p>
+<ul>
+<li>
+<p>Hugo源码仓库(通过gitignore忽略public, resources, themes文件夹)</p>
+</li>
+<li>
+<p>主题仓库(Hugo源码仓库的public文件夹)</p>
+</li>
+<li>
+<p>Github Page仓库(Hugo源码仓库的public文件夹)</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-actionscript" data-lang="actionscript"><span class="line"><span class="cl"><span class="nx">name</span><span class="o">:</span> <span class="nx">deploy</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">代码提交到</span><span class="nx">main分支时触发github</span> <span class="nx">action</span>
+</span></span><span class="line"><span class="cl"><span class="nx">on</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">push</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">branches</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">      <span class="o">-</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">jobs</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">deploy</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">runs</span><span class="o">-</span><span class="nx">on</span><span class="o">:</span> <span class="nx">ubuntu</span><span class="o">-</span><span class="mf">22.04</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">steps</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Checkout</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">uses</span><span class="o">:</span> <span class="nx">actions</span><span class="o">/</span><span class="nx">checkout</span><span class="err">@</span><span class="nx">v4</span>
+</span></span><span class="line"><span class="cl">          <span class="k">with</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">fetch</span><span class="o">-</span><span class="nx">depth</span><span class="o">:</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Setup</span> <span class="nx">Hugo</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">uses</span><span class="o">:</span> <span class="nx">peaceiris</span><span class="o">/</span><span class="nx">actions</span><span class="o">-</span><span class="nx">hugo</span><span class="err">@</span><span class="nx">v3</span>
+</span></span><span class="line"><span class="cl">          <span class="k">with</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">hugo</span><span class="o">-</span><span class="nx">version</span><span class="o">:</span> <span class="s2">&#34;latest&#34;</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">extended</span><span class="o">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Print</span> <span class="nx">Directory</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">run</span><span class="o">:</span> <span class="nx">tree</span> <span class="o">-</span><span class="nx">L</span> <span class="mi">3</span> <span class="o">-</span><span class="nx">d</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Clone</span> <span class="nx">Theme</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">run</span><span class="o">:</span> <span class="nx">git</span> <span class="nx">clone</span> <span class="nx">https</span><span class="o">://</span><span class="nx">github</span><span class="p">.</span><span class="nx">com</span><span class="sr">/XingfenD/</span><span class="nx">hugo</span><span class="o">-</span><span class="nx">theme</span><span class="o">-</span><span class="nx">custom</span><span class="p">.</span><span class="nx">git</span> <span class="nx">themes</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Git</span> <span class="nx">Configuration</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">run</span><span class="o">:</span> <span class="o">|</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">git</span> <span class="nx">config</span> <span class="o">--</span><span class="nx">global</span> <span class="nx">core</span><span class="p">.</span><span class="nx">quotePath</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">git</span> <span class="nx">config</span> <span class="o">--</span><span class="nx">global</span> <span class="nx">core</span><span class="p">.</span><span class="nx">autocrlf</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">git</span> <span class="nx">config</span> <span class="o">--</span><span class="nx">global</span> <span class="nx">core</span><span class="p">.</span><span class="nx">safecrlf</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">git</span> <span class="nx">config</span> <span class="o">--</span><span class="nx">global</span> <span class="nx">core</span><span class="p">.</span><span class="nx">ignorecase</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Build</span> <span class="nx">Web</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">run</span><span class="o">:</span> <span class="nx">hugo</span> <span class="o">-</span><span class="nx">D</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Print</span> <span class="nx">Directory</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">run</span><span class="o">:</span> <span class="nx">tree</span> <span class="o">-</span><span class="nx">L</span> <span class="mi">3</span> <span class="o">-</span><span class="nx">d</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">-</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">Deploy</span> <span class="nx">Web</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">uses</span><span class="o">:</span> <span class="nx">peaceiris</span><span class="o">/</span><span class="nx">actions</span><span class="o">-</span><span class="nx">gh</span><span class="o">-</span><span class="nx">pages</span><span class="err">@</span><span class="nx">v4</span>
+</span></span><span class="line"><span class="cl">          <span class="k">with</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">personal_token</span><span class="o">:</span> <span class="nx">$</span><span class="p">{{</span> <span class="nx">secrets</span><span class="p">.</span><span class="nx">ACTION_ACCESS_TOKEN</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">external_repository</span><span class="o">:</span> <span class="nx">XingfenD</span><span class="o">/</span><span class="nx">xingfen</span><span class="o">-</span><span class="nx">star</span><span class="p">.</span><span class="nx">github</span><span class="p">.</span><span class="nx">io</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">publish_branch</span><span class="o">:</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">publish_dir</span><span class="o">:</span> <span class="kd">public</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">commit_message</span><span class="o">:</span> <span class="nx">auto</span> <span class="nx">deploy</span>
+</span></span></code></pre></div><h2 id="主题配置后代码块显示异常---20250202">主题配置后代码块显示异常 - 2025.02.02
+</h2><p>    使用<a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack.git"  target="_blank" rel="noopener"
+    >hugo-theme-stack</a>主题后</p>
+<p>    发现在白天模式下的代码块颜色异常，如下图所示：</p>
+<p><img src="/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png"
+	width="2062"
+	height="659"
+	srcset="/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_a035020cf8bced0c.png 480w, /xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_f6920bf0a6147d37.png 1024w"
+	loading="lazy"
+	
+		alt="代码块颜色异常例图"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="312"
+		data-flex-basis="750px"
+	
+></p>
+<p>    在通过修改<code>hugo-theme-stack</code>主题的scss文件后成功定位异常原因：</p>
+<p>hugo编译md文件后生成的博文html文件中的codeblock为如下结构:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;highlight&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">pre</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">code</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;language-markdown&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;line&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            ...
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">code</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>    图中所示的深色异常颜色为<code>&lt;pre&gt;</code>标签的<code>style</code>属性控制，因此导致全局scss文件失效。</p>
+<p>阅读官方文档后，在<code>hugo.toml</code>中添加配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">markup</span><span class="p">.</span><span class="nx">highlight</span><span class="p">.</span><span class="nx">noClasses</span><span class="p">=</span><span class="kc">false</span>
+</span></span></code></pre></div><p>    问题得以修复。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            Last updated on Feb 02, 2025 12:54 UTC
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy;
+        
+            2025 - 
+        
+        2025 远楒
+    </section>
+    
+    <section class="powerby">
+        
+            星藏点雪，月隐晦明 <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            let elementsByClassName = document.querySelectorAll(".open");
+            if (elementsByClassName.length > 0) {
+                elementsByClassName.forEach((ul) => {
+                    ul.classList.remove("open")
+                })
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+
+    </body>
+</html>
