@@ -6,13 +6,22 @@
         <description>Recent content in Posts on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Mon, 03 Feb 2025 04:53:14 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 09 Feb 2025 12:35:59 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>C Args Parser</title>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</link>
+        <pubDate>Sun, 09 Feb 2025 20:32:58 +0800</pubDate>
+        
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</guid>
+        <description>&lt;h2 id=&#34;c语言高级参数解析库的实现&#34;&gt;c语言高级参数解析库的实现
+&lt;/h2&gt;</description>
+        </item>
+        <item>
         <title>Archive页改造</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/</link>
         <pubDate>Sun, 02 Feb 2025 22:46:55 +0800</pubDate>
         
         <guid>https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/</guid>
-        <description>&lt;h2 id=&#34;archive页介绍&#34;&gt;Archive页介绍
+        <description>&lt;img src="https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/blogbuild1.png" alt="Featured image of post Archive页改造" /&gt;&lt;h2 id=&#34;archive页介绍&#34;&gt;Archive页介绍
 &lt;/h2&gt;&lt;p&gt;archive页面展示了当前博文的所有类型，在此之下依据年份时序展示所有博文。&lt;/p&gt;
 &lt;p&gt;改造计划:&lt;/p&gt;
 &lt;ul&gt;
@@ -246,10 +255,10 @@
 &lt;/h2&gt;&lt;p&gt;    使用&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack.git&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;hugo-theme-stack&lt;/a&gt;主题后&lt;/p&gt;
 &lt;p&gt;    发现在白天模式下的代码块颜色异常，如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png&#34;
 	width=&#34;2062&#34;
 	height=&#34;659&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_a035020cf8bced0c.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_f6920bf0a6147d37.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_a035020cf8bced0c.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_f6920bf0a6147d37.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;代码块颜色异常例图&#34;
@@ -479,10 +488,10 @@
         </item>
         <item>
         <title>c语言getopt.h库解析</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parse/</link>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</link>
         <pubDate>Wed, 22 Jan 2025 13:29:03 +0800</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parse/</guid>
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</guid>
         <description>&lt;h2 id=&#34;getopth简介&#34;&gt;getopt.h简介
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：&lt;/p&gt;
 &lt;ul&gt;

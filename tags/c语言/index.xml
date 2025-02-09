@@ -6,12 +6,21 @@
         <description>Recent content in C语言 on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Mon, 03 Feb 2025 04:53:14 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 09 Feb 2025 12:35:59 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>C Args Parser</title>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</link>
+        <pubDate>Sun, 09 Feb 2025 20:32:58 +0800</pubDate>
+        
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</guid>
+        <description>&lt;h2 id=&#34;c语言高级参数解析库的实现&#34;&gt;c语言高级参数解析库的实现
+&lt;/h2&gt;</description>
+        </item>
+        <item>
         <title>c语言getopt.h库解析</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parse/</link>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</link>
         <pubDate>Wed, 22 Jan 2025 13:29:03 +0800</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parse/</guid>
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</guid>
         <description>&lt;h2 id=&#34;getopth简介&#34;&gt;getopt.h简介
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：&lt;/p&gt;
 &lt;ul&gt;

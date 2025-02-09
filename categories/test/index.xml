@@ -93,10 +93,10 @@
 &lt;/h2&gt;&lt;p&gt;    使用&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack.git&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;hugo-theme-stack&lt;/a&gt;主题后&lt;/p&gt;
 &lt;p&gt;    发现在白天模式下的代码块颜色异常，如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png&#34;
 	width=&#34;2062&#34;
 	height=&#34;659&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_a035020cf8bced0c.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_f6920bf0a6147d37.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_a035020cf8bced0c.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_f6920bf0a6147d37.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;代码块颜色异常例图&#34;
