@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="此博客参考如下资料搭建：\nHugo中文文档\n莱特雷-letere的个人博客\n如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog\nHugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
 <title>hugo&#43;GithubIO自建博客踩坑实录</title>
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/'>
 
 <link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.2c08b261cb6fee3da67f4a65c0efbf1cc04e1fbd39435c917d1dc8e929f89474.css"><meta property='og:title' content="hugo+GithubIO自建博客踩坑实录">
-<meta property='og:description' content="此博客参考如下资料搭建：\nHugo中文文档\n莱特雷-letere的个人博客\n如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog\nHugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<meta property='og:description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2025-02-09T12:35:59&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2025-02-11T18:29:09&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
 <meta name="twitter:title" content="hugo+GithubIO自建博客踩坑实录">
-<meta name="twitter:description" content="此博客参考如下资料搭建：\nHugo中文文档\n莱特雷-letere的个人博客\n如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog\nHugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
@@ -42,7 +42,7 @@
         }
     })();
 </script>
-<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
     <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
@@ -235,7 +235,115 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#不能正确渲染主题---20250128">不能正确渲染主题 - 2025.01.28</a></li>
+    <li><a href="#主题配置后代码块显示异常---20250202">主题配置后代码块显示异常 - 2025.02.02</a></li>
+    <li><a href="#修改配置文件以激活右侧边栏---20250212">修改配置文件以激活右侧边栏 - 2025.02.12</a></li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+            
+                <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Categories</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/xingfen-star.github.io/categories/test/" class="font_size_6">
+                测试
+            </a>
+        
+            <a href="/xingfen-star.github.io/categories/program/" class="font_size_3">
+                编程
+            </a>
+        
+            <a href="/xingfen-star.github.io/categories/blog/" class="font_size_2">
+                博客搭建
+            </a>
+        
+    </div>
+</section>
+
+            
+        
+            
+                <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/" class="font_size_2">
+                C语言
+            </a>
+        
+            <a href="/xingfen-star.github.io/tags/markdown/" class="font_size_2">
+                Markdown
+            </a>
+        
+            <a href="/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/" class="font_size_2">
+                参数解析
+            </a>
+        
+            <a href="/xingfen-star.github.io/tags/emoji/" class="font_size_1">
+                Emoji
+            </a>
+        
+            <a href="/xingfen-star.github.io/tags/tag-with-whitespaces/" class="font_size_1">
+                Tag With Whitespaces
+            </a>
+        
+    </div>
+</section>
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -307,7 +415,7 @@
 
 
                 <time>
-                    Feb 09, 2025 12:35 UTC
+                    Feb 11, 2025 18:29 UTC
                 </time>
             </div>
             <div>
@@ -336,16 +444,7 @@
     <section class="article-content">
     
     
-    <p>此博客参考如下资料搭建：</p>
-<blockquote>
-<p><a class="link" href="https://hugo.opendocs.io/"  target="_blank" rel="noopener"
-    >Hugo中文文档</a></p>
-<p><a class="link" href="https://letere-gzj.github.io/hugo-stack/"  target="_blank" rel="noopener"
-    >莱特雷-letere的个人博客</a></p>
-<p><a class="link" href="https://krislinzhao.github.io/docs/create-a-wesite-using-github-pages-and-hugo/"  target="_blank" rel="noopener"
-    >如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog</a></p>
-<p><a class="link" href="https://tomial.github.io/posts/hugo%E4%BD%BF%E7%94%A8github-action%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0github-pages/"  target="_blank" rel="noopener"
-    >Hugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog</a></p></blockquote>
+    <p>    此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。</p>
 <h2 id="不能正确渲染主题---20250128">不能正确渲染主题 - 2025.01.28
 </h2><p>    此博客采用源码-博客页分离的结构搭建。</p>
 <p>    源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过<code>hugo -D</code>命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到<a class="link" href="https://github.com/XingfenD/xingfen-star.github.io.git"  target="_blank" rel="noopener"
@@ -448,6 +547,44 @@
 </code></pre>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">markup</span><span class="p">.</span><span class="nx">highlight</span><span class="p">.</span><span class="nx">noClasses</span><span class="p">=</span><span class="kc">false</span>
 </span></span></code></pre></div><p>    问题得以修复。</p>
+<h2 id="修改配置文件以激活右侧边栏---20250212">修改配置文件以激活右侧边栏 - 2025.02.12
+</h2><p>    阅读Stack主题官方文档<a class="link" href="https://stack.jimmycai.com/config/widgets"  target="_blank" rel="noopener"
+    >右侧边栏配置项</a>可以了解如何修改配置文件以激活右边栏。</p>
+<p>    在<code>config.yaml</code>文件中修改配置项[params.widgets]:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">params</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">widgets</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">homepage</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">search</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">categories</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">params</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">limit</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">tag-cloud</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">params</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">limit</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">page</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">toc</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">categories</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">params</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">limit</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">tag-cloud</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">params</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">limit</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span></code></pre></div><p>    配置生效后有侧边栏效果如下图:</p>
+<p><img src="/xingfen-star.github.io/post/hugo-githubio/right_sidebar.png"
+	width="788"
+	height="975"
+	srcset="/xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_837338706f8bfe13.png 480w, /xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_369e25e720881770.png 1024w"
+	loading="lazy"
+	
+		alt="右侧边栏效果图"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="80"
+		data-flex-basis="193px"
+	
+></p>
 
 </section>
 
@@ -465,7 +602,7 @@
 
 
         <span>
-            Last updated on Feb 09, 2025 12:35 UTC
+            Last updated on Feb 11, 2025 18:29 UTC
         </span>
     </section></footer>
 

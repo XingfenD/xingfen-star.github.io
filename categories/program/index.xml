@@ -229,10 +229,10 @@
 &lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;函数-getopt&#34;&gt;函数 &lt;code&gt;getopt()&lt;/code&gt;
-&lt;/h3&gt;&lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt; 用于解析仅包含短选项的指令，例如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;。&lt;/p&gt;
-&lt;h4 id=&#34;getopt-示例程序&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt; 示例程序
-&lt;/h4&gt;&lt;p&gt;使用 &lt;code&gt;getopt()&lt;/code&gt; 的参数处理框架如下：&lt;/p&gt;
+&lt;h2 id=&#34;函数-getopt&#34;&gt;函数 &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt; 用于解析仅包含短选项的指令，例如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;getopt-示例程序&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt; 示例程序
+&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;getopt()&lt;/code&gt; 的参数处理框架如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
@@ -284,9 +284,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Remaining arguments: yuanshen arg:k arg:h %
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;getopt详细说明&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt;详细说明
-&lt;/h4&gt;&lt;h5 id=&#34;全局变量&#34;&gt;全局变量
-&lt;/h5&gt;&lt;table&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;getopt详细说明&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt;详细说明
+&lt;/h3&gt;&lt;h4 id=&#34;全局变量&#34;&gt;全局变量
+&lt;/h4&gt;&lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
           &lt;th&gt;全局变量&lt;/th&gt;
@@ -316,13 +316,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%s &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;模式字符串&#34;&gt;&lt;strong&gt;模式字符串&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;模式字符串的定义是 &lt;code&gt;const char *__shortopts&lt;/code&gt;，在示例程序中，其实例为 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;模式字符串&#34;&gt;&lt;strong&gt;模式字符串&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;模式字符串的定义是 &lt;code&gt;const char *__shortopts&lt;/code&gt;，在示例程序中，其实例为 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;顾名思义，模式字符串定义了 &lt;code&gt;getopt()&lt;/code&gt; 和 &lt;code&gt;getopt_long()&lt;/code&gt; 函数中将被识别的短选项。冒号 &lt;code&gt;:&lt;/code&gt; 跟在短选项字符后表示该选项需要一个参数。&lt;/p&gt;
 &lt;p&gt;以 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt; 为例，此模式字符串接收4个选项。选项 &lt;code&gt;-f&lt;/code&gt; 和 &lt;code&gt;-o&lt;/code&gt; 需要输入参数，而选项 &lt;code&gt;-k&lt;/code&gt; 和 &lt;code&gt;-h&lt;/code&gt; 不需要。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：如果 &lt;code&gt;-f&lt;/code&gt; 后跟一个选项，该选项会被视为参数。&lt;/p&gt;
-&lt;h3 id=&#34;函数-getopt_long&#34;&gt;函数 &lt;code&gt;getopt_long()&lt;/code&gt;
-&lt;/h3&gt;&lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 用于解析既包含短选项（如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;）又包含长选项（如 &lt;code&gt;--version&lt;/code&gt;、&lt;code&gt;--input&lt;/code&gt;）的指令。&lt;/p&gt;
+&lt;h2 id=&#34;函数-getopt_long&#34;&gt;函数 &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 用于解析既包含短选项（如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;）又包含长选项（如 &lt;code&gt;--version&lt;/code&gt;、&lt;code&gt;--input&lt;/code&gt;）的指令。&lt;/p&gt;
 &lt;p&gt;函数 &lt;code&gt;getopt_long&lt;/code&gt; 识别一个结构体数组 &lt;code&gt;struct option&lt;/code&gt;，该数组定义了长选项的信息。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;struct option&lt;/code&gt; 的原型及相关介绍如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -334,8 +334,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;字段 &lt;code&gt;has_arg&lt;/code&gt; 有两个有效值，即宏 &lt;code&gt;no_argument&lt;/code&gt; 和 &lt;code&gt;required_argument&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;如果字段 &lt;code&gt;flag&lt;/code&gt; 未提供，则字段 &lt;code&gt;val&lt;/code&gt; 会被视为与当前长选项绑定的短选项。&lt;/p&gt;
 &lt;p&gt;如果提供了字段 &lt;code&gt;flag&lt;/code&gt;，当用户提供当前长选项时，字段 &lt;code&gt;val&lt;/code&gt; 将被赋值给 &lt;code&gt;*flag&lt;/code&gt;。&lt;/p&gt;
-&lt;h4 id=&#34;用实例详细说明&#34;&gt;用实例详细说明
-&lt;/h4&gt;&lt;p&gt;以下是一个使用 &lt;code&gt;struct option&lt;/code&gt; 数组和模式字符串的实例：&lt;/p&gt;
+&lt;h3 id=&#34;用实例详细说明&#34;&gt;用实例详细说明
+&lt;/h3&gt;&lt;p&gt;以下是一个使用 &lt;code&gt;struct option&lt;/code&gt; 数组和模式字符串的实例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;suR:&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -410,8 +410,8 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;选项 &lt;code&gt;-s&lt;/code&gt; 和 &lt;code&gt;--setbind&lt;/code&gt; 并未绑定在一起，因为在与 &lt;code&gt;&amp;quot;setbind&amp;quot;&lt;/code&gt; 对应的结构体元素中设置了字段 flag。&lt;/p&gt;
-&lt;h4 id=&#34;参数需求冲突&#34;&gt;参数需求冲突
-&lt;/h4&gt;&lt;p&gt;当短选项和长选项中都定义了参数需求时，可能会发生冲突。&lt;/p&gt;
+&lt;h3 id=&#34;参数需求冲突&#34;&gt;参数需求冲突
+&lt;/h3&gt;&lt;p&gt;当短选项和长选项中都定义了参数需求时，可能会发生冲突。&lt;/p&gt;
 &lt;p&gt;我们通过一个实例进行说明：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;c:d&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
@@ -433,8 +433,8 @@
 &lt;p&gt;该程序运行正常，但关于参数的配置也会生效。&lt;/p&gt;
 &lt;p&gt;当用户提供 &lt;code&gt;-c&lt;/code&gt; 或 &lt;code&gt;--Conflict1&lt;/code&gt; 时，程序会进入同一个分支，但 &lt;code&gt;--Conflict1&lt;/code&gt; 不会读取后续的参数，而 &lt;code&gt;-c&lt;/code&gt; 会读取。&lt;/p&gt;
 &lt;p&gt;当用户提供 &lt;code&gt;-d&lt;/code&gt; 或 &lt;code&gt;--Conflict2&lt;/code&gt; 时，结果则相反。&lt;/p&gt;
-&lt;h4 id=&#34;getopt_long-示例程序&#34;&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 示例程序
-&lt;/h4&gt;&lt;p&gt;以下是使用 &lt;code&gt;getopt_long()&lt;/code&gt; 的参数处理框架：&lt;/p&gt;
+&lt;h3 id=&#34;getopt_long-示例程序&#34;&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 示例程序
+&lt;/h3&gt;&lt;p&gt;以下是使用 &lt;code&gt;getopt_long()&lt;/code&gt; 的参数处理框架：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
@@ -543,8 +543,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;运行测试指令并分析测试结果&#34;&gt;运行测试指令并分析测试结果
-&lt;/h5&gt;&lt;p&gt;编译运行时的测试指令如下：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;运行测试指令并分析测试结果&#34;&gt;运行测试指令并分析测试结果
+&lt;/h4&gt;&lt;p&gt;编译运行时的测试指令如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out -s --setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --unsetbind --RequireArg arg:RequireArg
