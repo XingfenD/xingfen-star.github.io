@@ -10,7 +10,7 @@
 <meta property='og:description' content="展示 Hugo 内容文件中可以使用的基本 Markdown 语法和格式的示例文章。">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/markdown-syntax/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='markdown' /><meta property='article:published_time' content='2025-02-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-02-11T19:36:27&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='markdown' /><meta property='article:published_time' content='2025-02-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-02-11T20:05:38&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg' />
 <meta name="twitter:title" content="Markdown 语法指南">
 <meta name="twitter:description" content="展示 Hugo 内容文件中可以使用的基本 Markdown 语法和格式的示例文章。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg' />
@@ -287,6 +287,7 @@
         <li></li>
       </ul>
     </li>
+    <li><a href="#其他元素abbr-sub-sup-kbd-mark">其他元素——abbr, sub, sup, kbd, mark</a></li>
     <li><a href="#超链接图片">超链接图片</a></li>
   </ul>
 </nav>
@@ -447,7 +448,7 @@
 
 
                 <time>
-                    Feb 11, 2025 19:36 UTC
+                    Feb 11, 2025 20:05 UTC
                 </time>
             </div>
             <div>
@@ -460,7 +461,7 @@
 
 
                 <time class="article-time--reading">
-                    2 minute read
+                    3 minute read
                 </time>
             </div>
         
@@ -506,8 +507,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="ge"></span>
 </span></span><span class="line"><span class="cl">[^1]: 上述引用摘自 Rob Pike 在 Gopherfest 2015 年 11 月 18 日[<span class="nt">演讲</span>](<span class="na">https://www.youtube.com/watch?v=PAAkCSZUG1c</span>)的部分内容。
 </span></span></code></pre></div><blockquote>
-<p>不要通过共享内存来通信，而是通过通信来共享内存。<!-- raw HTML omitted -->
-— <!-- raw HTML omitted -->Rob Pike<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><!-- raw HTML omitted --></p></blockquote>
+<p>不要通过共享内存来通信，而是通过通信来共享内存。<br>
+— <cite>Rob Pike<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></cite></p></blockquote>
 <h2 id="表格">表格
 </h2><p>表格不属于核心 Markdown 规范的一部分，但 Hugo 开箱即用地支持它们。</p>
 <div class="table-wrapper"><table>
@@ -647,6 +648,21 @@
 </ul>
 </li>
 </ul>
+<h2 id="其他元素abbr-sub-sup-kbd-mark">其他元素——abbr, sub, sup, kbd, mark
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">title</span><span class="o">=</span><span class="s">&#34;图形交换格式&#34;</span><span class="p">&gt;</span>GIF<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> 是一种位图图像格式。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">H<span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;</span>2<span class="p">&lt;/</span><span class="nt">sub</span><span class="p">&gt;</span>O
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">X<span class="p">&lt;</span><span class="nt">sup</span><span class="p">&gt;</span>n<span class="p">&lt;/</span><span class="nt">sup</span><span class="p">&gt;</span> + Y<span class="p">&lt;</span><span class="nt">sup</span><span class="p">&gt;</span>n<span class="p">&lt;/</span><span class="nt">sup</span><span class="p">&gt;</span> = Z<span class="p">&lt;</span><span class="nt">sup</span><span class="p">&gt;</span>n<span class="p">&lt;/</span><span class="nt">sup</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">按下 <span class="p">&lt;</span><span class="nt">kbd</span><span class="p">&gt;</span>CTRL<span class="p">&lt;/</span><span class="nt">kbd</span><span class="p">&gt;</span> + <span class="p">&lt;</span><span class="nt">kbd</span><span class="p">&gt;</span>ALT<span class="p">&lt;/</span><span class="nt">kbd</span><span class="p">&gt;</span> + <span class="p">&lt;</span><span class="nt">kbd</span><span class="p">&gt;</span>Delete<span class="p">&lt;/</span><span class="nt">kbd</span><span class="p">&gt;</span> 结束会话。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">大多数 <span class="p">&lt;</span><span class="nt">mark</span><span class="p">&gt;</span>蝾螈<span class="p">&lt;/</span><span class="nt">mark</span><span class="p">&gt;</span> 是夜行性的，并猎食昆虫、蠕虫和其他小生物。
+</span></span></code></pre></div><p><abbr title="图形交换格式">GIF</abbr> 是一种位图图像格式。</p>
+<p>H<sub>2</sub>O</p>
+<p>X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup></p>
+<p>按下 <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> 结束会话。</p>
+<p>大多数 <mark>蝾螈</mark> 是夜行性的，并猎食昆虫、蠕虫和其他小生物。</p>
 <h2 id="超链接图片">超链接图片
 </h2><p><a class="link" href="https://www.markdown.cn"  target="_blank" rel="noopener"
     ><img src="https://www.markdown.cn/img/hero.png"
@@ -690,10 +706,36 @@
 
 
         <span>
-            Last updated on Feb 11, 2025 19:36 UTC
+            Last updated on Feb 11, 2025 20:05 UTC
         </span>
     </section></footer>
 
+
+    
+        <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
 
     
 </article>

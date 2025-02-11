@@ -33,7 +33,10 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复在archive页面的category tile展示异常以及category详细页的文章数量异常&lt;/p&gt;
+&lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复在archive页面的category tile展示异常&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复category详细页的文章数量异常&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 添加archive页面对应配置项&lt;/p&gt;
@@ -56,7 +59,7 @@
 &lt;li&gt;&lt;code&gt;themes/hugo-theme-stack/assets/scss/partials/layout/list.scss&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;/home/fendy/Project/BlogSrc/themes/hugo-theme-stack/assets/ts/main.ts&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;修复展示异常&#34;&gt;修复展示异常
+&lt;h2 id=&#34;修复category-tile展示异常&#34;&gt;修复category tile展示异常
 &lt;/h2&gt;&lt;p&gt;    本质上是没有添加对hidden文章的判断逻辑，在&lt;code&gt;themes/hugo-theme-stack/layouts/_default/archives.html&lt;/code&gt;中添加筛选逻辑：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;类别&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;taxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;subsection-list&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
@@ -327,6 +330,27 @@
 		data-flex-basis=&#34;193px&#34;
 	
 &gt;&lt;/p&gt;
+&lt;h2 id=&#34;不能正确渲染abbr-sub等特殊html标签---20250212&#34;&gt;不能正确渲染&lt;code&gt;abbr&lt;/code&gt;, &lt;code&gt;sub&lt;/code&gt;等特殊html标签 - 2025.02.12
+&lt;/h2&gt;&lt;p&gt;    查阅在线资料&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7119681369831112741&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;修复Hugo静态生成器中忽略原始HTML的方法在这个简短的教程中，了解是什么原因导致了原始HTML的承诺，以及如何修复它 - 掘金&lt;/a&gt;后，在&lt;code&gt;hugo.toml&lt;/code&gt;中添加配置项：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;markup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;goldmark&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;renderer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;unsafe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    成功渲染，效果如图。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix.png&#34;
+	width=&#34;2195&#34;
+	height=&#34;554&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_8eebbc10429e506.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_8f4b4c311945441d.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;修改配置前后渲染对比图&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;396&#34;
+		data-flex-basis=&#34;950px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;右侧边栏的tags和categories不能处理hidden博文&#34;&gt;右侧边栏的tags和categories不能处理hidden博文
+&lt;/h2&gt;&lt;p&gt;    尚未解决。&lt;/p&gt;
 </description>
         </item>
         

@@ -6,7 +6,7 @@
         <description>Recent content in Pages on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Tue, 11 Feb 2025 19:36:27 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 11 Feb 2025 20:05:38 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>归档</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/page/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
@@ -43,7 +43,8 @@
 &lt;p&gt;Learn more and contribute on &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;GitHub&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;关于远楒&#34;&gt;关于远楒
-&lt;/h2&gt;&lt;p&gt;本博客站&amp;quot;远楒&amp;quot;的搭建过程参考如下在线资料:&lt;/p&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;参考资料&#34;&gt;参考资料
+&lt;/h3&gt;&lt;p&gt;本博客站&amp;quot;远楒&amp;quot;的搭建过程参考如下在线资料:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://hugo.opendocs.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Hugo中文文档&lt;/a&gt;&lt;/p&gt;
@@ -58,7 +59,8 @@
 &lt;p&gt;使用的Hugo主题为&lt;a class=&#34;link&#34; href=&#34;https://themes.gohugo.io/themes/hugo-theme-stack/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Stack&lt;/a&gt;，本博客站使用的定制化主题仓库为&lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD/hugo-theme-custom&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;XingfenD/hugo-theme-custom&lt;/a&gt;。本站的具体开发与改造过程可进入站内归档页的&amp;quot;博客搭建&amp;quot;类别具体了解。&lt;/p&gt;
-</description>
+&lt;h3 id=&#34;远楒的结构&#34;&gt;远楒的结构
+&lt;/h3&gt;</description>
         </item>
         <item>
         <title>搜索</title>
