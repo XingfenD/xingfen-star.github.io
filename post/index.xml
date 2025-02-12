@@ -6,7 +6,7 @@
         <description>Recent content in Posts on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Wed, 12 Feb 2025 07:24:48 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 12 Feb 2025 07:58:56 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>C Args Parser</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</link>
         <pubDate>Sun, 09 Feb 2025 20:32:58 +0800</pubDate>
@@ -325,7 +325,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;- &lt;span class=&#34;nt&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;tag-cloud&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;              &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;limit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    配置生效后有侧边栏效果如下图:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    配置生效后右侧边栏效果如下图:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar.png&#34;
 	width=&#34;788&#34;
 	height=&#34;975&#34;
@@ -359,8 +359,27 @@
 		data-flex-basis=&#34;950px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;h2 id=&#34;右侧边栏的tags和categories不能处理hidden博文&#34;&gt;右侧边栏的tags和categories不能处理hidden博文
-&lt;/h2&gt;&lt;p&gt;    尚未解决。&lt;/p&gt;
+&lt;h2 id=&#34;右侧边栏的tag-cloud和categories不能处理hidden博文&#34;&gt;右侧边栏的tag-cloud和categories不能处理hidden博文
+&lt;/h2&gt;&lt;h3 id=&#34;tag-cloud识别hidden博文&#34;&gt;tag-cloud识别hidden博文
+&lt;/h3&gt;&lt;p&gt;    把&lt;code&gt;layouts/partials/widget/tag-cloud.html&lt;/code&gt;的渲染tag-cloud的逻辑进行如下修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;div class=&amp;#34;tagCloud-tags&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-        {{ range first $limit $context.Site.Taxonomies.tags.ByCount }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-            &amp;lt;a href=&amp;#34;{{ .Page.RelPermalink }}&amp;#34; class=&amp;#34;font_size_{{ .Count }}&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-                {{ .Page.Title }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-            &amp;lt;/a&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gi&#34;&gt;+        {{- $cateTaxonomy := $context.Site.GetPage &amp;#34;tags&amp;#34; -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{- $cateTerms := $cateTaxonomy.Pages -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{ range first $limit $cateTerms }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{- $pages := .Pages -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{- $filteredPages := where $pages &amp;#34;.Params.hidden&amp;#34; &amp;#34;!=&amp;#34; true -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{ if $filteredPages }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                &amp;lt;a href=&amp;#34;{{ .RelPermalink }}&amp;#34; class=&amp;#34;font_size_{{ len $filteredPages}}&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                    {{ .Title }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                &amp;lt;/a&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{ end }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{ end }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;&lt;/span&gt;    &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    如&lt;a class=&#34;link&#34; href=&#34;../blogbuild1-archive/#%e4%bf%ae%e5%a4%8dcategory-tile%e5%b1%95%e7%a4%ba%e5%bc%82%e5%b8%b8&#34; &gt;另一篇博文中的方法&lt;/a&gt;，从&lt;code&gt;$context.Site&lt;/code&gt;中获取所有&lt;code&gt;tags&lt;/code&gt;然后过滤掉&lt;code&gt;hidden == true&lt;/code&gt;的博文后，判断&lt;code&gt;$filteredPages&lt;/code&gt;中是否还有元素，如果有则渲染这个tag。&lt;/p&gt;
 </description>
         </item>
         <item>
