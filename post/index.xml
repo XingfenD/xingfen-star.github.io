@@ -6,7 +6,41 @@
         <description>Recent content in Posts on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Wed, 12 Feb 2025 08:01:43 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 12 Feb 2025 08:53:39 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Widgets修复与开发</title>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/</link>
+        <pubDate>Wed, 12 Feb 2025 16:33:24 +0800</pubDate>
+        
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/</guid>
+        <description>&lt;h2 id=&#34;计划&#34;&gt;计划
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 添加widget，展示当前博文的tags&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复右侧边栏categories的tile顺序会异常变化的问题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;右侧边栏的tag-cloud和categories不能处理hidden博文&#34;&gt;右侧边栏的tag-cloud和categories不能处理hidden博文
+&lt;/h2&gt;&lt;h3 id=&#34;tag-cloud识别hidden博文&#34;&gt;tag-cloud识别hidden博文
+&lt;/h3&gt;&lt;p&gt;    把&lt;code&gt;layouts/partials/widget/tag-cloud.html&lt;/code&gt;的渲染tag-cloud的逻辑进行如下修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;div class=&amp;#34;tagCloud-tags&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-        {{ range first $limit $context.Site.Taxonomies.tags.ByCount }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-            &amp;lt;a href=&amp;#34;{{ .Page.RelPermalink }}&amp;#34; class=&amp;#34;font_size_{{ .Count }}&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-                {{ .Page.Title }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-            &amp;lt;/a&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gi&#34;&gt;+        {{- $cateTaxonomy := $context.Site.GetPage &amp;#34;tags&amp;#34; -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{- $cateTerms := $cateTaxonomy.Pages -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{ range first $limit $cateTerms }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{- $pages := .Pages -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{- $filteredPages := where $pages &amp;#34;.Params.hidden&amp;#34; &amp;#34;!=&amp;#34; true -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{ if $filteredPages }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                &amp;lt;a href=&amp;#34;{{ .RelPermalink }}&amp;#34; class=&amp;#34;font_size_{{ len $filteredPages}}&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                    {{ .Title }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                &amp;lt;/a&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{ end }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{ end }}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;&lt;/span&gt;    &amp;lt;/div&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    如&lt;a class=&#34;link&#34; href=&#34;../blogbuild1-archive/#%e4%bf%ae%e5%a4%8dcategory-tile%e5%b1%95%e7%a4%ba%e5%bc%82%e5%b8%b8&#34; &gt;另一篇博文中的方法&lt;/a&gt;，从&lt;code&gt;$context.Site&lt;/code&gt;中获取所有&lt;code&gt;tags&lt;/code&gt;然后过滤掉&lt;code&gt;hidden == true&lt;/code&gt;的博文后，判断&lt;code&gt;$filteredPages&lt;/code&gt;中是否还有元素，如果有则渲染这个tag。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>C Args Parser</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</link>
         <pubDate>Sun, 09 Feb 2025 20:32:58 +0800</pubDate>
@@ -46,7 +80,7 @@
 &lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复在archive页面的category tile展示异常&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复category详细页的文章数量异常&lt;/p&gt;
+&lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复category详细页的文章数量异常&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 添加archive页面对应配置项&lt;/p&gt;
@@ -71,13 +105,11 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;修复category-tile展示异常&#34;&gt;修复category tile展示异常
 &lt;/h2&gt;&lt;p&gt;    本质上是没有添加对hidden文章的判断逻辑，在&lt;code&gt;themes/hugo-theme-stack/layouts/_default/archives.html&lt;/code&gt;中添加筛选逻辑：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;类别&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;taxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;类别&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cateTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;subsection-list&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;category-list--tile&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;terms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* 获取当前标签下的所有页面 */&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cateTerms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Pages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* 过滤掉 hidden 为 true 的页面 */&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filteredPages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pages&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;.Params.hidden&amp;#34;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;!=&amp;#34;&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filteredPages&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;partial&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;article-list/tile&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;dict&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;context&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;size&amp;#34;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;250x150&amp;#34;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Type&amp;#34;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;taxonomy&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
@@ -182,7 +214,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;修改对应源码读取配置项&#34;&gt;修改对应源码读取配置项
 &lt;/h3&gt;&lt;p&gt;    修改&lt;code&gt;layouts/_default/archives.html&lt;/code&gt;文件，将&lt;code&gt;{{ if $term }}&lt;/code&gt;判断语句添加一个与项，同时&lt;strong&gt;修改变量名&lt;/strong&gt;。最终修改后结果如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;eq&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Site&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;archives&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;showCategories&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;gt&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;len&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cateTerms&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同理，在渲染tags和dates板块的部分使用如下语句对包裹：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    同理，在渲染tags和dates板块的部分使用如下语句对包裹：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;eq&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Site&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;archives&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;showTags&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;gt&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;len&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTerms&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* 渲染Tags板块 */&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
@@ -191,7 +223,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;eq&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Site&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;archives&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;showDates&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* 渲染Dates板块*/&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;修复category详细页的文章数量异常问题&#34;&gt;修复category详细页的文章数量异常问题
+&lt;/h2&gt;&lt;p&gt;    在&lt;code&gt;layouts/_default/list.html&lt;/code&gt;文件中进行如下修改：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-    &amp;lt;h3 class=&amp;#34;section-count&amp;#34;&amp;gt;{{ T &amp;#34;list.page&amp;#34; (len .Pages) }}&amp;lt;/h3&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gi&#34;&gt;+    {{- $filteredPages := where .Pages &amp;#34;.Params.hidden&amp;#34; &amp;#34;!=&amp;#34; true -}}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+    &amp;lt;h3 class=&amp;#34;section-count&amp;#34;&amp;gt;{{ T &amp;#34;list.page&amp;#34; (len $filteredPages) }}&amp;lt;/h3&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    把&lt;code&gt;.Pages&lt;/code&gt;的元素个数替换为筛选后的元素个数。&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>hugo&#43;GithubIO自建博客踩坑实录</title>
@@ -342,7 +380,7 @@
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;不能正确渲染abbr-sub等特殊html标签---20250212&#34;&gt;不能正确渲染&lt;code&gt;abbr&lt;/code&gt;, &lt;code&gt;sub&lt;/code&gt;等特殊html标签 - 2025.02.12
 &lt;/h2&gt;&lt;p&gt;    查阅在线资料&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7119681369831112741&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;修复Hugo静态生成器中忽略原始HTML的方法在这个简短的教程中，了解是什么原因导致了原始HTML的承诺，以及如何修复它 - 掘金&lt;/a&gt;后，在&lt;code&gt;hugo.toml&lt;/code&gt;中添加配置项：&lt;/p&gt;
+    &gt;修复Hugo静态生成器中忽略原始HTML的方法&lt;/a&gt;后，在&lt;code&gt;hugo.toml&lt;/code&gt;中添加配置项：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;markup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;goldmark&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;renderer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;unsafe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    成功渲染，效果如图。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix.png&#34;
@@ -359,27 +397,6 @@
 		data-flex-basis=&#34;950px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;h2 id=&#34;右侧边栏的tag-cloud和categories不能处理hidden博文&#34;&gt;右侧边栏的tag-cloud和categories不能处理hidden博文
-&lt;/h2&gt;&lt;h3 id=&#34;tag-cloud识别hidden博文&#34;&gt;tag-cloud识别hidden博文
-&lt;/h3&gt;&lt;p&gt;    把&lt;code&gt;layouts/partials/widget/tag-cloud.html&lt;/code&gt;的渲染tag-cloud的逻辑进行如下修改：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &amp;lt;div class=&amp;#34;tagCloud-tags&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-        {{ range first $limit $context.Site.Taxonomies.tags.ByCount }}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-            &amp;lt;a href=&amp;#34;{{ .Page.RelPermalink }}&amp;#34; class=&amp;#34;font_size_{{ .Count }}&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-                {{ .Page.Title }}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;-            &amp;lt;/a&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gi&#34;&gt;+        {{- $cateTaxonomy := $context.Site.GetPage &amp;#34;tags&amp;#34; -}}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{- $cateTerms := $cateTaxonomy.Pages -}}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{ range first $limit $cateTerms }}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{- $pages := .Pages -}}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{- $filteredPages := where $pages &amp;#34;.Params.hidden&amp;#34; &amp;#34;!=&amp;#34; true -}}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{ if $filteredPages }}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                &amp;lt;a href=&amp;#34;{{ .RelPermalink }}&amp;#34; class=&amp;#34;font_size_{{ len $filteredPages}}&amp;#34;&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                    {{ .Title }}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+                &amp;lt;/a&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            {{ end }}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        {{ end }}
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;&lt;/span&gt;    &amp;lt;/div&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    如&lt;a class=&#34;link&#34; href=&#34;../blogbuild1-archive/#%e4%bf%ae%e5%a4%8dcategory-tile%e5%b1%95%e7%a4%ba%e5%bc%82%e5%b8%b8&#34; &gt;另一篇博文中的方法&lt;/a&gt;，从&lt;code&gt;$context.Site&lt;/code&gt;中获取所有&lt;code&gt;tags&lt;/code&gt;然后过滤掉&lt;code&gt;hidden == true&lt;/code&gt;的博文后，判断&lt;code&gt;$filteredPages&lt;/code&gt;中是否还有元素，如果有则渲染这个tag。&lt;/p&gt;
 </description>
         </item>
         <item>

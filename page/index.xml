@@ -6,7 +6,7 @@
         <description>Recent content in Pages on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Wed, 12 Feb 2025 08:01:43 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 12 Feb 2025 08:53:39 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>归档</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/page/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
@@ -60,7 +60,30 @@
     &gt;Stack&lt;/a&gt;，本博客站使用的定制化主题仓库为&lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD/hugo-theme-custom&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;XingfenD/hugo-theme-custom&lt;/a&gt;。本站的具体开发与改造过程可进入站内归档页的&amp;quot;博客搭建&amp;quot;类别具体了解。&lt;/p&gt;
 &lt;h3 id=&#34;远楒的结构&#34;&gt;远楒的结构
-&lt;/h3&gt;</description>
+&lt;/h3&gt;&lt;h3 id=&#34;更新计划&#34;&gt;更新计划
+&lt;/h3&gt;&lt;hr&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;完成日期&lt;/th&gt;
+          &lt;th&gt;备注&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;添加一种widget，显示当前blog的tags&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;迁移代码块过长自动折叠功能&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</description>
         </item>
         <item>
         <title>搜索</title>
