@@ -10,7 +10,7 @@
 <meta property='og:description' content="Archive页介绍 archive页面展示了当前博文的所有类型，在此之下依据年份时序展示所有博文。\n改造计划:\n添加对以tag分类的支持\n支持在archive页展示tag模块\n修改tag&ndash;tile的大小\n修改tag&ndash;tile的排列方式\n为tag分类的每一个tile添加不同颜色\n修复在archive页面的category tile展示异常\n修复category详细页的文章数量异常\n添加archive页面对应配置项\n使用开发者工具检查archive页面元素 发现category分类的元素为：\n&lt;h2 class=&#34;section-title&#34;&gt;类别 - Categories&lt;/h2&gt; &lt;div class=&#34;subsection-list&#34;&gt; &lt;div class=&#34;article-list--tile&#34;&gt; &lt;article&gt; &lt;/article&gt; &lt;/div&gt; &lt;/div&gt; 显然&lt;div class=&quot;article-list--tile&quot;&gt;的class属性命名并不合理，因为在archive首页展示的category列表的每一个tile并不是一篇article，因此应当修改为&lt;div class=&quot;category-list--tile&quot;&gt;。\n在文件themes/hugo-theme-stack/layouts/_default/archives.html中将&lt;div class=&quot;article-list--tile&quot;&gt;修改为&lt;div class=&quot;category-list--tile&quot;&gt;。\n同时将下列文件中的选择器article-list--tile修改为category-list--tile。在scss文件中建议保留原有的选择器，新增修改名称后的选择器。\nthemes/hugo-theme-stack/assets/scss/partials/article.scss themes/hugo-theme-stack/assets/scss/partials/layout/list.scss /home/fendy/Project/BlogSrc/themes/hugo-theme-stack/assets/ts/main.ts 修复category tile展示异常 本质上是没有添加对hidden文章的判断逻辑，在themes/hugo-theme-stack/layouts/_default/archives.html中添加筛选逻辑：\n&lt;h2 class=&#34;section-title&#34;&gt;类别 - {{ $taxonomy.Title }}&lt;/h2&gt; &lt;div class=&#34;subsection-list&#34;&gt; &lt;div class=&#34;category-list--tile&#34;&gt; {{ range $terms }} {{/* 获取当前标签下的所有页面 */}} {{- $pages := .Pages -}} {{/* 过滤掉 hidden 为 true 的页面 */}} {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} {{ if $filteredPages }} {{ partial &#34;article-list/tile&#34; (dict &#34;context&#34; . &#34;size&#34; &#34;250x150&#34; &#34;Type&#34; &#34;taxonomy&#34;) }} {{ end }} {{ end }} &lt;/div&gt; &lt;/div&gt; 添加对tag分类的支持 支持在archive页展示tag模块 在themes/hugo-theme-stack/layouts/_default/archives.html中，类别模块的下方添加如下代码：\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-02T22:46:55&#43;08:00'/><meta property='article:modified_time' content='2025-02-11T20:05:38&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/blogbuild1.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-02T22:46:55&#43;08:00'/><meta property='article:modified_time' content='2025-02-12T06:37:12&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/blogbuild1.png' />
 <meta name="twitter:title" content="Archive页改造">
 <meta name="twitter:description" content="Archive页介绍 archive页面展示了当前博文的所有类型，在此之下依据年份时序展示所有博文。\n改造计划:\n添加对以tag分类的支持\n支持在archive页展示tag模块\n修改tag&ndash;tile的大小\n修改tag&ndash;tile的排列方式\n为tag分类的每一个tile添加不同颜色\n修复在archive页面的category tile展示异常\n修复category详细页的文章数量异常\n添加archive页面对应配置项\n使用开发者工具检查archive页面元素 发现category分类的元素为：\n&lt;h2 class=&#34;section-title&#34;&gt;类别 - Categories&lt;/h2&gt; &lt;div class=&#34;subsection-list&#34;&gt; &lt;div class=&#34;article-list--tile&#34;&gt; &lt;article&gt; &lt;/article&gt; &lt;/div&gt; &lt;/div&gt; 显然&lt;div class=&quot;article-list--tile&quot;&gt;的class属性命名并不合理，因为在archive首页展示的category列表的每一个tile并不是一篇article，因此应当修改为&lt;div class=&quot;category-list--tile&quot;&gt;。\n在文件themes/hugo-theme-stack/layouts/_default/archives.html中将&lt;div class=&quot;article-list--tile&quot;&gt;修改为&lt;div class=&quot;category-list--tile&quot;&gt;。\n同时将下列文件中的选择器article-list--tile修改为category-list--tile。在scss文件中建议保留原有的选择器，新增修改名称后的选择器。\nthemes/hugo-theme-stack/assets/scss/partials/article.scss themes/hugo-theme-stack/assets/scss/partials/layout/list.scss /home/fendy/Project/BlogSrc/themes/hugo-theme-stack/assets/ts/main.ts 修复category tile展示异常 本质上是没有添加对hidden文章的判断逻辑，在themes/hugo-theme-stack/layouts/_default/archives.html中添加筛选逻辑：\n&lt;h2 class=&#34;section-title&#34;&gt;类别 - {{ $taxonomy.Title }}&lt;/h2&gt; &lt;div class=&#34;subsection-list&#34;&gt; &lt;div class=&#34;category-list--tile&#34;&gt; {{ range $terms }} {{/* 获取当前标签下的所有页面 */}} {{- $pages := .Pages -}} {{/* 过滤掉 hidden 为 true 的页面 */}} {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} {{ if $filteredPages }} {{ partial &#34;article-list/tile&#34; (dict &#34;context&#34; . &#34;size&#34; &#34;250x150&#34; &#34;Type&#34; &#34;taxonomy&#34;) }} {{ end }} {{ end }} &lt;/div&gt; &lt;/div&gt; 添加对tag分类的支持 支持在archive页展示tag模块 在themes/hugo-theme-stack/layouts/_default/archives.html中，类别模块的下方添加如下代码：\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/blogbuild1.png' />
@@ -358,7 +358,16 @@
 
 
             <main class="main full-width">
-    <article class="has-image main-article">
+    <article class="has-image main-article"><p> Pages(4) </p>
+    
+        <a href="/xingfen-star.github.io/categories/blog/"> number = 2, name = 博客搭建 </a><br>
+    
+        <a href="/xingfen-star.github.io/categories/test/"> number = 6, name = 测试 </a><br>
+    
+        <a href="/xingfen-star.github.io/categories/life/"> number = 0, name = 生活 </a><br>
+    
+        <a href="/xingfen-star.github.io/categories/program/"> number = 3, name = 编程 </a><br>
+    
     <header class="article-header">
         <div class="article-image">
             <a href="/xingfen-star.github.io/post/blogbuild1-archive/">
@@ -423,7 +432,7 @@
 
 
                 <time>
-                    Feb 11, 2025 20:05 UTC
+                    Feb 12, 2025 06:37 UTC
                 </time>
             </div>
             <div>
@@ -639,7 +648,7 @@
 
 
         <span>
-            Last updated on Feb 11, 2025 20:05 UTC
+            Last updated on Feb 12, 2025 06:37 UTC
         </span>
     </section></footer>
 
