@@ -6,13 +6,14 @@
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/'>
 
-<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.2c08b261cb6fee3da67f4a65c0efbf1cc04e1fbd39435c917d1dc8e929f89474.css"><meta property='og:title' content="Widgets修复与开发">
+<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="Widgets修复与开发">
 <meta property='og:description' content="计划 添加widget，展示当前博文的tags 修复右侧边栏categories的tile顺序会异常变化的问题 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-12T16:33:24&#43;08:00'/><meta property='article:modified_time' content='2025-02-12T10:17:24&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-12T16:33:24&#43;08:00'/><meta property='article:modified_time' content='2025-02-18T05:25:30&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2.png' />
 <meta name="twitter:title" content="Widgets修复与开发">
-<meta name="twitter:description" content="计划 添加widget，展示当前博文的tags 修复右侧边栏categories的tile顺序会异常变化的问题 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
+<meta name="twitter:description" content="计划 添加widget，展示当前博文的tags 修复右侧边栏categories的tile顺序会异常变化的问题 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2.png' />
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
     </head>
@@ -262,6 +263,7 @@
         <li><a href="#tag-cloud识别hidden博文">tag-cloud识别hidden博文</a></li>
       </ul>
     </li>
+    <li><a href="#添加一种展示当前博文tags的widget">添加一种展示当前博文tags的Widget</a></li>
   </ul>
 </nav>
         </div>
@@ -269,12 +271,28 @@
 
             
         
+            
+                
+            
+        
     </aside>
 
 
             <main class="main full-width">
-    <article class="main-article">
+    <article class="has-image main-article">
     <header class="article-header">
+        <div class="article-image">
+            <a href="/xingfen-star.github.io/post/blogbuild2-widgets/">
+                <img src="/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2_hu_4e263ad61eedc012.png"
+                        srcset="/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2_hu_4e263ad61eedc012.png 800w, /xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2_hu_eb625921834e0caf.png 1600w"
+                        width="800" 
+                        height="236" 
+                        loading="lazy"
+                        alt="Featured image of post Widgets修复与开发" />
+                
+            </a>
+        </div>
+    
 
     <div class="article-details">
     
@@ -326,7 +344,7 @@
 
 
                 <time>
-                    Feb 12, 2025 10:17 UTC
+                    Feb 18, 2025 05:25 UTC
                 </time>
             </div>
             <div>
@@ -339,7 +357,7 @@
 
 
                 <time class="article-time--reading">
-                    1 minute read
+                    2 minute read
                 </time>
             </div>
         
@@ -357,7 +375,7 @@
     
     <h2 id="计划">计划
 </h2><ul>
-<li><input disabled="" type="checkbox"> 添加widget，展示当前博文的tags</li>
+<li><input checked="" disabled="" type="checkbox"> 添加widget，展示当前博文的tags</li>
 <li><input disabled="" type="checkbox"> 修复右侧边栏categories的tile顺序会异常变化的问题</li>
 </ul>
 <h2 id="右侧边栏的tag-cloud和categories不能处理hidden博文">右侧边栏的tag-cloud和categories不能处理hidden博文
@@ -381,7 +399,60 @@
 </span></span></span><span class="line"><span class="cl"><span class="gi">+        {{ end }}
 </span></span></span><span class="line"><span class="cl"><span class="gi"></span>    &lt;/div&gt;
 </span></span></code></pre></div><p>    如<a class="link" href="../blogbuild1-archive/#%e4%bf%ae%e5%a4%8dcategory-tile%e5%b1%95%e7%a4%ba%e5%bc%82%e5%b8%b8" >另一篇博文中的方法</a>，从<code>$context.Site</code>中获取所有<code>tags</code>然后过滤掉<code>hidden == true</code>的博文后，判断<code>$filteredPages</code>中是否还有元素，如果有则渲染这个tag。</p>
-
+<h2 id="添加一种展示当前博文tags的widget">添加一种展示当前博文tags的Widget
+</h2><p>    在<code>layouts/partials/widget</code>文件夹下新建文件<code>cur-tags.html</code>，添加如下内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="p">{{</span><span class="o">-</span> <span class="err">$</span><span class="nx">context</span> <span class="o">:=</span> <span class="p">.</span><span class="nx">Context</span> <span class="o">-</span><span class="p">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span> <span class="k">if</span> <span class="p">.</span><span class="nx">Context</span><span class="p">.</span><span class="nx">Page</span><span class="p">.</span><span class="nx">Params</span><span class="p">.</span><span class="nx">Tags</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nx">section</span> <span class="nx">class</span><span class="p">=</span><span class="s">&#34;widget curTags&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nx">div</span> <span class="nx">class</span><span class="p">=</span><span class="s">&#34;widget-icon&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{{</span> <span class="nx">partial</span> <span class="s">&#34;helper/icon&#34;</span> <span class="s">&#34;tag&#34;</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="o">/</span><span class="nx">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nx">h2</span> <span class="nx">class</span><span class="p">=</span><span class="s">&#34;widget-title section-title&#34;</span><span class="p">&gt;{{</span> <span class="nx">T</span> <span class="s">&#34;widget.curTags.title&#34;</span> <span class="p">}}&lt;</span><span class="o">/</span><span class="nx">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nx">div</span> <span class="nx">class</span><span class="p">=</span><span class="s">&#34;curTags-tags&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{{</span> <span class="k">range</span> <span class="p">(.</span><span class="nx">Context</span><span class="p">.</span><span class="nx">Page</span><span class="p">.</span><span class="nx">GetTerms</span> <span class="s">&#34;tags&#34;</span><span class="p">)</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="p">=</span><span class="s">&#34;{{ .RelPermalink }}&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{{</span> <span class="p">.</span><span class="nx">LinkTitle</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="o">/</span><span class="nx">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{{</span> <span class="nx">end</span> <span class="p">}}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="o">/</span><span class="nx">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="o">/</span><span class="nx">section</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">{{</span> <span class="nx">end</span> <span class="p">}}</span>
+</span></span></code></pre></div><p>    首先判断当前文章是否有tag，然后根据其他widget的模板修改成<code>current tags</code>，使用GetTerms方法获得当前文章的tags，作为&lt;a&gt;标签的参数。</p>
+<p>    注意&lt;h2&gt;标签中的T函数，用于在修改页面语言时批量替换文本，我们需要在对应文件中添加<code>widget.curTags.title</code>命名空间的值。</p>
+<p>    在<code>i18n/en.yaml</code>和<code>i18n/zh-cn.yaml</code>中添加相关内容，在widget域下添加内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl">widget:
+</span></span><span class="line"><span class="cl"><span class="gi">+    curTags:
+</span></span></span><span class="line"><span class="cl"><span class="gi">+        title:
+</span></span></span><span class="line"><span class="cl"><span class="gi">+            other: Tags of current blog
+</span></span></span></code></pre></div><p>    在<code>assets/scss/partials/widgets.scss</code>中添加<code>curTags</code>的样式。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="cm">/* Current tags widget */</span>
+</span></span><span class="line"><span class="cl"><span class="nc">.curTags</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nc">.curTags-tags</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="na">display</span><span class="o">:</span> <span class="ni">flex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">flex-wrap</span><span class="o">:</span> <span class="ni">wrap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="na">gap</span><span class="o">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nt">a</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="na">background</span><span class="o">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">card-background</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="na">box-shadow</span><span class="o">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow-l1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="na">border-radius</span><span class="o">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">tag-border-radius</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="na">padding</span><span class="o">:</span> <span class="mi">8</span><span class="kt">px</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="na">color</span><span class="o">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">card-text-color-main</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="na">font-size</span><span class="o">:</span> <span class="mi">1</span><span class="mf">.4</span><span class="kt">rem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="na">transition</span><span class="o">:</span> <span class="n">box-shadow</span> <span class="mi">0</span><span class="mf">.3</span><span class="kt">s</span> <span class="ni">ease</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="na">box-shadow</span><span class="o">:</span> <span class="nf">var</span><span class="p">(</span><span class="o">--</span><span class="n">shadow-l2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>    自此，<code>current tags</code>控件的开发已经成功，在<code>stack/config.yaml</code>中添加配置项即可。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl">params:
+</span></span><span class="line"><span class="cl">    widgets:
+</span></span><span class="line"><span class="cl">        page:
+</span></span><span class="line"><span class="cl"><span class="gi">+          - type: cur-tags
+</span></span></span></code></pre></div>
 </section>
 
 
@@ -398,7 +469,7 @@
 
 
         <span>
-            Last updated on Feb 12, 2025 10:17 UTC
+            Last updated on Feb 18, 2025 05:25 UTC
         </span>
     </section></footer>
 
