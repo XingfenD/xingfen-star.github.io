@@ -10,7 +10,7 @@
 <meta property='og:description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2025-02-18T05:25:30&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2025-02-18T05:34:23&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
 <meta name="twitter:title" content="hugo+GithubIO自建博客踩坑实录">
 <meta name="twitter:description" content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
@@ -345,7 +345,7 @@
 
 
                 <time>
-                    Feb 18, 2025 05:25 UTC
+                    Feb 18, 2025 05:34 UTC
                 </time>
             </div>
             <div>
@@ -551,7 +551,7 @@
 
 
         <span>
-            Last updated on Feb 18, 2025 05:25 UTC
+            Last updated on Feb 18, 2025 05:34 UTC
         </span>
     </section></footer>
 

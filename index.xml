@@ -38,7 +38,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;&lt;/span&gt;    &amp;lt;/div&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    如&lt;a class=&#34;link&#34; href=&#34;../blogbuild1-archive/#%e4%bf%ae%e5%a4%8dcategory-tile%e5%b1%95%e7%a4%ba%e5%bc%82%e5%b8%b8&#34; &gt;另一篇博文中的方法&lt;/a&gt;，从&lt;code&gt;$context.Site&lt;/code&gt;中获取所有&lt;code&gt;tags&lt;/code&gt;然后过滤掉&lt;code&gt;hidden == true&lt;/code&gt;的博文后，判断&lt;code&gt;$filteredPages&lt;/code&gt;中是否还有元素，如果有则渲染这个tag。&lt;/p&gt;
 &lt;h2 id=&#34;添加一种展示当前博文tags的widget&#34;&gt;添加一种展示当前博文tags的Widget
-&lt;/h2&gt;&lt;p&gt;    在&lt;code&gt;layouts/partials/widget&lt;/code&gt;文件夹下新建文件&lt;code&gt;cur-tags.html&lt;/code&gt;，添加如下内容：&lt;/p&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;添加模板文件&#34;&gt;添加模板文件
+&lt;/h3&gt;&lt;p&gt;    在&lt;code&gt;layouts/partials/widget&lt;/code&gt;文件夹下新建文件&lt;code&gt;cur-tags.html&lt;/code&gt;，添加如下内容：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;context&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Page&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Tags&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;section&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;widget curTags&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
@@ -57,12 +58,14 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    首先判断当前文章是否有tag，然后根据其他widget的模板修改成&lt;code&gt;current tags&lt;/code&gt;，使用GetTerms方法获得当前文章的tags，作为&amp;lt;a&amp;gt;标签的参数。&lt;/p&gt;
 &lt;p&gt;    注意&amp;lt;h2&amp;gt;标签中的T函数，用于在修改页面语言时批量替换文本，我们需要在对应文件中添加&lt;code&gt;widget.curTags.title&lt;/code&gt;命名空间的值。&lt;/p&gt;
-&lt;p&gt;    在&lt;code&gt;i18n/en.yaml&lt;/code&gt;和&lt;code&gt;i18n/zh-cn.yaml&lt;/code&gt;中添加相关内容，在widget域下添加内容：&lt;/p&gt;
+&lt;h3 id=&#34;添加i18n替换文本&#34;&gt;添加i18n替换文本
+&lt;/h3&gt;&lt;p&gt;    在&lt;code&gt;i18n/en.yaml&lt;/code&gt;和&lt;code&gt;i18n/zh-cn.yaml&lt;/code&gt;中添加相关内容，在widget域下添加内容：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-diff&#34; data-lang=&#34;diff&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;widget:
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+    curTags:
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+        title:
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+            other: Tags of current blog
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    在&lt;code&gt;assets/scss/partials/widgets.scss&lt;/code&gt;中添加&lt;code&gt;curTags&lt;/code&gt;的样式。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;添加scss样式表&#34;&gt;添加scss样式表
+&lt;/h3&gt;&lt;p&gt;    在&lt;code&gt;assets/scss/partials/widgets.scss&lt;/code&gt;中添加&lt;code&gt;curTags&lt;/code&gt;的样式。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-scss&#34; data-lang=&#34;scss&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* Current tags widget */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nc&#34;&gt;.curTags&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nc&#34;&gt;.curTags-tags&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -1155,7 +1158,7 @@
   &lt;tbody&gt;
       &lt;tr&gt;
           &lt;td&gt;添加一种widget，显示当前blog的tags&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;2025-02-18&lt;/td&gt;
           &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;

@@ -10,7 +10,7 @@
 <meta property='og:description' content="计划 添加widget，展示当前博文的tags 修复右侧边栏categories的tile顺序会异常变化的问题 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-12T16:33:24&#43;08:00'/><meta property='article:modified_time' content='2025-02-18T05:25:30&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-12T16:33:24&#43;08:00'/><meta property='article:modified_time' content='2025-02-18T05:34:23&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2.png' />
 <meta name="twitter:title" content="Widgets修复与开发">
 <meta name="twitter:description" content="计划 添加widget，展示当前博文的tags 修复右侧边栏categories的tile顺序会异常变化的问题 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2.png' />
@@ -263,7 +263,13 @@
         <li><a href="#tag-cloud识别hidden博文">tag-cloud识别hidden博文</a></li>
       </ul>
     </li>
-    <li><a href="#添加一种展示当前博文tags的widget">添加一种展示当前博文tags的Widget</a></li>
+    <li><a href="#添加一种展示当前博文tags的widget">添加一种展示当前博文tags的Widget</a>
+      <ul>
+        <li><a href="#添加模板文件">添加模板文件</a></li>
+        <li><a href="#添加i18n替换文本">添加i18n替换文本</a></li>
+        <li><a href="#添加scss样式表">添加scss样式表</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
         </div>
@@ -344,7 +350,7 @@
 
 
                 <time>
-                    Feb 18, 2025 05:25 UTC
+                    Feb 18, 2025 05:34 UTC
                 </time>
             </div>
             <div>
@@ -400,7 +406,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="gi"></span>    &lt;/div&gt;
 </span></span></code></pre></div><p>    如<a class="link" href="../blogbuild1-archive/#%e4%bf%ae%e5%a4%8dcategory-tile%e5%b1%95%e7%a4%ba%e5%bc%82%e5%b8%b8" >另一篇博文中的方法</a>，从<code>$context.Site</code>中获取所有<code>tags</code>然后过滤掉<code>hidden == true</code>的博文后，判断<code>$filteredPages</code>中是否还有元素，如果有则渲染这个tag。</p>
 <h2 id="添加一种展示当前博文tags的widget">添加一种展示当前博文tags的Widget
-</h2><p>    在<code>layouts/partials/widget</code>文件夹下新建文件<code>cur-tags.html</code>，添加如下内容：</p>
+</h2><h3 id="添加模板文件">添加模板文件
+</h3><p>    在<code>layouts/partials/widget</code>文件夹下新建文件<code>cur-tags.html</code>，添加如下内容：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="p">{{</span><span class="o">-</span> <span class="err">$</span><span class="nx">context</span> <span class="o">:=</span> <span class="p">.</span><span class="nx">Context</span> <span class="o">-</span><span class="p">}}</span>
 </span></span><span class="line"><span class="cl"><span class="p">{{</span> <span class="k">if</span> <span class="p">.</span><span class="nx">Context</span><span class="p">.</span><span class="nx">Page</span><span class="p">.</span><span class="nx">Params</span><span class="p">.</span><span class="nx">Tags</span> <span class="p">}}</span>
 </span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nx">section</span> <span class="nx">class</span><span class="p">=</span><span class="s">&#34;widget curTags&#34;</span><span class="p">&gt;</span>
@@ -419,12 +426,14 @@
 </span></span><span class="line"><span class="cl"><span class="p">{{</span> <span class="nx">end</span> <span class="p">}}</span>
 </span></span></code></pre></div><p>    首先判断当前文章是否有tag，然后根据其他widget的模板修改成<code>current tags</code>，使用GetTerms方法获得当前文章的tags，作为&lt;a&gt;标签的参数。</p>
 <p>    注意&lt;h2&gt;标签中的T函数，用于在修改页面语言时批量替换文本，我们需要在对应文件中添加<code>widget.curTags.title</code>命名空间的值。</p>
-<p>    在<code>i18n/en.yaml</code>和<code>i18n/zh-cn.yaml</code>中添加相关内容，在widget域下添加内容：</p>
+<h3 id="添加i18n替换文本">添加i18n替换文本
+</h3><p>    在<code>i18n/en.yaml</code>和<code>i18n/zh-cn.yaml</code>中添加相关内容，在widget域下添加内容：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl">widget:
 </span></span><span class="line"><span class="cl"><span class="gi">+    curTags:
 </span></span></span><span class="line"><span class="cl"><span class="gi">+        title:
 </span></span></span><span class="line"><span class="cl"><span class="gi">+            other: Tags of current blog
-</span></span></span></code></pre></div><p>    在<code>assets/scss/partials/widgets.scss</code>中添加<code>curTags</code>的样式。</p>
+</span></span></span></code></pre></div><h3 id="添加scss样式表">添加scss样式表
+</h3><p>    在<code>assets/scss/partials/widgets.scss</code>中添加<code>curTags</code>的样式。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-scss" data-lang="scss"><span class="line"><span class="cl"><span class="cm">/* Current tags widget */</span>
 </span></span><span class="line"><span class="cl"><span class="nc">.curTags</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nc">.curTags-tags</span> <span class="p">{</span>
@@ -469,7 +478,7 @@
 
 
         <span>
-            Last updated on Feb 18, 2025 05:25 UTC
+            Last updated on Feb 18, 2025 05:34 UTC
         </span>
     </section></footer>
 
