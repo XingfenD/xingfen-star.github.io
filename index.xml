@@ -96,15 +96,6 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         </item>
         <item>
-        <title>C Args Parser</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</link>
-        <pubDate>Sun, 09 Feb 2025 20:32:58 +0800</pubDate>
-        
-        <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-args-parser/</guid>
-        <description>&lt;h2 id=&#34;c语言高级参数解析库的实现&#34;&gt;c语言高级参数解析库的实现
-&lt;/h2&gt;</description>
-        </item>
-        <item>
         <title>Archive页改造</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/</link>
         <pubDate>Sun, 02 Feb 2025 22:46:55 +0800</pubDate>
@@ -1170,6 +1161,11 @@
           &lt;td&gt;添加回到顶部与底部按钮&lt;/td&gt;
           &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
           &lt;td&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;修复代码块颜色不正常显示的问题&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;可能是浏览器问题&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
