@@ -10,7 +10,7 @@
 <meta property='og:description' content="作业目标 编写程序对winmine.exe进行批量插旗\n替换机器指令表.exe内的字体\n扫雷 定位绘制雷区的代码位置 使用Ollydbg打开winmin.exe。\n在当前模块中右键-&gt;查找-&gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。\n选中Bitblt项后，按回车键Enter，在弹出的窗口中再次按回车Enter。\n执行上述操作后弹出的窗口即为Bitblt的源码，在源码首行按F2或者右键设置断点。\n设置断点后按F9或功能按钮运行程序，程序会暂停在断点处。此时按Ctrl + F9或者功能按钮执行到返回程序会运行到函数Bitblt调用处的下一行。\n观察上下文程序可以发现是类似于一个循环的结构，其中esi寄存器为循环变量。\n定位雷区数据地址 在这一节内需要观察不同操作下内存区域的变化。\n在Ollydbg中可以通过单击任意数据来刷新数据窗口中的内容。\n如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。\n观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：\nmov al, byte ptr [ebx+esi] push dword ptr [eax*4+1005A20] 这里可以记录一下Bitblt调用处的地址1002706，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。\n然后将在数据窗口中右键-&gt;转到-&gt;表达式或者按Ctrl + G，输入内存读取部分的常量地址1005A20跳转到该地址。观察数据窗口内该地址处的数据。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-19T17:43:52&#43;08:00'/><meta property='article:modified_time' content='2025-02-19T11:23:13&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-19T17:43:52&#43;08:00'/><meta property='article:modified_time' content='2025-02-19T11:34:10&#43;00:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第一周】扫雷逆向批量插旗及机器指令表exe文件字体替换">
 <meta name="twitter:description" content="作业目标 编写程序对winmine.exe进行批量插旗\n替换机器指令表.exe内的字体\n扫雷 定位绘制雷区的代码位置 使用Ollydbg打开winmin.exe。\n在当前模块中右键-&gt;查找-&gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。\n选中Bitblt项后，按回车键Enter，在弹出的窗口中再次按回车Enter。\n执行上述操作后弹出的窗口即为Bitblt的源码，在源码首行按F2或者右键设置断点。\n设置断点后按F9或功能按钮运行程序，程序会暂停在断点处。此时按Ctrl + F9或者功能按钮执行到返回程序会运行到函数Bitblt调用处的下一行。\n观察上下文程序可以发现是类似于一个循环的结构，其中esi寄存器为循环变量。\n定位雷区数据地址 在这一节内需要观察不同操作下内存区域的变化。\n在Ollydbg中可以通过单击任意数据来刷新数据窗口中的内容。\n如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。\n观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：\nmov al, byte ptr [ebx+esi] push dword ptr [eax*4+1005A20] 这里可以记录一下Bitblt调用处的地址1002706，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。\n然后将在数据窗口中右键-&gt;转到-&gt;表达式或者按Ctrl + G，输入内存读取部分的常量地址1005A20跳转到该地址。观察数据窗口内该地址处的数据。\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
@@ -324,7 +324,7 @@
 
 
                 <time>
-                    Feb 19, 2025 11:23 UTC
+                    Feb 19, 2025 11:34 UTC
                 </time>
             </div>
             <div>
@@ -596,7 +596,7 @@
 
 
         <span>
-            Last updated on Feb 19, 2025 11:23 UTC
+            Last updated on Feb 19, 2025 11:34 UTC
         </span>
     </section></footer>
 
