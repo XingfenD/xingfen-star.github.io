@@ -10,7 +10,7 @@
 <meta property='og:description' content="作业目标 编写程序对winmine.exe进行批量插旗\n替换机器指令表.exe内的字体\n扫雷 定位绘制雷区的代码位置 使用Ollydbg打开winmin.exe。\n在当前模块中右键-&gt;查找-&gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。\n选中Bitblt项后，按回车键Enter，在弹出的窗口中再次按回车Enter。\n执行上述操作后弹出的窗口即为Bitblt的源码，在源码首行按F2或者右键设置断点。\n设置断点后按F9或功能按钮运行程序，程序会暂停在断点处。此时按Ctrl + F9或者功能按钮执行到返回程序会运行到函数Bitblt调用处的下一行。\n观察上下文程序可以发现是类似于一个循环的结构，其中esi寄存器为循环变量。\n定位雷区数据地址 在这一节内需要观察不同操作下内存区域的变化。\n在Ollydbg中可以通过单击任意数据来刷新数据窗口中的内容。\n如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。\n观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：\nmov al, byte ptr [ebx+esi] push dword ptr [eax*4+1005A20] 这里可以记录一下Bitblt调用处的地址1002706，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。\n然后将在数据窗口中右键-&gt;转到-&gt;表达式或者按Ctrl + G，输入内存读取部分的常量地址1005A20跳转到该地址。观察数据窗口内该地址处的数据。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='c语言' /><meta property='article:published_time' content='2025-02-19T17:43:52&#43;08:00'/><meta property='article:modified_time' content='2025-02-19T11:58:47&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='c语言' /><meta property='article:published_time' content='2025-02-19T17:43:52&#43;08:00'/><meta property='article:modified_time' content='2025-02-19T13:52:19&#43;00:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第一周】扫雷逆向批量插旗及机器指令表exe文件字体替换">
 <meta name="twitter:description" content="作业目标 编写程序对winmine.exe进行批量插旗\n替换机器指令表.exe内的字体\n扫雷 定位绘制雷区的代码位置 使用Ollydbg打开winmin.exe。\n在当前模块中右键-&gt;查找-&gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。\n选中Bitblt项后，按回车键Enter，在弹出的窗口中再次按回车Enter。\n执行上述操作后弹出的窗口即为Bitblt的源码，在源码首行按F2或者右键设置断点。\n设置断点后按F9或功能按钮运行程序，程序会暂停在断点处。此时按Ctrl + F9或者功能按钮执行到返回程序会运行到函数Bitblt调用处的下一行。\n观察上下文程序可以发现是类似于一个循环的结构，其中esi寄存器为循环变量。\n定位雷区数据地址 在这一节内需要观察不同操作下内存区域的变化。\n在Ollydbg中可以通过单击任意数据来刷新数据窗口中的内容。\n如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。\n观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：\nmov al, byte ptr [ebx+esi] push dword ptr [eax*4+1005A20] 这里可以记录一下Bitblt调用处的地址1002706，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。\n然后将在数据窗口中右键-&gt;转到-&gt;表达式或者按Ctrl + G，输入内存读取部分的常量地址1005A20跳转到该地址。观察数据窗口内该地址处的数据。\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
@@ -263,6 +263,7 @@
         <li><a href="#定位雷区数据地址">定位雷区数据地址</a></li>
         <li><a href="#分析地块状态对应的内存值">分析地块状态对应的内存值</a></li>
         <li><a href="#编写程序以批量翻开空白地块">编写程序以批量翻开空白地块</a></li>
+        <li><a href="#实验结果">实验结果</a></li>
       </ul>
     </li>
   </ul>
@@ -358,7 +359,7 @@
 
 
                 <time>
-                    Feb 19, 2025 11:58 UTC
+                    Feb 19, 2025 13:52 UTC
                 </time>
             </div>
             <div>
@@ -371,7 +372,7 @@
 
 
                 <time class="article-time--reading">
-                    1 minute read
+                    3 minute read
                 </time>
             </div>
         
@@ -603,9 +604,230 @@
 	
 ></p>
 <p>    观察上图可知，插旗地块的<code>0x?F</code>被替换为<code>0x?E</code>，存疑地块的<code>0x?F</code>被替换为<code>0x?D</code>。</p>
+<hr>
 <p><strong>至此，所有地块状态对应的内存值均被我们分析出来。</strong></p>
+<p>    简单总结一下，地块状态对应的内存值如下：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: center">地块状态</th>
+          <th style="text-align: left">内存值</th>
+          <th style="text-align: center">地块状态</th>
+          <th>内存值</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">未翻开的空地</td>
+          <td style="text-align: left">0x0F</td>
+          <td style="text-align: center">插旗的空地</td>
+          <td>0x0E</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">翻开的空地</td>
+          <td style="text-align: left">0x4n(n为要显示的数字)</td>
+          <td style="text-align: center">存疑的空地</td>
+          <td>0x0D</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">未翻开的地雷</td>
+          <td style="text-align: left">0x8F</td>
+          <td style="text-align: center">插旗的地雷</td>
+          <td>0x8E</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">翻开的地雷</td>
+          <td style="text-align: left">0x8A</td>
+          <td style="text-align: center">存疑的地雷</td>
+          <td>0x8D</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">踩中的地雷</td>
+          <td style="text-align: left">0xCC</td>
+          <td style="text-align: center"></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table></div>
+<p>    此外，按<kbd>Ctrl</kbd> + <kbd>↓</kbd>调整数据窗口首列数据从0x01偏移开始展示，可以发现在高级模式下30 * 16的布局下，每30个地块的数据后都有两个<code>0x10</code>，用于标注此行结束，在后面编写程序时，应当注意处理这个间隔区域。</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-09-51-image.png"
+	width="1477"
+	height="759"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-09-51-image_hu_60d6265e00cc9ba1.png 480w, /xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-09-51-image_hu_3ff7a0237d6312a8.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="194"
+		data-flex-basis="467px"
+	
+></p>
 <h3 id="编写程序以批量翻开空白地块">编写程序以批量翻开空白地块
-</h3>
+</h3><p>    程序如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;tchar.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;tlhelp32.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define GET_OFFSET(ROW, COL) ((ROW) * 32 + (COL))
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">print_sign</span><span class="p">(</span><span class="n">BYTE</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0x0F</span> <span class="o">||</span> <span class="n">val</span> <span class="o">==</span> <span class="mh">0x8F</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;--&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0x0E</span> <span class="o">||</span> <span class="n">val</span> <span class="o">==</span> <span class="mh">0x8E</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;||&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0x0D</span> <span class="o">||</span> <span class="n">val</span> <span class="o">==</span> <span class="mh">0x8D</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;??&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0x40</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;..&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0x8A</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;**&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0xCC</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;XX&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">val</span> <span class="o">==</span> <span class="mh">0x10</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%01X&#34;</span><span class="p">,</span> <span class="n">val</span> <span class="o">&amp;</span> <span class="mh">0x0F</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%01X&#34;</span><span class="p">,</span> <span class="n">val</span> <span class="o">&amp;</span> <span class="mh">0x0F</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34; &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DWORD</span> <span class="n">pid</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>          <span class="c1">// Target process ID
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HANDLE</span> <span class="n">hProcess</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LPVOID</span> <span class="n">targetAddress</span> <span class="o">=</span> <span class="p">(</span><span class="n">LPVOID</span><span class="p">)</span><span class="mh">0x1005361</span><span class="p">;</span> <span class="c1">// Target memory address
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">BYTE</span> <span class="n">readBuffer</span><span class="p">[</span><span class="mi">512</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// BYTE writeData[4] = {0xAA, 0xBB, 0xCC, 0xDD}; // Example data to write
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">SIZE_T</span> <span class="n">bytesRead</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// SIZE_T bytesWritten = 0;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Create a snapshot of all processes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">HANDLE</span> <span class="n">hSnapshot</span> <span class="o">=</span> <span class="nf">CreateToolhelp32Snapshot</span><span class="p">(</span><span class="n">TH32CS_SNAPPROCESS</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">hSnapshot</span> <span class="o">==</span> <span class="n">INVALID_HANDLE_VALUE</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Failed to create process snapshot, error code: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="nf">GetLastError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">PROCESSENTRY32</span> <span class="n">pe</span> <span class="o">=</span> <span class="p">{</span><span class="k">sizeof</span><span class="p">(</span><span class="n">PROCESSENTRY32</span><span class="p">)};</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nf">Process32First</span><span class="p">(</span><span class="n">hSnapshot</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pe</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">do</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="nf">_tcsicmp</span><span class="p">(</span><span class="n">pe</span><span class="p">.</span><span class="n">szExeFile</span><span class="p">,</span> <span class="nf">_T</span><span class="p">(</span><span class="s">&#34;winmine.exe&#34;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pid</span> <span class="o">=</span> <span class="n">pe</span><span class="p">.</span><span class="n">th32ProcessID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Process found: winmine.exe, PID: %u</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">pid</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nf">Process32Next</span><span class="p">(</span><span class="n">hSnapshot</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pe</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Failed to retrieve process information, error code: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="nf">GetLastError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">CloseHandle</span><span class="p">(</span><span class="n">hSnapshot</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">pid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Process winmine.exe not found</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Open the target process with required permissions for memory operations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">hProcess</span> <span class="o">=</span> <span class="nf">OpenProcess</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PROCESS_VM_READ</span> <span class="o">|</span> <span class="n">PROCESS_VM_WRITE</span> <span class="o">|</span> <span class="n">PROCESS_VM_OPERATION</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FALSE</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pid</span>
+</span></span><span class="line"><span class="cl">    <span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">hProcess</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Failed to open process, error code: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="nf">GetLastError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Read memory content
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nf">ReadProcessMemory</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hProcess</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">targetAddress</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">readBuffer</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="k">sizeof</span><span class="p">(</span><span class="n">readBuffer</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;</span><span class="n">bytesRead</span>
+</span></span><span class="line"><span class="cl">    <span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Failed to read memory, error code: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="nf">GetLastError</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">CloseHandle</span><span class="p">(</span><span class="n">hProcess</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Read %d bytes of data:</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">bytesRead</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">print_sign</span><span class="p">(</span><span class="n">readBuffer</span><span class="p">[</span><span class="nf">GET_OFFSET</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Start flaging all the mines..</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Write to memory
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">BYTE</span> <span class="n">flag_mine</span> <span class="o">=</span> <span class="mh">0x8E</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">readBuffer</span><span class="p">[</span><span class="nf">GET_OFFSET</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">==</span> <span class="mh">0x8F</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nf">WriteProcessMemory</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">hProcess</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">targetAddress</span> <span class="o">+</span> <span class="nf">GET_OFFSET</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">&amp;</span><span class="n">flag_mine</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">sizeof</span><span class="p">(</span><span class="n">flag_mine</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                    <span class="nb">NULL</span>
+</span></span><span class="line"><span class="cl">                <span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">count</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Finish! the count of mines: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">CloseHandle</span><span class="p">(</span><span class="n">hProcess</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// system(&#34;pause&#34;);
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>    这段程序将会在打印雷区当前状态后，将所有<code>0x8F</code>修改为<code>0x8E</code>，即将所有的未翻开的地雷插上旗子，用户应当在新一局游戏内翻开任意地块后运行此程序，然后最小化再恢复窗口以重新绘制雷区。</p>
+<p>    打印当前状态过程中，未翻开的所有地块将记为<code>--</code>，插旗地块记为<code>||</code>，翻开的空地记为<code>..</code>，翻开的数字地块记为该数字，翻开的地雷记为<code>**</code>，踩中的地雷记为<code>XX</code>。</p>
+<h3 id="实验结果">实验结果
+</h3><p>    运行结果如下图所示：</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-46-38-image.png"
+	width="2740"
+	height="786"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-46-38-image_hu_b37f15a726c17c6e.png 480w, /xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-46-38-image_hu_1043f10725a825a4.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="348"
+		data-flex-basis="836px"
+	
+></p>
+<p>    刷新窗口后成功插旗。</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-47-09-image.png"
+	width="1000"
+	height="638"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-47-09-image_hu_76003162ad918b5b.png 480w, /xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-47-09-image_hu_6d4f920b22d7227e.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="156"
+		data-flex-basis="376px"
+	
+></p>
+<p>    降低雷数为20后重新运行，便于验证结果正确性，手动翻开所有未插旗地块，中间笑脸图标带上墨镜，可见结果正确。</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-49-06-image.png"
+	width="2751"
+	height="774"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-49-06-image_hu_36d87fdcdea16713.png 480w, /xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-49-06-image_hu_477f800bbf21e263.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="355"
+		data-flex-basis="853px"
+	
+></p>
+
 </section>
 
 
@@ -630,7 +852,7 @@
 
 
         <span>
-            Last updated on Feb 19, 2025 11:58 UTC
+            Last updated on Feb 19, 2025 13:52 UTC
         </span>
     </section></footer>
 
