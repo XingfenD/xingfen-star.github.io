@@ -228,8 +228,8 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;    观察上图可知，插旗地块的&lt;code&gt;0x?F&lt;/code&gt;被替换为&lt;code&gt;0x?E&lt;/code&gt;，存疑地块的&lt;code&gt;0x?F&lt;/code&gt;被替换为&lt;code&gt;0x?D&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;至此，所有地块状态对应的内存值均被我们分析出来。&lt;/strong&gt;&lt;/p&gt;
-&lt;h4 id=&#34;编写程序以批量翻开空白地块&#34;&gt;编写程序以批量翻开空白地块
-&lt;/h4&gt;</description>
+&lt;h3 id=&#34;编写程序以批量翻开空白地块&#34;&gt;编写程序以批量翻开空白地块
+&lt;/h3&gt;</description>
         </item>
         <item>
         <title>Widgets修复与开发</title>

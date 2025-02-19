@@ -6,7 +6,233 @@
         <description>Recent content in C语言 on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Wed, 19 Feb 2025 11:40:59 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 19 Feb 2025 11:52:59 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>【武大软件逆向课程/第一周】扫雷逆向批量插旗及机器指令表exe文件字体替换</title>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/</link>
+        <pubDate>Wed, 19 Feb 2025 17:43:52 +0800</pubDate>
+        
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/</guid>
+        <description>&lt;h2 id=&#34;作业目标&#34;&gt;作业目标
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;编写程序对winmine.exe进行批量插旗&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;替换机器指令表.exe内的字体&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;扫雷&#34;&gt;扫雷
+&lt;/h2&gt;&lt;h3 id=&#34;定位绘制雷区的代码位置&#34;&gt;定位绘制雷区的代码位置
+&lt;/h3&gt;&lt;p&gt;    使用Ollydbg打开winmin.exe。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-17-54-55-image.png&#34;
+	width=&#34;2888&#34;
+	height=&#34;1532&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-17-54-55-image_hu_270f472e42454755.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-17-54-55-image_hu_41fc272102c93729.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;使用Ollydbg打开winmin.exe&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;188&#34;
+		data-flex-basis=&#34;452px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    在当前模块中右键-&amp;gt;查找-&amp;gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&amp;gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-17-57-45-image.png&#34;
+	width=&#34;1892&#34;
+	height=&#34;1264&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-17-57-45-image_hu_1f82fe34cc9e7583.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-17-57-45-image_hu_fd10ea226f71803a.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;寻找Bitblt函数&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;149&#34;
+		data-flex-basis=&#34;359px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    选中&lt;code&gt;Bitblt&lt;/code&gt;项后，按回车键&lt;kbd&gt;Enter&lt;/kbd&gt;，在弹出的窗口中再次按回车&lt;kbd&gt;Enter&lt;/kbd&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-01-50-image.png&#34;
+	width=&#34;2376&#34;
+	height=&#34;585&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-01-50-image_hu_7a211291ae279414.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-01-50-image_hu_ff531f66f8d25d74.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;定位Bitblt源码&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;406&#34;
+		data-flex-basis=&#34;974px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    执行上述操作后弹出的窗口即为&lt;code&gt;Bitblt&lt;/code&gt;的源码，在源码首行按&lt;kbd&gt;F2&lt;/kbd&gt;或者右键设置断点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-07-04-image.png&#34;
+	width=&#34;1364&#34;
+	height=&#34;750&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-07-04-image_hu_e5ac1af64f1422b3.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-07-04-image_hu_a308485288e8563.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;在Bitblt函数源码首行打断点&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;181&#34;
+		data-flex-basis=&#34;436px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    设置断点后按&lt;kbd&gt;F9&lt;/kbd&gt;或功能按钮运行程序，程序会暂停在断点处。此时按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F9&lt;/kbd&gt;或者功能按钮&lt;code&gt;执行到返回&lt;/code&gt;程序会运行到函数&lt;code&gt;Bitblt&lt;/code&gt;调用处的下一行。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-13-07-image.png&#34;
+	width=&#34;1560&#34;
+	height=&#34;836&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-13-07-image_hu_82022b90e7fc9233.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-13-07-image_hu_8c10c129043f8ac6.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Bitblt调用处上下文&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;186&#34;
+		data-flex-basis=&#34;447px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    观察上下文程序可以发现是类似于一个循环的结构，其中esi寄存器为循环变量。&lt;/p&gt;
+&lt;h3 id=&#34;定位雷区数据地址&#34;&gt;定位雷区数据地址
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;在这一节内需要观察不同操作下内存区域的变化。&lt;/p&gt;
+&lt;p&gt;在Ollydbg中可以通过单击任意数据来刷新数据窗口中的内容。&lt;/p&gt;
+&lt;p&gt;如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;    观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-nasm&#34; data-lang=&#34;nasm&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;al&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ptr&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;ebx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;esi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;push&lt;/span&gt;   &lt;span class=&#34;kt&#34;&gt;dword&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ptr&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;eax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1005&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;A20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    这里可以记录一下Bitblt调用处的地址&lt;code&gt;1002706&lt;/code&gt;，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-31-58-image.png&#34;
+	width=&#34;1012&#34;
+	height=&#34;736&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-31-58-image_hu_788b97bba9d1a738.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-31-58-image_hu_50dbfd47087318a1.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;高级模式点击地块结果&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;137&#34;
+		data-flex-basis=&#34;330px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    然后将在数据窗口中&lt;code&gt;右键-&amp;gt;转到-&amp;gt;表达式&lt;/code&gt;或者按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;G&lt;/kbd&gt;，输入内存读取部分的常量地址&lt;code&gt;1005A20&lt;/code&gt;跳转到该地址。观察数据窗口内该地址处的数据。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-37-22-image.png&#34;
+	width=&#34;1190&#34;
+	height=&#34;789&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-37-22-image_hu_3ab6de150c66916a.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-37-22-image_hu_8ccb0160d2c42480.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;150&#34;
+		data-flex-basis=&#34;361px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    发现并不符合雷区数据的特征（至少应该出现大量相同的两种数据）。实际上作为绘制雷区的函数，对数组下标的访问应该具有循环变量，也就是&lt;code&gt;esi&lt;/code&gt;寄存器应该参与内存地址的计算，而这条指令并不符合。&lt;/p&gt;
+&lt;p&gt;    因此选择下面的指令来寻找雷区数据所在的内存地址。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-nasm&#34; data-lang=&#34;nasm&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;al&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ptr&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;ebx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;esi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这条指令上打断点后最小化窗口，再恢复窗口，查看ebx寄存器的值，发现是内存地址&lt;code&gt;1005360&lt;/code&gt;，在数据窗口中跟踪该地址。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-44-59-image.png&#34;
+	width=&#34;2673&#34;
+	height=&#34;694&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-44-59-image_hu_8d337a5e391533ef.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-44-59-image_hu_9dcbd54da11e63c0.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;查看ebx寄存器的值&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;385&#34;
+		data-flex-basis=&#34;924px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    该地址处的内存数据如下。可以大致推测，未翻开的雷区和未翻开的空白对应数据为0x0F或0x8F。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-46-55-image.png&#34;
+	width=&#34;1185&#34;
+	height=&#34;651&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-46-55-image_hu_742488e62c40cd7b.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-46-55-image_hu_37cf2a5e1a430a6e.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;雷区数据地址内容&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;182&#34;
+		data-flex-basis=&#34;436px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    再次重开游戏，翻开第一个地块以定位数据区域首个元素的位置，如下图所示。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-53-45-image.png&#34;
+	width=&#34;1892&#34;
+	height=&#34;410&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-53-45-image_hu_9361cf30f96f7b26.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-53-45-image_hu_65944666eab97190.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;461&#34;
+		data-flex-basis=&#34;1107px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    对比可知&lt;code&gt;1005361&lt;/code&gt;为首的地址存放雷区数据。&lt;/p&gt;
+&lt;h3 id=&#34;分析地块状态对应的内存值&#34;&gt;分析地块状态对应的内存值
+&lt;/h3&gt;&lt;h4 id=&#34;非雷区地块&#34;&gt;非雷区地块
+&lt;/h4&gt;&lt;p&gt;    从上一节的最后一个图可以得知，翻开的&lt;code&gt;2&lt;/code&gt;地块对应的内存值为&lt;code&gt;0x42&lt;/code&gt;。推测翻开的&lt;code&gt;n&lt;/code&gt;对应的内存值为&lt;code&gt;0x4n&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;    翻开相邻地块进行验证，可知推测成立，同时也得知&lt;code&gt;未翻开的非雷区&lt;/code&gt;对应的内存值为&lt;code&gt;0x0F&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-00-18-image.png&#34;
+	width=&#34;458&#34;
+	height=&#34;243&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-00-18-image_hu_4466dcb44c231f74.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-00-18-image_hu_3de12c325913b829.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;188&#34;
+		data-flex-basis=&#34;452px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h4 id=&#34;雷区地块&#34;&gt;雷区地块
+&lt;/h4&gt;&lt;p&gt;    再次观察内存区域，在9个地块后，有一个地块的内存值为不同的&lt;code&gt;0x8F&lt;/code&gt;，翻开该地块后再次观察内存区域变化。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-03-34-image.png&#34;
+	width=&#34;1831&#34;
+	height=&#34;600&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-03-34-image_hu_3f5519681b2e6707.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-03-34-image_hu_c10dd7aa64ec92a1.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;305&#34;
+		data-flex-basis=&#34;732px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    可知&lt;code&gt;未翻开的雷&lt;/code&gt;为&lt;code&gt;0x8F&lt;/code&gt;，&lt;code&gt;翻开的雷&lt;/code&gt;为&lt;code&gt;0x8A&lt;/code&gt;，&lt;code&gt;踩中的雷&lt;/code&gt;为&lt;code&gt;0xCC&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;插旗地块与存疑地块&#34;&gt;插旗地块与存疑地块
+&lt;/h4&gt;&lt;p&gt;    重开游戏并刷新数据窗口。在任意&lt;code&gt;0x8E&lt;/code&gt;和&lt;code&gt;0x0F&lt;/code&gt;对应的地块上右键以插旗后，刷新数据窗口，观察对应数据变化。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-10-27-image.png&#34;
+	width=&#34;475&#34;
+	height=&#34;328&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-10-27-image_hu_29c7d70c93ced5e2.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-10-27-image_hu_916d75149b8965ca.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;144&#34;
+		data-flex-basis=&#34;347px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    观察上图可知，插旗地块的&lt;code&gt;0x?F&lt;/code&gt;被替换为&lt;code&gt;0x?E&lt;/code&gt;，存疑地块的&lt;code&gt;0x?F&lt;/code&gt;被替换为&lt;code&gt;0x?D&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;至此，所有地块状态对应的内存值均被我们分析出来。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;编写程序以批量翻开空白地块&#34;&gt;编写程序以批量翻开空白地块
+&lt;/h3&gt;</description>
+        </item>
+        <item>
         <title>c语言getopt.h库解析</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</link>
         <pubDate>Wed, 22 Jan 2025 13:29:03 +0800</pubDate>

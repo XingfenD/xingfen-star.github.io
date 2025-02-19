@@ -6,7 +6,7 @@
         <description>Recent content in Posts on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Wed, 19 Feb 2025 11:40:59 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 19 Feb 2025 11:52:59 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>【武大软件逆向课程/第一周】扫雷逆向批量插旗及机器指令表exe文件字体替换</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/</link>
         <pubDate>Wed, 19 Feb 2025 17:43:52 +0800</pubDate>
@@ -229,8 +229,8 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;    观察上图可知，插旗地块的&lt;code&gt;0x?F&lt;/code&gt;被替换为&lt;code&gt;0x?E&lt;/code&gt;，存疑地块的&lt;code&gt;0x?F&lt;/code&gt;被替换为&lt;code&gt;0x?D&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;至此，所有地块状态对应的内存值均被我们分析出来。&lt;/strong&gt;&lt;/p&gt;
-&lt;h4 id=&#34;编写程序以批量翻开空白地块&#34;&gt;编写程序以批量翻开空白地块
-&lt;/h4&gt;</description>
+&lt;h3 id=&#34;编写程序以批量翻开空白地块&#34;&gt;编写程序以批量翻开空白地块
+&lt;/h3&gt;</description>
         </item>
         <item>
         <title>Widgets修复与开发</title>

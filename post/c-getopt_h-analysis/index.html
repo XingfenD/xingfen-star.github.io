@@ -10,7 +10,7 @@
 <meta property='og:description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='c语言' /><meta property='article:tag' content='参数解析' /><meta property='article:published_time' content='2025-01-22T13:29:03&#43;08:00'/><meta property='article:modified_time' content='2025-02-19T11:40:59&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='c语言' /><meta property='article:tag' content='参数解析' /><meta property='article:published_time' content='2025-01-22T13:29:03&#43;08:00'/><meta property='article:modified_time' content='2025-02-19T11:52:59&#43;00:00'/>
 <meta name="twitter:title" content="c语言getopt.h库解析">
 <meta name="twitter:description" content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
@@ -364,7 +364,7 @@
 
 
                 <time>
-                    Feb 19, 2025 11:40 UTC
+                    Feb 19, 2025 11:52 UTC
                 </time>
             </div>
             <div>
@@ -833,7 +833,7 @@
 
 
         <span>
-            Last updated on Feb 19, 2025 11:40 UTC
+            Last updated on Feb 19, 2025 11:52 UTC
         </span>
     </section></footer>
 
