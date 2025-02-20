@@ -6,7 +6,7 @@
         <description>Recent content on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language><atom:link href="https://xingfend.github.io/xingfen-star.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>【武大软件逆向课程/第一周】扫雷逆向批量插旗及机器指令表exe文件字体替换</title>
+        <title>【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/</link>
         <pubDate>Wed, 19 Feb 2025 17:43:52 +0800</pubDate>
         
@@ -14,10 +14,10 @@
         <description>&lt;h2 id=&#34;作业目标&#34;&gt;作业目标
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;编写程序对winmine.exe进行批量插旗&lt;/p&gt;
+&lt;p&gt;逆向分析扫雷程序winmine.exe，并编写程序对其进行批量插旗&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;替换机器指令表.exe内的字体&lt;/p&gt;
+&lt;p&gt;更换机器指令表.exe内的显示字体&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;扫雷&#34;&gt;扫雷
@@ -82,7 +82,7 @@
 		data-flex-basis=&#34;436px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;    设置断点后按&lt;kbd&gt;F9&lt;/kbd&gt;或功能按钮运行程序，程序会暂停在断点处。此时按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F9&lt;/kbd&gt;或者功能按钮&lt;code&gt;执行到返回&lt;/code&gt;程序会运行到函数&lt;code&gt;Bitblt&lt;/code&gt;调用处的下一行。&lt;/p&gt;
+&lt;p&gt;    设置断点后按&lt;kbd&gt;F9&lt;/kbd&gt;或功能按钮运行程序，程序会暂停在断点处。此时按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F9&lt;/kbd&gt;或者功能按钮&lt;code&gt;执行到返回&lt;/code&gt;，程序会运行到函数&lt;code&gt;Bitblt&lt;/code&gt;调用处的下一行。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-13-07-image.png&#34;
 	width=&#34;1560&#34;
 	height=&#34;836&#34;
@@ -137,7 +137,7 @@
 &lt;p&gt;    发现并不符合雷区数据的特征（至少应该出现大量相同的两种数据）。实际上作为绘制雷区的函数，对数组下标的访问应该具有循环变量，也就是&lt;code&gt;esi&lt;/code&gt;寄存器应该参与内存地址的计算，而这条指令并不符合。&lt;/p&gt;
 &lt;p&gt;    因此选择下面的指令来寻找雷区数据所在的内存地址。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-nasm&#34; data-lang=&#34;nasm&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;al&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ptr&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;ebx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;esi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这条指令上打断点后最小化窗口，再恢复窗口，查看ebx寄存器的值，发现是内存地址&lt;code&gt;1005360&lt;/code&gt;，在数据窗口中跟踪该地址。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    在这条指令上打断点后最小化扫雷窗口，再恢复窗口，查看ebx寄存器的值，发现是内存地址&lt;code&gt;1005360&lt;/code&gt;，在数据窗口中跟踪该地址。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-44-59-image.png&#34;
 	width=&#34;2673&#34;
 	height=&#34;694&#34;
@@ -174,6 +174,8 @@
 	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-53-45-image_hu_9361cf30f96f7b26.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-18-53-45-image_hu_65944666eab97190.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+		alt=&#34;定位雷区数据&#34;
+	
 	
 		class=&#34;gallery-image&#34; 
 		data-flex-grow=&#34;461&#34;
@@ -191,6 +193,8 @@
 	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-00-18-image_hu_4466dcb44c231f74.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-00-18-image_hu_3de12c325913b829.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+		alt=&#34;分析非雷区地块&#34;
+	
 	
 		class=&#34;gallery-image&#34; 
 		data-flex-grow=&#34;188&#34;
@@ -205,6 +209,8 @@
 	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-03-34-image_hu_3f5519681b2e6707.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-03-34-image_hu_c10dd7aa64ec92a1.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+		alt=&#34;分析雷区地块&#34;
+	
 	
 		class=&#34;gallery-image&#34; 
 		data-flex-grow=&#34;305&#34;
@@ -213,12 +219,14 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;    可知&lt;code&gt;未翻开的雷&lt;/code&gt;为&lt;code&gt;0x8F&lt;/code&gt;，&lt;code&gt;翻开的雷&lt;/code&gt;为&lt;code&gt;0x8A&lt;/code&gt;，&lt;code&gt;踩中的雷&lt;/code&gt;为&lt;code&gt;0xCC&lt;/code&gt;。&lt;/p&gt;
 &lt;h4 id=&#34;插旗地块与存疑地块&#34;&gt;插旗地块与存疑地块
-&lt;/h4&gt;&lt;p&gt;    重开游戏并刷新数据窗口。在任意&lt;code&gt;0x8E&lt;/code&gt;和&lt;code&gt;0x0F&lt;/code&gt;对应的地块上右键以插旗后，刷新数据窗口，观察对应数据变化。&lt;/p&gt;
+&lt;/h4&gt;&lt;p&gt;    重开游戏并刷新数据窗口。在任意&lt;code&gt;0x8E&lt;/code&gt;和&lt;code&gt;0x0F&lt;/code&gt;对应的地块上右键以插旗后，刷新数据窗口，观察对应数据变化。扫雷游戏中还有一种标记，在插旗的地块上再次右键可以变为问号地块，这里称为存疑地块，与本次任务并不相关，但是这里还是给出其对应的内存值。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-10-27-image.png&#34;
 	width=&#34;475&#34;
 	height=&#34;328&#34;
 	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-10-27-image_hu_29c7d70c93ced5e2.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-19-10-27-image_hu_916d75149b8965ca.png 1024w&#34;
 	loading=&#34;lazy&#34;
+	
+		alt=&#34;分析插旗地块与存疑地块&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
@@ -285,7 +293,7 @@
 		data-flex-basis=&#34;467px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;编写程序以批量翻开空白地块&#34;&gt;编写程序以批量翻开空白地块
+&lt;h3 id=&#34;编写程序以批量插旗地雷&#34;&gt;编写程序以批量插旗地雷
 &lt;/h3&gt;&lt;p&gt;    程序如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;windows.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
@@ -418,6 +426,8 @@
 	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-46-38-image_hu_b37f15a726c17c6e.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-46-38-image_hu_1043f10725a825a4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+		alt=&#34;终端输出及刷新前窗口&#34;
+	
 	
 		class=&#34;gallery-image&#34; 
 		data-flex-grow=&#34;348&#34;
@@ -431,23 +441,157 @@
 	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-47-09-image_hu_76003162ad918b5b.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-47-09-image_hu_6d4f920b22d7227e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+		alt=&#34;插旗结果截图&#34;
+	
 	
 		class=&#34;gallery-image&#34; 
 		data-flex-grow=&#34;156&#34;
 		data-flex-basis=&#34;376px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;    降低雷数为20后重新运行，便于验证结果正确性，手动翻开所有未插旗地块，中间笑脸图标带上墨镜，可见结果正确。&lt;/p&gt;
+&lt;p&gt;    降低雷数为20后重新运行，便于验证结果正确性，手动翻开所有未插旗地块，中间笑脸图标带上墨镜（表示游戏胜利），可见结果正确。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-49-06-image.png&#34;
 	width=&#34;2751&#34;
 	height=&#34;774&#34;
 	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-49-06-image_hu_36d87fdcdea16713.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-19-21-49-06-image_hu_477f800bbf21e263.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+		alt=&#34;游戏胜利截图&#34;
+	
 	
 		class=&#34;gallery-image&#34; 
 		data-flex-grow=&#34;355&#34;
 		data-flex-basis=&#34;853px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;更换机器指令表exe显示字体&#34;&gt;更换机器指令表.exe显示字体
+&lt;/h2&gt;&lt;h3 id=&#34;定位控制字体显示的winapi&#34;&gt;定位控制字体显示的WinAPI
+&lt;/h3&gt;&lt;p&gt;    使用Ollydbg打开机器指令表.exe。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-06-15-image.png&#34;
+	width=&#34;1059&#34;
+	height=&#34;883&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-06-15-image_hu_e765a714dcd93a9c.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-06-15-image_hu_7a4c357c79a2a313.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;使用Ollydbg打开机器指令表.exe&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;119&#34;
+		data-flex-basis=&#34;287px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    在API文档及网络资料中查询其内涉及的API。&lt;/p&gt;
+&lt;hr&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;API名称&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;GetModuleHandle&lt;/td&gt;
+          &lt;td&gt;检索指定模块的模块句柄。模块必须已由调用进程加载。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;GetCommandLine&lt;/td&gt;
+          &lt;td&gt;检索当前进程的命令行字符串。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;ExitProcess&lt;/td&gt;
+          &lt;td&gt;结束调用进程及其所有线程。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;GetSystemMetrics&lt;/td&gt;
+          &lt;td&gt;用于获取关于显示器、鼠标、键盘等系统参数的信息。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;    观察发现在程序有效的程序段中涉及的三个WinAPI均与字体显示无关。还剩下一个&lt;code&gt;call 004031&lt;/code&gt;，推测其很可能控制字体的显示。其上的四个push可能包含参数，尝试修改为&lt;code&gt;push 0D&lt;/code&gt; 观察程序变化。修改两个push后运行程序并无明显变化。可见这两个参数并不控制该程序的字体显示。&lt;/p&gt;
+&lt;p&gt;    在&lt;code&gt;call 00401031&lt;/code&gt;处设断电并单步步入，依次检索遇见的到的WinAPI功能。&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;API名称&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;CreateWindowEx&lt;/td&gt;
+          &lt;td&gt;用于创建一个窗口（包括各种控件如按钮、文本框等）。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;SetWindowLong&lt;/td&gt;
+          &lt;td&gt;更改指定窗口的属性。该函数还将指定偏移量处的32位(长)值设置为额外的窗口内存。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;GetStockObject&lt;/td&gt;
+          &lt;td&gt;用于获取预定义的图形对象（如画笔、画刷和字体）的句柄。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;    其中GetStockObject涉及字体的显示，在&lt;code&gt;4010C6&lt;/code&gt;处调用，其上一条指令&lt;code&gt;push 0B&lt;/code&gt;很可能控制字体的显示。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-35-35-image.png&#34;
+	width=&#34;1098&#34;
+	height=&#34;137&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-35-35-image_hu_e4c98cf7b0593171.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-35-35-image_hu_c2e474729a5d2f.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;GetStockObject上下文&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;801&#34;
+		data-flex-basis=&#34;1923px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    将&lt;code&gt;push 0B&lt;/code&gt;修改为&lt;code&gt;push 0E&lt;/code&gt;后继续运行程序，可见字体明显发生变化。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-37-42-image.png&#34;
+	width=&#34;1771&#34;
+	height=&#34;609&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-37-42-image_hu_eb4e0c2a3568dd5a.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-37-42-image_hu_153526ad71bc3e21.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;修改参数后运行结果&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;290&#34;
+		data-flex-basis=&#34;697px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;将修改保存到文件&#34;&gt;将修改保存到文件
+&lt;/h3&gt;&lt;p&gt;    选中被修改的指令，在指令窗口中右键-&amp;gt;复制到可执行文件-&amp;gt;选择，在弹出的新窗口中选中被修改的指令，右键-&amp;gt;保存文件。将新可执行文件命名为&lt;code&gt;机器指令表2.exe&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-42-35-image.png&#34;
+	width=&#34;2176&#34;
+	height=&#34;996&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-42-35-image_hu_4e8ca5a7b96065ad.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-42-35-image_hu_774087a40d705088.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;将修改保存到文件&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;218&#34;
+		data-flex-basis=&#34;524px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;    双击运行修改前后的机器指令表，对比两者的字体差异。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-44-35-image.png&#34;
+	width=&#34;1070&#34;
+	height=&#34;381&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-44-35-image_hu_fe96750146e1561b.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/2025-02-20-09-44-35-image_hu_2d0c839334dee803.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;对比两个机器指令表的差异&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;280&#34;
+		data-flex-basis=&#34;674px&#34;
 	
 &gt;&lt;/p&gt;
 </description>
@@ -1613,6 +1757,11 @@
           &lt;td&gt;修复代码块颜色不正常显示的问题&lt;/td&gt;
           &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
           &lt;td&gt;可能是浏览器问题&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;新增一种归档方式 - 合集(collection)&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;/td&gt;
       &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
