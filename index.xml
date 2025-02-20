@@ -605,7 +605,6 @@
         <description>&lt;img src="https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2.png" alt="Featured image of post Widgets修复与开发" /&gt;&lt;h2 id=&#34;计划&#34;&gt;计划
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 添加widget，展示当前博文的tags&lt;/li&gt;
-&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复右侧边栏categories的tile顺序会异常变化的问题&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;右侧边栏的tag-cloud和categories不能处理hidden博文&#34;&gt;右侧边栏的tag-cloud和categories不能处理hidden博文
 &lt;/h2&gt;&lt;h3 id=&#34;tag-cloud识别hidden博文&#34;&gt;tag-cloud识别hidden博文
@@ -1757,7 +1756,7 @@
         
         <guid>https://xingfend.github.io/xingfen-star.github.io/page/about/</guid>
         <description>&lt;h2 id=&#34;关于-hugo&#34;&gt;关于 Hugo
-&lt;/h2&gt;&lt;p&gt;The self&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;The below content is self introduction from hugo.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Written in Go, Hugo is an open source static site generator available under the &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/blob/master/LICENSE&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Apache License 2.0.&lt;/a&gt; Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p&gt;
 &lt;p&gt;Hugo makes use of a variety of open source projects including:&lt;/p&gt;

@@ -6,7 +6,7 @@
         <description>Recent content in Posts on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Thu, 20 Feb 2025 12:36:12 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 20 Feb 2025 13:04:44 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/</link>
         <pubDate>Wed, 19 Feb 2025 17:43:52 +0800</pubDate>
@@ -606,7 +606,6 @@
         <description>&lt;img src="https://xingfend.github.io/xingfen-star.github.io/post/blogbuild2-widgets/blogbuild2.png" alt="Featured image of post Widgets修复与开发" /&gt;&lt;h2 id=&#34;计划&#34;&gt;计划
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 添加widget，展示当前博文的tags&lt;/li&gt;
-&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 修复右侧边栏categories的tile顺序会异常变化的问题&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;右侧边栏的tag-cloud和categories不能处理hidden博文&#34;&gt;右侧边栏的tag-cloud和categories不能处理hidden博文
 &lt;/h2&gt;&lt;h3 id=&#34;tag-cloud识别hidden博文&#34;&gt;tag-cloud识别hidden博文
