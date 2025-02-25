@@ -6,7 +6,7 @@
         <description>Recent content in C语言 on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Thu, 20 Feb 2025 13:04:44 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 25 Feb 2025 18:19:02 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/</link>
         <pubDate>Wed, 19 Feb 2025 17:43:52 +0800</pubDate>
@@ -511,7 +511,7 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;    观察发现在程序有效的程序段中涉及的三个WinAPI均与字体显示无关。还剩下一个&lt;code&gt;call 004031&lt;/code&gt;，推测其很可能控制字体的显示。其上的四个push可能包含参数，尝试修改为&lt;code&gt;push 0D&lt;/code&gt; 观察程序变化。修改两个push后运行程序并无明显变化。可见这两个参数并不控制该程序的字体显示。&lt;/p&gt;
-&lt;p&gt;    在&lt;code&gt;call 00401031&lt;/code&gt;处设断电并单步步入，依次检索遇见的到的WinAPI功能。&lt;/p&gt;
+&lt;p&gt;    在&lt;code&gt;call 00401031&lt;/code&gt;处设断点并单步步入，依次检索遇见的到的WinAPI功能。&lt;/p&gt;
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
