@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="星分.">
-<title>Tag: 参数解析 - 远楒</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\nC程序PE文件的运行 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n在\n">
+<title>【武大软件逆向课程/第二周】IDA的使用</title>
 
-<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/'>
+<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
 
-<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="Tag: 参数解析 - 远楒">
-<meta property='og:description' content="星分.">
-<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/'>
+<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="【武大软件逆向课程/第二周】IDA的使用">
+<meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\nC程序PE文件的运行 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n在\n">
+<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2025-03-01T06:21:58&#43;00:00 '/>
-<meta name="twitter:title" content="Tag: 参数解析 - 远楒">
-<meta name="twitter:description" content="星分."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/index.xml">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2025-03-01T06:21:58&#43;00:00'/>
+<meta name="twitter:title" content="【武大软件逆向课程/第二周】IDA的使用">
+<meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\nC程序PE文件的运行 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n在\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
     </head>
-    <body class="">
+    <body class="
+    article-page
+    ">
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -235,61 +237,10 @@
     <aside class="sidebar right-sidebar sticky">
         
             
-                <form action="/xingfen-star.github.io/page/search/" class="search-form widget" >
-        <p>
-            <label>Search</label>
-            <input name="keyword" required placeholder="Type something..." />
-
-            <button title="Search">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="10" cy="10" r="7" />
-  <line x1="21" y1="21" x2="15" y2="15" />
-</svg>
-
-
-
-            </button>
-        </p>
-    </form>
-            
-        
-            
-                <section class="widget archives">
+                
+    <section class="widget archives">
         <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">Archives</h2>
-
-        
-        
-        
-        
-
-        <div class="widget-archive--list">
-            <div class="archives-year">
-                    <a href="/xingfen-star.github.io/page/archives/#2025">
-                        
-                            <span class="year">2025</span>
-                            <span class="count">6</span>
-                        
-                    </a>
-                </div>
-            
-        </div>
-    </section>
-            
-        
-            
-                <section class="widget tagCloud">
-    <div class="widget-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <line x1="5" y1="9" x2="19" y2="9" />
   <line x1="5" y1="15" x2="19" y2="15" />
@@ -299,34 +250,24 @@
 
 
 
-    </div>
-    <h2 class="widget-title section-title">Categories</h2>
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
 
-    <div class="tagCloud-tags">
-        
-            <a href="/xingfen-star.github.io/categories/test/" class="font_size_6">
-                测试
-            </a>
-        
-            <a href="/xingfen-star.github.io/categories/blog/" class="font_size_3">
-                博客搭建
-            </a>
-        
-            <a href="/xingfen-star.github.io/categories/program/" class="font_size_3">
-                编程
-            </a>
-        
-            <a href="/xingfen-star.github.io/categories/course/" class="font_size_2">
-                课程作业
-            </a>
-        
-    </div>
-</section>
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#环境搭建">环境搭建</a></li>
+    <li><a href="#c程序pe文件的运行">C程序PE文件的运行</a></li>
+  </ul>
+</nav>
+        </div>
+    </section>
 
             
         
             
-                <section class="widget tagCloud">
+                
+<section class="widget curTags">
     <div class="widget-icon">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
@@ -337,76 +278,227 @@
 
 
     </div>
-    <h2 class="widget-title section-title">Tags</h2>
-
-    <div class="tagCloud-tags">
-                <a href="/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/" class="font_size_1">
-                    笔记
-                </a>
-            
+    <h2 class="widget-title section-title">Tags of current blog</h2>
+    <div class="curTags-tags">
         
-                <a href="/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/" class="font_size_1">
-                    软件逆向
-                </a>
-            
+            <a href="/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">
+                软件逆向
+            </a>
         
-                <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/" class="font_size_2">
-                    C语言
-                </a>
-            
-        
-                <a href="/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/" class="font_size_1">
-                    参数解析
-                </a>
-            
-        
-                <a href="/xingfen-star.github.io/tags/markdown/" class="font_size_1">
-                    Markdown
-                </a>
-            
-        
-        
-        
-        
+            <a href="/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/">
+                笔记
+            </a>
         
     </div>
 </section>
+
             
         
     </aside>
 
 
             <main class="main full-width">
-    <header>
-        <h3 class="section-title">
-            
-                Tags
-            
-        </h3>
+    <article class="main-article">
+    <header class="article-header">
 
-        <div class="section-card">
-            <div class="section-details"><h3 class="section-count">1 page</h3>
-                <h1 class="section-term">参数解析</h1>
-                
-            </div>
-        </div>
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/xingfen-star.github.io/categories/course/" style="background-color: #2a9d8f; color: #fff;">
+                课程作业
+            </a>
+        
     </header>
     
-    <section class="article-list--compact">
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/xingfen-star.github.io/post/reverse-program-course-week2/">【武大软件逆向课程/第二周】IDA的使用</a>
+        </h2>
+
         
-            <article>
-    <a href="/xingfen-star.github.io/post/c-getopt_h-analysis/">
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 01, 2025</time>
+            </div>
+        
+
+        
+        <div class="article-lastmod">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time>
+                    Mar 01, 2025 06:21 UTC
+                </time>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    1 minute read
+                </time>
+            </div>
+        
+
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="环境搭建">环境搭建
+</h2><ul>
+<li>
+<p>WindowsXP系统家庭版（虚拟机）</p>
+</li>
+<li>
+<p>在XP系统中安装VC++6.0</p>
+</li>
+<li>
+<p>Windows11（物理机）</p>
+</li>
+<li>
+<p>在Win11中安装Visual Studio2022</p>
+</li>
+</ul>
+<h2 id="c程序pe文件的运行">C程序PE文件的运行
+</h2><p>    使用VC++6.0生成Hello World模板工程。<code>文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序</code>。</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image.png"
+	width="2369"
+	height="823"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_df87a562d5a52353.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_4931b6028a6c9fe8.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="287"
+		data-flex-basis="690px"
+	
+></p>
+<p>在</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">软件逆向</a>
+        
+            <a href="/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            Last updated on Mar 01, 2025 06:21 UTC
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/xingfen-star.github.io/post/reverse-program-course-week1/">
+
+        
+
         <div class="article-details">
-            <h2 class="article-title">c语言getopt.h库解析</h2>
-            <footer class="article-time">
-                <time datetime='2025-01-22T13:29:03&#43;08:00'>Jan 22, 2025</time>
-            </footer>
+            <h2 class="article-title">【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</h2>
         </div>
     </a>
 </article>
+
+            
+                
+<article class="has-image">
+    <a href="/xingfen-star.github.io/post/hugo-githubio/">
+
         
-    </section>
-<footer class="site-footer">
+            <div class="article-image">
+                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.15eb225ce97cdcb1b00b8d1252e0a89f_hu_b65196ef05bce483.png"
+                        width="250"
+                        height="150"
+                        loading="lazy"
+                        alt="Featured image of post hugo&#43;GithubIO自建博客踩坑实录"
+                        
+                        data-hash="md5-FesiXOl83LGwC40SUuConw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">hugo&#43;GithubIO自建博客踩坑实录</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+
+    
+        
+    
+
+    <footer class="site-footer">
     <section class="copyright">
         &copy;
         
@@ -423,6 +515,84 @@
     </section>
 </footer>
 
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
 
             </main>
         </div>
