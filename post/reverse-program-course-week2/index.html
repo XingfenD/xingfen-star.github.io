@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\nC程序PE文件的运行 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n在\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
 <title>【武大软件逆向课程/第二周】IDA的使用</title>
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
 
 <link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="【武大软件逆向课程/第二周】IDA的使用">
-<meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\nC程序PE文件的运行 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n在\n">
+<meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2025-03-04T12:46:45&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2025-03-05T08:36:39&#43;00:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第二周】IDA的使用">
-<meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\nC程序PE文件的运行 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n在\n">
+<meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
     </head>
@@ -256,7 +256,11 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ul>
-    <li><a href="#环境搭建">环境搭建</a></li>
+    <li><a href="#环境搭建">环境搭建</a>
+      <ul>
+        <li><a href="#新建工程与配置页面">新建工程与配置页面</a></li>
+      </ul>
+    </li>
     <li><a href="#c程序pe文件的运行">C程序PE文件的运行</a></li>
   </ul>
 </nav>
@@ -351,7 +355,7 @@
 
 
                 <time>
-                    Mar 04, 2025 12:46 UTC
+                    Mar 05, 2025 08:36 UTC
                 </time>
             </div>
             <div>
@@ -395,8 +399,8 @@
 <p>在Win11中安装Visual Studio2022</p>
 </li>
 </ul>
-<h2 id="c程序pe文件的运行">C程序PE文件的运行
-</h2><p>    使用VC++6.0生成Hello World模板工程。<code>文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序</code>。</p>
+<h3 id="新建工程与配置页面">新建工程与配置页面
+</h3><p>    使用VC++6.0生成Hello World模板工程。<code>文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序</code>。</p>
 <p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image.png"
 	width="2369"
 	height="823"
@@ -409,7 +413,71 @@
 		data-flex-basis="690px"
 	
 ></p>
-<p>在</p>
+<p>    进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image.png"
+	width="1012"
+	height="496"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_14c11f15ca0c21ca.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_79fb826477795fa3.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="204"
+		data-flex-basis="489px"
+	
+></p>
+<h2 id="c程序pe文件的运行">C程序PE文件的运行
+</h2><ul>
+<li>
+<p>在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。</p>
+</li>
+<li>
+<p>在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。</p>
+</li>
+</ul>
+<p>    在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image.png"
+	width="2312"
+	height="1251"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_892428d548e18f8e.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_9ea6043b0df3581e.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="184"
+		data-flex-basis="443px"
+	
+></p>
+<p>    在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为<code>KERNEL32</code>到<code>mainCRTStartup()</code>。第二次为<code>mainCRTStartup()</code>调用<code>main()</code>函数。c语言<code>main()</code>函数的两个参数<code>argc</code>与<code>argv</code>就是<code>mainCRTStartup()</code>传递的。</p>
+<p>    在&quot;Call Stack&quot;窗口中双击<code>mainCRTStartup()</code>项进入该地址。</p>
+<p>    在语句<code>_acmdln = (char *)GetCommandLineA();</code>处设断点重新运行。</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image.png"
+	width="1358"
+	height="900"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_2e134636603f6528.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_678b11ca8a63ae6.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="150"
+		data-flex-basis="362px"
+	
+></p>
+<p>    在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。</p>
+<p>    在Watch窗口中添加变量<code>\_acmdln</code>后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。</p>
+<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image.png"
+	width="2316"
+	height="348"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_401703576a556edc.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_baae44c37944004.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="665"
+		data-flex-basis="1597px"
+	
+></p>
+<p>    可见该变量指向命令行参数。</p>
 
 </section>
 
@@ -435,7 +503,7 @@
 
 
         <span>
-            Last updated on Mar 04, 2025 12:46 UTC
+            Last updated on Mar 05, 2025 08:36 UTC
         </span>
     </section></footer>
 
