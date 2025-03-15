@@ -6,7 +6,7 @@
         <description>Recent content in Posts on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Sat, 15 Mar 2025 08:00:20 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 15 Mar 2025 10:47:18 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>【武大软件逆向课程/第四周】加减乘除运算的逆向特征</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/</link>
         <pubDate>Sat, 15 Mar 2025 06:27:52 +0000</pubDate>
@@ -58,7 +58,13 @@
           &lt;td style=&#34;text-align: center&#34;&gt;shl/shr&lt;/td&gt;
           &lt;td&gt;&lt;code&gt;shl/shr dest, cnt&lt;/code&gt;&lt;/td&gt;
           &lt;td&gt;逻辑左/右移&lt;/td&gt;
-          &lt;td&gt;用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;shr&lt;/code&gt;用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;sar&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;sar dest, count&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;算术左/右移&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;sar&lt;/code&gt;指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。&lt;/td&gt;
       &lt;/tr&gt;
       &lt;tr&gt;
           &lt;td style=&#34;text-align: center&#34;&gt;cdq&lt;/td&gt;
@@ -92,21 +98,178 @@
 &lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;; 8 
 mov al, 0x05       ; AL = 5
 mov bl, 0x03       ; BL = 3
-mul bl             ; AX &amp;lt;= AL * BL
+mul bl             ; AX := AL * BL
 ; AL = 5 * 3 = 15 (0x0F), AH = 0
 
 ; 16
 mov ax, 0x0123     ; AX = 291
 mov bx, 0x0004     ; BX = 4
-mul bx             ; DX:AX &amp;lt;= AX * BX
+mul bx             ; DX:AX := AX * BX
 ; AX = 291 * 4 = 1164 (0x048C), DX = 0
 
 ; 32
 mov eax, 0x12345678 ; EAX = 305419896
 mov ebx, 0x00000002 ; EBX = 2
-mul ebx             ; EDX:EAX &amp;lt;= EAX * EBX
+mul ebx             ; EDX:EAX := EAX * EBX
 ; EAX = 305419896 * 2 = 610839792 (0x2468ACF0), EDX = 0
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;scanf与printf函数&#34;&gt;scanf与printf函数
+&lt;/h3&gt;&lt;p&gt;​	scanf会使用多个寄存器：&lt;code&gt;rcx&lt;/code&gt;，&lt;code&gt;rdx&lt;/code&gt;，&lt;code&gt;r8&lt;/code&gt;等等，均存储输入项的地址，其中&lt;code&gt;rcx&lt;/code&gt;为格式化字符串的地址。
+​	printf使用的寄存器与printf类似&lt;/p&gt;
+&lt;h2 id=&#34;逆向分析程序1&#34;&gt;逆向分析程序1
+&lt;/h2&gt;&lt;p&gt;​	使用IDA打开reverse_basic.exe，反汇编结果如下：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;; int __fastcall main(int argc, const char **argv, const char **envp)
+main proc near
+
+var_18= dword ptr -18h
+var_14= dword ptr -14h
+var_10= qword ptr -10h
+arg_0= qword ptr  8
+arg_8= qword ptr  10h
+arg_10= qword ptr  18h
+
+; __unwind { // __GSHandlerCheck
+mov     [rsp+arg_0], rbx
+mov     [rsp+arg_8], rbp
+mov     [rsp+arg_10], rsi
+push    rdi
+sub     rsp, 30h
+mov     rax, cs:__security_cookie
+xor     rax, rsp
+mov     [rsp+38h+var_10], rax
+lea     r8, [rsp+38h+var_18]
+lea     rdx, [rsp+38h+var_14]
+lea     rcx, aDD        ; &amp;#34;%d %d&amp;#34;
+call    sub_140001080
+mov     ecx, [rsp+38h+var_18]
+mov     eax, 38E38E39h
+add     ecx, [rsp+38h+var_14]
+imul    r8d, ecx, 7
+lea     rcx, Format     ; &amp;#34;%d\n&amp;#34;
+lea     ebx, ds:0[r8*8]
+lea     edi, [rbx+rbx*8]
+mul     edi
+mov     esi, edx
+mov     edx, r8d
+shr     esi, 1
+mov     ebp, esi
+shr     ebp, 3
+call    sub_140001020
+mov     edx, ebx
+lea     rcx, Format     ; &amp;#34;%d\n&amp;#34;
+call    sub_140001020
+mov     edx, edi
+lea     rcx, Format     ; &amp;#34;%d\n&amp;#34;
+call    sub_140001020
+mov     edx, esi
+lea     rcx, aU         ; &amp;#34;%u\n&amp;#34;
+call    sub_140001020
+mov     edx, ebp
+lea     rcx, aU         ; &amp;#34;%u\n&amp;#34;
+call    sub_140001020
+mov     eax, 24924925h
+lea     rcx, aU         ; &amp;#34;%u\n&amp;#34;
+mul     ebp
+sub     ebp, edx
+shr     ebp, 1
+add     edx, ebp
+shr     edx, 2
+call    sub_140001020
+xor     eax, eax
+mov     rcx, [rsp+38h+var_10]
+xor     rcx, rsp        ; StackCookie
+call    __security_check_cookie
+mov     rbx, [rsp+38h+arg_0]
+mov     rbp, [rsp+38h+arg_8]
+mov     rsi, [rsp+38h+arg_10]
+add     rsp, 30h
+pop     rdi
+retn
+; } // starts at 1400010E0
+main endp
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	可以发现该程序的结构大致是，进行一些运算之后，集中打印运算结果。其中&lt;code&gt;sub_140001020&lt;/code&gt;即为prinf函数，&lt;code&gt;sub_140001080&lt;/code&gt;为scanf函数。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-ssembly&#34; data-lang=&#34;ssembly&#34;&gt;lea     r8, [rsp+38h+var_18]
+lea     rdx, [rsp+38h+var_14]
+lea     rcx, aDD        ; &amp;#34;%d %d&amp;#34;
+call    sub_140001080
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	因此此程序会读取两个四字节数据写入&lt;code&gt;var_14&lt;/code&gt;和&lt;code&gt;var_18&lt;/code&gt;。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;mov     ecx, [rsp+38h+var_18]
+mov     eax, 38E38E39h
+add     ecx, [rsp+38h+var_14]
+imul    r8d, ecx, 7
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	分析接下来的指令，程序将读取的两个数相加之后乘以7，将结果存到r8d中。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;lea     rcx, Format     ; &amp;#34;%d\n&amp;#34;
+lea     ebx, ds:0[r8*8]
+lea     edi, [rbx+rbx*8]
+mul     edi
+mov     esi, edx
+mov     edx, r8d
+shr     esi, 1
+mov     ebp, esi
+shr     ebp, 3
+call    sub_140001020
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	&lt;code&gt;lea     ebx, ds:0[r8*8]&lt;/code&gt;通过地址计算的方式计算了&lt;code&gt;r8 * 8&lt;/code&gt;的值存入&lt;code&gt;ebx&lt;/code&gt;中，然后类似地计算&lt;code&gt;rbx * 9&lt;/code&gt;存入&lt;code&gt;edi&lt;/code&gt;中。&lt;/p&gt;
+&lt;p&gt;​	然后经过其他无关运算后，调用&lt;code&gt;printf&lt;/code&gt;将&lt;code&gt;r8d&lt;/code&gt;(乘以7的结果)打印出来（先将r8d赋给edx）。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;mov     edx, ebx
+lea     rcx, Format     ; &amp;#34;%d\n&amp;#34;
+call    sub_140001020
+mov     edx, edi
+lea     rcx, Format     ; &amp;#34;%d\n&amp;#34;
+call    sub_140001020
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	这一段打印出&lt;code&gt;ebx&lt;/code&gt;和&lt;code&gt;edi&lt;/code&gt;。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;mov     edx, esi
+lea     rcx, aU         ; &amp;#34;%u\n&amp;#34;
+call    sub_140001020
+mov     edx, ebp
+lea     rcx, aU         ; &amp;#34;%u\n&amp;#34;
+call    sub_140001020
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	根据这两个打印可以知道，在上面的运算中，&lt;code&gt;esi&lt;/code&gt;和&lt;code&gt;ebp&lt;/code&gt;被存入了运算结果，让我们再次分析上面被我们忽视的部分指令：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;mov     eax, 38E38E39h
+...
+lea     rcx, Format     ; &amp;#34;%d\n&amp;#34;
+lea     ebx, ds:0[r8*8]
+lea     edi, [rbx+rbx*8]
+mul     edi
+mov     esi, edx
+mov     edx, r8d
+shr     esi, 1
+mov     ebp, esi
+shr     ebp, 3
+call    sub_140001020
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	&lt;code&gt;mul edi&lt;/code&gt;的作用：会计算&lt;code&gt;edi * eax&lt;/code&gt;，将结果存入&lt;code&gt;edx: eax&lt;/code&gt;中，eax被赋值为&lt;code&gt;38E38E39h&lt;/code&gt;，是编译器将除以9运算进行优化使用的魔数。因此&lt;code&gt;esi&lt;/code&gt;为&lt;code&gt;edi / 9&lt;/code&gt;。然后将&lt;code&gt;esi&lt;/code&gt;存入&lt;code&gt;ebp&lt;/code&gt;后右移3位。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;mov     eax, 24924925h
+lea     rcx, aU         ; &amp;#34;%u\n&amp;#34;
+mul     ebp
+sub     ebp, edx
+shr     ebp, 1
+add     edx, ebp
+shr     edx, 2
+call    sub_140001020
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	&lt;code&gt;24924925h&lt;/code&gt;是除以7的魔数，因此这里计算&lt;code&gt;ebp&lt;/code&gt;除以7后打印出来。&lt;/p&gt;
+&lt;p&gt;综上，我们可以复原这个可执行文件的原c文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[])&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;scanf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%d %d&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;unsigned&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n4&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;9&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;unsigned&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n5&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n4&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;unsigned&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n6&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n5&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%d&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%d&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%d&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%u&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%u&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%u&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;逆向分析程序2&#34;&gt;逆向分析程序2
+&lt;/h2&gt;</description>
         </item>
         <item>
         <title>【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</title>

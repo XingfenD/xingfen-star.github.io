@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n三个操作数 imul dest, source1, source2 \u200b\t这种形式将source1与source2相乘，并将结果存储在dest中。source1和source2可以是寄存器、内存位置或立即数，但dest必须是寄存器。结果同样被截断到目标操作数的大小。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 shr用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 sar sar dest, count 算术左/右移 sar指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n">
 <title>【武大软件逆向课程/第四周】加减乘除运算的逆向特征</title>
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/'>
 
 <link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="【武大软件逆向课程/第四周】加减乘除运算的逆向特征">
-<meta property='og:description' content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n三个操作数 imul dest, source1, source2 \u200b\t这种形式将source1与source2相乘，并将结果存储在dest中。source1和source2可以是寄存器、内存位置或立即数，但dest必须是寄存器。结果同样被截断到目标操作数的大小。\n">
+<meta property='og:description' content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 shr用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 sar sar dest, count 算术左/右移 sar指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:published_time' content='2025-03-15T06:27:52&#43;00:00'/><meta property='article:modified_time' content='2025-03-15T08:00:20&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:published_time' content='2025-03-15T06:27:52&#43;00:00'/><meta property='article:modified_time' content='2025-03-15T10:47:18&#43;00:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第四周】加减乘除运算的逆向特征">
-<meta name="twitter:description" content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n三个操作数 imul dest, source1, source2 \u200b\t这种形式将source1与source2相乘，并将结果存储在dest中。source1和source2可以是寄存器、内存位置或立即数，但dest必须是寄存器。结果同样被截断到目标操作数的大小。\n">
+<meta name="twitter:description" content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 shr用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 sar sar dest, count 算术左/右移 sar指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
     </head>
@@ -261,8 +261,11 @@
         <li><a href="#指令简介与总览">指令简介与总览</a></li>
         <li><a href="#imul---带符号整数乘法">imul - 带符号整数乘法</a></li>
         <li><a href="#mul---无符号整数乘法">mul - 无符号整数乘法</a></li>
+        <li><a href="#scanf与printf函数">scanf与printf函数</a></li>
       </ul>
     </li>
+    <li><a href="#逆向分析程序1">逆向分析程序1</a></li>
+    <li><a href="#逆向分析程序2">逆向分析程序2</a></li>
   </ul>
 </nav>
         </div>
@@ -352,7 +355,7 @@
 
 
                 <time>
-                    Mar 15, 2025 08:00 UTC
+                    Mar 15, 2025 10:47 UTC
                 </time>
             </div>
             <div>
@@ -365,7 +368,7 @@
 
 
                 <time class="article-time--reading">
-                    1 minute read
+                    4 minute read
                 </time>
             </div>
         
@@ -427,7 +430,13 @@
           <td style="text-align: center">shl/shr</td>
           <td><code>shl/shr dest, cnt</code></td>
           <td>逻辑左/右移</td>
-          <td>用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。</td>
+          <td><code>shr</code>用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">sar</td>
+          <td><code>sar dest, count</code></td>
+          <td>算术左/右移</td>
+          <td><code>sar</code>指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。</td>
       </tr>
       <tr>
           <td style="text-align: center">cdq</td>
@@ -461,21 +470,178 @@
 </h4><pre tabindex="0"><code class="language-assembly" data-lang="assembly">; 8 
 mov al, 0x05       ; AL = 5
 mov bl, 0x03       ; BL = 3
-mul bl             ; AX &lt;= AL * BL
+mul bl             ; AX := AL * BL
 ; AL = 5 * 3 = 15 (0x0F), AH = 0
 
 ; 16
 mov ax, 0x0123     ; AX = 291
 mov bx, 0x0004     ; BX = 4
-mul bx             ; DX:AX &lt;= AX * BX
+mul bx             ; DX:AX := AX * BX
 ; AX = 291 * 4 = 1164 (0x048C), DX = 0
 
 ; 32
 mov eax, 0x12345678 ; EAX = 305419896
 mov ebx, 0x00000002 ; EBX = 2
-mul ebx             ; EDX:EAX &lt;= EAX * EBX
+mul ebx             ; EDX:EAX := EAX * EBX
 ; EAX = 305419896 * 2 = 610839792 (0x2468ACF0), EDX = 0
-</code></pre>
+</code></pre><h3 id="scanf与printf函数">scanf与printf函数
+</h3><p>​	scanf会使用多个寄存器：<code>rcx</code>，<code>rdx</code>，<code>r8</code>等等，均存储输入项的地址，其中<code>rcx</code>为格式化字符串的地址。
+​	printf使用的寄存器与printf类似</p>
+<h2 id="逆向分析程序1">逆向分析程序1
+</h2><p>​	使用IDA打开reverse_basic.exe，反汇编结果如下：</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">; int __fastcall main(int argc, const char **argv, const char **envp)
+main proc near
+
+var_18= dword ptr -18h
+var_14= dword ptr -14h
+var_10= qword ptr -10h
+arg_0= qword ptr  8
+arg_8= qword ptr  10h
+arg_10= qword ptr  18h
+
+; __unwind { // __GSHandlerCheck
+mov     [rsp+arg_0], rbx
+mov     [rsp+arg_8], rbp
+mov     [rsp+arg_10], rsi
+push    rdi
+sub     rsp, 30h
+mov     rax, cs:__security_cookie
+xor     rax, rsp
+mov     [rsp+38h+var_10], rax
+lea     r8, [rsp+38h+var_18]
+lea     rdx, [rsp+38h+var_14]
+lea     rcx, aDD        ; &#34;%d %d&#34;
+call    sub_140001080
+mov     ecx, [rsp+38h+var_18]
+mov     eax, 38E38E39h
+add     ecx, [rsp+38h+var_14]
+imul    r8d, ecx, 7
+lea     rcx, Format     ; &#34;%d\n&#34;
+lea     ebx, ds:0[r8*8]
+lea     edi, [rbx+rbx*8]
+mul     edi
+mov     esi, edx
+mov     edx, r8d
+shr     esi, 1
+mov     ebp, esi
+shr     ebp, 3
+call    sub_140001020
+mov     edx, ebx
+lea     rcx, Format     ; &#34;%d\n&#34;
+call    sub_140001020
+mov     edx, edi
+lea     rcx, Format     ; &#34;%d\n&#34;
+call    sub_140001020
+mov     edx, esi
+lea     rcx, aU         ; &#34;%u\n&#34;
+call    sub_140001020
+mov     edx, ebp
+lea     rcx, aU         ; &#34;%u\n&#34;
+call    sub_140001020
+mov     eax, 24924925h
+lea     rcx, aU         ; &#34;%u\n&#34;
+mul     ebp
+sub     ebp, edx
+shr     ebp, 1
+add     edx, ebp
+shr     edx, 2
+call    sub_140001020
+xor     eax, eax
+mov     rcx, [rsp+38h+var_10]
+xor     rcx, rsp        ; StackCookie
+call    __security_check_cookie
+mov     rbx, [rsp+38h+arg_0]
+mov     rbp, [rsp+38h+arg_8]
+mov     rsi, [rsp+38h+arg_10]
+add     rsp, 30h
+pop     rdi
+retn
+; } // starts at 1400010E0
+main endp
+</code></pre><p>​	可以发现该程序的结构大致是，进行一些运算之后，集中打印运算结果。其中<code>sub_140001020</code>即为prinf函数，<code>sub_140001080</code>为scanf函数。</p>
+<pre tabindex="0"><code class="language-ssembly" data-lang="ssembly">lea     r8, [rsp+38h+var_18]
+lea     rdx, [rsp+38h+var_14]
+lea     rcx, aDD        ; &#34;%d %d&#34;
+call    sub_140001080
+</code></pre><p>​	因此此程序会读取两个四字节数据写入<code>var_14</code>和<code>var_18</code>。</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">mov     ecx, [rsp+38h+var_18]
+mov     eax, 38E38E39h
+add     ecx, [rsp+38h+var_14]
+imul    r8d, ecx, 7
+</code></pre><p>​	分析接下来的指令，程序将读取的两个数相加之后乘以7，将结果存到r8d中。</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">lea     rcx, Format     ; &#34;%d\n&#34;
+lea     ebx, ds:0[r8*8]
+lea     edi, [rbx+rbx*8]
+mul     edi
+mov     esi, edx
+mov     edx, r8d
+shr     esi, 1
+mov     ebp, esi
+shr     ebp, 3
+call    sub_140001020
+</code></pre><p>​	<code>lea     ebx, ds:0[r8*8]</code>通过地址计算的方式计算了<code>r8 * 8</code>的值存入<code>ebx</code>中，然后类似地计算<code>rbx * 9</code>存入<code>edi</code>中。</p>
+<p>​	然后经过其他无关运算后，调用<code>printf</code>将<code>r8d</code>(乘以7的结果)打印出来（先将r8d赋给edx）。</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">mov     edx, ebx
+lea     rcx, Format     ; &#34;%d\n&#34;
+call    sub_140001020
+mov     edx, edi
+lea     rcx, Format     ; &#34;%d\n&#34;
+call    sub_140001020
+</code></pre><p>​	这一段打印出<code>ebx</code>和<code>edi</code>。</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">mov     edx, esi
+lea     rcx, aU         ; &#34;%u\n&#34;
+call    sub_140001020
+mov     edx, ebp
+lea     rcx, aU         ; &#34;%u\n&#34;
+call    sub_140001020
+</code></pre><p>​	根据这两个打印可以知道，在上面的运算中，<code>esi</code>和<code>ebp</code>被存入了运算结果，让我们再次分析上面被我们忽视的部分指令：</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">mov     eax, 38E38E39h
+...
+lea     rcx, Format     ; &#34;%d\n&#34;
+lea     ebx, ds:0[r8*8]
+lea     edi, [rbx+rbx*8]
+mul     edi
+mov     esi, edx
+mov     edx, r8d
+shr     esi, 1
+mov     ebp, esi
+shr     ebp, 3
+call    sub_140001020
+</code></pre><p>​	<code>mul edi</code>的作用：会计算<code>edi * eax</code>，将结果存入<code>edx: eax</code>中，eax被赋值为<code>38E38E39h</code>，是编译器将除以9运算进行优化使用的魔数。因此<code>esi</code>为<code>edi / 9</code>。然后将<code>esi</code>存入<code>ebp</code>后右移3位。</p>
+<pre tabindex="0"><code class="language-assembly" data-lang="assembly">mov     eax, 24924925h
+lea     rcx, aU         ; &#34;%u\n&#34;
+mul     ebp
+sub     ebp, edx
+shr     ebp, 1
+add     edx, ebp
+shr     edx, 2
+call    sub_140001020
+</code></pre><p>​	<code>24924925h</code>是除以7的魔数，因此这里计算<code>ebp</code>除以7后打印出来。</p>
+<p>综上，我们可以复原这个可执行文件的原c文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">scanf</span><span class="p">(</span><span class="s">&#34;%d %d&#34;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">c</span> <span class="o">*</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">n1</span> <span class="o">*</span> <span class="mi">8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n3</span> <span class="o">=</span> <span class="n">n2</span> <span class="o">*</span> <span class="mi">9</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">n4</span> <span class="o">=</span> <span class="n">n3</span> <span class="o">/</span> <span class="mi">9</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">n5</span> <span class="o">=</span> <span class="n">n4</span> <span class="o">/</span> <span class="mi">8</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">n6</span> <span class="o">=</span> <span class="n">n5</span> <span class="o">/</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">n1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">n2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">n3</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%u</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">n4</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%u</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">n5</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%u</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">n6</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="逆向分析程序2">逆向分析程序2
+</h2>
 </section>
 
 
@@ -498,7 +664,7 @@ mul ebx             ; EDX:EAX &lt;= EAX * EBX
 
 
         <span>
-            Last updated on Mar 15, 2025 08:00 UTC
+            Last updated on Mar 15, 2025 10:47 UTC
         </span>
     </section></footer>
 
