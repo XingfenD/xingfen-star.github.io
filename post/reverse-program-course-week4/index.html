@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
-<title>【武大软件逆向课程/第二周】IDA的使用</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n三个操作数 imul dest, source1, source2 \u200b\t这种形式将source1与source2相乘，并将结果存储在dest中。source1和source2可以是寄存器、内存位置或立即数，但dest必须是寄存器。结果同样被截断到目标操作数的大小。\n">
+<title>【武大软件逆向课程/第四周】加减乘除运算的逆向特征</title>
 
-<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
+<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/'>
 
-<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="【武大软件逆向课程/第二周】IDA的使用">
-<meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
-<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
+<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="【武大软件逆向课程/第四周】加减乘除运算的逆向特征">
+<meta property='og:description' content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n三个操作数 imul dest, source1, source2 \u200b\t这种形式将source1与source2相乘，并将结果存储在dest中。source1和source2可以是寄存器、内存位置或立即数，但dest必须是寄存器。结果同样被截断到目标操作数的大小。\n">
+<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2025-03-15T07:51:12&#43;00:00'/>
-<meta name="twitter:title" content="【武大软件逆向课程/第二周】IDA的使用">
-<meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:published_time' content='2025-03-15T06:27:52&#43;00:00'/><meta property='article:modified_time' content='2025-03-15T07:51:12&#43;00:00'/>
+<meta name="twitter:title" content="【武大软件逆向课程/第四周】加减乘除运算的逆向特征">
+<meta name="twitter:description" content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n三个操作数 imul dest, source1, source2 \u200b\t这种形式将source1与source2相乘，并将结果存储在dest中。source1和source2可以是寄存器、内存位置或立即数，但dest必须是寄存器。结果同样被截断到目标操作数的大小。\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
     </head>
@@ -256,12 +256,13 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ul>
-    <li><a href="#环境搭建">环境搭建</a>
+    <li><a href="#汇编语言预备知识">汇编语言预备知识</a>
       <ul>
-        <li><a href="#新建工程与配置页面">新建工程与配置页面</a></li>
+        <li><a href="#指令简介与总览">指令简介与总览</a></li>
+        <li><a href="#imul---带符号整数乘法">imul - 带符号整数乘法</a></li>
+        <li><a href="#mul---无符号整数乘法">mul - 无符号整数乘法</a></li>
       </ul>
     </li>
-    <li><a href="#c程序pe文件的运行">C程序PE文件的运行</a></li>
   </ul>
 </nav>
         </div>
@@ -289,10 +290,6 @@
                 软件逆向
             </a>
         
-            <a href="/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/">
-                笔记
-            </a>
-        
     </div>
 </section>
 
@@ -318,7 +315,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/xingfen-star.github.io/post/reverse-program-course-week2/">【武大软件逆向课程/第二周】IDA的使用</a>
+            <a href="/xingfen-star.github.io/post/reverse-program-course-week4/">【武大软件逆向课程/第四周】加减乘除运算的逆向特征</a>
         </h2>
 
         
@@ -340,7 +337,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Mar 01, 2025</time>
+                <time class="article-time--published">Mar 15, 2025</time>
             </div>
         
 
@@ -384,101 +381,101 @@
     <section class="article-content">
     
     
-    <h2 id="环境搭建">环境搭建
-</h2><ul>
-<li>
-<p>WindowsXP系统家庭版（虚拟机）</p>
-</li>
-<li>
-<p>在XP系统中安装VC++6.0</p>
-</li>
-<li>
-<p>Windows11（物理机）</p>
-</li>
-<li>
-<p>在Win11中安装Visual Studio2022</p>
-</li>
-</ul>
-<h3 id="新建工程与配置页面">新建工程与配置页面
-</h3><p>    使用VC++6.0生成Hello World模板工程。<code>文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序</code>。</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image.png"
-	width="2369"
-	height="823"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_df87a562d5a52353.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_4931b6028a6c9fe8.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="287"
-		data-flex-basis="690px"
-	
-></p>
-<p>    进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image.png"
-	width="1012"
-	height="496"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_14c11f15ca0c21ca.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_79fb826477795fa3.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="204"
-		data-flex-basis="489px"
-	
-></p>
-<h2 id="c程序pe文件的运行">C程序PE文件的运行
-</h2><ul>
-<li>
-<p>在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。</p>
-</li>
-<li>
-<p>在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。</p>
-</li>
-</ul>
-<p>    在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image.png"
-	width="2312"
-	height="1251"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_892428d548e18f8e.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_9ea6043b0df3581e.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="184"
-		data-flex-basis="443px"
-	
-></p>
-<p>    在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为<code>KERNEL32</code>到<code>mainCRTStartup()</code>。第二次为<code>mainCRTStartup()</code>调用<code>main()</code>函数。c语言<code>main()</code>函数的两个参数<code>argc</code>与<code>argv</code>就是<code>mainCRTStartup()</code>传递的。</p>
-<p>    在&quot;Call Stack&quot;窗口中双击<code>mainCRTStartup()</code>项进入该地址。</p>
-<p>    在语句<code>_acmdln = (char *)GetCommandLineA();</code>处设断点重新运行。</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image.png"
-	width="1358"
-	height="900"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_2e134636603f6528.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_678b11ca8a63ae6.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="150"
-		data-flex-basis="362px"
-	
-></p>
-<p>    在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。</p>
-<p>    在Watch窗口中添加变量<code>\_acmdln</code>后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image.png"
-	width="2316"
-	height="348"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_401703576a556edc.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_baae44c37944004.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="665"
-		data-flex-basis="1597px"
-	
-></p>
-<p>    可见该变量指向命令行参数。</p>
+    <h2 id="汇编语言预备知识">汇编语言预备知识
+</h2><h3 id="指令简介与总览">指令简介与总览
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th style="text-align: center">汇编指令</th>
+          <th>指令格式</th>
+          <th>功能</th>
+          <th>备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">lea</td>
+          <td><code>lea reg, addr</code></td>
+          <td>主要用于将一个内存地址加载到寄存器中，<br />而不是将该地址处的数据加载到寄存器。</td>
+          <td>如在<code>printf</code>函数中，将格式字符串的地址加载到指定寄存器中供<code>printf</code>函数读取。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">inc</td>
+          <td><code>inc reg</code></td>
+          <td>寄存器自增1</td>
+          <td>变量加一</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">mov</td>
+          <td><code>mov reg, imm</code></td>
+          <td>将立即数赋值到寄存器中</td>
+          <td><code>imm</code>意为立即数(immediate number)</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">imul</td>
+          <td>指令格式见详解</td>
+          <td>用于执行带符号整数乘法。</td>
+          <td>它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">mul</td>
+          <td><code>mul source</code></td>
+          <td>用于执行无符号整数乘法。</td>
+          <td><code>mul</code> 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">shl/shr</td>
+          <td><code>shl/shr dest, cnt</code></td>
+          <td>逻辑左/右移</td>
+          <td>用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">cdq</td>
+          <td><code>cdq</code></td>
+          <td>将32位寄存器<code>eax</code>中的有符号数符号扩展为64位，结果存储在由<code>edx:eax</code>组成的64位寄存器中</td>
+          <td>它会把<code>eax</code>的第31位（符号位）复制到<code>edx</code>的每一位。如果<code>eax</code>的符号位是0（即正数），则<code>edx</code>会被设置为0；如果符号位是1（即负数），则<code>edx</code>会被设置为全1。<br />通常在执行32位有符号除法（如<code>idiv</code>指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">cqo</td>
+          <td><code>cqo</code></td>
+          <td>将64位寄存器<code>rax</code>中的有符号数符号扩展为128位，结果存储在由<code>rdx:rax</code>组成的128位寄存器中</td>
+          <td>它会把<code>rax</code>的第63位（符号位）复制到<code>rdx</code>的每一位。如果<code>rax</code>的符号位是0，则<code>rdx</code>被设置为0；如果符号位是1，则<code>rdx</code>被设置为全1。<br />在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。</td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="imul---带符号整数乘法">imul - 带符号整数乘法
+</h3><h4 id="一个操作数">一个操作数
+</h4><pre tabindex="0"><code class="language-assembly" data-lang="assembly">imul src
+</code></pre><p>​	这种形式假设隐含的目标操作数是累加器（对于16位操作为<code>AX</code>，对于32位操作为<code>EAX</code>，对于64位操作为<code>RAX</code>）。该指令将累加器与<code>source</code>相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为<code>DX:AX</code>，对于32位操作为<code>EDX:EAX</code>，对于64位操作为<code>RDX:RAX</code>）。</p>
+<h4 id="两个操作数">两个操作数
+</h4><pre tabindex="0"><code class="language-assembly" data-lang="assembly">imul dest, source
+</code></pre><p>​	这种形式将<code>source</code>与<code>dest</code>相乘，并将结果存储在<code>dest</code>中。<code>dest</code>可以是一个寄存器或内存位置，而<code>source</code>可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。</p>
+<h4 id="三个操作数">三个操作数
+</h4><pre tabindex="0"><code class="language-assembly" data-lang="assembly">imul dest, source1, source2
+</code></pre><p>​	这种形式将<code>source1</code>与<code>source2</code>相乘，并将结果存储在<code>dest</code>中。<code>source1</code>和<code>source2</code>可以是寄存器、内存位置或立即数，但<code>dest</code>必须是寄存器。结果同样被截断到目标操作数的大小。</p>
+<h3 id="mul---无符号整数乘法">mul - 无符号整数乘法
+</h3><h4 id="mul的功能">mul的功能
+</h4><p>​	<code>MUL</code>是一个单操作数指令，它隐式地使用AL（8位）、AX（16位）、EAX（32位）或RAX（64位）作为其中一个乘数，具体取决于操作数的大小和处理器模式。</p>
+<p>​	对于字节乘法（8位），结果被存储在AX寄存器中；对于字乘法（16位），结果被存储在DX:AX寄存器对中；对于双字乘法（32位），结果被存储在EDX:EAX寄存器对中；对于四字乘法（64位），结果被存储在RDX:RAX寄存器对中。</p>
+<h4 id="mul的示例">mul的示例
+</h4><pre tabindex="0"><code class="language-assembly" data-lang="assembly">; 8 
+mov al, 0x05       ; AL = 5
+mov bl, 0x03       ; BL = 3
+mul bl             ; AX &lt;= AL * BL
+; AL = 5 * 3 = 15 (0x0F), AH = 0
 
+; 16
+mov ax, 0x0123     ; AX = 291
+mov bx, 0x0004     ; BX = 4
+mul bx             ; DX:AX &lt;= AX * BX
+; AX = 291 * 4 = 1164 (0x048C), DX = 0
+
+; 32
+mov eax, 0x12345678 ; EAX = 305419896
+mov ebx, 0x00000002 ; EBX = 2
+mul ebx             ; EDX:EAX &lt;= EAX * EBX
+; EAX = 305419896 * 2 = 610839792 (0x2468ACF0), EDX = 0
+</code></pre>
 </section>
 
 
@@ -487,8 +484,6 @@
     <section class="article-tags">
         
             <a href="/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">软件逆向</a>
-        
-            <a href="/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
         
     </section>
 
@@ -528,30 +523,6 @@
 
         <div class="article-details">
             <h2 class="article-title">【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/xingfen-star.github.io/post/hugo-githubio/">
-
-        
-            <div class="article-image">
-                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.15eb225ce97cdcb1b00b8d1252e0a89f_hu_b65196ef05bce483.png"
-                        width="250"
-                        height="150"
-                        loading="lazy"
-                        alt="Featured image of post hugo&#43;GithubIO自建博客踩坑实录"
-                        
-                        data-hash="md5-FesiXOl83LGwC40SUuConw==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">hugo&#43;GithubIO自建博客踩坑实录</h2>
         </div>
     </a>
 </article>
