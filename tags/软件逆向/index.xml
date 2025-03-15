@@ -6,7 +6,109 @@
         <description>Recent content in 软件逆向 on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Sat, 15 Mar 2025 07:51:12 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 15 Mar 2025 07:54:22 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>【武大软件逆向课程/第四周】加减乘除运算的逆向特征</title>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/</link>
+        <pubDate>Sat, 15 Mar 2025 06:27:52 +0000</pubDate>
+        
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/</guid>
+        <description>&lt;h2 id=&#34;汇编语言预备知识&#34;&gt;汇编语言预备知识
+&lt;/h2&gt;&lt;h3 id=&#34;指令简介与总览&#34;&gt;指令简介与总览
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;汇编指令&lt;/th&gt;
+          &lt;th&gt;指令格式&lt;/th&gt;
+          &lt;th&gt;功能&lt;/th&gt;
+          &lt;th&gt;备注&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;lea&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;lea reg, addr&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;主要用于将一个内存地址加载到寄存器中，&lt;br /&gt;而不是将该地址处的数据加载到寄存器。&lt;/td&gt;
+          &lt;td&gt;如在&lt;code&gt;printf&lt;/code&gt;函数中，将格式字符串的地址加载到指定寄存器中供&lt;code&gt;printf&lt;/code&gt;函数读取。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;inc&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;inc reg&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;寄存器自增1&lt;/td&gt;
+          &lt;td&gt;变量加一&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;mov&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;mov reg, imm&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;将立即数赋值到寄存器中&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;imm&lt;/code&gt;意为立即数(immediate number)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;imul&lt;/td&gt;
+          &lt;td&gt;指令格式见详解&lt;/td&gt;
+          &lt;td&gt;用于执行带符号整数乘法。&lt;/td&gt;
+          &lt;td&gt;它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;mul&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;mul source&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;用于执行无符号整数乘法。&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;mul&lt;/code&gt; 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;shl/shr&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;shl/shr dest, cnt&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;逻辑左/右移&lt;/td&gt;
+          &lt;td&gt;用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;cdq&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;cdq&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;将32位寄存器&lt;code&gt;eax&lt;/code&gt;中的有符号数符号扩展为64位，结果存储在由&lt;code&gt;edx:eax&lt;/code&gt;组成的64位寄存器中&lt;/td&gt;
+          &lt;td&gt;它会把&lt;code&gt;eax&lt;/code&gt;的第31位（符号位）复制到&lt;code&gt;edx&lt;/code&gt;的每一位。如果&lt;code&gt;eax&lt;/code&gt;的符号位是0（即正数），则&lt;code&gt;edx&lt;/code&gt;会被设置为0；如果符号位是1（即负数），则&lt;code&gt;edx&lt;/code&gt;会被设置为全1。&lt;br /&gt;通常在执行32位有符号除法（如&lt;code&gt;idiv&lt;/code&gt;指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;cqo&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;cqo&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;将64位寄存器&lt;code&gt;rax&lt;/code&gt;中的有符号数符号扩展为128位，结果存储在由&lt;code&gt;rdx:rax&lt;/code&gt;组成的128位寄存器中&lt;/td&gt;
+          &lt;td&gt;它会把&lt;code&gt;rax&lt;/code&gt;的第63位（符号位）复制到&lt;code&gt;rdx&lt;/code&gt;的每一位。如果&lt;code&gt;rax&lt;/code&gt;的符号位是0，则&lt;code&gt;rdx&lt;/code&gt;被设置为0；如果符号位是1，则&lt;code&gt;rdx&lt;/code&gt;被设置为全1。&lt;br /&gt;在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;imul---带符号整数乘法&#34;&gt;imul - 带符号整数乘法
+&lt;/h3&gt;&lt;h4 id=&#34;一个操作数&#34;&gt;一个操作数
+&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;imul src
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	这种形式假设隐含的目标操作数是累加器（对于16位操作为&lt;code&gt;AX&lt;/code&gt;，对于32位操作为&lt;code&gt;EAX&lt;/code&gt;，对于64位操作为&lt;code&gt;RAX&lt;/code&gt;）。该指令将累加器与&lt;code&gt;source&lt;/code&gt;相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为&lt;code&gt;DX:AX&lt;/code&gt;，对于32位操作为&lt;code&gt;EDX:EAX&lt;/code&gt;，对于64位操作为&lt;code&gt;RDX:RAX&lt;/code&gt;）。&lt;/p&gt;
+&lt;h4 id=&#34;两个操作数&#34;&gt;两个操作数
+&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;imul dest, source
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	这种形式将&lt;code&gt;source&lt;/code&gt;与&lt;code&gt;dest&lt;/code&gt;相乘，并将结果存储在&lt;code&gt;dest&lt;/code&gt;中。&lt;code&gt;dest&lt;/code&gt;可以是一个寄存器或内存位置，而&lt;code&gt;source&lt;/code&gt;可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。&lt;/p&gt;
+&lt;h4 id=&#34;三个操作数&#34;&gt;三个操作数
+&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;imul dest, source1, source2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;​	这种形式将&lt;code&gt;source1&lt;/code&gt;与&lt;code&gt;source2&lt;/code&gt;相乘，并将结果存储在&lt;code&gt;dest&lt;/code&gt;中。&lt;code&gt;source1&lt;/code&gt;和&lt;code&gt;source2&lt;/code&gt;可以是寄存器、内存位置或立即数，但&lt;code&gt;dest&lt;/code&gt;必须是寄存器。结果同样被截断到目标操作数的大小。&lt;/p&gt;
+&lt;h3 id=&#34;mul---无符号整数乘法&#34;&gt;mul - 无符号整数乘法
+&lt;/h3&gt;&lt;h4 id=&#34;mul的功能&#34;&gt;mul的功能
+&lt;/h4&gt;&lt;p&gt;​	&lt;code&gt;MUL&lt;/code&gt;是一个单操作数指令，它隐式地使用AL（8位）、AX（16位）、EAX（32位）或RAX（64位）作为其中一个乘数，具体取决于操作数的大小和处理器模式。&lt;/p&gt;
+&lt;p&gt;​	对于字节乘法（8位），结果被存储在AX寄存器中；对于字乘法（16位），结果被存储在DX:AX寄存器对中；对于双字乘法（32位），结果被存储在EDX:EAX寄存器对中；对于四字乘法（64位），结果被存储在RDX:RAX寄存器对中。&lt;/p&gt;
+&lt;h4 id=&#34;mul的示例&#34;&gt;mul的示例
+&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-assembly&#34; data-lang=&#34;assembly&#34;&gt;; 8 
+mov al, 0x05       ; AL = 5
+mov bl, 0x03       ; BL = 3
+mul bl             ; AX &amp;lt;= AL * BL
+; AL = 5 * 3 = 15 (0x0F), AH = 0
+
+; 16
+mov ax, 0x0123     ; AX = 291
+mov bx, 0x0004     ; BX = 4
+mul bx             ; DX:AX &amp;lt;= AX * BX
+; AX = 291 * 4 = 1164 (0x048C), DX = 0
+
+; 32
+mov eax, 0x12345678 ; EAX = 305419896
+mov ebx, 0x00000002 ; EBX = 2
+mul ebx             ; EDX:EAX &amp;lt;= EAX * EBX
+; EAX = 305419896 * 2 = 610839792 (0x2468ACF0), EDX = 0
+&lt;/code&gt;&lt;/pre&gt;</description>
+        </item>
+        <item>
         <title>【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/</link>
         <pubDate>Wed, 19 Feb 2025 17:43:52 +0800</pubDate>
