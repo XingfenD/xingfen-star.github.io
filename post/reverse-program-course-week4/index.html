@@ -10,7 +10,7 @@
 <meta property='og:description' content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 shr用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 sar sar dest, count 算术左/右移 sar指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:published_time' content='2025-03-15T06:27:52&#43;00:00'/><meta property='article:modified_time' content='2025-03-17T05:30:28&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:published_time' content='2025-03-15T06:27:52&#43;00:00'/><meta property='article:modified_time' content='2025-03-25T13:12:51&#43;00:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第四周】加减乘除运算的逆向特征">
 <meta name="twitter:description" content="汇编语言预备知识 指令简介与总览 汇编指令 指令格式 功能 备注 lea lea reg, addr 主要用于将一个内存地址加载到寄存器中，\n而不是将该地址处的数据加载到寄存器。 如在printf函数中，将格式字符串的地址加载到指定寄存器中供printf函数读取。 inc inc reg 寄存器自增1 变量加一 mov mov reg, imm 将立即数赋值到寄存器中 imm意为立即数(immediate number) imul 指令格式见详解 用于执行带符号整数乘法。 它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。 mul mul source 用于执行无符号整数乘法。 mul 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。 shl/shr shl/shr dest, cnt 逻辑左/右移 shr用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。 sar sar dest, count 算术左/右移 sar指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。 cdq cdq 将32位寄存器eax中的有符号数符号扩展为64位，结果存储在由edx:eax组成的64位寄存器中 它会把eax的第31位（符号位）复制到edx的每一位。如果eax的符号位是0（即正数），则edx会被设置为0；如果符号位是1（即负数），则edx会被设置为全1。\n通常在执行32位有符号除法（如idiv指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。 cqo cqo 将64位寄存器rax中的有符号数符号扩展为128位，结果存储在由rdx:rax组成的128位寄存器中 它会把rax的第63位（符号位）复制到rdx的每一位。如果rax的符号位是0，则rdx被设置为0；如果符号位是1，则rdx被设置为全1。\n在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。 imul - 带符号整数乘法 一个操作数 imul src \u200b\t这种形式假设隐含的目标操作数是累加器（对于16位操作为AX，对于32位操作为EAX，对于64位操作为RAX）。该指令将累加器与source相乘，并将结果存储回累加器和其对应的双倍宽度寄存器（即对于16位操作为DX:AX，对于32位操作为EDX:EAX，对于64位操作为RDX:RAX）。\n两个操作数 imul dest, source \u200b\t这种形式将source与dest相乘，并将结果存储在dest中。dest可以是一个寄存器或内存位置，而source可以是一个寄存器、内存位置或立即数。注意，结果被截断到目标操作数的大小。\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
@@ -355,7 +355,7 @@
 
 
                 <time>
-                    Mar 17, 2025 05:30 UTC
+                    Mar 25, 2025 13:12 UTC
                 </time>
             </div>
             <div>
@@ -778,7 +778,7 @@ call    sub_140001020
 
 
         <span>
-            Last updated on Mar 17, 2025 05:30 UTC
+            Last updated on Mar 25, 2025 13:12 UTC
         </span>
     </section></footer>
 

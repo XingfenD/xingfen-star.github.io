@@ -10,7 +10,7 @@
 <meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2025-03-17T05:30:28&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2025-03-25T13:12:51&#43;00:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第二周】IDA的使用">
 <meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
@@ -355,7 +355,7 @@
 
 
                 <time>
-                    Mar 17, 2025 05:30 UTC
+                    Mar 25, 2025 13:12 UTC
                 </time>
             </div>
             <div>
@@ -503,7 +503,7 @@
 
 
         <span>
-            Last updated on Mar 17, 2025 05:30 UTC
+            Last updated on Mar 25, 2025 13:12 UTC
         </span>
     </section></footer>
 
