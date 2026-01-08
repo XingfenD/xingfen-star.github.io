@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="环境搭建 WindowsXP系统家庭版（虚拟机） 在XP系统中安装VC++6.0 Windows11（物理机） 在Win11中安装Visual Studio2022 新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。 进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot; C程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。 在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。 在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下： 在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。 在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。 在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。 在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。 在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。 可见该变量指向命令行参数。">
 <title>【武大软件逆向课程/第二周】IDA的使用</title>
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
 
 <link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="【武大软件逆向课程/第二周】IDA的使用">
-<meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
+<meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机） 在XP系统中安装VC++6.0 Windows11（物理机） 在Win11中安装Visual Studio2022 新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。 进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot; C程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。 在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。 在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下： 在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。 在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。 在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。 在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。 在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。 可见该变量指向命令行参数。">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2025-03-25T13:12:51&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2026-01-08T09:59:27&#43;00:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第二周】IDA的使用">
-<meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
+<meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机） 在XP系统中安装VC++6.0 Windows11（物理机） 在Win11中安装Visual Studio2022 新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。 进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot; C程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。 在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。 在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下： 在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。 在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。 在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。 在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。 在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。 可见该变量指向命令行参数。">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
     </head>
@@ -58,7 +58,7 @@
 
                     
                         
-                        <img src="/xingfen-star.github.io/img/avatar_hu_e75ba5eda9add5a4.png" width="300"
+                        <img src="/xingfen-star.github.io/img/avatar_hu493e02d3d92a93d51eb4b2df9911732e_131869_300x0_resize_box_3.png" width="300"
                             height="279" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -355,7 +355,7 @@
 
 
                 <time>
-                    Mar 25, 2025 13:12 UTC
+                    Jan 08, 2026 09:59 UTC
                 </time>
             </div>
             <div>
@@ -404,7 +404,7 @@
 <p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image.png"
 	width="2369"
 	height="823"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_df87a562d5a52353.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_4931b6028a6c9fe8.png 1024w"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hud17a0a4e5a9538dd189eb8d44db2ae07_561394_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hud17a0a4e5a9538dd189eb8d44db2ae07_561394_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 	
@@ -417,7 +417,7 @@
 <p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image.png"
 	width="1012"
 	height="496"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_14c11f15ca0c21ca.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_79fb826477795fa3.png 1024w"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu5b2ba4965f62740d11b88399928699a5_80389_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu5b2ba4965f62740d11b88399928699a5_80389_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 	
@@ -439,7 +439,7 @@
 <p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image.png"
 	width="2312"
 	height="1251"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_892428d548e18f8e.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_9ea6043b0df3581e.png 1024w"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu7f927db6dc04bb3547cb30bba0480db8_347560_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu7f927db6dc04bb3547cb30bba0480db8_347560_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 	
@@ -454,7 +454,7 @@
 <p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image.png"
 	width="1358"
 	height="900"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_2e134636603f6528.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_678b11ca8a63ae6.png 1024w"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu0768ce6dea515105fea46415724224b7_233516_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu0768ce6dea515105fea46415724224b7_233516_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 	
@@ -468,7 +468,7 @@
 <p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image.png"
 	width="2316"
 	height="348"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_401703576a556edc.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_baae44c37944004.png 1024w"
+	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_huffc4556ea4a40a18b557ea14342c62f5_193889_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_huffc4556ea4a40a18b557ea14342c62f5_193889_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 	
@@ -503,7 +503,7 @@
 
 
         <span>
-            Last updated on Mar 25, 2025 13:12 UTC
+            Last updated on Jan 08, 2026 09:59 UTC
         </span>
     </section></footer>
 
@@ -539,7 +539,7 @@
 
         
             <div class="article-image">
-                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.15eb225ce97cdcb1b00b8d1252e0a89f_hu_b65196ef05bce483.png"
+                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.15eb225ce97cdcb1b00b8d1252e0a89f_hu3d1d1a4200e4cf0e1efa20d00857e3ae_5273_250x150_fill_box_smart1_3.png"
                         width="250"
                         height="150"
                         loading="lazy"
@@ -572,7 +572,7 @@
         
             2025 -
         
-        2025 远楒
+        2026 远楒
     </section>
 
     <section class="powerby">
@@ -668,7 +668,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
+            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.3e0587bea8834cd3d9d3020bdfadb3d6ef435900c301cfd4c0ffaa0825b9b711.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');

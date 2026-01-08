@@ -6,7 +6,7 @@
         <description>Recent content in Posts on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Tue, 25 Mar 2025 13:12:51 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 08 Jan 2026 09:59:27 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>【武大软件逆向课程/第四周】加减乘除运算的逆向特征</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/</link>
         <pubDate>Sat, 15 Mar 2025 06:27:52 +0000</pubDate>
@@ -15,70 +15,70 @@
         <description>&lt;h2 id=&#34;汇编语言预备知识&#34;&gt;汇编语言预备知识
 &lt;/h2&gt;&lt;h3 id=&#34;指令简介与总览&#34;&gt;指令简介与总览
 &lt;/h3&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: center&#34;&gt;汇编指令&lt;/th&gt;
-          &lt;th&gt;指令格式&lt;/th&gt;
-          &lt;th&gt;功能&lt;/th&gt;
-          &lt;th&gt;备注&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;lea&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;lea reg, addr&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;主要用于将一个内存地址加载到寄存器中，&lt;br /&gt;而不是将该地址处的数据加载到寄存器。&lt;/td&gt;
-          &lt;td&gt;如在&lt;code&gt;printf&lt;/code&gt;函数中，将格式字符串的地址加载到指定寄存器中供&lt;code&gt;printf&lt;/code&gt;函数读取。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;inc&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;inc reg&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;寄存器自增1&lt;/td&gt;
-          &lt;td&gt;变量加一&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;mov&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;mov reg, imm&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;将立即数赋值到寄存器中&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;imm&lt;/code&gt;意为立即数(immediate number)&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;imul&lt;/td&gt;
-          &lt;td&gt;指令格式见详解&lt;/td&gt;
-          &lt;td&gt;用于执行带符号整数乘法。&lt;/td&gt;
-          &lt;td&gt;它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;mul&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;mul source&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;用于执行无符号整数乘法。&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;mul&lt;/code&gt; 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;shl/shr&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;shl/shr dest, cnt&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;逻辑左/右移&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;shr&lt;/code&gt;用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;sar&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;sar dest, count&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;算术左/右移&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;sar&lt;/code&gt;指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;cdq&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;cdq&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;将32位寄存器&lt;code&gt;eax&lt;/code&gt;中的有符号数符号扩展为64位，结果存储在由&lt;code&gt;edx:eax&lt;/code&gt;组成的64位寄存器中&lt;/td&gt;
-          &lt;td&gt;它会把&lt;code&gt;eax&lt;/code&gt;的第31位（符号位）复制到&lt;code&gt;edx&lt;/code&gt;的每一位。如果&lt;code&gt;eax&lt;/code&gt;的符号位是0（即正数），则&lt;code&gt;edx&lt;/code&gt;会被设置为0；如果符号位是1（即负数），则&lt;code&gt;edx&lt;/code&gt;会被设置为全1。&lt;br /&gt;通常在执行32位有符号除法（如&lt;code&gt;idiv&lt;/code&gt;指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;cqo&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;cqo&lt;/code&gt;&lt;/td&gt;
-          &lt;td&gt;将64位寄存器&lt;code&gt;rax&lt;/code&gt;中的有符号数符号扩展为128位，结果存储在由&lt;code&gt;rdx:rax&lt;/code&gt;组成的128位寄存器中&lt;/td&gt;
-          &lt;td&gt;它会把&lt;code&gt;rax&lt;/code&gt;的第63位（符号位）复制到&lt;code&gt;rdx&lt;/code&gt;的每一位。如果&lt;code&gt;rax&lt;/code&gt;的符号位是0，则&lt;code&gt;rdx&lt;/code&gt;被设置为0；如果符号位是1，则&lt;code&gt;rdx&lt;/code&gt;被设置为全1。&lt;br /&gt;在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;汇编指令&lt;/th&gt;
+&lt;th&gt;指令格式&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;lea&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;lea reg, addr&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;主要用于将一个内存地址加载到寄存器中，&lt;br /&gt;而不是将该地址处的数据加载到寄存器。&lt;/td&gt;
+&lt;td&gt;如在&lt;code&gt;printf&lt;/code&gt;函数中，将格式字符串的地址加载到指定寄存器中供&lt;code&gt;printf&lt;/code&gt;函数读取。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;inc&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;inc reg&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;寄存器自增1&lt;/td&gt;
+&lt;td&gt;变量加一&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;mov&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;mov reg, imm&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;将立即数赋值到寄存器中&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;imm&lt;/code&gt;意为立即数(immediate number)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;imul&lt;/td&gt;
+&lt;td&gt;指令格式见详解&lt;/td&gt;
+&lt;td&gt;用于执行带符号整数乘法。&lt;/td&gt;
+&lt;td&gt;它可以接受一个、两个或三个操作数，具体取决于你想要执行的乘法类型。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;mul&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;mul source&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;用于执行无符号整数乘法。&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;mul&lt;/code&gt; 指令只接受一个操作数，这个操作数可以是寄存器或内存地址。根据操作数的大小（8位、16位、32位或64位），乘积会被存储在特定的寄存器组合中。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;shl/shr&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;shl/shr dest, cnt&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;逻辑左/右移&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;shr&lt;/code&gt;用于将寄存器或内存中的二进制数值向右移动指定的位数。这个操作会将每个位都向右移动，并在左侧补0。对于无符号数来说，这相当于除以2的幂次；而对于有符号数，它仅当被移位的数据视为无符号时有效，因为逻辑右移不会复制符号位。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;sar&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;sar dest, count&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;算术左/右移&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;sar&lt;/code&gt;指令用于将指定的二进制数按算术右移的方式移动指定的位数。算术右移是指在右移时，最高位（符号位）保持不变，低位移出，高位补上符号位的值。这通常用于有符号数的除以2的幂次操作。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;cdq&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cdq&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;将32位寄存器&lt;code&gt;eax&lt;/code&gt;中的有符号数符号扩展为64位，结果存储在由&lt;code&gt;edx:eax&lt;/code&gt;组成的64位寄存器中&lt;/td&gt;
+&lt;td&gt;它会把&lt;code&gt;eax&lt;/code&gt;的第31位（符号位）复制到&lt;code&gt;edx&lt;/code&gt;的每一位。如果&lt;code&gt;eax&lt;/code&gt;的符号位是0（即正数），则&lt;code&gt;edx&lt;/code&gt;会被设置为0；如果符号位是1（即负数），则&lt;code&gt;edx&lt;/code&gt;会被设置为全1。&lt;br /&gt;通常在执行32位有符号除法（如&lt;code&gt;idiv&lt;/code&gt;指令）之前使用，以确保被除数的符号位正确扩展到高位寄存器，从而保证除法运算的正确性。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;cqo&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cqo&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;将64位寄存器&lt;code&gt;rax&lt;/code&gt;中的有符号数符号扩展为128位，结果存储在由&lt;code&gt;rdx:rax&lt;/code&gt;组成的128位寄存器中&lt;/td&gt;
+&lt;td&gt;它会把&lt;code&gt;rax&lt;/code&gt;的第63位（符号位）复制到&lt;code&gt;rdx&lt;/code&gt;的每一位。如果&lt;code&gt;rax&lt;/code&gt;的符号位是0，则&lt;code&gt;rdx&lt;/code&gt;被设置为0；如果符号位是1，则&lt;code&gt;rdx&lt;/code&gt;被设置为全1。&lt;br /&gt;在64位模式下，通常在执行64位有符号除法之前使用，确保被除数的符号位正确扩展到高位寄存器。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;imul---带符号整数乘法&#34;&gt;imul - 带符号整数乘法
 &lt;/h3&gt;&lt;h4 id=&#34;一个操作数&#34;&gt;一个操作数
@@ -403,10 +403,10 @@ call    sub_140001020
 &lt;h2 id=&#34;扫雷&#34;&gt;扫雷
 &lt;/h2&gt;&lt;h3 id=&#34;定位绘制雷区的代码位置&#34;&gt;定位绘制雷区的代码位置
 &lt;/h3&gt;&lt;p&gt;    使用Ollydbg打开winmin.exe。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-54-55-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-54-55-image.png&#34;
 	width=&#34;2888&#34;
 	height=&#34;1532&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-54-55-image_hu_270f472e42454755.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-54-55-image_hu_41fc272102c93729.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-54-55-image_hu0ffc00499e55d8e628b13d96b5d535f9_415199_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-54-55-image_hu0ffc00499e55d8e628b13d96b5d535f9_415199_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;使用Ollydbg打开winmin.exe&#34;
@@ -418,10 +418,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    在当前模块中右键-&amp;gt;查找-&amp;gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&amp;gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-57-45-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-57-45-image.png&#34;
 	width=&#34;1892&#34;
 	height=&#34;1264&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-57-45-image_hu_1f82fe34cc9e7583.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-57-45-image_hu_fd10ea226f71803a.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-57-45-image_hu5eb71b13b9be7384e2ef7d675be6de7d_240775_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-17-57-45-image_hu5eb71b13b9be7384e2ef7d675be6de7d_240775_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;寻找Bitblt函数&#34;
@@ -433,10 +433,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    选中&lt;code&gt;Bitblt&lt;/code&gt;项后，按回车键&lt;kbd&gt;Enter&lt;/kbd&gt;，在弹出的窗口中再次按回车&lt;kbd&gt;Enter&lt;/kbd&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-01-50-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-01-50-image.png&#34;
 	width=&#34;2376&#34;
 	height=&#34;585&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-01-50-image_hu_7a211291ae279414.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-01-50-image_hu_ff531f66f8d25d74.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-01-50-image_hu686b74537297842491e41d71a6bf6b5c_65796_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-01-50-image_hu686b74537297842491e41d71a6bf6b5c_65796_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;定位Bitblt源码&#34;
@@ -448,10 +448,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    执行上述操作后弹出的窗口即为&lt;code&gt;Bitblt&lt;/code&gt;的源码，在源码首行按&lt;kbd&gt;F2&lt;/kbd&gt;或者右键设置断点。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-07-04-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-07-04-image.png&#34;
 	width=&#34;1364&#34;
 	height=&#34;750&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-07-04-image_hu_e5ac1af64f1422b3.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-07-04-image_hu_a308485288e8563.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-07-04-image_hu40b355c830d890ac46979dfbcddeb9d6_86653_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-07-04-image_hu40b355c830d890ac46979dfbcddeb9d6_86653_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;在Bitblt函数源码首行打断点&#34;
@@ -463,10 +463,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    设置断点后按&lt;kbd&gt;F9&lt;/kbd&gt;或功能按钮运行程序，程序会暂停在断点处。此时按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;F9&lt;/kbd&gt;或者功能按钮&lt;code&gt;执行到返回&lt;/code&gt;，程序会运行到函数&lt;code&gt;Bitblt&lt;/code&gt;调用处的下一行。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-13-07-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-13-07-image.png&#34;
 	width=&#34;1560&#34;
 	height=&#34;836&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-13-07-image_hu_82022b90e7fc9233.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-13-07-image_hu_8c10c129043f8ac6.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-13-07-image_huf9c54b8a3c0d12dbd77b8dbc2407041b_111973_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-13-07-image_huf9c54b8a3c0d12dbd77b8dbc2407041b_111973_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Bitblt调用处上下文&#34;
@@ -482,15 +482,16 @@ call    sub_140001020
 &lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;在这一节内需要观察不同操作下内存区域的变化。&lt;/p&gt;
 &lt;p&gt;在Ollydbg中可以通过单击任意数据来刷新数据窗口中的内容。&lt;/p&gt;
-&lt;p&gt;如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;    观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-nasm&#34; data-lang=&#34;nasm&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;al&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ptr&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;ebx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;esi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;push&lt;/span&gt;   &lt;span class=&#34;kt&#34;&gt;dword&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ptr&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;eax&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1005&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;A20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    这里可以记录一下Bitblt调用处的地址&lt;code&gt;1002706&lt;/code&gt;，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image.png&#34;
 	width=&#34;1012&#34;
 	height=&#34;736&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image_hu_788b97bba9d1a738.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image_hu_50dbfd47087318a1.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image_hu009cce41f4d74ebe52e09b6074631f4a_80750_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image_hu009cce41f4d74ebe52e09b6074631f4a_80750_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;高级模式点击地块结果&#34;
@@ -502,10 +503,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    然后将在数据窗口中&lt;code&gt;右键-&amp;gt;转到-&amp;gt;表达式&lt;/code&gt;或者按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;G&lt;/kbd&gt;，输入内存读取部分的常量地址&lt;code&gt;1005A20&lt;/code&gt;跳转到该地址。观察数据窗口内该地址处的数据。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image.png&#34;
 	width=&#34;1190&#34;
 	height=&#34;789&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image_hu_3ab6de150c66916a.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image_hu_8ccb0160d2c42480.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image_hu566c86844648763467fc8a90731a04ae_121326_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image_hu566c86844648763467fc8a90731a04ae_121326_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -518,10 +519,10 @@ call    sub_140001020
 &lt;p&gt;    因此选择下面的指令来寻找雷区数据所在的内存地址。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-nasm&#34; data-lang=&#34;nasm&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nf&#34;&gt;mov&lt;/span&gt;    &lt;span class=&#34;nb&#34;&gt;al&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ptr&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;ebx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;esi&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    在这条指令上打断点后最小化扫雷窗口，再恢复窗口，查看ebx寄存器的值，发现是内存地址&lt;code&gt;1005360&lt;/code&gt;，在数据窗口中跟踪该地址。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image.png&#34;
 	width=&#34;2673&#34;
 	height=&#34;694&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image_hu_8d337a5e391533ef.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image_hu_9dcbd54da11e63c0.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image_hubdb0b1eafa28e79ae8a94d5d6b0492de_144315_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image_hubdb0b1eafa28e79ae8a94d5d6b0492de_144315_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;查看ebx寄存器的值&#34;
@@ -533,10 +534,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    该地址处的内存数据如下。可以大致推测，未翻开的雷区和未翻开的空白对应数据为0x0F或0x8F。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image.png&#34;
 	width=&#34;1185&#34;
 	height=&#34;651&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image_hu_742488e62c40cd7b.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image_hu_37cf2a5e1a430a6e.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image_hu14d866d65ce0c3f1afb13ac34f7a7e3f_98890_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image_hu14d866d65ce0c3f1afb13ac34f7a7e3f_98890_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;雷区数据地址内容&#34;
@@ -548,10 +549,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    再次重开游戏，翻开第一个地块以定位数据区域首个元素的位置，如下图所示。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-53-45-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-53-45-image.png&#34;
 	width=&#34;1892&#34;
 	height=&#34;410&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-53-45-image_hu_9361cf30f96f7b26.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-53-45-image_hu_65944666eab97190.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-53-45-image_hu5e5371ed63233059a9d0d4701b245122_26799_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-18-53-45-image_hu5e5371ed63233059a9d0d4701b245122_26799_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;定位雷区数据&#34;
@@ -567,10 +568,10 @@ call    sub_140001020
 &lt;/h3&gt;&lt;h4 id=&#34;非雷区地块&#34;&gt;非雷区地块
 &lt;/h4&gt;&lt;p&gt;    从上一节的最后一个图可以得知，翻开的&lt;code&gt;2&lt;/code&gt;地块对应的内存值为&lt;code&gt;0x42&lt;/code&gt;。推测翻开的&lt;code&gt;n&lt;/code&gt;对应的内存值为&lt;code&gt;0x4n&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;    翻开相邻地块进行验证，可知推测成立，同时也得知&lt;code&gt;未翻开的非雷区&lt;/code&gt;对应的内存值为&lt;code&gt;0x0F&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-00-18-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-00-18-image.png&#34;
 	width=&#34;458&#34;
 	height=&#34;243&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-00-18-image_hu_4466dcb44c231f74.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-00-18-image_hu_3de12c325913b829.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-00-18-image_hu113c61a72203236161c803532b35b4e2_17495_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-00-18-image_hu113c61a72203236161c803532b35b4e2_17495_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;分析非雷区地块&#34;
@@ -583,10 +584,10 @@ call    sub_140001020
 &gt;&lt;/p&gt;
 &lt;h4 id=&#34;雷区地块&#34;&gt;雷区地块
 &lt;/h4&gt;&lt;p&gt;    再次观察内存区域，在9个地块后，有一个地块的内存值为不同的&lt;code&gt;0x8F&lt;/code&gt;，翻开该地块后再次观察内存区域变化。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-03-34-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-03-34-image.png&#34;
 	width=&#34;1831&#34;
 	height=&#34;600&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-03-34-image_hu_3f5519681b2e6707.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-03-34-image_hu_c10dd7aa64ec92a1.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-03-34-image_hu10f61a385d097f7b4f014ab14eca8b63_137965_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-03-34-image_hu10f61a385d097f7b4f014ab14eca8b63_137965_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;分析雷区地块&#34;
@@ -600,10 +601,10 @@ call    sub_140001020
 &lt;p&gt;    可知&lt;code&gt;未翻开的雷&lt;/code&gt;为&lt;code&gt;0x8F&lt;/code&gt;，&lt;code&gt;翻开的雷&lt;/code&gt;为&lt;code&gt;0x8A&lt;/code&gt;，&lt;code&gt;踩中的雷&lt;/code&gt;为&lt;code&gt;0xCC&lt;/code&gt;。&lt;/p&gt;
 &lt;h4 id=&#34;插旗地块与存疑地块&#34;&gt;插旗地块与存疑地块
 &lt;/h4&gt;&lt;p&gt;    重开游戏并刷新数据窗口。在任意&lt;code&gt;0x8E&lt;/code&gt;和&lt;code&gt;0x0F&lt;/code&gt;对应的地块上右键以插旗后，刷新数据窗口，观察对应数据变化。扫雷游戏中还有一种标记，在插旗的地块上再次右键可以变为问号地块，这里称为存疑地块，与本次任务并不相关，但是这里还是给出其对应的内存值。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-10-27-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-10-27-image.png&#34;
 	width=&#34;475&#34;
 	height=&#34;328&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-10-27-image_hu_29c7d70c93ced5e2.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-10-27-image_hu_916d75149b8965ca.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-10-27-image_hu715c21dd8e062dd39deb2e5df9900d15_7712_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-19-10-27-image_hu715c21dd8e062dd39deb2e5df9900d15_7712_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;分析插旗地块与存疑地块&#34;
@@ -619,52 +620,52 @@ call    sub_140001020
 &lt;p&gt;&lt;strong&gt;至此，所有地块状态对应的内存值均被我们分析出来。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;    简单总结一下，地块状态对应的内存值如下：&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: center&#34;&gt;地块状态&lt;/th&gt;
-          &lt;th style=&#34;text-align: left&#34;&gt;内存值&lt;/th&gt;
-          &lt;th style=&#34;text-align: center&#34;&gt;地块状态&lt;/th&gt;
-          &lt;th&gt;内存值&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;未翻开的空地&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0x0F&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;插旗的空地&lt;/td&gt;
-          &lt;td&gt;0x0E&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;翻开的空地&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0x4n(n为要显示的数字)&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;存疑的空地&lt;/td&gt;
-          &lt;td&gt;0x0D&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;未翻开的地雷&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0x8F&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;插旗的地雷&lt;/td&gt;
-          &lt;td&gt;0x8E&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;翻开的地雷&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0x8A&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;存疑的地雷&lt;/td&gt;
-          &lt;td&gt;0x8D&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;踩中的地雷&lt;/td&gt;
-          &lt;td style=&#34;text-align: left&#34;&gt;0xCC&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;地块状态&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;内存值&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;地块状态&lt;/th&gt;
+&lt;th&gt;内存值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;未翻开的空地&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;0x0F&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;插旗的空地&lt;/td&gt;
+&lt;td&gt;0x0E&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;翻开的空地&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;0x4n(n为要显示的数字)&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;存疑的空地&lt;/td&gt;
+&lt;td&gt;0x0D&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;未翻开的地雷&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;0x8F&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;插旗的地雷&lt;/td&gt;
+&lt;td&gt;0x8E&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;翻开的地雷&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;0x8A&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;存疑的地雷&lt;/td&gt;
+&lt;td&gt;0x8D&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;踩中的地雷&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;0xCC&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;    此外，按&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;↓&lt;/kbd&gt;调整数据窗口首列数据从0x01偏移开始展示，可以发现在高级模式下30 * 16的布局下，每30个地块的数据后都有两个&lt;code&gt;0x10&lt;/code&gt;，用于标注此行结束，在后面编写程序时，应当注意处理这个间隔区域。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image.png&#34;
 	width=&#34;1477&#34;
 	height=&#34;759&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image_hu_60d6265e00cc9ba1.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image_hu_3ff7a0237d6312a8.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image_hu2ecac246c15a9efff1eca5dbbc4e70ec_123509_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image_hu2ecac246c15a9efff1eca5dbbc4e70ec_123509_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -800,10 +801,10 @@ call    sub_140001020
 &lt;p&gt;    打印当前状态过程中，未翻开的所有地块将记为&lt;code&gt;--&lt;/code&gt;，插旗地块记为&lt;code&gt;||&lt;/code&gt;，翻开的空地记为&lt;code&gt;..&lt;/code&gt;，翻开的数字地块记为该数字，翻开的地雷记为&lt;code&gt;**&lt;/code&gt;，踩中的地雷记为&lt;code&gt;XX&lt;/code&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;实验结果&#34;&gt;实验结果
 &lt;/h3&gt;&lt;p&gt;    运行结果如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-46-38-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-46-38-image.png&#34;
 	width=&#34;2740&#34;
 	height=&#34;786&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-46-38-image_hu_b37f15a726c17c6e.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-46-38-image_hu_1043f10725a825a4.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-46-38-image_hu452cf56a31ad6a4d43c273601aabbe4d_146809_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-46-38-image_hu452cf56a31ad6a4d43c273601aabbe4d_146809_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;终端输出及刷新前窗口&#34;
@@ -815,10 +816,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    刷新窗口后成功插旗。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-47-09-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-47-09-image.png&#34;
 	width=&#34;1000&#34;
 	height=&#34;638&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-47-09-image_hu_76003162ad918b5b.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-47-09-image_hu_6d4f920b22d7227e.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-47-09-image_huc322068f2ddce0b4ae4db375e1ae9130_78139_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-47-09-image_huc322068f2ddce0b4ae4db375e1ae9130_78139_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;插旗结果截图&#34;
@@ -830,10 +831,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    降低雷数为20后重新运行，便于验证结果正确性，手动翻开所有未插旗地块，中间笑脸图标带上墨镜（表示游戏胜利），可见结果正确。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-49-06-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-49-06-image.png&#34;
 	width=&#34;2751&#34;
 	height=&#34;774&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-49-06-image_hu_36d87fdcdea16713.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-49-06-image_hu_477f800bbf21e263.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-49-06-image_hu86a11edab9416bc0b059211eb2a02ceb_161520_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-19-21-49-06-image_hu86a11edab9416bc0b059211eb2a02ceb_161520_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;游戏胜利截图&#34;
@@ -847,10 +848,10 @@ call    sub_140001020
 &lt;h2 id=&#34;更换机器指令表exe显示字体&#34;&gt;更换机器指令表.exe显示字体
 &lt;/h2&gt;&lt;h3 id=&#34;定位控制字体显示的winapi&#34;&gt;定位控制字体显示的WinAPI
 &lt;/h3&gt;&lt;p&gt;    使用Ollydbg打开机器指令表.exe。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-06-15-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-06-15-image.png&#34;
 	width=&#34;1059&#34;
 	height=&#34;883&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-06-15-image_hu_e765a714dcd93a9c.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-06-15-image_hu_7a4c357c79a2a313.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-06-15-image_hu4b4217a220121c0dc7c629d4485d7502_47466_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-06-15-image_hu4b4217a220121c0dc7c629d4485d7502_47466_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;使用Ollydbg打开机器指令表.exe&#34;
@@ -864,60 +865,60 @@ call    sub_140001020
 &lt;p&gt;    在API文档及网络资料中查询其内涉及的API。&lt;/p&gt;
 &lt;hr&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;API名称&lt;/th&gt;
-          &lt;th&gt;功能&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;GetModuleHandle&lt;/td&gt;
-          &lt;td&gt;检索指定模块的模块句柄。模块必须已由调用进程加载。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;GetCommandLine&lt;/td&gt;
-          &lt;td&gt;检索当前进程的命令行字符串。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;ExitProcess&lt;/td&gt;
-          &lt;td&gt;结束调用进程及其所有线程。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;GetSystemMetrics&lt;/td&gt;
-          &lt;td&gt;用于获取关于显示器、鼠标、键盘等系统参数的信息。&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;API名称&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;GetModuleHandle&lt;/td&gt;
+&lt;td&gt;检索指定模块的模块句柄。模块必须已由调用进程加载。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GetCommandLine&lt;/td&gt;
+&lt;td&gt;检索当前进程的命令行字符串。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ExitProcess&lt;/td&gt;
+&lt;td&gt;结束调用进程及其所有线程。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GetSystemMetrics&lt;/td&gt;
+&lt;td&gt;用于获取关于显示器、鼠标、键盘等系统参数的信息。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;    观察发现在程序有效的程序段中涉及的三个WinAPI均与字体显示无关。还剩下一个&lt;code&gt;call 004031&lt;/code&gt;，推测其很可能控制字体的显示。其上的四个push可能包含参数，尝试修改为&lt;code&gt;push 0D&lt;/code&gt; 观察程序变化。修改两个push后运行程序并无明显变化。可见这两个参数并不控制该程序的字体显示。&lt;/p&gt;
 &lt;p&gt;    在&lt;code&gt;call 00401031&lt;/code&gt;处设断点并单步步入，依次检索遇见的到的WinAPI功能。&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;API名称&lt;/th&gt;
-          &lt;th&gt;功能&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;CreateWindowEx&lt;/td&gt;
-          &lt;td&gt;用于创建一个窗口（包括各种控件如按钮、文本框等）。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;SetWindowLong&lt;/td&gt;
-          &lt;td&gt;更改指定窗口的属性。该函数还将指定偏移量处的32位(长)值设置为额外的窗口内存。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;GetStockObject&lt;/td&gt;
-          &lt;td&gt;用于获取预定义的图形对象（如画笔、画刷和字体）的句柄。&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;API名称&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CreateWindowEx&lt;/td&gt;
+&lt;td&gt;用于创建一个窗口（包括各种控件如按钮、文本框等）。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SetWindowLong&lt;/td&gt;
+&lt;td&gt;更改指定窗口的属性。该函数还将指定偏移量处的32位(长)值设置为额外的窗口内存。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GetStockObject&lt;/td&gt;
+&lt;td&gt;用于获取预定义的图形对象（如画笔、画刷和字体）的句柄。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;    其中GetStockObject涉及字体的显示，在&lt;code&gt;4010C6&lt;/code&gt;处调用，其上一条指令&lt;code&gt;push 0B&lt;/code&gt;很可能控制字体的显示。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-35-35-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-35-35-image.png&#34;
 	width=&#34;1098&#34;
 	height=&#34;137&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-35-35-image_hu_e4c98cf7b0593171.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-35-35-image_hu_c2e474729a5d2f.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-35-35-image_hu90ed7979370724e8c16ecec5b24cd322_17482_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-35-35-image_hu90ed7979370724e8c16ecec5b24cd322_17482_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;GetStockObject上下文&#34;
@@ -929,10 +930,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    将&lt;code&gt;push 0B&lt;/code&gt;修改为&lt;code&gt;push 0E&lt;/code&gt;后继续运行程序，可见字体明显发生变化。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-37-42-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-37-42-image.png&#34;
 	width=&#34;1771&#34;
 	height=&#34;609&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-37-42-image_hu_eb4e0c2a3568dd5a.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-37-42-image_hu_153526ad71bc3e21.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-37-42-image_hufbe5e6aa8ae929dd752b77d641c54950_119924_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-37-42-image_hufbe5e6aa8ae929dd752b77d641c54950_119924_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;修改参数后运行结果&#34;
@@ -945,10 +946,10 @@ call    sub_140001020
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;将修改保存到文件&#34;&gt;将修改保存到文件
 &lt;/h3&gt;&lt;p&gt;    选中被修改的指令，在指令窗口中右键-&amp;gt;复制到可执行文件-&amp;gt;选择，在弹出的新窗口中选中被修改的指令，右键-&amp;gt;保存文件。将新可执行文件命名为&lt;code&gt;机器指令表2.exe&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-42-35-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-42-35-image.png&#34;
 	width=&#34;2176&#34;
 	height=&#34;996&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-42-35-image_hu_4e8ca5a7b96065ad.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-42-35-image_hu_774087a40d705088.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-42-35-image_hu2e0ef71304eb9ff5c44457d951d42648_232747_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-42-35-image_hu2e0ef71304eb9ff5c44457d951d42648_232747_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;将修改保存到文件&#34;
@@ -960,10 +961,10 @@ call    sub_140001020
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;    双击运行修改前后的机器指令表，对比两者的字体差异。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-44-35-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-44-35-image.png&#34;
 	width=&#34;1070&#34;
 	height=&#34;381&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-44-35-image_hu_fe96750146e1561b.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-44-35-image_hu_2d0c839334dee803.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-44-35-image_hue80fd309f5464dcd618a177b7bffd61b_61146_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/reverse-program-course-week1/img/2025-02-20-09-44-35-image_hue80fd309f5464dcd618a177b7bffd61b_61146_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;对比两个机器指令表的差异&#34;
@@ -1121,7 +1122,7 @@ call    sub_140001020
 &lt;/ul&gt;
 &lt;h2 id=&#34;修复category-tile展示异常&#34;&gt;修复category tile展示异常
 &lt;/h2&gt;&lt;p&gt;    本质上是没有添加对hidden文章的判断逻辑，在&lt;code&gt;themes/hugo-theme-stack/layouts/_default/archives.html&lt;/code&gt;中添加筛选逻辑：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;类别&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cateTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;类别&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cateTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;subsection-list&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;category-list--tile&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cateTerms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
@@ -1139,7 +1140,7 @@ call    sub_140001020
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTaxonomy&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Site&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;GetPage&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;taxonomyTerm&amp;#34;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;tags&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTerms&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Pages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTerms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;标签&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;标签&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;subsection-list&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;tag-list--tile&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tagTerms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
@@ -1154,7 +1155,7 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;添加tag的样式并修改tagtile的大小&#34;&gt;添加tag的样式并修改tag&amp;ndash;tile的大小
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;添加tag的样式并修改tag--tile的大小&#34;&gt;添加tag的样式并修改tag&amp;ndash;tile的大小
 &lt;/h3&gt;&lt;p&gt;    在&lt;code&gt;themes/hugo-theme-stack/assets/scss/partials/article.scss&lt;/code&gt;中添加:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-scss&#34; data-lang=&#34;scss&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nc&#34;&gt;.tag-list--tile&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;article&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -1259,7 +1260,7 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;collectionTaxonomy&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Site&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;GetPage&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;collections&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;collectionTerms&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;collectionTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Pages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;eq&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Site&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;archives&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;showCollections&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;default&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;gt&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;len&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;collectionTerms&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;合集&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;collectionTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;section-title&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;合集&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;collectionTaxonomy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Title&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&amp;lt;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;h2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;subsection-list&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;class&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;category-list--tile&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;collectionTerms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
@@ -1289,10 +1290,10 @@ call    sub_140001020
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;collections&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;test-collection&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;效果展示&#34;&gt;效果展示
 &lt;/h3&gt;&lt;p&gt;    新建合集&lt;code&gt;rvs-enr-crs&lt;/code&gt;选择一篇博文添加&lt;code&gt;collections = &amp;quot;rvs-env-crs&amp;quot;&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-29-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-29-image.png&#34;
 	width=&#34;1052&#34;
 	height=&#34;830&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-29-image_hu_b3fea832c9625aa6.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-29-image_hu_5198d3734de0f8be.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-29-image_hua44ec10252bc23011aa63870292088e1_256360_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-29-image_hua44ec10252bc23011aa63870292088e1_256360_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -1301,10 +1302,10 @@ call    sub_140001020
 		data-flex-basis=&#34;304px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-47-image.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-47-image.png&#34;
 	width=&#34;1730&#34;
 	height=&#34;742&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-47-image_hu_8a8c3450a92c063a.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-47-image_hu_d8ceb941d079daf8.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-47-image_hu3d62ed57fe9c6ba05e5081f86305d653_81826_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/blogbuild1-archive/2025-02-20-14-10-47-image_hu3d62ed57fe9c6ba05e5081f86305d653_81826_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -1343,7 +1344,7 @@ call    sub_140001020
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-actionscript&#34; data-lang=&#34;actionscript&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;deploy&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;#&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;代码提交到&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;main分支时触发github&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;action&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;#&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;代码提交到&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;分支时触发&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;github&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;action&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;branches&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
@@ -1395,10 +1396,10 @@ call    sub_140001020
 &lt;/h2&gt;&lt;p&gt;    使用&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack.git&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;hugo-theme-stack&lt;/a&gt;主题后&lt;/p&gt;
 &lt;p&gt;    发现在白天模式下的代码块颜色异常，如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png&#34;
 	width=&#34;2062&#34;
 	height=&#34;659&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_a035020cf8bced0c.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_f6920bf0a6147d37.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu0dfa0ecb6916348f6b053b5fbca65123_60105_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu0dfa0ecb6916348f6b053b5fbca65123_60105_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;代码块颜色异常例图&#34;
@@ -1449,10 +1450,10 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;              &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;limit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    配置生效后右侧边栏效果如下图:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar.png&#34;
 	width=&#34;788&#34;
 	height=&#34;975&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_837338706f8bfe13.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_369e25e720881770.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar_huafc907401adf0f3cc68490538b83c8e8_57837_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar_huafc907401adf0f3cc68490538b83c8e8_57837_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;右侧边栏效果图&#34;
@@ -1468,10 +1469,10 @@ call    sub_140001020
     &gt;修复Hugo静态生成器中忽略原始HTML的方法&lt;/a&gt;后，在&lt;code&gt;hugo.toml&lt;/code&gt;中添加配置项：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;markup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;goldmark&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;renderer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;unsafe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    成功渲染，效果如图。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix.png&#34;
 	width=&#34;2195&#34;
 	height=&#34;554&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_8eebbc10429e506.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_8f4b4c311945441d.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu9fa35ac03c158bf28e5ef0e4feb9c7b6_77469_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu9fa35ac03c158bf28e5ef0e4feb9c7b6_77469_1024x0_resize_box_3.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;修改配置前后渲染对比图&#34;
@@ -1513,73 +1514,75 @@ call    sub_140001020
 &lt;h4 id=&#34;无属性的引用块&#34;&gt;无属性的引用块
 &lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;Tiam, ad mint andaepu dandae nostion secatur sequo quae.
-&lt;strong&gt;注意&lt;/strong&gt; 在引用块中可以使用 &lt;em&gt;Markdown 语法&lt;/em&gt;。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;strong&gt;注意&lt;/strong&gt; 在引用块中可以使用 &lt;em&gt;Markdown 语法&lt;/em&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h4 id=&#34;带有属性的引用块&#34;&gt;带有属性的引用块
 &lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;ge&#34;&gt;不要通过共享内存来通信，而是通过通信来共享内存。&amp;lt;br&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;ge&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;ge&#34;&gt;— &amp;lt;cite&amp;gt;Rob Pike[^1]&amp;lt;/cite&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;ge&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[^1]: 上述引用摘自 Rob Pike 在 Gopherfest 2015 年 11 月 18 日[&lt;span class=&#34;nt&#34;&gt;演讲&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;https://www.youtube.com/watch?v=PAAkCSZUG1c&lt;/span&gt;)的部分内容。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[^1]: 上述引用摘自 Rob Pike 在 Gopherfest 2015 年 11 月 18 日[演讲](https://www.youtube.com/watch?v=PAAkCSZUG1c)的部分内容。
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;不要通过共享内存来通信，而是通过通信来共享内存。&lt;br&gt;
-— &lt;cite&gt;Rob Pike&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/blockquote&gt;
+— &lt;cite&gt;Rob Pike&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;表格&#34;&gt;表格
 &lt;/h2&gt;&lt;p&gt;表格不属于核心 Markdown 规范的一部分，但 Hugo 开箱即用地支持它们。&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;名称&lt;/th&gt;
-          &lt;th&gt;年龄&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Bob&lt;/td&gt;
-          &lt;td&gt;27&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Alice&lt;/td&gt;
-          &lt;td&gt;23&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;年龄&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;27&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;表格中的内联-markdown&#34;&gt;表格中的内联 Markdown
 &lt;/h4&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;斜体&lt;/th&gt;
-          &lt;th&gt;粗体&lt;/th&gt;
-          &lt;th&gt;代码&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;strong&gt;粗体&lt;/strong&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;代码&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;斜体&lt;/th&gt;
+&lt;th&gt;粗体&lt;/th&gt;
+&lt;th&gt;代码&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;粗体&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;代码&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;A&lt;/th&gt;
-          &lt;th&gt;B&lt;/th&gt;
-          &lt;th&gt;C&lt;/th&gt;
-          &lt;th&gt;D&lt;/th&gt;
-          &lt;th&gt;E&lt;/th&gt;
-          &lt;th&gt;F&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td&gt;
-          &lt;td&gt;Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td&gt;
-          &lt;td&gt;Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td&gt;
-          &lt;td&gt;Proin sit amet velit nec enim imperdiet vehicula.&lt;/td&gt;
-          &lt;td&gt;Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td&gt;
-          &lt;td&gt;Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;A&lt;/th&gt;
+&lt;th&gt;B&lt;/th&gt;
+&lt;th&gt;C&lt;/th&gt;
+&lt;th&gt;D&lt;/th&gt;
+&lt;th&gt;E&lt;/th&gt;
+&lt;th&gt;F&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td&gt;
+&lt;td&gt;Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td&gt;
+&lt;td&gt;Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td&gt;
+&lt;td&gt;Proin sit amet velit nec enim imperdiet vehicula.&lt;/td&gt;
+&lt;td&gt;Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td&gt;
+&lt;td&gt;Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;代码块&#34;&gt;代码块
 &lt;/h2&gt;&lt;h4 id=&#34;使用反引号的代码块&#34;&gt;使用反引号的代码块
@@ -1699,13 +1702,13 @@ call    sub_140001020
 &lt;/div&gt;</description>
         </item>
         <item>
-        <title>c语言getopt.h库解析</title>
+        <title>How to parse arguments using getopt.h</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</link>
         <pubDate>Wed, 22 Jan 2025 13:29:03 +0800</pubDate>
         
         <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</guid>
-        <description>&lt;h2 id=&#34;getopth简介&#34;&gt;getopt.h简介
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：&lt;/p&gt;
+        <description>&lt;h2 id=&#34;introduction-to-getopth&#34;&gt;Introduction to &lt;code&gt;getopt.h&lt;/code&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; is an embedded library of c language to handle command line arguments. It&amp;rsquo;s function can be accessed by calling the two functions below:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt;&lt;/p&gt;
@@ -1714,10 +1717,10 @@ call    sub_140001020
 &lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;函数-getopt&#34;&gt;函数 &lt;code&gt;getopt()&lt;/code&gt;
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt; 用于解析仅包含短选项的指令，例如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;getopt-示例程序&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt; 示例程序
-&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;getopt()&lt;/code&gt; 的参数处理框架如下：&lt;/p&gt;
+&lt;h3 id=&#34;function-getopt&#34;&gt;Function &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h3&gt;&lt;p&gt;Function &lt;code&gt;getopt()&lt;/code&gt;  is used to parse instructions which have only short options like &lt;code&gt;-g&lt;/code&gt;, &lt;code&gt;-o&lt;/code&gt;, &lt;code&gt;-f&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;example-program-of-getopt&#34;&gt;Example program of &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h4&gt;&lt;p&gt;The arguments-handling framework using &lt;code&gt;getopt()&lt;/code&gt; is basicly below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
@@ -1760,7 +1763,7 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* optind &amp;lt; argc */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译并运行如下指令：&lt;code&gt;./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h&lt;/code&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;compile and run the executable file with instruction: &lt;code&gt;./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_short.out: invalid option -- &amp;#39;v&amp;#39;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Invalid option: v
@@ -1769,58 +1772,59 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Remaining arguments: yuanshen arg:k arg:h %
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;getopt详细说明&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt;详细说明
-&lt;/h3&gt;&lt;h4 id=&#34;全局变量&#34;&gt;全局变量
-&lt;/h4&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;全局变量&lt;/th&gt;
-          &lt;th&gt;用途&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;optopt (int)&lt;/td&gt;
-          &lt;td&gt;遇到未知选项或缺少必要参数时设置，存储导致错误的选项字符。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;optarg (char*)&lt;/td&gt;
-          &lt;td&gt;存储当前选项的参数值。当解析需要参数的选项（例如 &lt;code&gt;-f file.txt&lt;/code&gt; 中的 &lt;code&gt;file.txt&lt;/code&gt;）时，&lt;code&gt;optarg&lt;/code&gt; 指向该字符串。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;optind (int)&lt;/td&gt;
-          &lt;td&gt;在解析命令行参数过程中，追踪位置，具体指示下一个要处理的参数的索引。&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;detailed-introduction-to-getopt&#34;&gt;Detailed introduction to &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h4&gt;&lt;h5 id=&#34;the-global-variables&#34;&gt;The global variables
+&lt;/h5&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;global variables&lt;/th&gt;
+&lt;th&gt;usage&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;optopt (int)&lt;/td&gt;
+&lt;td&gt;It is set when an unknown option or an option lacking the necessary parameters is encountered; it stores the option character that caused the error.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;optarg (char *)&lt;/td&gt;
+&lt;td&gt;It is used to store the value of the current option&amp;rsquo;s argument. When parsing an option that requires an argument (for example, &lt;code&gt;file.txt&lt;/code&gt; in &lt;code&gt;-f file.txt&lt;/code&gt;), optarg will point to this argument string.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;optind (int)&lt;/td&gt;
+&lt;td&gt;It is used to track the position during the process of parsing command-line arguments, specifically indicating the index of the next argument to be processed.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;以下代码段会打印所有未被 &lt;code&gt;getopt()&lt;/code&gt; 识别的参数（忽略这些参数的输入顺序）：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* extra arguments handling */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Remaining arguments: &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%s &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;模式字符串&#34;&gt;&lt;strong&gt;模式字符串&lt;/strong&gt;
-&lt;/h2&gt;&lt;p&gt;模式字符串的定义是 &lt;code&gt;const char *__shortopts&lt;/code&gt;，在示例程序中，其实例为 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;顾名思义，模式字符串定义了 &lt;code&gt;getopt()&lt;/code&gt; 和 &lt;code&gt;getopt_long()&lt;/code&gt; 函数中将被识别的短选项。冒号 &lt;code&gt;:&lt;/code&gt; 跟在短选项字符后表示该选项需要一个参数。&lt;/p&gt;
-&lt;p&gt;以 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt; 为例，此模式字符串接收4个选项。选项 &lt;code&gt;-f&lt;/code&gt; 和 &lt;code&gt;-o&lt;/code&gt; 需要输入参数，而选项 &lt;code&gt;-k&lt;/code&gt; 和 &lt;code&gt;-h&lt;/code&gt; 不需要。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：如果 &lt;code&gt;-f&lt;/code&gt; 后跟一个选项，该选项会被视为参数。&lt;/p&gt;
-&lt;h2 id=&#34;函数-getopt_long&#34;&gt;函数 &lt;code&gt;getopt_long()&lt;/code&gt;
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 用于解析既包含短选项（如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;）又包含长选项（如 &lt;code&gt;--version&lt;/code&gt;、&lt;code&gt;--input&lt;/code&gt;）的指令。&lt;/p&gt;
-&lt;p&gt;函数 &lt;code&gt;getopt_long&lt;/code&gt; 识别一个结构体数组 &lt;code&gt;struct option&lt;/code&gt;，该数组定义了长选项的信息。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;struct option&lt;/code&gt; 的原型及相关介绍如下：&lt;/p&gt;
+&lt;p&gt;Ignoring the input sequence of these arguments， The code block blow will print all the arguments not recognized by the &lt;code&gt;getopt()&lt;/code&gt; function.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* extra arguments handling */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Remaining arguments: &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%s &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* optind &amp;lt; argc */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;the-pattern-string&#34;&gt;&lt;strong&gt;The pattern string&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;The defination is &lt;code&gt;const char *__shortopts&lt;/code&gt;, in the example program, it&amp;rsquo;s instance is &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Just as the name &lt;code&gt;__shortopts&lt;/code&gt; shows, the pattern string defines the short options that will be recognized in the &lt;code&gt;getopt()&lt;/code&gt; and &lt;code&gt;getopt_long()&lt;/code&gt; function. The colon &lt;code&gt;:&lt;/code&gt; follows a short option character refers that this option requests for an argument.&lt;/p&gt;
+&lt;p&gt;Take &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt; as an example, this pattern string receives 4 options. options &lt;code&gt;-f&lt;/code&gt; and &lt;code&gt;-o&lt;/code&gt; request an argument input, while options &lt;code&gt;-k&lt;/code&gt; and &lt;code&gt;-h&lt;/code&gt; not.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; if &lt;code&gt;-f&lt;/code&gt; is followed with an option, the following option will be regarded as an argument.&lt;/p&gt;
+&lt;h3 id=&#34;function-getopt_long&#34;&gt;Function &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h3&gt;&lt;p&gt;Function &lt;code&gt;getopt_long()&lt;/code&gt; is used to parse instructions which have both short options like &lt;code&gt;-g&lt;/code&gt;, &lt;code&gt;-o&lt;/code&gt;, &lt;code&gt;-f&lt;/code&gt; and long options like &lt;code&gt;--version&lt;/code&gt;, &lt;code&gt;--input&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The function &lt;code&gt;getopt_long&lt;/code&gt; recognizes an array of &lt;code&gt;struct option&lt;/code&gt;, which defines the information of long options.&lt;/p&gt;
+&lt;p&gt;The prototype of &lt;code&gt;struct option&lt;/code&gt; and related introduction are below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;cm&#34;&gt;/* 长选项的名称 */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;has_arg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;        &lt;span class=&#34;cm&#34;&gt;/* 是否需要参数 */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;cm&#34;&gt;/* 如果用户提供了此选项，*flag 将被赋值为 @val */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;cm&#34;&gt;/* 将长选项与短选项绑定，或赋值给 @*flag */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;cm&#34;&gt;/* the name of long option */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;has_arg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* whether this option request an argument */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;cm&#34;&gt;/* if this option are provided by user, *flag will be assigned the value of @val */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;cm&#34;&gt;/* bind long option with short option or the value to assign to @*flag */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;字段 &lt;code&gt;has_arg&lt;/code&gt; 有两个有效值，即宏 &lt;code&gt;no_argument&lt;/code&gt; 和 &lt;code&gt;required_argument&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;如果字段 &lt;code&gt;flag&lt;/code&gt; 未提供，则字段 &lt;code&gt;val&lt;/code&gt; 会被视为与当前长选项绑定的短选项。&lt;/p&gt;
-&lt;p&gt;如果提供了字段 &lt;code&gt;flag&lt;/code&gt;，当用户提供当前长选项时，字段 &lt;code&gt;val&lt;/code&gt; 将被赋值给 &lt;code&gt;*flag&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;用实例详细说明&#34;&gt;用实例详细说明
-&lt;/h3&gt;&lt;p&gt;以下是一个使用 &lt;code&gt;struct option&lt;/code&gt; 数组和模式字符串的实例：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Field &lt;code&gt;has_arg&lt;/code&gt; has two valid values, which are macros between &lt;code&gt;no_argument&lt;/code&gt; and &lt;code&gt;required_argument&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If field &lt;code&gt;flag&lt;/code&gt; is not provided, then the field &lt;code&gt;val&lt;/code&gt; will be regarded as the short option bound with current long option.&lt;/p&gt;
+&lt;p&gt;While the field &lt;code&gt;flag&lt;/code&gt; is provided the field &lt;code&gt;val&lt;/code&gt; will be assigned to &lt;code&gt;*flag&lt;/code&gt; when the current long option is provided by user.&lt;/p&gt;
+&lt;h4 id=&#34;elaboration-with-an-instance&#34;&gt;Elaboration with an instance
+&lt;/h4&gt;&lt;p&gt;Now we use instance with &lt;code&gt;struct option&lt;/code&gt; array and pattern string to elaborate.&lt;/p&gt;
+&lt;p&gt;The instance of &lt;code&gt;struct option&lt;/code&gt; array and pattern string:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;suR:&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -1849,55 +1853,61 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* require argument */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;RequireArg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;required_argument&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;           &lt;span class=&#34;sc&#34;&gt;&amp;#39;R&amp;#39;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;考虑到短选项和长选项，当提到某个功能的option时，可能会有以下三种情况：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Considering both short and long options, when referring to the options for a certain function, there might be three possible situations, which are listed below.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;仅有短选项&lt;/li&gt;
-&lt;li&gt;仅有长选项&lt;/li&gt;
-&lt;li&gt;同时具有短选项和长选项&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;short option only&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;long option only&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;short and long option both&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;结合模式字符串和 &lt;code&gt;struct option&lt;/code&gt; 数组，程序接收的选项如下：&lt;/p&gt;
+&lt;p&gt;Combine the pattern string and &lt;code&gt;struct option&lt;/code&gt; array, the options that the program receives are:&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: center&#34;&gt;短选项&lt;/th&gt;
-          &lt;th style=&#34;text-align: center&#34;&gt;长选项&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset1&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset2&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset3&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;setbind&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;-s&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;-u&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;unsetbind&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;-R&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;RequireArg&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;short option&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;long option&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;setbind&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-s&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-u&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;unsetbind&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-R&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;RequireArg&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;选项 &lt;code&gt;-s&lt;/code&gt; 和 &lt;code&gt;--setbind&lt;/code&gt; 并未绑定在一起，因为在与 &lt;code&gt;&amp;quot;setbind&amp;quot;&lt;/code&gt; 对应的结构体元素中设置了字段 flag。&lt;/p&gt;
-&lt;h3 id=&#34;参数需求冲突&#34;&gt;参数需求冲突
-&lt;/h3&gt;&lt;p&gt;当短选项和长选项中都定义了参数需求时，可能会发生冲突。&lt;/p&gt;
-&lt;p&gt;我们通过一个实例进行说明：&lt;/p&gt;
+&lt;p&gt;The options &lt;code&gt;-s&lt;/code&gt; and &lt;code&gt;--setbind&lt;/code&gt; are not bound together, because the field &lt;code&gt;flag&lt;/code&gt; is provided in the element corresponding &lt;code&gt;&amp;quot;setbind&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;conflict-argument-require&#34;&gt;Conflict argument require
+&lt;/h4&gt;&lt;p&gt;There exists mutiple defination of argument require in both short and long options. Consequently, conflicts may occur.&lt;/p&gt;
+&lt;p&gt;we use a instance to elaborate:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;c:d&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -1913,13 +1923,13 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* end of the array ( all zero ) */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;            &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;                  &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;              &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们可以看到，上述程序将一个需要参数的短选项 &lt;code&gt;-c&lt;/code&gt; 与一个不需要参数的长选项 &lt;code&gt;--Conflict1&lt;/code&gt; 绑定在一起。&lt;/p&gt;
-&lt;p&gt;同时，它还将一个不需要参数的短选项 &lt;code&gt;-d&lt;/code&gt; 与一个需要参数的长选项 &lt;code&gt;--Conflict2&lt;/code&gt; 绑定在一起。&lt;/p&gt;
-&lt;p&gt;该程序运行正常，但关于参数的配置也会生效。&lt;/p&gt;
-&lt;p&gt;当用户提供 &lt;code&gt;-c&lt;/code&gt; 或 &lt;code&gt;--Conflict1&lt;/code&gt; 时，程序会进入同一个分支，但 &lt;code&gt;--Conflict1&lt;/code&gt; 不会读取后续的参数，而 &lt;code&gt;-c&lt;/code&gt; 会读取。&lt;/p&gt;
-&lt;p&gt;当用户提供 &lt;code&gt;-d&lt;/code&gt; 或 &lt;code&gt;--Conflict2&lt;/code&gt; 时，结果则相反。&lt;/p&gt;
-&lt;h3 id=&#34;getopt_long-示例程序&#34;&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 示例程序
-&lt;/h3&gt;&lt;p&gt;以下是使用 &lt;code&gt;getopt_long()&lt;/code&gt; 的参数处理框架：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can see the given program above bind a required-arg short option &lt;code&gt;-c&lt;/code&gt; with a non-arg long option &lt;code&gt;--Conflict1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;And bind a non-arg short option &lt;code&gt;-d&lt;/code&gt; with a required-arg long option &lt;code&gt;--Conflict2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This program runs well, but the configure about argument will take effects, too.&lt;/p&gt;
+&lt;p&gt;When the user provide &lt;code&gt;-c&lt;/code&gt; or &lt;code&gt;--Conflict1&lt;/code&gt;, the program will enter the same branch, but &lt;code&gt;--Conflict1&lt;/code&gt; will not read the following argument, while &lt;code&gt;-c&lt;/code&gt; does.&lt;/p&gt;
+&lt;p&gt;When the user provide &lt;code&gt;-d&lt;/code&gt; or &lt;code&gt;--Conflict2&lt;/code&gt;, the result will reverse.&lt;/p&gt;
+&lt;h4 id=&#34;example-program-of-getopt_long&#34;&gt;Example program of &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h4&gt;&lt;p&gt;The arguments-handling framework using &lt;code&gt;getopt()&lt;/code&gt; is basicly below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
@@ -2028,8 +2038,8 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;运行测试指令并分析测试结果&#34;&gt;运行测试指令并分析测试结果
-&lt;/h4&gt;&lt;p&gt;编译运行时的测试指令如下：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;run-and-analyse-the-test-result-of-getopt_long&#34;&gt;Run and analyse the test result of &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h5&gt;&lt;p&gt;We design these instructions to test the program.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out -s --setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --unsetbind --RequireArg arg:RequireArg
@@ -2040,7 +2050,7 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out -c arg:c --Conflict1 arg:Conflict1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --Conflict1 arg:Conflict1 -c arg:c
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果如下：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The results are as follows:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is onlyset1
@@ -2053,8 +2063,7 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the flag value is 3
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指令 &lt;code&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3&lt;/code&gt; 展示了 &lt;code&gt;getopt_long()&lt;/code&gt; 的基本功能。&lt;/p&gt;
-&lt;p&gt;它改变了 &lt;code&gt;flag&lt;/code&gt; 地址中的值。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This instruction &lt;code&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3&lt;/code&gt; demonstrates the basic functionality of &lt;code&gt;getopt_long()&lt;/code&gt;. It modifies the value at the address &lt;code&gt;flag&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -s --setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option (short option only), with flag set, with val bound.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;setbind_flag == 0
@@ -2062,8 +2071,7 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the flag value is 115
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指令 &lt;code&gt;./test_long.out -s --setbind&lt;/code&gt; 展示了绑定失败（当 &lt;code&gt;flag&lt;/code&gt; 字段被设置时）。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--setbind&lt;/code&gt; 和 &lt;code&gt;-s&lt;/code&gt; 会进入不同的分支。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The instruction &lt;code&gt;./test_long.out -s --setbind&lt;/code&gt; demonstrates a failure in binding (when the &lt;code&gt;flag&lt;/code&gt; field is set). &lt;code&gt;--setbind&lt;/code&gt; and &lt;code&gt;-s&lt;/code&gt; enter different branches.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out --unsetbind --RequireArg arg:RequireArg
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option, without flag set, with val bound.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -2075,9 +2083,7 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option require argument.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:R
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这对比展示了绑定成功的结果（当 &lt;code&gt;flag&lt;/code&gt; 字段未设置时）。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--unsetbind&lt;/code&gt; 和 &lt;code&gt;-u&lt;/code&gt; 被绑定在一起，进入相同的分支。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--RequireArg&lt;/code&gt; 和 &lt;code&gt;-R&lt;/code&gt; 也是一样。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This comparison shows the result of successful binding (when the &lt;code&gt;flag&lt;/code&gt; field is not set). &lt;code&gt;--unsetbind&lt;/code&gt; and &lt;code&gt;-u&lt;/code&gt; are bound together and enter the same branch. Similarly, &lt;code&gt;--RequireArg&lt;/code&gt; and &lt;code&gt;-R&lt;/code&gt; are bound together.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -c arg:c -d arg:d
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;conflict argument require - 1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
@@ -2095,11 +2101,8 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:Conflict2
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Non-option argument arg:Conflict1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这对比展示了参数要求的冲突。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;-c&lt;/code&gt; 和 &lt;code&gt;--Conflict1&lt;/code&gt; 被绑定在一起，但 &lt;code&gt;-c&lt;/code&gt; 需要一个参数。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;-d&lt;/code&gt; 和 &lt;code&gt;--Conflict2&lt;/code&gt; 被绑定在一起，但 &lt;code&gt;--Conflict2&lt;/code&gt; 需要一个参数。&lt;/p&gt;
-&lt;p&gt;结果显示，绑定在一起的选项会进入相同的分支。&lt;/p&gt;
-&lt;p&gt;但是，是否读取或忽略参数取决于用户提供的选项是否需要参数。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This comparison illustrates the conflict of argument requirements. &lt;code&gt;-c&lt;/code&gt; and &lt;code&gt;--Conflict1&lt;/code&gt; are bound together, but &lt;code&gt;-c&lt;/code&gt; requires an argument. &lt;code&gt;-d&lt;/code&gt; and &lt;code&gt;--Conflict2&lt;/code&gt; are bound together, but &lt;code&gt;--Conflict2&lt;/code&gt; requires an argument.&lt;/p&gt;
+&lt;p&gt;The results show that the bound options enter the same branch. However, the arguments are either read or ignored based on whether the option provided by the user requires an argument.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -c arg:c --Conflict1 arg:Conflict1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;conflict argument require - 1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
@@ -2118,8 +2121,9 @@ call    sub_140001020
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Non-option argument arg:Conflict1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;冲突选项的另一个对比结果。&lt;/p&gt;
-</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here, we observe another result of conflict options.&lt;/p&gt;
+&lt;h2 id=&#34;advanced-arguments-parser&#34;&gt;Advanced arguments parser
+&lt;/h2&gt;</description>
         </item>
         
     </channel>

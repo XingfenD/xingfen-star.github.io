@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
-<title>c语言getopt.h库解析</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Introduction to getopt.h getopt.h is an embedded library of c language to handle command line arguments. It&rsquo;s function can be accessed by calling the two functions below: getopt() getopt_long() Function getopt() Function getopt() is used to parse instructions which have only short options like -g, -o, -f. Example program of getopt() The arguments-handling framework using getopt() is basicly below: #include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) !">
+<title>How to parse arguments using getopt.h</title>
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/'>
 
-<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="c语言getopt.h库解析">
-<meta property='og:description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
+<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="How to parse arguments using getopt.h">
+<meta property='og:description' content="Introduction to getopt.h getopt.h is an embedded library of c language to handle command line arguments. It&rsquo;s function can be accessed by calling the two functions below: getopt() getopt_long() Function getopt() Function getopt() is used to parse instructions which have only short options like -g, -o, -f. Example program of getopt() The arguments-handling framework using getopt() is basicly below: #include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) !">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='c语言' /><meta property='article:tag' content='参数解析' /><meta property='article:published_time' content='2025-01-22T13:29:03&#43;08:00'/><meta property='article:modified_time' content='2025-03-25T13:12:51&#43;00:00'/>
-<meta name="twitter:title" content="c语言getopt.h库解析">
-<meta name="twitter:description" content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='c语言' /><meta property='article:published_time' content='2025-01-22T13:29:03&#43;08:00'/><meta property='article:modified_time' content='2026-01-08T09:59:27&#43;00:00'/>
+<meta name="twitter:title" content="How to parse arguments using getopt.h">
+<meta name="twitter:description" content="Introduction to getopt.h getopt.h is an embedded library of c language to handle command line arguments. It&rsquo;s function can be accessed by calling the two functions below: getopt() getopt_long() Function getopt() Function getopt() is used to parse instructions which have only short options like -g, -o, -f. Example program of getopt() The arguments-handling framework using getopt() is basicly below: #include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) !">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
     </head>
@@ -58,7 +58,7 @@
 
                     
                         
-                        <img src="/xingfen-star.github.io/img/avatar_hu_e75ba5eda9add5a4.png" width="300"
+                        <img src="/xingfen-star.github.io/img/avatar_hu493e02d3d92a93d51eb4b2df9911732e_131869_300x0_resize_box_3.png" width="300"
                             height="279" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -256,21 +256,14 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ul>
-    <li><a href="#getopth简介">getopt.h简介</a></li>
-    <li><a href="#函数-getopt">函数 <code>getopt()</code></a>
+    <li><a href="#introduction-to-getopth">Introduction to <code>getopt.h</code></a>
       <ul>
-        <li><a href="#getopt-示例程序"><code>getopt()</code> 示例程序</a></li>
-        <li><a href="#getopt详细说明"><code>getopt()</code>详细说明</a></li>
+        <li><a href="#function-getopt">Function <code>getopt()</code></a></li>
+        <li><a href="#the-pattern-string"><strong>The pattern string</strong></a></li>
+        <li><a href="#function-getopt_long">Function <code>getopt_long()</code></a></li>
       </ul>
     </li>
-    <li><a href="#模式字符串"><strong>模式字符串</strong></a></li>
-    <li><a href="#函数-getopt_long">函数 <code>getopt_long()</code></a>
-      <ul>
-        <li><a href="#用实例详细说明">用实例详细说明</a></li>
-        <li><a href="#参数需求冲突">参数需求冲突</a></li>
-        <li><a href="#getopt_long-示例程序"><code>getopt_long()</code> 示例程序</a></li>
-      </ul>
-    </li>
+    <li><a href="#advanced-arguments-parser">Advanced arguments parser</a></li>
   </ul>
 </nav>
         </div>
@@ -295,11 +288,7 @@
     <div class="curTags-tags">
         
             <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/">
-                C语言
-            </a>
-        
-            <a href="/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">
-                参数解析
+                c语言
             </a>
         
     </div>
@@ -327,7 +316,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/xingfen-star.github.io/post/c-getopt_h-analysis/">c语言getopt.h库解析</a>
+            <a href="/xingfen-star.github.io/post/c-getopt_h-analysis/">How to parse arguments using getopt.h</a>
         </h2>
 
         
@@ -364,7 +353,7 @@
 
 
                 <time>
-                    Mar 25, 2025 13:12 UTC
+                    Jan 08, 2026 09:59 UTC
                 </time>
             </div>
             <div>
@@ -377,7 +366,7 @@
 
 
                 <time class="article-time--reading">
-                    7 minute read
+                    10 minute read
                 </time>
             </div>
         
@@ -393,8 +382,8 @@
     <section class="article-content">
     
     
-    <h2 id="getopth简介">getopt.h简介
-</h2><p><code>getopt.h</code> 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：</p>
+    <h2 id="introduction-to-getopth">Introduction to <code>getopt.h</code>
+</h2><p><code>getopt.h</code> is an embedded library of c language to handle command line arguments. It&rsquo;s function can be accessed by calling the two functions below:</p>
 <ul>
 <li>
 <p><code>getopt()</code></p>
@@ -403,10 +392,10 @@
 <p><code>getopt_long()</code></p>
 </li>
 </ul>
-<h2 id="函数-getopt">函数 <code>getopt()</code>
-</h2><p><code>getopt()</code> 用于解析仅包含短选项的指令，例如 <code>-g</code>、<code>-o</code>、<code>-f</code>。</p>
-<h3 id="getopt-示例程序"><code>getopt()</code> 示例程序
-</h3><p>使用 <code>getopt()</code> 的参数处理框架如下：</p>
+<h3 id="function-getopt">Function <code>getopt()</code>
+</h3><p>Function <code>getopt()</code>  is used to parse instructions which have only short options like <code>-g</code>, <code>-o</code>, <code>-f</code>.</p>
+<h4 id="example-program-of-getopt">Example program of <code>getopt()</code>
+</h4><p>The arguments-handling framework using <code>getopt()</code> is basicly below:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;getopt.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
@@ -449,7 +438,7 @@
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="cm">/* optind &lt; argc */</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>编译并运行如下指令：<code>./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h</code></p>
+</span></span></code></pre></div><p>compile and run the executable file with instruction: <code>./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h</code></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h
 </span></span><span class="line"><span class="cl">./test_short.out: invalid option -- &#39;v&#39;
 </span></span><span class="line"><span class="cl">Invalid option: v
@@ -458,58 +447,59 @@
 </span></span><span class="line"><span class="cl">Arg -k do not need arguments:(null)
 </span></span><span class="line"><span class="cl">Arg -k do not need arguments:(null)
 </span></span><span class="line"><span class="cl">Remaining arguments: yuanshen arg:k arg:h %
-</span></span></code></pre></div><h3 id="getopt详细说明"><code>getopt()</code>详细说明
-</h3><h4 id="全局变量">全局变量
-</h4><div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th>全局变量</th>
-          <th>用途</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>optopt (int)</td>
-          <td>遇到未知选项或缺少必要参数时设置，存储导致错误的选项字符。</td>
-      </tr>
-      <tr>
-          <td>optarg (char*)</td>
-          <td>存储当前选项的参数值。当解析需要参数的选项（例如 <code>-f file.txt</code> 中的 <code>file.txt</code>）时，<code>optarg</code> 指向该字符串。</td>
-      </tr>
-      <tr>
-          <td>optind (int)</td>
-          <td>在解析命令行参数过程中，追踪位置，具体指示下一个要处理的参数的索引。</td>
-      </tr>
-  </tbody>
+</span></span></code></pre></div><h4 id="detailed-introduction-to-getopt">Detailed introduction to <code>getopt()</code>
+</h4><h5 id="the-global-variables">The global variables
+</h5><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>global variables</th>
+<th>usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>optopt (int)</td>
+<td>It is set when an unknown option or an option lacking the necessary parameters is encountered; it stores the option character that caused the error.</td>
+</tr>
+<tr>
+<td>optarg (char *)</td>
+<td>It is used to store the value of the current option&rsquo;s argument. When parsing an option that requires an argument (for example, <code>file.txt</code> in <code>-f file.txt</code>), optarg will point to this argument string.</td>
+</tr>
+<tr>
+<td>optind (int)</td>
+<td>It is used to track the position during the process of parsing command-line arguments, specifically indicating the index of the next argument to be processed.</td>
+</tr>
+</tbody>
 </table></div>
-<p>以下代码段会打印所有未被 <code>getopt()</code> 识别的参数（忽略这些参数的输入顺序）：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* extra arguments handling */</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">optind</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Remaining arguments: &#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(;</span> <span class="n">optind</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">optind</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%s &#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">optind</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="模式字符串"><strong>模式字符串</strong>
-</h2><p>模式字符串的定义是 <code>const char *__shortopts</code>，在示例程序中，其实例为 <code>&quot;f:o:kh&quot;</code>。</p>
-<p>顾名思义，模式字符串定义了 <code>getopt()</code> 和 <code>getopt_long()</code> 函数中将被识别的短选项。冒号 <code>:</code> 跟在短选项字符后表示该选项需要一个参数。</p>
-<p>以 <code>&quot;f:o:kh&quot;</code> 为例，此模式字符串接收4个选项。选项 <code>-f</code> 和 <code>-o</code> 需要输入参数，而选项 <code>-k</code> 和 <code>-h</code> 不需要。</p>
-<p><strong>注意</strong>：如果 <code>-f</code> 后跟一个选项，该选项会被视为参数。</p>
-<h2 id="函数-getopt_long">函数 <code>getopt_long()</code>
-</h2><p><code>getopt_long()</code> 用于解析既包含短选项（如 <code>-g</code>、<code>-o</code>、<code>-f</code>）又包含长选项（如 <code>--version</code>、<code>--input</code>）的指令。</p>
-<p>函数 <code>getopt_long</code> 识别一个结构体数组 <code>struct option</code>，该数组定义了长选项的信息。</p>
-<p><code>struct option</code> 的原型及相关介绍如下：</p>
+<p>Ignoring the input sequence of these arguments， The code block blow will print all the arguments not recognized by the <code>getopt()</code> function.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">    <span class="cm">/* extra arguments handling */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">optind</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Remaining arguments: &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(;</span> <span class="n">optind</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">optind</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%s &#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">optind</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="cm">/* optind &lt; argc */</span>
+</span></span></code></pre></div><h3 id="the-pattern-string"><strong>The pattern string</strong>
+</h3><p>The defination is <code>const char *__shortopts</code>, in the example program, it&rsquo;s instance is <code>&quot;f:o:kh&quot;</code>.</p>
+<p>Just as the name <code>__shortopts</code> shows, the pattern string defines the short options that will be recognized in the <code>getopt()</code> and <code>getopt_long()</code> function. The colon <code>:</code> follows a short option character refers that this option requests for an argument.</p>
+<p>Take <code>&quot;f:o:kh&quot;</code> as an example, this pattern string receives 4 options. options <code>-f</code> and <code>-o</code> request an argument input, while options <code>-k</code> and <code>-h</code> not.</p>
+<p><strong>NOTE:</strong> if <code>-f</code> is followed with an option, the following option will be regarded as an argument.</p>
+<h3 id="function-getopt_long">Function <code>getopt_long()</code>
+</h3><p>Function <code>getopt_long()</code> is used to parse instructions which have both short options like <code>-g</code>, <code>-o</code>, <code>-f</code> and long options like <code>--version</code>, <code>--input</code>.</p>
+<p>The function <code>getopt_long</code> recognizes an array of <code>struct option</code>, which defines the information of long options.</p>
+<p>The prototype of <code>struct option</code> and related introduction are below:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">option</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>   <span class="cm">/* 长选项的名称 */</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">has_arg</span><span class="p">;</span>        <span class="cm">/* 是否需要参数 */</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="o">*</span><span class="n">flag</span><span class="p">;</span>          <span class="cm">/* 如果用户提供了此选项，*flag 将被赋值为 @val */</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>            <span class="cm">/* 将长选项与短选项绑定，或赋值给 @*flag */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>   <span class="cm">/* the name of long option */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">has_arg</span><span class="p">;</span><span class="err">        </span><span class="cm">/* whether this option request an argument */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="o">*</span><span class="n">flag</span><span class="p">;</span>          <span class="cm">/* if this option are provided by user, *flag will be assigned the value of @val */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>            <span class="cm">/* bind long option with short option or the value to assign to @*flag */</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></div><p>字段 <code>has_arg</code> 有两个有效值，即宏 <code>no_argument</code> 和 <code>required_argument</code>。</p>
-<p>如果字段 <code>flag</code> 未提供，则字段 <code>val</code> 会被视为与当前长选项绑定的短选项。</p>
-<p>如果提供了字段 <code>flag</code>，当用户提供当前长选项时，字段 <code>val</code> 将被赋值给 <code>*flag</code>。</p>
-<h3 id="用实例详细说明">用实例详细说明
-</h3><p>以下是一个使用 <code>struct option</code> 数组和模式字符串的实例：</p>
+</span></span></code></pre></div><p>Field <code>has_arg</code> has two valid values, which are macros between <code>no_argument</code> and <code>required_argument</code>.</p>
+<p>If field <code>flag</code> is not provided, then the field <code>val</code> will be regarded as the short option bound with current long option.</p>
+<p>While the field <code>flag</code> is provided the field <code>val</code> will be assigned to <code>*flag</code> when the current long option is provided by user.</p>
+<h4 id="elaboration-with-an-instance">Elaboration with an instance
+</h4><p>Now we use instance with <code>struct option</code> array and pattern string to elaborate.</p>
+<p>The instance of <code>struct option</code> array and pattern string:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* the corresponding pattern string */</span>
 </span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&#34;suR:&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
@@ -538,55 +528,61 @@
 </span></span><span class="line"><span class="cl">    <span class="cm">/* require argument */</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="s">&#34;RequireArg&#34;</span><span class="p">,</span> <span class="n">required_argument</span><span class="p">,</span>  <span class="nb">NULL</span><span class="p">,</span>           <span class="sc">&#39;R&#39;</span> <span class="p">},</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></div><p>考虑到短选项和长选项，当提到某个功能的option时，可能会有以下三种情况：</p>
+</span></span></code></pre></div><p>Considering both short and long options, when referring to the options for a certain function, there might be three possible situations, which are listed below.</p>
 <ul>
-<li>仅有短选项</li>
-<li>仅有长选项</li>
-<li>同时具有短选项和长选项</li>
+<li>
+<p>short option only</p>
+</li>
+<li>
+<p>long option only</p>
+</li>
+<li>
+<p>short and long option both</p>
+</li>
 </ul>
-<p>结合模式字符串和 <code>struct option</code> 数组，程序接收的选项如下：</p>
+<p>Combine the pattern string and <code>struct option</code> array, the options that the program receives are:</p>
 <div class="table-wrapper"><table>
-  <thead>
-      <tr>
-          <th style="text-align: center">短选项</th>
-          <th style="text-align: center">长选项</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center"></td>
-          <td style="text-align: center">&ndash;onlyset1</td>
-      </tr>
-      <tr>
-          <td style="text-align: center"></td>
-          <td style="text-align: center">&ndash;onlyset2</td>
-      </tr>
-      <tr>
-          <td style="text-align: center"></td>
-          <td style="text-align: center">&ndash;onlyset3</td>
-      </tr>
-      <tr>
-          <td style="text-align: center"></td>
-          <td style="text-align: center">&ndash;setbind</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">-s</td>
-          <td style="text-align: center"></td>
-      </tr>
-      <tr>
-          <td style="text-align: center">-u</td>
-          <td style="text-align: center">&ndash;unsetbind</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">-R</td>
-          <td style="text-align: center">&ndash;RequireArg</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th style="text-align:center">short option</th>
+<th style="text-align:center">long option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">&ndash;onlyset1</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">&ndash;onlyset2</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">&ndash;onlyset3</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">&ndash;setbind</td>
+</tr>
+<tr>
+<td style="text-align:center">-s</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">-u</td>
+<td style="text-align:center">&ndash;unsetbind</td>
+</tr>
+<tr>
+<td style="text-align:center">-R</td>
+<td style="text-align:center">&ndash;RequireArg</td>
+</tr>
+</tbody>
 </table></div>
-<p>选项 <code>-s</code> 和 <code>--setbind</code> 并未绑定在一起，因为在与 <code>&quot;setbind&quot;</code> 对应的结构体元素中设置了字段 flag。</p>
-<h3 id="参数需求冲突">参数需求冲突
-</h3><p>当短选项和长选项中都定义了参数需求时，可能会发生冲突。</p>
-<p>我们通过一个实例进行说明：</p>
+<p>The options <code>-s</code> and <code>--setbind</code> are not bound together, because the field <code>flag</code> is provided in the element corresponding <code>&quot;setbind&quot;</code>.</p>
+<h4 id="conflict-argument-require">Conflict argument require
+</h4><p>There exists mutiple defination of argument require in both short and long options. Consequently, conflicts may occur.</p>
+<p>we use a instance to elaborate:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* the corresponding pattern string */</span>
 </span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&#34;c:d&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
@@ -602,13 +598,13 @@
 </span></span><span class="line"><span class="cl">    <span class="cm">/* end of the array ( all zero ) */</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="mi">0</span><span class="p">,</span>            <span class="mi">0</span><span class="p">,</span>                  <span class="mi">0</span><span class="p">,</span>              <span class="mi">0</span>   <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></div><p>我们可以看到，上述程序将一个需要参数的短选项 <code>-c</code> 与一个不需要参数的长选项 <code>--Conflict1</code> 绑定在一起。</p>
-<p>同时，它还将一个不需要参数的短选项 <code>-d</code> 与一个需要参数的长选项 <code>--Conflict2</code> 绑定在一起。</p>
-<p>该程序运行正常，但关于参数的配置也会生效。</p>
-<p>当用户提供 <code>-c</code> 或 <code>--Conflict1</code> 时，程序会进入同一个分支，但 <code>--Conflict1</code> 不会读取后续的参数，而 <code>-c</code> 会读取。</p>
-<p>当用户提供 <code>-d</code> 或 <code>--Conflict2</code> 时，结果则相反。</p>
-<h3 id="getopt_long-示例程序"><code>getopt_long()</code> 示例程序
-</h3><p>以下是使用 <code>getopt_long()</code> 的参数处理框架：</p>
+</span></span></code></pre></div><p>We can see the given program above bind a required-arg short option <code>-c</code> with a non-arg long option <code>--Conflict1</code>.</p>
+<p>And bind a non-arg short option <code>-d</code> with a required-arg long option <code>--Conflict2</code>.</p>
+<p>This program runs well, but the configure about argument will take effects, too.</p>
+<p>When the user provide <code>-c</code> or <code>--Conflict1</code>, the program will enter the same branch, but <code>--Conflict1</code> will not read the following argument, while <code>-c</code> does.</p>
+<p>When the user provide <code>-d</code> or <code>--Conflict2</code>, the result will reverse.</p>
+<h4 id="example-program-of-getopt_long">Example program of <code>getopt_long()</code>
+</h4><p>The arguments-handling framework using <code>getopt()</code> is basicly below:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;getopt.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
@@ -717,8 +713,8 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="运行测试指令并分析测试结果">运行测试指令并分析测试结果
-</h4><p>编译运行时的测试指令如下：</p>
+</span></span></code></pre></div><h5 id="run-and-analyse-the-test-result-of-getopt_long">Run and analyse the test result of <code>getopt_long()</code>
+</h5><p>We design these instructions to test the program.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./test_long.out --onlyset1 --onlyset2 --onlyset3
 </span></span><span class="line"><span class="cl">./test_long.out -s --setbind
 </span></span><span class="line"><span class="cl">./test_long.out --unsetbind --RequireArg arg:RequireArg
@@ -729,7 +725,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">./test_long.out -c arg:c --Conflict1 arg:Conflict1
 </span></span><span class="line"><span class="cl">./test_long.out --Conflict1 arg:Conflict1 -c arg:c
-</span></span></code></pre></div><p>结果如下：</p>
+</span></span></code></pre></div><p>The results are as follows:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out --onlyset1 --onlyset2 --onlyset3
 </span></span><span class="line"><span class="cl">long option with flag set recognized!
 </span></span><span class="line"><span class="cl">long option name is onlyset1
@@ -742,8 +738,7 @@
 </span></span><span class="line"><span class="cl">long option with flag set recognized!
 </span></span><span class="line"><span class="cl">long option name is onlyset3
 </span></span><span class="line"><span class="cl">the flag value is 3
-</span></span></code></pre></div><p>指令 <code>./test_long.out --onlyset1 --onlyset2 --onlyset3</code> 展示了 <code>getopt_long()</code> 的基本功能。</p>
-<p>它改变了 <code>flag</code> 地址中的值。</p>
+</span></span></code></pre></div><p>This instruction <code>./test_long.out --onlyset1 --onlyset2 --onlyset3</code> demonstrates the basic functionality of <code>getopt_long()</code>. It modifies the value at the address <code>flag</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -s --setbind
 </span></span><span class="line"><span class="cl">long option (short option only), with flag set, with val bound.
 </span></span><span class="line"><span class="cl">setbind_flag == 0
@@ -751,8 +746,7 @@
 </span></span><span class="line"><span class="cl">long option with flag set recognized!
 </span></span><span class="line"><span class="cl">long option name is setbind
 </span></span><span class="line"><span class="cl">the flag value is 115
-</span></span></code></pre></div><p>指令 <code>./test_long.out -s --setbind</code> 展示了绑定失败（当 <code>flag</code> 字段被设置时）。</p>
-<p><code>--setbind</code> 和 <code>-s</code> 会进入不同的分支。</p>
+</span></span></code></pre></div><p>The instruction <code>./test_long.out -s --setbind</code> demonstrates a failure in binding (when the <code>flag</code> field is set). <code>--setbind</code> and <code>-s</code> enter different branches.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out --unsetbind --RequireArg arg:RequireArg
 </span></span><span class="line"><span class="cl">long option, without flag set, with val bound.
 </span></span><span class="line"><span class="cl">
@@ -764,9 +758,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">long option require argument.
 </span></span><span class="line"><span class="cl">the argument: arg:R
-</span></span></code></pre></div><p>这对比展示了绑定成功的结果（当 <code>flag</code> 字段未设置时）。</p>
-<p><code>--unsetbind</code> 和 <code>-u</code> 被绑定在一起，进入相同的分支。</p>
-<p><code>--RequireArg</code> 和 <code>-R</code> 也是一样。</p>
+</span></span></code></pre></div><p>This comparison shows the result of successful binding (when the <code>flag</code> field is not set). <code>--unsetbind</code> and <code>-u</code> are bound together and enter the same branch. Similarly, <code>--RequireArg</code> and <code>-R</code> are bound together.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -c arg:c -d arg:d
 </span></span><span class="line"><span class="cl">conflict argument require - 1
 </span></span><span class="line"><span class="cl">the argument: arg:c
@@ -784,11 +776,8 @@
 </span></span><span class="line"><span class="cl">the argument: arg:Conflict2
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Non-option argument arg:Conflict1
-</span></span></code></pre></div><p>这对比展示了参数要求的冲突。</p>
-<p><code>-c</code> 和 <code>--Conflict1</code> 被绑定在一起，但 <code>-c</code> 需要一个参数。</p>
-<p><code>-d</code> 和 <code>--Conflict2</code> 被绑定在一起，但 <code>--Conflict2</code> 需要一个参数。</p>
-<p>结果显示，绑定在一起的选项会进入相同的分支。</p>
-<p>但是，是否读取或忽略参数取决于用户提供的选项是否需要参数。</p>
+</span></span></code></pre></div><p>This comparison illustrates the conflict of argument requirements. <code>-c</code> and <code>--Conflict1</code> are bound together, but <code>-c</code> requires an argument. <code>-d</code> and <code>--Conflict2</code> are bound together, but <code>--Conflict2</code> requires an argument.</p>
+<p>The results show that the bound options enter the same branch. However, the arguments are either read or ignored based on whether the option provided by the user requires an argument.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -c arg:c --Conflict1 arg:Conflict1
 </span></span><span class="line"><span class="cl">conflict argument require - 1
 </span></span><span class="line"><span class="cl">the argument: arg:c
@@ -807,8 +796,9 @@
 </span></span><span class="line"><span class="cl">the argument: arg:c
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Non-option argument arg:Conflict1
-</span></span></code></pre></div><p>冲突选项的另一个对比结果。</p>
-
+</span></span></code></pre></div><p>Here, we observe another result of conflict options.</p>
+<h2 id="advanced-arguments-parser">Advanced arguments parser
+</h2>
 </section>
 
 
@@ -816,9 +806,7 @@
     
     <section class="article-tags">
         
-            <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
-        
-            <a href="/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">参数解析</a>
+            <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/">c语言</a>
         
     </section>
 
@@ -833,7 +821,7 @@
 
 
         <span>
-            Last updated on Mar 25, 2025 13:12 UTC
+            Last updated on Jan 08, 2026 09:59 UTC
         </span>
     </section></footer>
 
@@ -856,7 +844,7 @@
         
             2025 -
         
-        2025 远楒
+        2026 远楒
     </section>
 
     <section class="powerby">
@@ -952,7 +940,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
+            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.3e0587bea8834cd3d9d3020bdfadb3d6ef435900c301cfd4c0ffaa0825b9b711.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');

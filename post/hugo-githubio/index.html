@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。 不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。 源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。 在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。 我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。 最终博客项目的结构为三个仓库： Hugo源码仓库(通过gitignore忽略public, resources, themes文件夹) 主题仓库(Hugo源码仓库的public文件夹) Github Page仓库(Hugo源码仓库的public文件夹) name: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.">
 <title>hugo&#43;GithubIO自建博客踩坑实录</title>
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/'>
 
 <link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="hugo+GithubIO自建博客踩坑实录">
-<meta property='og:description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<meta property='og:description' content="此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。 不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。 源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。 在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。 我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。 最终博客项目的结构为三个仓库： Hugo源码仓库(通过gitignore忽略public, resources, themes文件夹) 主题仓库(Hugo源码仓库的public文件夹) Github Page仓库(Hugo源码仓库的public文件夹) name: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2025-03-25T13:12:51&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2026-01-08T09:59:27&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
 <meta name="twitter:title" content="hugo+GithubIO自建博客踩坑实录">
-<meta name="twitter:description" content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。 不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。 源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。 在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。 我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。 最终博客项目的结构为三个仓库： Hugo源码仓库(通过gitignore忽略public, resources, themes文件夹) 主题仓库(Hugo源码仓库的public文件夹) Github Page仓库(Hugo源码仓库的public文件夹) name: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github."><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png' />
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
@@ -59,7 +59,7 @@
 
                     
                         
-                        <img src="/xingfen-star.github.io/img/avatar_hu_e75ba5eda9add5a4.png" width="300"
+                        <img src="/xingfen-star.github.io/img/avatar_hu493e02d3d92a93d51eb4b2df9911732e_131869_300x0_resize_box_3.png" width="300"
                             height="279" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -301,8 +301,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/xingfen-star.github.io/post/hugo-githubio/">
-                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu_ff5ad4d28c51d20e.png"
-                        srcset="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu_ff5ad4d28c51d20e.png 800w, /xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu_cccd05d7b8bb16bf.png 1600w"
+                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu3d1d1a4200e4cf0e1efa20d00857e3ae_5273_800x0_resize_box_3.png"
+                        srcset="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu3d1d1a4200e4cf0e1efa20d00857e3ae_5273_800x0_resize_box_3.png 800w, /xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2_hu3d1d1a4200e4cf0e1efa20d00857e3ae_5273_1600x0_resize_box_3.png 1600w"
                         width="800" 
                         height="304" 
                         loading="lazy"
@@ -366,7 +366,7 @@
 
 
                 <time>
-                    Mar 25, 2025 13:12 UTC
+                    Jan 08, 2026 09:59 UTC
                 </time>
             </div>
             <div>
@@ -416,7 +416,7 @@
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-actionscript" data-lang="actionscript"><span class="line"><span class="cl"><span class="nx">name</span><span class="o">:</span> <span class="nx">deploy</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">代码提交到</span><span class="nx">main分支时触发github</span> <span class="nx">action</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="err">代码提交到</span><span class="nx">main</span><span class="err">分支时触发</span><span class="nx">github</span> <span class="nx">action</span>
 </span></span><span class="line"><span class="cl"><span class="nx">on</span><span class="o">:</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">push</span><span class="o">:</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">branches</span><span class="o">:</span>
@@ -471,7 +471,7 @@
 <p><img src="/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png"
 	width="2062"
 	height="659"
-	srcset="/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_a035020cf8bced0c.png 480w, /xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_f6920bf0a6147d37.png 1024w"
+	srcset="/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu0dfa0ecb6916348f6b053b5fbca65123_60105_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu0dfa0ecb6916348f6b053b5fbca65123_60105_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 		alt="代码块颜色异常例图"
@@ -525,7 +525,7 @@
 <p><img src="/xingfen-star.github.io/post/hugo-githubio/right_sidebar.png"
 	width="788"
 	height="975"
-	srcset="/xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_837338706f8bfe13.png 480w, /xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_369e25e720881770.png 1024w"
+	srcset="/xingfen-star.github.io/post/hugo-githubio/right_sidebar_huafc907401adf0f3cc68490538b83c8e8_57837_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/hugo-githubio/right_sidebar_huafc907401adf0f3cc68490538b83c8e8_57837_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 		alt="右侧边栏效果图"
@@ -544,7 +544,7 @@
 <p><img src="/xingfen-star.github.io/post/hugo-githubio/special_tag_fix.png"
 	width="2195"
 	height="554"
-	srcset="/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_8eebbc10429e506.png 480w, /xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_8f4b4c311945441d.png 1024w"
+	srcset="/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu9fa35ac03c158bf28e5ef0e4feb9c7b6_77469_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu9fa35ac03c158bf28e5ef0e4feb9c7b6_77469_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 		alt="修改配置前后渲染对比图"
@@ -578,7 +578,7 @@
 
 
         <span>
-            Last updated on Mar 25, 2025 13:12 UTC
+            Last updated on Jan 08, 2026 09:59 UTC
         </span>
     </section></footer>
 
@@ -601,7 +601,7 @@
         
             2025 -
         
-        2025 远楒
+        2026 远楒
     </section>
 
     <section class="powerby">
@@ -697,7 +697,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
+            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.3e0587bea8834cd3d9d3020bdfadb3d6ef435900c301cfd4c0ffaa0825b9b711.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');

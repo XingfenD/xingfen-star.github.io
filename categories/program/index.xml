@@ -34,73 +34,75 @@
 &lt;h4 id=&#34;无属性的引用块&#34;&gt;无属性的引用块
 &lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;Tiam, ad mint andaepu dandae nostion secatur sequo quae.
-&lt;strong&gt;注意&lt;/strong&gt; 在引用块中可以使用 &lt;em&gt;Markdown 语法&lt;/em&gt;。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;strong&gt;注意&lt;/strong&gt; 在引用块中可以使用 &lt;em&gt;Markdown 语法&lt;/em&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h4 id=&#34;带有属性的引用块&#34;&gt;带有属性的引用块
 &lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;ge&#34;&gt;不要通过共享内存来通信，而是通过通信来共享内存。&amp;lt;br&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;ge&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;ge&#34;&gt;— &amp;lt;cite&amp;gt;Rob Pike[^1]&amp;lt;/cite&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;ge&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[^1]: 上述引用摘自 Rob Pike 在 Gopherfest 2015 年 11 月 18 日[&lt;span class=&#34;nt&#34;&gt;演讲&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;https://www.youtube.com/watch?v=PAAkCSZUG1c&lt;/span&gt;)的部分内容。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[^1]: 上述引用摘自 Rob Pike 在 Gopherfest 2015 年 11 月 18 日[演讲](https://www.youtube.com/watch?v=PAAkCSZUG1c)的部分内容。
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;不要通过共享内存来通信，而是通过通信来共享内存。&lt;br&gt;
-— &lt;cite&gt;Rob Pike&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/cite&gt;&lt;/p&gt;&lt;/blockquote&gt;
+— &lt;cite&gt;Rob Pike&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&#34;表格&#34;&gt;表格
 &lt;/h2&gt;&lt;p&gt;表格不属于核心 Markdown 规范的一部分，但 Hugo 开箱即用地支持它们。&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;名称&lt;/th&gt;
-          &lt;th&gt;年龄&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Bob&lt;/td&gt;
-          &lt;td&gt;27&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Alice&lt;/td&gt;
-          &lt;td&gt;23&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;年龄&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Bob&lt;/td&gt;
+&lt;td&gt;27&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Alice&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;表格中的内联-markdown&#34;&gt;表格中的内联 Markdown
 &lt;/h4&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;斜体&lt;/th&gt;
-          &lt;th&gt;粗体&lt;/th&gt;
-          &lt;th&gt;代码&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;strong&gt;粗体&lt;/strong&gt;&lt;/td&gt;
-          &lt;td&gt;&lt;code&gt;代码&lt;/code&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;斜体&lt;/th&gt;
+&lt;th&gt;粗体&lt;/th&gt;
+&lt;th&gt;代码&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;粗体&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;代码&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;A&lt;/th&gt;
-          &lt;th&gt;B&lt;/th&gt;
-          &lt;th&gt;C&lt;/th&gt;
-          &lt;th&gt;D&lt;/th&gt;
-          &lt;th&gt;E&lt;/th&gt;
-          &lt;th&gt;F&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td&gt;
-          &lt;td&gt;Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td&gt;
-          &lt;td&gt;Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td&gt;
-          &lt;td&gt;Proin sit amet velit nec enim imperdiet vehicula.&lt;/td&gt;
-          &lt;td&gt;Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td&gt;
-          &lt;td&gt;Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;A&lt;/th&gt;
+&lt;th&gt;B&lt;/th&gt;
+&lt;th&gt;C&lt;/th&gt;
+&lt;th&gt;D&lt;/th&gt;
+&lt;th&gt;E&lt;/th&gt;
+&lt;th&gt;F&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td&gt;
+&lt;td&gt;Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td&gt;
+&lt;td&gt;Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td&gt;
+&lt;td&gt;Proin sit amet velit nec enim imperdiet vehicula.&lt;/td&gt;
+&lt;td&gt;Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td&gt;
+&lt;td&gt;Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;代码块&#34;&gt;代码块
 &lt;/h2&gt;&lt;h4 id=&#34;使用反引号的代码块&#34;&gt;使用反引号的代码块
@@ -220,13 +222,13 @@
 &lt;/div&gt;</description>
         </item>
         <item>
-        <title>c语言getopt.h库解析</title>
+        <title>How to parse arguments using getopt.h</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</link>
         <pubDate>Wed, 22 Jan 2025 13:29:03 +0800</pubDate>
         
         <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</guid>
-        <description>&lt;h2 id=&#34;getopth简介&#34;&gt;getopt.h简介
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：&lt;/p&gt;
+        <description>&lt;h2 id=&#34;introduction-to-getopth&#34;&gt;Introduction to &lt;code&gt;getopt.h&lt;/code&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; is an embedded library of c language to handle command line arguments. It&amp;rsquo;s function can be accessed by calling the two functions below:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt;&lt;/p&gt;
@@ -235,10 +237,10 @@
 &lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;函数-getopt&#34;&gt;函数 &lt;code&gt;getopt()&lt;/code&gt;
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt; 用于解析仅包含短选项的指令，例如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;getopt-示例程序&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt; 示例程序
-&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;getopt()&lt;/code&gt; 的参数处理框架如下：&lt;/p&gt;
+&lt;h3 id=&#34;function-getopt&#34;&gt;Function &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h3&gt;&lt;p&gt;Function &lt;code&gt;getopt()&lt;/code&gt;  is used to parse instructions which have only short options like &lt;code&gt;-g&lt;/code&gt;, &lt;code&gt;-o&lt;/code&gt;, &lt;code&gt;-f&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;example-program-of-getopt&#34;&gt;Example program of &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h4&gt;&lt;p&gt;The arguments-handling framework using &lt;code&gt;getopt()&lt;/code&gt; is basicly below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
@@ -281,7 +283,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* optind &amp;lt; argc */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译并运行如下指令：&lt;code&gt;./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h&lt;/code&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;compile and run the executable file with instruction: &lt;code&gt;./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_short.out: invalid option -- &amp;#39;v&amp;#39;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Invalid option: v
@@ -290,58 +292,59 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Remaining arguments: yuanshen arg:k arg:h %
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;getopt详细说明&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt;详细说明
-&lt;/h3&gt;&lt;h4 id=&#34;全局变量&#34;&gt;全局变量
-&lt;/h4&gt;&lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th&gt;全局变量&lt;/th&gt;
-          &lt;th&gt;用途&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td&gt;optopt (int)&lt;/td&gt;
-          &lt;td&gt;遇到未知选项或缺少必要参数时设置，存储导致错误的选项字符。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;optarg (char*)&lt;/td&gt;
-          &lt;td&gt;存储当前选项的参数值。当解析需要参数的选项（例如 &lt;code&gt;-f file.txt&lt;/code&gt; 中的 &lt;code&gt;file.txt&lt;/code&gt;）时，&lt;code&gt;optarg&lt;/code&gt; 指向该字符串。&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td&gt;optind (int)&lt;/td&gt;
-          &lt;td&gt;在解析命令行参数过程中，追踪位置，具体指示下一个要处理的参数的索引。&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;detailed-introduction-to-getopt&#34;&gt;Detailed introduction to &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h4&gt;&lt;h5 id=&#34;the-global-variables&#34;&gt;The global variables
+&lt;/h5&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;global variables&lt;/th&gt;
+&lt;th&gt;usage&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;optopt (int)&lt;/td&gt;
+&lt;td&gt;It is set when an unknown option or an option lacking the necessary parameters is encountered; it stores the option character that caused the error.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;optarg (char *)&lt;/td&gt;
+&lt;td&gt;It is used to store the value of the current option&amp;rsquo;s argument. When parsing an option that requires an argument (for example, &lt;code&gt;file.txt&lt;/code&gt; in &lt;code&gt;-f file.txt&lt;/code&gt;), optarg will point to this argument string.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;optind (int)&lt;/td&gt;
+&lt;td&gt;It is used to track the position during the process of parsing command-line arguments, specifically indicating the index of the next argument to be processed.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;以下代码段会打印所有未被 &lt;code&gt;getopt()&lt;/code&gt; 识别的参数（忽略这些参数的输入顺序）：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* extra arguments handling */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Remaining arguments: &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%s &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;模式字符串&#34;&gt;&lt;strong&gt;模式字符串&lt;/strong&gt;
-&lt;/h2&gt;&lt;p&gt;模式字符串的定义是 &lt;code&gt;const char *__shortopts&lt;/code&gt;，在示例程序中，其实例为 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;顾名思义，模式字符串定义了 &lt;code&gt;getopt()&lt;/code&gt; 和 &lt;code&gt;getopt_long()&lt;/code&gt; 函数中将被识别的短选项。冒号 &lt;code&gt;:&lt;/code&gt; 跟在短选项字符后表示该选项需要一个参数。&lt;/p&gt;
-&lt;p&gt;以 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt; 为例，此模式字符串接收4个选项。选项 &lt;code&gt;-f&lt;/code&gt; 和 &lt;code&gt;-o&lt;/code&gt; 需要输入参数，而选项 &lt;code&gt;-k&lt;/code&gt; 和 &lt;code&gt;-h&lt;/code&gt; 不需要。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：如果 &lt;code&gt;-f&lt;/code&gt; 后跟一个选项，该选项会被视为参数。&lt;/p&gt;
-&lt;h2 id=&#34;函数-getopt_long&#34;&gt;函数 &lt;code&gt;getopt_long()&lt;/code&gt;
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 用于解析既包含短选项（如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;）又包含长选项（如 &lt;code&gt;--version&lt;/code&gt;、&lt;code&gt;--input&lt;/code&gt;）的指令。&lt;/p&gt;
-&lt;p&gt;函数 &lt;code&gt;getopt_long&lt;/code&gt; 识别一个结构体数组 &lt;code&gt;struct option&lt;/code&gt;，该数组定义了长选项的信息。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;struct option&lt;/code&gt; 的原型及相关介绍如下：&lt;/p&gt;
+&lt;p&gt;Ignoring the input sequence of these arguments， The code block blow will print all the arguments not recognized by the &lt;code&gt;getopt()&lt;/code&gt; function.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* extra arguments handling */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Remaining arguments: &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%s &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* optind &amp;lt; argc */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;the-pattern-string&#34;&gt;&lt;strong&gt;The pattern string&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;The defination is &lt;code&gt;const char *__shortopts&lt;/code&gt;, in the example program, it&amp;rsquo;s instance is &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Just as the name &lt;code&gt;__shortopts&lt;/code&gt; shows, the pattern string defines the short options that will be recognized in the &lt;code&gt;getopt()&lt;/code&gt; and &lt;code&gt;getopt_long()&lt;/code&gt; function. The colon &lt;code&gt;:&lt;/code&gt; follows a short option character refers that this option requests for an argument.&lt;/p&gt;
+&lt;p&gt;Take &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt; as an example, this pattern string receives 4 options. options &lt;code&gt;-f&lt;/code&gt; and &lt;code&gt;-o&lt;/code&gt; request an argument input, while options &lt;code&gt;-k&lt;/code&gt; and &lt;code&gt;-h&lt;/code&gt; not.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; if &lt;code&gt;-f&lt;/code&gt; is followed with an option, the following option will be regarded as an argument.&lt;/p&gt;
+&lt;h3 id=&#34;function-getopt_long&#34;&gt;Function &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h3&gt;&lt;p&gt;Function &lt;code&gt;getopt_long()&lt;/code&gt; is used to parse instructions which have both short options like &lt;code&gt;-g&lt;/code&gt;, &lt;code&gt;-o&lt;/code&gt;, &lt;code&gt;-f&lt;/code&gt; and long options like &lt;code&gt;--version&lt;/code&gt;, &lt;code&gt;--input&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The function &lt;code&gt;getopt_long&lt;/code&gt; recognizes an array of &lt;code&gt;struct option&lt;/code&gt;, which defines the information of long options.&lt;/p&gt;
+&lt;p&gt;The prototype of &lt;code&gt;struct option&lt;/code&gt; and related introduction are below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;cm&#34;&gt;/* 长选项的名称 */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;has_arg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;        &lt;span class=&#34;cm&#34;&gt;/* 是否需要参数 */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;cm&#34;&gt;/* 如果用户提供了此选项，*flag 将被赋值为 @val */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;cm&#34;&gt;/* 将长选项与短选项绑定，或赋值给 @*flag */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;cm&#34;&gt;/* the name of long option */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;has_arg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* whether this option request an argument */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;cm&#34;&gt;/* if this option are provided by user, *flag will be assigned the value of @val */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;cm&#34;&gt;/* bind long option with short option or the value to assign to @*flag */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;字段 &lt;code&gt;has_arg&lt;/code&gt; 有两个有效值，即宏 &lt;code&gt;no_argument&lt;/code&gt; 和 &lt;code&gt;required_argument&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;如果字段 &lt;code&gt;flag&lt;/code&gt; 未提供，则字段 &lt;code&gt;val&lt;/code&gt; 会被视为与当前长选项绑定的短选项。&lt;/p&gt;
-&lt;p&gt;如果提供了字段 &lt;code&gt;flag&lt;/code&gt;，当用户提供当前长选项时，字段 &lt;code&gt;val&lt;/code&gt; 将被赋值给 &lt;code&gt;*flag&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;用实例详细说明&#34;&gt;用实例详细说明
-&lt;/h3&gt;&lt;p&gt;以下是一个使用 &lt;code&gt;struct option&lt;/code&gt; 数组和模式字符串的实例：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Field &lt;code&gt;has_arg&lt;/code&gt; has two valid values, which are macros between &lt;code&gt;no_argument&lt;/code&gt; and &lt;code&gt;required_argument&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If field &lt;code&gt;flag&lt;/code&gt; is not provided, then the field &lt;code&gt;val&lt;/code&gt; will be regarded as the short option bound with current long option.&lt;/p&gt;
+&lt;p&gt;While the field &lt;code&gt;flag&lt;/code&gt; is provided the field &lt;code&gt;val&lt;/code&gt; will be assigned to &lt;code&gt;*flag&lt;/code&gt; when the current long option is provided by user.&lt;/p&gt;
+&lt;h4 id=&#34;elaboration-with-an-instance&#34;&gt;Elaboration with an instance
+&lt;/h4&gt;&lt;p&gt;Now we use instance with &lt;code&gt;struct option&lt;/code&gt; array and pattern string to elaborate.&lt;/p&gt;
+&lt;p&gt;The instance of &lt;code&gt;struct option&lt;/code&gt; array and pattern string:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;suR:&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -370,55 +373,61 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* require argument */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;RequireArg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;required_argument&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;           &lt;span class=&#34;sc&#34;&gt;&amp;#39;R&amp;#39;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;考虑到短选项和长选项，当提到某个功能的option时，可能会有以下三种情况：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Considering both short and long options, when referring to the options for a certain function, there might be three possible situations, which are listed below.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;仅有短选项&lt;/li&gt;
-&lt;li&gt;仅有长选项&lt;/li&gt;
-&lt;li&gt;同时具有短选项和长选项&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;short option only&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;long option only&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;short and long option both&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;结合模式字符串和 &lt;code&gt;struct option&lt;/code&gt; 数组，程序接收的选项如下：&lt;/p&gt;
+&lt;p&gt;Combine the pattern string and &lt;code&gt;struct option&lt;/code&gt; array, the options that the program receives are:&lt;/p&gt;
 &lt;table&gt;
-  &lt;thead&gt;
-      &lt;tr&gt;
-          &lt;th style=&#34;text-align: center&#34;&gt;短选项&lt;/th&gt;
-          &lt;th style=&#34;text-align: center&#34;&gt;长选项&lt;/th&gt;
-      &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset1&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset2&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset3&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;setbind&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;-s&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;-u&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;unsetbind&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;-R&lt;/td&gt;
-          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;RequireArg&lt;/td&gt;
-      &lt;/tr&gt;
-  &lt;/tbody&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;short option&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;long option&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;setbind&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-s&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-u&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;unsetbind&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-R&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;RequireArg&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;选项 &lt;code&gt;-s&lt;/code&gt; 和 &lt;code&gt;--setbind&lt;/code&gt; 并未绑定在一起，因为在与 &lt;code&gt;&amp;quot;setbind&amp;quot;&lt;/code&gt; 对应的结构体元素中设置了字段 flag。&lt;/p&gt;
-&lt;h3 id=&#34;参数需求冲突&#34;&gt;参数需求冲突
-&lt;/h3&gt;&lt;p&gt;当短选项和长选项中都定义了参数需求时，可能会发生冲突。&lt;/p&gt;
-&lt;p&gt;我们通过一个实例进行说明：&lt;/p&gt;
+&lt;p&gt;The options &lt;code&gt;-s&lt;/code&gt; and &lt;code&gt;--setbind&lt;/code&gt; are not bound together, because the field &lt;code&gt;flag&lt;/code&gt; is provided in the element corresponding &lt;code&gt;&amp;quot;setbind&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;conflict-argument-require&#34;&gt;Conflict argument require
+&lt;/h4&gt;&lt;p&gt;There exists mutiple defination of argument require in both short and long options. Consequently, conflicts may occur.&lt;/p&gt;
+&lt;p&gt;we use a instance to elaborate:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;c:d&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -434,13 +443,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* end of the array ( all zero ) */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;            &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;                  &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;              &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们可以看到，上述程序将一个需要参数的短选项 &lt;code&gt;-c&lt;/code&gt; 与一个不需要参数的长选项 &lt;code&gt;--Conflict1&lt;/code&gt; 绑定在一起。&lt;/p&gt;
-&lt;p&gt;同时，它还将一个不需要参数的短选项 &lt;code&gt;-d&lt;/code&gt; 与一个需要参数的长选项 &lt;code&gt;--Conflict2&lt;/code&gt; 绑定在一起。&lt;/p&gt;
-&lt;p&gt;该程序运行正常，但关于参数的配置也会生效。&lt;/p&gt;
-&lt;p&gt;当用户提供 &lt;code&gt;-c&lt;/code&gt; 或 &lt;code&gt;--Conflict1&lt;/code&gt; 时，程序会进入同一个分支，但 &lt;code&gt;--Conflict1&lt;/code&gt; 不会读取后续的参数，而 &lt;code&gt;-c&lt;/code&gt; 会读取。&lt;/p&gt;
-&lt;p&gt;当用户提供 &lt;code&gt;-d&lt;/code&gt; 或 &lt;code&gt;--Conflict2&lt;/code&gt; 时，结果则相反。&lt;/p&gt;
-&lt;h3 id=&#34;getopt_long-示例程序&#34;&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 示例程序
-&lt;/h3&gt;&lt;p&gt;以下是使用 &lt;code&gt;getopt_long()&lt;/code&gt; 的参数处理框架：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can see the given program above bind a required-arg short option &lt;code&gt;-c&lt;/code&gt; with a non-arg long option &lt;code&gt;--Conflict1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;And bind a non-arg short option &lt;code&gt;-d&lt;/code&gt; with a required-arg long option &lt;code&gt;--Conflict2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This program runs well, but the configure about argument will take effects, too.&lt;/p&gt;
+&lt;p&gt;When the user provide &lt;code&gt;-c&lt;/code&gt; or &lt;code&gt;--Conflict1&lt;/code&gt;, the program will enter the same branch, but &lt;code&gt;--Conflict1&lt;/code&gt; will not read the following argument, while &lt;code&gt;-c&lt;/code&gt; does.&lt;/p&gt;
+&lt;p&gt;When the user provide &lt;code&gt;-d&lt;/code&gt; or &lt;code&gt;--Conflict2&lt;/code&gt;, the result will reverse.&lt;/p&gt;
+&lt;h4 id=&#34;example-program-of-getopt_long&#34;&gt;Example program of &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h4&gt;&lt;p&gt;The arguments-handling framework using &lt;code&gt;getopt()&lt;/code&gt; is basicly below:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
@@ -549,8 +558,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;运行测试指令并分析测试结果&#34;&gt;运行测试指令并分析测试结果
-&lt;/h4&gt;&lt;p&gt;编译运行时的测试指令如下：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;run-and-analyse-the-test-result-of-getopt_long&#34;&gt;Run and analyse the test result of &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h5&gt;&lt;p&gt;We design these instructions to test the program.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out -s --setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --unsetbind --RequireArg arg:RequireArg
@@ -561,7 +570,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out -c arg:c --Conflict1 arg:Conflict1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --Conflict1 arg:Conflict1 -c arg:c
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果如下：&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The results are as follows:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is onlyset1
@@ -574,8 +583,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the flag value is 3
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指令 &lt;code&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3&lt;/code&gt; 展示了 &lt;code&gt;getopt_long()&lt;/code&gt; 的基本功能。&lt;/p&gt;
-&lt;p&gt;它改变了 &lt;code&gt;flag&lt;/code&gt; 地址中的值。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This instruction &lt;code&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3&lt;/code&gt; demonstrates the basic functionality of &lt;code&gt;getopt_long()&lt;/code&gt;. It modifies the value at the address &lt;code&gt;flag&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -s --setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option (short option only), with flag set, with val bound.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;setbind_flag == 0
@@ -583,8 +591,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the flag value is 115
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指令 &lt;code&gt;./test_long.out -s --setbind&lt;/code&gt; 展示了绑定失败（当 &lt;code&gt;flag&lt;/code&gt; 字段被设置时）。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--setbind&lt;/code&gt; 和 &lt;code&gt;-s&lt;/code&gt; 会进入不同的分支。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The instruction &lt;code&gt;./test_long.out -s --setbind&lt;/code&gt; demonstrates a failure in binding (when the &lt;code&gt;flag&lt;/code&gt; field is set). &lt;code&gt;--setbind&lt;/code&gt; and &lt;code&gt;-s&lt;/code&gt; enter different branches.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out --unsetbind --RequireArg arg:RequireArg
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option, without flag set, with val bound.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -596,9 +603,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option require argument.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:R
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这对比展示了绑定成功的结果（当 &lt;code&gt;flag&lt;/code&gt; 字段未设置时）。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--unsetbind&lt;/code&gt; 和 &lt;code&gt;-u&lt;/code&gt; 被绑定在一起，进入相同的分支。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;--RequireArg&lt;/code&gt; 和 &lt;code&gt;-R&lt;/code&gt; 也是一样。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This comparison shows the result of successful binding (when the &lt;code&gt;flag&lt;/code&gt; field is not set). &lt;code&gt;--unsetbind&lt;/code&gt; and &lt;code&gt;-u&lt;/code&gt; are bound together and enter the same branch. Similarly, &lt;code&gt;--RequireArg&lt;/code&gt; and &lt;code&gt;-R&lt;/code&gt; are bound together.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -c arg:c -d arg:d
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;conflict argument require - 1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
@@ -616,11 +621,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:Conflict2
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Non-option argument arg:Conflict1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这对比展示了参数要求的冲突。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;-c&lt;/code&gt; 和 &lt;code&gt;--Conflict1&lt;/code&gt; 被绑定在一起，但 &lt;code&gt;-c&lt;/code&gt; 需要一个参数。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;-d&lt;/code&gt; 和 &lt;code&gt;--Conflict2&lt;/code&gt; 被绑定在一起，但 &lt;code&gt;--Conflict2&lt;/code&gt; 需要一个参数。&lt;/p&gt;
-&lt;p&gt;结果显示，绑定在一起的选项会进入相同的分支。&lt;/p&gt;
-&lt;p&gt;但是，是否读取或忽略参数取决于用户提供的选项是否需要参数。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This comparison illustrates the conflict of argument requirements. &lt;code&gt;-c&lt;/code&gt; and &lt;code&gt;--Conflict1&lt;/code&gt; are bound together, but &lt;code&gt;-c&lt;/code&gt; requires an argument. &lt;code&gt;-d&lt;/code&gt; and &lt;code&gt;--Conflict2&lt;/code&gt; are bound together, but &lt;code&gt;--Conflict2&lt;/code&gt; requires an argument.&lt;/p&gt;
+&lt;p&gt;The results show that the bound options enter the same branch. However, the arguments are either read or ignored based on whether the option provided by the user requires an argument.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -c arg:c --Conflict1 arg:Conflict1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;conflict argument require - 1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
@@ -639,8 +641,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Non-option argument arg:Conflict1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;冲突选项的另一个对比结果。&lt;/p&gt;
-</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here, we observe another result of conflict options.&lt;/p&gt;
+&lt;h2 id=&#34;advanced-arguments-parser&#34;&gt;Advanced arguments parser
+&lt;/h2&gt;</description>
         </item>
         
     </channel>
