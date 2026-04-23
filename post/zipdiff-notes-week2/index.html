@@ -10,7 +10,7 @@
 <meta property='og:description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。 ZIP文件主要由三部分构成: Local File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。 中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。 本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。 ZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。 标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。 标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser-&gt;&gt;File: 从文件末尾查找EOCDR签名 File--&gt;&gt;Parser: 返回EOCDR位置 Parser-&gt;&gt;EOCDR: 读取EOCDR内容 EOCDR--&gt;&gt;Parser: 返回EOCDR数据 Parser-&gt;&gt;Parser: 提取Central Directory偏移量 Parser-&gt;&gt;File: 跳转到Central Directory位置 loop 读取所有CD项 Parser-&gt;&gt;CD: 读取一个CentralDirectoryHeader CD--&gt;&gt;Parser: 返回CD项数据 Parser-&gt;&gt;Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser-&gt;&gt;CD: 从CD项获取Local File Header偏移量 CD--&gt;&gt;Parser: 返回偏移量 Parser-&gt;&gt;File: 跳转到对应的Local File Header位置 Parser-&gt;&gt;LFH: 读取LocalFileHeader LFH--&gt;&gt;Parser: 返回LFH数据 Parser-&gt;&gt;Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/zipdiff-notes-week2/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ZIP' /><meta property='article:tag' content='文件格式' /><meta property='article:tag' content='协议解析' /><meta property='article:published_time' content='2026-04-24T02:10:00&#43;08:00'/><meta property='article:modified_time' content='2026-04-23T18:24:52&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ZIP' /><meta property='article:tag' content='文件格式' /><meta property='article:tag' content='协议解析' /><meta property='article:published_time' content='2026-04-24T02:10:00&#43;08:00'/><meta property='article:modified_time' content='2026-04-23T18:28:06&#43;00:00'/>
 <meta name="twitter:title" content="ZIP 文件结构与解析流程核心笔记">
 <meta name="twitter:description" content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。 ZIP文件主要由三部分构成: Local File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。 中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。 本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。 ZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。 标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。 标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser-&gt;&gt;File: 从文件末尾查找EOCDR签名 File--&gt;&gt;Parser: 返回EOCDR位置 Parser-&gt;&gt;EOCDR: 读取EOCDR内容 EOCDR--&gt;&gt;Parser: 返回EOCDR数据 Parser-&gt;&gt;Parser: 提取Central Directory偏移量 Parser-&gt;&gt;File: 跳转到Central Directory位置 loop 读取所有CD项 Parser-&gt;&gt;CD: 读取一个CentralDirectoryHeader CD--&gt;&gt;Parser: 返回CD项数据 Parser-&gt;&gt;Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser-&gt;&gt;CD: 从CD项获取Local File Header偏移量 CD--&gt;&gt;Parser: 返回偏移量 Parser-&gt;&gt;File: 跳转到对应的Local File Header位置 Parser-&gt;&gt;LFH: 读取LocalFileHeader LFH--&gt;&gt;Parser: 返回LFH数据 Parser-&gt;&gt;Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
@@ -363,7 +363,7 @@
 
 
                 <time>
-                    Apr 23, 2026 18:24 UTC
+                    Apr 23, 2026 18:28 UTC
                 </time>
             </div>
             <div>
@@ -395,14 +395,18 @@
     <h1 id="zip-文件结构与解析流程核心笔记">ZIP 文件结构与解析流程核心笔记
 </h1><h2 id="zip文件基础结构图示">ZIP文件基础结构图示
 </h2><p>具体的结构和解析流程在后面会有详细介绍。</p>
-<p><img src="/xingfen-star.github.io/pic/zip%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png"
-	
-	
-	
+<p><img src="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png"
+	width="671"
+	height="401"
+	srcset="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu2e24475741db885874f58c154a249b64_67196_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu2e24475741db885874f58c154a249b64_67196_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 		alt="ZIP文件基础结构图示"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="167"
+		data-flex-basis="401px"
 	
 ></p>
 <p>ZIP文件主要由三部分构成:</p>
@@ -470,24 +474,32 @@
     end
 </code></pre><h3 id="手工篡改zip进行实验">手工篡改ZIP进行实验
 </h3><p><code>zip_analyze</code>目录为一个Zip解析器实例，可以使用两种解析模式读取未加密的Zip文件结构。另外该目录下包含两个Zip文件，分别为<code>zip_demo.zip</code>和<code>zip_demo_hacked.zip</code>。两者的区别在于<code>zip_demo_hacked.zip</code>在<code>zip_demo.zip</code>的基础上，在LFH区添加了一个额外的文件<code>hacked.txt</code>对应的LFH及其数据。具体如下图所示：</p>
-<p><img src="/xingfen-star.github.io/pic/zip_demo%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png"
-	
-	
-	
+<p><img src="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png"
+	width="2764"
+	height="2084"
+	srcset="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu27ec4bf030d78ef86751b5dab25f6321_323638_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu27ec4bf030d78ef86751b5dab25f6321_323638_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 		alt="zip_demo文件结构"
 	
 	
+		class="gallery-image" 
+		data-flex-grow="132"
+		data-flex-basis="318px"
+	
 ></p>
-<p><img src="/xingfen-star.github.io/pic/zip_demo_hacked%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png"
-	
-	
-	
+<p><img src="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png"
+	width="2764"
+	height="2484"
+	srcset="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_huc47f3ed70fe582e22d55b336f30525f8_367692_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_huc47f3ed70fe582e22d55b336f30525f8_367692_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 		alt="zip_demo_hacked文件结构"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="111"
+		data-flex-basis="267px"
 	
 ></p>
 <p>使用<code>zip_analyze</code>解析<code>zip_demo_hacked.zip</code>文件，在标准解析模式下，<code>zip_analyze</code>忽略掉了仅在LFH中存在的<code>hacked.txt</code>文件；而在流式解析模式下，<code>zip_analyze</code>能够成功解析出<code>hacked.txt</code>文件的信息。</p>
@@ -515,14 +527,18 @@
 </span></span><span class="line"><span class="cl">[zip64 end of central directory record]
 </span></span><span class="line"><span class="cl">[zip64 end of central directory locator]
 </span></span><span class="line"><span class="cl">[end of central directory record]
-</span></span></code></pre></div><p><img src="/xingfen-star.github.io/pic/zip%e6%96%87%e4%bb%b6%e8%bf%9b%e9%98%b6%e7%bb%93%e6%9e%84.png"
-	
-	
-	
+</span></span></code></pre></div><p><img src="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84.png"
+	width="2432"
+	height="5968"
+	srcset="/xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_huce9dbe6b0360992f27d1cfb71c2b090e_531283_480x0_resize_box_3.png 480w, /xingfen-star.github.io/post/zipdiff-notes-week2/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_huce9dbe6b0360992f27d1cfb71c2b090e_531283_1024x0_resize_box_3.png 1024w"
 	loading="lazy"
 	
 		alt="Zip文件结构图示"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="40"
+		data-flex-basis="97px"
 	
 ></p>
 <h4 id="本地文件头---local-file-header">本地文件头 - Local File Header
@@ -880,7 +896,7 @@
 
 
         <span>
-            Last updated on Apr 23, 2026 18:24 UTC
+            Last updated on Apr 23, 2026 18:28 UTC
         </span>
     </section></footer>
 
