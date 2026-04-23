@@ -6,6 +6,475 @@
         <description>Recent content on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language><atom:link href="https://xingfend.github.io/xingfen-star.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>ZIP 文件结构与解析流程核心笔记</title>
+        <link>https://xingfend.github.io/xingfen-star.github.io/post/zipdiff-notes-week2/</link>
+        <pubDate>Fri, 24 Apr 2026 02:10:00 +0800</pubDate>
+        
+        <guid>https://xingfend.github.io/xingfen-star.github.io/post/zipdiff-notes-week2/</guid>
+        <description>&lt;h1 id=&#34;zip-文件结构与解析流程核心笔记&#34;&gt;ZIP 文件结构与解析流程核心笔记
+&lt;/h1&gt;&lt;h2 id=&#34;zip文件基础结构图示&#34;&gt;ZIP文件基础结构图示
+&lt;/h2&gt;&lt;p&gt;具体的结构和解析流程在后面会有详细介绍。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/pic/zip%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;ZIP文件基础结构图示&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;ZIP文件主要由三部分构成:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Local File Header: 每个压缩文件的起始位置，包含文件的元数据信息；&lt;/li&gt;
+&lt;li&gt;Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息；&lt;/li&gt;
+&lt;li&gt;End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。&lt;/p&gt;
+&lt;p&gt;中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。&lt;/p&gt;
+&lt;p&gt;本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。&lt;/p&gt;
+&lt;h2 id=&#34;zip文件解析流程&#34;&gt;ZIP文件解析流程
+&lt;/h2&gt;&lt;p&gt;本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。&lt;/li&gt;
+&lt;li&gt;流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。&lt;/p&gt;
+&lt;h3 id=&#34;标准解析模式&#34;&gt;标准解析模式
+&lt;/h3&gt;&lt;p&gt;从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    participant Parser as 解析器
+    participant File as ZIP文件
+    participant LFH as 本地文件头
+    participant CD as 中央目录
+    participant EOCDR as 中央目录结束记录
+
+    Parser-&amp;gt;&amp;gt;File: 从文件末尾查找EOCDR签名
+    File--&amp;gt;&amp;gt;Parser: 返回EOCDR位置
+    Parser-&amp;gt;&amp;gt;EOCDR: 读取EOCDR内容
+    EOCDR--&amp;gt;&amp;gt;Parser: 返回EOCDR数据
+    Parser-&amp;gt;&amp;gt;Parser: 提取Central Directory偏移量
+    Parser-&amp;gt;&amp;gt;File: 跳转到Central Directory位置
+    loop 读取所有CD项
+        Parser-&amp;gt;&amp;gt;CD: 读取一个CentralDirectoryHeader
+        CD--&amp;gt;&amp;gt;Parser: 返回CD项数据
+        Parser-&amp;gt;&amp;gt;Parser: 保存CD项
+    end
+    loop 根据CD项读取所有LFH
+        Parser-&amp;gt;&amp;gt;CD: 从CD项获取Local File Header偏移量
+        CD--&amp;gt;&amp;gt;Parser: 返回偏移量
+        Parser-&amp;gt;&amp;gt;File: 跳转到对应的Local File Header位置
+        Parser-&amp;gt;&amp;gt;LFH: 读取LocalFileHeader
+        LFH--&amp;gt;&amp;gt;Parser: 返回LFH数据
+        Parser-&amp;gt;&amp;gt;Parser: 保存LFH
+    end
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;流式解析模式&#34;&gt;流式解析模式
+&lt;/h3&gt;&lt;p&gt;从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    participant Parser as 解析器
+    participant File as ZIP文件
+    participant LFH as 本地文件头
+
+    Parser-&amp;gt;&amp;gt;File: 将文件指针定位到文件开头
+    loop 顺序读取Local File Header
+        Parser-&amp;gt;&amp;gt;LFH: 尝试读取LocalFileHeader
+        alt 成功读取LFH签名
+            LFH--&amp;gt;&amp;gt;Parser: 返回LocalFileHeader数据
+            Parser-&amp;gt;&amp;gt;Parser: 保存LFH
+            Parser-&amp;gt;&amp;gt;File: 继续读取下一个LFH
+        else 未找到有效的LFH签名或读取失败
+            File--&amp;gt;&amp;gt;Parser: 返回读取失败
+            Parser-&amp;gt;&amp;gt;Parser: 停止解析
+        end
+    end
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;手工篡改zip进行实验&#34;&gt;手工篡改ZIP进行实验
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;zip_analyze&lt;/code&gt;目录为一个Zip解析器实例，可以使用两种解析模式读取未加密的Zip文件结构。另外该目录下包含两个Zip文件，分别为&lt;code&gt;zip_demo.zip&lt;/code&gt;和&lt;code&gt;zip_demo_hacked.zip&lt;/code&gt;。两者的区别在于&lt;code&gt;zip_demo_hacked.zip&lt;/code&gt;在&lt;code&gt;zip_demo.zip&lt;/code&gt;的基础上，在LFH区添加了一个额外的文件&lt;code&gt;hacked.txt&lt;/code&gt;对应的LFH及其数据。具体如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/pic/zip_demo%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;zip_demo文件结构&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/pic/zip_demo_hacked%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;zip_demo_hacked文件结构&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;zip_analyze&lt;/code&gt;解析&lt;code&gt;zip_demo_hacked.zip&lt;/code&gt;文件，在标准解析模式下，&lt;code&gt;zip_analyze&lt;/code&gt;忽略掉了仅在LFH中存在的&lt;code&gt;hacked.txt&lt;/code&gt;文件；而在流式解析模式下，&lt;code&gt;zip_analyze&lt;/code&gt;能够成功解析出&lt;code&gt;hacked.txt&lt;/code&gt;文件的信息。&lt;/p&gt;
+&lt;h3 id=&#34;zip文件具体分析&#34;&gt;Zip文件具体分析
+&lt;/h3&gt;&lt;p&gt;根据&lt;a class=&#34;link&#34; href=&#34;https://pkware.cachefly.net/webdocs/casestudies/ParserNOTE.TXT&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方文档&lt;/a&gt;, Zip文件的结构如下:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[local file header 1]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[encryption header 1]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[file data 1]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[data descriptor 1]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[local file header n]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[encryption header n]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[file data n]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[data descriptor n]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[archive decryption header]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[archive extra data record]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[central directory header 1]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[central directory header n]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[zip64 end of central directory record]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[zip64 end of central directory locator]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[end of central directory record]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/pic/zip%e6%96%87%e4%bb%b6%e8%bf%9b%e9%98%b6%e7%bb%93%e6%9e%84.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Zip文件结构图示&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h4 id=&#34;本地文件头---local-file-header&#34;&gt;本地文件头 - Local File Header
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;signature&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;version_needed&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;general_bit_flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;compression_method&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;last_mod_time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;last_mod_date&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;crc32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;compressed_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;uncompressed_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;filename_length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;extra_field_length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unique_ptr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;uint8_t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;extra_field&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;本地文件头的extra_field没有固定的内容，不同的压缩器可能会在extra_field中添加不同的信息。但是在extra_field中添加信息时通常要遵循统一的结构: 标签 - 长度 - 数据。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tag（2 字节）：标识该扩展块的类型（如操作系统相关信息、压缩算法扩展等）。&lt;/li&gt;
+&lt;li&gt;Length（2 字节）：表示后续数据的长度。&lt;/li&gt;
+&lt;li&gt;Data：具体的扩展数据，格式由 Tag 定义。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体标签值和含义的映射可以参考官方文档的4.5.2节，其中列举了由PKWARE定义的标签值和含义。&lt;/p&gt;
+&lt;h5 id=&#34;general_bit_flag&#34;&gt;general_bit_flag
+&lt;/h5&gt;&lt;h4 id=&#34;加密头---encryption-header&#34;&gt;加密头 - Encryption Header
+&lt;/h4&gt;&lt;p&gt;是否存在: 仅当&lt;code&gt;general_bit_flag&lt;/code&gt;的第0位为1时，才存在加密头。&lt;/p&gt;
+&lt;p&gt;加密头的具体长度与结构由&lt;code&gt;general_bit_flag&lt;/code&gt;的第6位确定：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当第六位为0时，加密头格式为传统PKWARE加密格式，长度为12字节；&lt;/li&gt;
+&lt;li&gt;当第六位为1时，加密头格式强加密格式，长度为可变，至少30字节。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;IVSize    2 bytes  - 初始化向量大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;IVData    IVSize   - 初始化向量数据
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Size      4 bytes  - 剩余解密头数据大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Format    2 bytes  - 格式定义 (当前必须为3)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;AlgID     2 bytes  - 加密算法标识符
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Bitlen    2 bytes  - 密钥长度 (32-448 bits)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Flags     2 bytes  - 处理标志
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ErdSize   2 bytes  - 加密随机数据大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ErdData   ErdSize  - 加密的随机数据
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reserved1 4 bytes  - 证书处理保留字段
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reserved2 (var)    - 证书处理保留字段
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;VSize     2 bytes  - 密码验证数据大小
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;VData     VSize-4  - 密码验证数据 (加密)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;VCRC32    4 bytes  - 密码验证数据的CRC32 (加密)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;校验密码是否正确即是通过加密头内的部分字段进行的。&lt;/p&gt;
+&lt;h4 id=&#34;数据描述符---data-descriptor&#34;&gt;数据描述符 - Data Descriptor
+&lt;/h4&gt;&lt;p&gt;用于在流式压缩场景下，将压缩数据的CRC-32、压缩大小和未压缩大小等信息从文件数据中分离出来。&lt;/p&gt;
+&lt;p&gt;由于lfh在文件数据之前，因此在流式压缩场景下，无法提前确定lfh中的crc32, compressed_size和uncompressed_size字段。此时，需要在文件数据之后添加一个数据描述符，用于存储这些信息。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;signature&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;             &lt;span class=&#34;cm&#34;&gt;/* 0x08074b50 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;crc32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;compressed_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;uncompressed_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;归档解密头---archive-decryption-header&#34;&gt;归档解密头 - Archive Decryption Header
+&lt;/h4&gt;&lt;p&gt;结构与加密头相同，不同的是加密头是在每个文件数据之前，而归档解密头是在所有文件数据之后。归档解密头的位置由Zip64 End of Central Directory Record中的Start of Central Directory字段指定。&lt;/p&gt;
+&lt;p&gt;使用归档解密头可以支持加密整个中央目录结构，保护所有文件的元数据。&lt;/p&gt;
+&lt;p&gt;只在Zip64格式下才会存在归档解密头。&lt;/p&gt;
+&lt;p&gt;归档解密头的结构与Encryption Header完全相同。&lt;/p&gt;
+&lt;h4 id=&#34;归档额外数据记录---archive-extra-data-record&#34;&gt;归档额外数据记录 - Archive Extra Data Record
+&lt;/h4&gt;&lt;p&gt;Archive Extra Data Record 主要用于存储与中央目录加密相关的额外信息，特别是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数字证书信息：存储 PKCS#7 证书存储、X.509 证书 ID 和签名等&lt;/li&gt;
+&lt;li&gt;加密相关数据：存储加密接收者证书列表等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其结构定义如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;signature&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;             &lt;span class=&#34;cm&#34;&gt;/* 0x08074b50 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;extra_field_length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unique_ptr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;uint8_t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;extra_field&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;中央目录头---central-directory-header&#34;&gt;中央目录头 - Central Directory Header
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;signature&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;version_made_by&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;version_needed&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;general_bit_flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;compression_method&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;last_mod_time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;last_mod_date&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;crc32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;compressed_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;uncompressed_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;filename_length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;extra_field_length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;file_comment_length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;disk_number_start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint16_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;internal_attr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;external_attr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;uint32_t&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;local_header_offset&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;unique_ptr&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;uint8_t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;extra_field&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;file_comment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;中央目录头与本地文件头之间存在许多冗余字段，原则上相对应的一对中央目录头和本地文件头，表示含义相同的字段值应该是相同的。&lt;/p&gt;
+&lt;h3 id=&#34;相关流程&#34;&gt;相关流程
+&lt;/h3&gt;&lt;h4 id=&#34;zip64解析流程&#34;&gt;Zip64解析流程
+&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    participant Parser AS 解析器
+    participant EOCDR AS End of Central Directory
+    participant ZIP64Locator AS ZIP64 Locator
+    participant ZIP64EOCDR AS ZIP64 End of Central Directory
+    participant 中央目录 AS Central Directory
+    participant CDH AS Central Directory Header
+    participant LFH AS Local File Header
+    participant 文件数据 AS File Data
+    participant DD AS Data Descriptor
+
+    Note over Parser: 初始化阶段
+    Parser-&amp;gt;&amp;gt;EOCDR: 1. 读取End of Central Directory Record
+    EOCDR-&amp;gt;&amp;gt;Parser: 返回EOCDR数据
+    Parser-&amp;gt;&amp;gt;Parser: 2. 检查ZIP64格式标志
+    alt 检测到ZIP64标志
+        Parser-&amp;gt;&amp;gt;ZIP64Locator: 3. 读取ZIP64 Locator
+        ZIP64Locator-&amp;gt;&amp;gt;Parser: 返回ZIP64 EOCDR位置
+        Parser-&amp;gt;&amp;gt;ZIP64EOCDR: 4. 读取ZIP64 EOCDR
+        ZIP64EOCDR-&amp;gt;&amp;gt;Parser: 返回完整中央目录信息
+    end
+    Parser-&amp;gt;&amp;gt;中央目录: 5. 定位中央目录
+    Parser-&amp;gt;&amp;gt;Parser: 6. 初始化文件计数器 = 0
+
+    Note over Parser: 循环处理所有文件
+    loop 对于每个文件条目
+        Parser-&amp;gt;&amp;gt;Parser: 7. 文件计数器 += 1
+        Parser-&amp;gt;&amp;gt;CDH: 8. 读取Central Directory Header
+        CDH-&amp;gt;&amp;gt;Parser: 返回文件元数据
+        Parser-&amp;gt;&amp;gt;Parser: 9. 检查是否需要ZIP64扩展
+        alt 需要ZIP64扩展
+            Parser-&amp;gt;&amp;gt;CDH: 10. 提取ZIP64扩展信息
+            CDH-&amp;gt;&amp;gt;Parser: 返回8字节大小和偏移量
+        end
+
+        Note over Parser: 处理Local File Header
+        Parser-&amp;gt;&amp;gt;LFH: 11. 根据CDH定位LFH
+        LFH-&amp;gt;&amp;gt;Parser: 返回Local File Header数据
+        Parser-&amp;gt;&amp;gt;Parser: 12. 验证LFH与CDH一致性
+
+        Note over Parser: 处理文件数据
+        Parser-&amp;gt;&amp;gt;文件数据: 13. 读取压缩文件数据
+        文件数据-&amp;gt;&amp;gt;Parser: 返回文件数据
+        Parser-&amp;gt;&amp;gt;Parser: 14. 解压/解密文件数据
+
+        alt 存在Data Descriptor
+            Parser-&amp;gt;&amp;gt;DD: 15. 读取Data Descriptor
+            DD-&amp;gt;&amp;gt;Parser: 返回实际CRC和大小
+            Parser-&amp;gt;&amp;gt;Parser: 16. 验证数据完整性
+        end
+
+        Parser-&amp;gt;&amp;gt;Parser: 17. 存储文件信息
+        Parser-&amp;gt;&amp;gt;Parser: 18. 检查是否还有更多文件
+    end
+
+    Note over Parser: 完成阶段
+    Parser-&amp;gt;&amp;gt;Parser: 19. 生成完整文件列表
+    Parser-&amp;gt;&amp;gt;Parser: 20. 验证所有文件完整性
+    Parser-&amp;gt;&amp;gt;Parser: 21. 返回解析结果
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;启用中央目录加密时的解析流程&#34;&gt;启用中央目录加密时的解析流程
+&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    participant Parser AS 解析器
+    participant User AS 用户
+    participant EOCD AS End of Central Directory
+    participant ZIP64Locator AS ZIP64 Locator
+    participant ZIP64EOCD AS ZIP64 End of Central Directory
+    participant ArchiveDH AS Archive Decryption Header
+    participant ArchiveExtra AS Archive Extra Data Record
+    participant EncryptedCD AS Encrypted Central Directory
+    participant CDH AS Central Directory Header
+    participant LFH AS Local File Header
+    participant FileData AS File Data
+
+    Note over Parser: 阶段1: 定位和读取目录结构
+    Parser-&amp;gt;&amp;gt;EOCD: 1. 读取End of Central Directory
+    EOCD-&amp;gt;&amp;gt;Parser: 返回EOCD数据
+    Parser-&amp;gt;&amp;gt;Parser: 2. 检测ZIP64格式标志
+    Parser-&amp;gt;&amp;gt;ZIP64Locator: 3. 读取ZIP64 Locator
+    ZIP64Locator-&amp;gt;&amp;gt;Parser: 返回ZIP64 EOCD位置
+    Parser-&amp;gt;&amp;gt;ZIP64EOCD: 4. 读取ZIP64 EOCD
+    ZIP64EOCD-&amp;gt;&amp;gt;Parser: 返回完整目录信息(含加密标志)
+
+    Note over Parser: 阶段2: 检测中央目录加密
+    Parser-&amp;gt;&amp;gt;Parser: 5. 检查general purpose bit flag 13
+    alt 中央目录已加密
+        Parser-&amp;gt;&amp;gt;User: 6. 请求密码或证书
+        User-&amp;gt;&amp;gt;Parser: 7. 提供密码/证书
+        Parser-&amp;gt;&amp;gt;ArchiveDH: 8. 读取Archive Decryption Header
+        ArchiveDH-&amp;gt;&amp;gt;Parser: 返回加密的解密头
+        Parser-&amp;gt;&amp;gt;Parser: 9. 使用密码/证书解密ArchiveDH
+        ArchiveDH-&amp;gt;&amp;gt;Parser: 返回解密后的解密头数据
+
+        Note over Parser: 阶段3: 解密中央目录
+        Parser-&amp;gt;&amp;gt;EncryptedCD: 10. 读取加密的中央目录
+        EncryptedCD-&amp;gt;&amp;gt;Parser: 返回加密的中央目录数据
+        Parser-&amp;gt;&amp;gt;Parser: 11. 使用ArchiveDH中的密钥解密中央目录
+        EncryptedCD-&amp;gt;&amp;gt;Parser: 返回解密后的中央目录
+
+        Note over Parser: 阶段4: 处理Archive Extra Data
+        Parser-&amp;gt;&amp;gt;ArchiveExtra: 12. 读取Archive Extra Data Record
+        ArchiveExtra-&amp;gt;&amp;gt;Parser: 返回额外数据(证书等)
+    else 中央目录未加密
+        Parser-&amp;gt;&amp;gt;EncryptedCD: 8. 直接读取中央目录
+        EncryptedCD-&amp;gt;&amp;gt;Parser: 返回未加密的中央目录
+    end
+
+    Note over Parser: 阶段5: 解析中央目录
+    Parser-&amp;gt;&amp;gt;CDH: 13. 解析中央目录条目
+    CDH-&amp;gt;&amp;gt;Parser: 返回文件元数据
+    Parser-&amp;gt;&amp;gt;Parser: 14. 检查是否需要ZIP64扩展
+
+    Note over Parser: 阶段6: 解压文件数据
+    loop 对于每个文件
+        Parser-&amp;gt;&amp;gt;LFH: 15. 根据CDH定位LFH
+        LFH-&amp;gt;&amp;gt;Parser: 返回Local File Header
+        Parser-&amp;gt;&amp;gt;Parser: 16. 验证LFH(注意掩码字段)
+        Parser-&amp;gt;&amp;gt;FileData: 17. 读取文件数据
+        FileData-&amp;gt;&amp;gt;Parser: 返回压缩/加密的文件数据
+        Parser-&amp;gt;&amp;gt;Parser: 18. 解密/解压文件数据
+        Parser-&amp;gt;&amp;gt;Parser: 19. 验证文件完整性
+        Parser-&amp;gt;&amp;gt;Parser: 20. 输出解压后的文件
+    end
+
+    Note over Parser: 阶段7: 完成解压
+    Parser-&amp;gt;&amp;gt;User: 21. 显示解压完成信息
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;校验密码是否正确&#34;&gt;校验密码是否正确
+&lt;/h4&gt;&lt;h5 id=&#34;传统pkware加密格式校验密码&#34;&gt;传统PKWARE加密格式校验密码
+&lt;/h5&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    User-&amp;gt;&amp;gt;Parser: 提供密码
+    Parser-&amp;gt;&amp;gt;ZIP: 读取Local File Header
+    ZIP-&amp;gt;&amp;gt;Parser: 返回LFH数据 (包含加密标志)
+    Parser-&amp;gt;&amp;gt;ZIP: 读取12字节加密头
+    ZIP-&amp;gt;&amp;gt;Parser: 返回加密头数据
+
+    Parser-&amp;gt;&amp;gt;Parser: 使用密码初始化加密密钥
+    Parser-&amp;gt;&amp;gt;Parser: 解密12字节加密头
+
+    Parser-&amp;gt;&amp;gt;ZIP: 读取文件CRC值
+    ZIP-&amp;gt;&amp;gt;Parser: 返回文件CRC
+
+    Parser-&amp;gt;&amp;gt;Parser: 提取解密后加密头的最后1/2字节
+    Parser-&amp;gt;&amp;gt;Parser: 比较是否等于文件CRC的高位字节
+
+    alt 密码验证成功
+        Parser-&amp;gt;&amp;gt;User: 密码验证成功
+        Parser-&amp;gt;&amp;gt;ZIP: 继续读取文件数据
+        ZIP-&amp;gt;&amp;gt;Parser: 返回文件数据
+        Parser-&amp;gt;&amp;gt;Parser: 解密文件数据
+        Parser-&amp;gt;&amp;gt;User: 解压完成
+    else 密码验证失败
+        Parser-&amp;gt;&amp;gt;User: 密码验证失败
+        Parser-&amp;gt;&amp;gt;User: 提示重新输入密码
+    end
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;强加密&#34;&gt;强加密
+&lt;/h5&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    User-&amp;gt;&amp;gt;Parser: 提供密码
+    Parser-&amp;gt;&amp;gt;ZIP: 读取Local File Header
+    ZIP-&amp;gt;&amp;gt;Parser: 返回LFH数据 (包含强加密标志)
+    Parser-&amp;gt;&amp;gt;ZIP: 读取强加密解密头
+    ZIP-&amp;gt;&amp;gt;Parser: 返回解密头数据 (IVSize, IVData, AlgID, VSize等)
+
+    Parser-&amp;gt;&amp;gt;Parser: 解析解密头明文字段
+    Parser-&amp;gt;&amp;gt;Parser: 使用密码和IVData生成主会话密钥
+
+    Parser-&amp;gt;&amp;gt;ZIP: 读取ErdData字段
+    ZIP-&amp;gt;&amp;gt;Parser: 返回ErdData
+
+    Parser-&amp;gt;&amp;gt;Parser: 解密ErdData获取随机数据
+    Parser-&amp;gt;&amp;gt;Parser: 生成文件会话密钥
+
+    Parser-&amp;gt;&amp;gt;ZIP: 读取VData和VCRC32字段
+    ZIP-&amp;gt;&amp;gt;Parser: 返回VData和VCRC32
+
+    Parser-&amp;gt;&amp;gt;Parser: 使用会话密钥解密VData和VCRC32
+    Parser-&amp;gt;&amp;gt;Parser: 计算解密后VData的CRC32
+    Parser-&amp;gt;&amp;gt;Parser: 比较计算的CRC32与解密的VCRC32
+
+    alt 密码验证成功
+        Parser-&amp;gt;&amp;gt;User: 密码验证成功
+        Parser-&amp;gt;&amp;gt;ZIP: 读取文件数据
+        ZIP-&amp;gt;&amp;gt;Parser: 返回文件数据
+        Parser-&amp;gt;&amp;gt;Parser: 解密文件数据
+        Parser-&amp;gt;&amp;gt;User: 解压完成
+    else 密码验证失败
+        Parser-&amp;gt;&amp;gt;User: 密码验证失败
+        Parser-&amp;gt;&amp;gt;User: 提示重新输入密码
+    end
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;启用中央目录加密&#34;&gt;启用中央目录加密
+&lt;/h5&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    Parser-&amp;gt;&amp;gt;ZIP: 读取EOCD和ZIP64记录
+    ZIP-&amp;gt;&amp;gt;Parser: 返回记录数据 (包含中央目录加密标志)
+
+    Parser-&amp;gt;&amp;gt;User: 检测到中央目录加密，请提供密码
+    User-&amp;gt;&amp;gt;Parser: 提供密码
+
+    Parser-&amp;gt;&amp;gt;ZIP: 根据ZIP64记录定位Archive Decryption Header
+    ZIP-&amp;gt;&amp;gt;Parser: 返回Archive Decryption Header
+
+    Parser-&amp;gt;&amp;gt;Parser: 解析解密头明文字段
+    Parser-&amp;gt;&amp;gt;Parser: 使用密码生成主会话密钥
+
+    Parser-&amp;gt;&amp;gt;ZIP: 读取ErdData字段
+    ZIP-&amp;gt;&amp;gt;Parser: 返回ErdData
+
+    Parser-&amp;gt;&amp;gt;Parser: 解密ErdData获取随机数据
+    Parser-&amp;gt;&amp;gt;Parser: 生成中央目录解密密钥
+
+    Parser-&amp;gt;&amp;gt;ZIP: 读取VData和VCRC32字段
+    ZIP-&amp;gt;&amp;gt;Parser: 返回VData和VCRC32
+
+    Parser-&amp;gt;&amp;gt;Parser: 解密VData和VCRC32
+    Parser-&amp;gt;&amp;gt;Parser: 验证VData的CRC32
+
+    alt 密码验证成功
+        Parser-&amp;gt;&amp;gt;ZIP: 读取加密的中央目录
+        ZIP-&amp;gt;&amp;gt;Parser: 返回加密的中央目录数据
+        Parser-&amp;gt;&amp;gt;Parser: 解密中央目录
+        Parser-&amp;gt;&amp;gt;Parser: 解析中央目录获取文件列表
+        Parser-&amp;gt;&amp;gt;User: 显示文件列表
+        User-&amp;gt;&amp;gt;Parser: 选择要解压的文件
+        Parser-&amp;gt;&amp;gt;Parser: 继续解压选中的文件
+        Parser-&amp;gt;&amp;gt;User: 解压完成
+    else 密码验证失败
+        Parser-&amp;gt;&amp;gt;User: 密码验证失败，无法解密中央目录
+        Parser-&amp;gt;&amp;gt;User: 无法显示文件列表，请重新输入密码
+    end
+&lt;/code&gt;&lt;/pre&gt;</description>
+        </item>
+        <item>
         <title>【武大软件逆向课程/第四周】加减乘除运算的逆向特征</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week4/</link>
         <pubDate>Sat, 15 Mar 2025 06:27:52 +0000</pubDate>

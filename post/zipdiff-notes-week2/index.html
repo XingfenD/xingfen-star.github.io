@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。 ZIP文件主要由三部分构成: Local File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。 中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。 本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。 ZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。 标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。 标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser-&gt;&gt;File: 从文件末尾查找EOCDR签名 File--&gt;&gt;Parser: 返回EOCDR位置 Parser-&gt;&gt;EOCDR: 读取EOCDR内容 EOCDR--&gt;&gt;Parser: 返回EOCDR数据 Parser-&gt;&gt;Parser: 提取Central Directory偏移量 Parser-&gt;&gt;File: 跳转到Central Directory位置 loop 读取所有CD项 Parser-&gt;&gt;CD: 读取一个CentralDirectoryHeader CD--&gt;&gt;Parser: 返回CD项数据 Parser-&gt;&gt;Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser-&gt;&gt;CD: 从CD项获取Local File Header偏移量 CD--&gt;&gt;Parser: 返回偏移量 Parser-&gt;&gt;File: 跳转到对应的Local File Header位置 Parser-&gt;&gt;LFH: 读取LocalFileHeader LFH--&gt;&gt;Parser: 返回LFH数据 Parser-&gt;&gt;Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。">
+<title>ZIP 文件结构与解析流程核心笔记</title>
+
+<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/zipdiff-notes-week2/'>
+
+<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="ZIP 文件结构与解析流程核心笔记">
+<meta property='og:description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。 ZIP文件主要由三部分构成: Local File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。 中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。 本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。 ZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。 标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。 标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser-&gt;&gt;File: 从文件末尾查找EOCDR签名 File--&gt;&gt;Parser: 返回EOCDR位置 Parser-&gt;&gt;EOCDR: 读取EOCDR内容 EOCDR--&gt;&gt;Parser: 返回EOCDR数据 Parser-&gt;&gt;Parser: 提取Central Directory偏移量 Parser-&gt;&gt;File: 跳转到Central Directory位置 loop 读取所有CD项 Parser-&gt;&gt;CD: 读取一个CentralDirectoryHeader CD--&gt;&gt;Parser: 返回CD项数据 Parser-&gt;&gt;Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser-&gt;&gt;CD: 从CD项获取Local File Header偏移量 CD--&gt;&gt;Parser: 返回偏移量 Parser-&gt;&gt;File: 跳转到对应的Local File Header位置 Parser-&gt;&gt;LFH: 读取LocalFileHeader LFH--&gt;&gt;Parser: 返回LFH数据 Parser-&gt;&gt;Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。">
+<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/zipdiff-notes-week2/'>
+<meta property='og:site_name' content='远楒'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ZIP' /><meta property='article:tag' content='文件格式' /><meta property='article:tag' content='协议解析' /><meta property='article:published_time' content='2026-04-24T02:10:00&#43;08:00'/><meta property='article:modified_time' content='2026-04-23T18:24:52&#43;00:00'/>
+<meta name="twitter:title" content="ZIP 文件结构与解析流程核心笔记">
+<meta name="twitter:description" content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。 ZIP文件主要由三部分构成: Local File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。 中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。 本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。 ZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。 标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。 标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser-&gt;&gt;File: 从文件末尾查找EOCDR签名 File--&gt;&gt;Parser: 返回EOCDR位置 Parser-&gt;&gt;EOCDR: 读取EOCDR内容 EOCDR--&gt;&gt;Parser: 返回EOCDR数据 Parser-&gt;&gt;Parser: 提取Central Directory偏移量 Parser-&gt;&gt;File: 跳转到Central Directory位置 loop 读取所有CD项 Parser-&gt;&gt;CD: 读取一个CentralDirectoryHeader CD--&gt;&gt;Parser: 返回CD项数据 Parser-&gt;&gt;Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser-&gt;&gt;CD: 从CD项获取Local File Header偏移量 CD--&gt;&gt;Parser: 返回偏移量 Parser-&gt;&gt;File: 跳转到对应的Local File Header位置 Parser-&gt;&gt;LFH: 读取LocalFileHeader LFH--&gt;&gt;Parser: 返回LFH数据 Parser-&gt;&gt;Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。">
+    <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/xingfen-star.github.io/">
+                
+                    
+
+                    
+                        
+                        <img src="/xingfen-star.github.io/img/avatar_hu493e02d3d92a93d51eb4b2df9911732e_131869_300x0_resize_box_3.png" width="300"
+                            height="279" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">😉</span>
+                
+            </figure>
+            
+        
+
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/xingfen-star.github.io">远楒</a></h1>
+            <h2 class="site-description">星分.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a
+                        href='https://space.bilibili.com/473214036'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg class="icon" style="width: 24;height: 24;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 2299 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1461"><path d="M1775.840814 322.588002c6.0164 1.002733 53.144869-9.525967 55.150336-6.016401 3.0082 4.5123 24.065601 155.92504 18.550567 156.927774s-44.621635 10.027334-44.621635 10.027334c-3.0082-20.556034-28.577901-147.903173-29.079268-160.938707m75.205003-14.539634l20.556034 162.944174c10.5287-0.501367 53.144869-3.509567 57.155803-4.010934-6.0164-61.668103-16.545101-158.933241-16.545101-158.93324-20.054668-4.010934-41.112069-4.010934-61.166736 0m-40.610702 226.116376s92.752838-23.564234 126.344406-12.0328c17.046467 61.668103 48.131202 407.611118 51.139402 421.649386-21.057401 2.506833-90.246004 8.523234-95.761037 10.027333-4.5123-26.071068-81.72277-403.098818-81.722771-419.643919m343.436183-207.565809c5.515034 1.5041 54.648969-5.013667 55.150335-1.5041 1.002733 12.032801 6.0164 157.42914 0.501367 157.930507s-44.621635 4.010934-44.621635 4.010934c-1.002733-20.054668-12.032801-146.90044-11.030067-160.437341m75.70637-4.010933l4.010933 160.938707c10.5287 0 52.643502 2.506833 57.155803 2.005467-1.002733-61.668103 0-158.933241 0-158.933241-20.054668-3.509567-40.610702-5.013667-61.166736-4.010933m-64.676303 216.089043s94.758304-12.534167 126.845772 2.506833c7.019134 72.196803 6.0164 408.613852 7.019134 422.652119-21.558768 0-90.246004 1.002733-95.761038 2.005467-1.002733-26.071068-39.607968-410.619319-38.103868-427.164419m-220.099977-413.627519c54.648969 278.759879 96.262404 755.058234 97.766504 785.641602 0 0 43.117535 1.002733 91.750105 4.010934C2105.740095 614.383415 2070.644427 134.575493 2071.145794 119.033126c-12.032801-13.536901-126.344406 6.0164-126.344406 6.0164m-120.328005 659.297196c-10.5287-78.213204-290.291313-166.955108-447.720454-138.377206 0 0-19.553301-172.470141-27.073801-339.425248-6.517767-143.390873-1.002733-282.770813 0.501366-305.833681-10.5287-7.5205-123.837572 46.627102-185.004308 69.188603 0 0 73.199537 309.844614 126.344406 952.59671 0 0 84.730971 9.0246 230.12731-19.051934s317.365114-115.815705 302.825481-219.097244m-341.932083 140.88404l-24.566967-176.982441c6.0164-3.0082 156.927774 53.144869 172.971507 63.172203-2.506833 11.030067-148.40454 113.810238-148.40454 113.810238M610.664628 322.588002c6.0164 1.002733 53.144869-9.525967 55.150335-6.016401 3.0082 4.5123 24.065601 155.92504 18.550568 156.927774s-44.621635 10.027334-44.621635 10.027334c-3.0082-20.556034-28.577901-147.903173-29.079268-160.938707m75.205003-14.539634l20.556034 162.944174c10.5287-0.501367 53.144869-3.509567 57.155803-4.010934-6.517767-61.668103-16.545101-158.933241-16.545101-158.93324-20.054668-4.010934-41.112069-4.010934-61.166736 0m-40.610702 226.116376s92.752838-23.564234 126.344406-12.0328c17.046467 61.668103 48.131202 407.611118 51.139402 421.649386-21.057401 2.506833-90.246004 8.523234-95.761037 10.027333-4.5123-26.071068-81.72277-403.098818-81.722771-419.643919m343.436182-207.565809c5.515034 1.5041 54.648969-5.013667 55.150336-1.5041 1.002733 12.032801 6.0164 157.42914 0.501367 157.930507s-44.621635 4.010934-44.621635 4.010934c-1.002733-20.054668-11.531434-146.90044-11.030068-160.437341m75.706371-4.010933l4.010933 160.938707c10.5287 0 52.643502 2.506833 57.155803 2.005467-1.002733-61.668103 0-158.933241 0-158.933241-20.054668-3.509567-40.610702-4.5123-61.166736-4.010933m-64.676303 216.089043s94.758304-12.534167 126.845772 2.506833c7.019134 72.196803 6.0164 408.613852 7.019134 422.652119-21.558768 0-90.246004 1.002733-95.761038 2.005467-0.501367-26.071068-39.607968-410.619319-38.103868-427.164419m-220.099977-413.627519c54.648969 278.759879 96.262404 755.058234 97.766504 785.641602 0 0 43.117535 1.002733 91.750105 4.010934-28.577901-300.318647-63.67357-780.126569-63.172203-796.170303-12.032801-13.035534-126.344406 6.517767-126.344406 6.517767m-120.328005 659.297196c-10.5287-78.213204-290.291313-166.955108-447.720454-138.377206 0 0-19.553301-172.470141-27.073801-339.425248-6.517767-143.390873-1.002733-282.770813 0.501366-305.833681C174.475608-6.308547 61.166736 47.337689 0 69.89919c0 0 73.199537 309.844614 126.344406 952.59671 0 0 84.730971 9.0246 230.12731-19.051934s317.365114-115.815705 302.825481-219.097244m-341.932083 140.88404l-24.566967-176.982441c6.0164-3.0082 156.927774 53.144869 172.971507 63.172203-2.506833 11.030067-148.40454 113.810238-148.40454 113.810238" p-id="1462"></path></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a
+                        href='https://github.com/xingfend'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <?xml version="1.0" encoding="UTF-8"?><svg width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M29.3444 30.4765C31.7481 29.977 33.9292 29.1108 35.6247 27.8391C38.5202 25.6676 40 22.3136 40 18.9999C40 16.6752 39.1187 14.505 37.5929 12.6668C36.7427 11.6425 39.2295 3.99989 37.02 5.02919C34.8105 6.05848 31.5708 8.33679 29.8726 7.83398C28.0545 7.29565 26.0733 6.99989 24 6.99989C22.1992 6.99989 20.4679 7.22301 18.8526 7.6344C16.5046 8.23237 14.2591 5.99989 12 5.02919C9.74086 4.05848 10.9736 11.9632 10.3026 12.7944C8.84119 14.6051 8 16.7288 8 18.9999C8 22.3136 9.79086 25.6676 12.6863 27.8391C14.6151 29.2857 17.034 30.2076 19.7401 30.6619" stroke="#707070" stroke-width="4" stroke-linecap="round"/><path d="M19.7397 30.6619C18.5812 31.937 18.002 33.1478 18.002 34.2944C18.002 35.441 18.002 38.3464 18.002 43.0106" stroke="#707070" stroke-width="4" stroke-linecap="round"/><path d="M29.3446 30.4766C30.4423 31.9174 30.9912 33.211 30.9912 34.3576C30.9912 35.5042 30.9912 38.3885 30.9912 43.0107" stroke="#707070" stroke-width="4" stroke-linecap="round"/><path d="M6 31.2155C6.89887 31.3254 7.56554 31.7387 8 32.4554C8.65169 33.5303 11.0742 37.518 13.8251 37.518C15.6591 37.518 17.0515 37.518 18.0024 37.518" stroke="#707070" stroke-width="4" stroke-linecap="round"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/xingfen-star.github.io/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#zip文件基础结构图示">ZIP文件基础结构图示</a></li>
+    <li><a href="#zip文件解析流程">ZIP文件解析流程</a>
+      <ul>
+        <li><a href="#标准解析模式">标准解析模式</a></li>
+        <li><a href="#流式解析模式">流式解析模式</a></li>
+        <li><a href="#手工篡改zip进行实验">手工篡改ZIP进行实验</a></li>
+        <li><a href="#zip文件具体分析">Zip文件具体分析</a></li>
+        <li><a href="#相关流程">相关流程</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+            
+                
+<section class="widget curTags">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags of current blog</h2>
+    <div class="curTags-tags">
+        
+            <a href="/xingfen-star.github.io/tags/zip/">
+                ZIP
+            </a>
+        
+            <a href="/xingfen-star.github.io/tags/%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+                文件格式
+            </a>
+        
+            <a href="/xingfen-star.github.io/tags/%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/">
+                协议解析
+            </a>
+        
+    </div>
+</section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/xingfen-star.github.io/categories/program/" style="background-color: #2a9d8f; color: #fff;">
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/xingfen-star.github.io/post/zipdiff-notes-week2/">ZIP 文件结构与解析流程核心笔记</a>
+        </h2>
+
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 24, 2026</time>
+            </div>
+        
+
+        
+        <div class="article-lastmod">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time>
+                    Apr 23, 2026 18:24 UTC
+                </time>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minute read
+                </time>
+            </div>
+        
+
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="zip-文件结构与解析流程核心笔记">ZIP 文件结构与解析流程核心笔记
+</h1><h2 id="zip文件基础结构图示">ZIP文件基础结构图示
+</h2><p>具体的结构和解析流程在后面会有详细介绍。</p>
+<p><img src="/xingfen-star.github.io/pic/zip%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="ZIP文件基础结构图示"
+	
+	
+></p>
+<p>ZIP文件主要由三部分构成:</p>
+<ol>
+<li>Local File Header: 每个压缩文件的起始位置，包含文件的元数据信息；</li>
+<li>Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息；</li>
+<li>End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。</li>
+</ol>
+<p>只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。</p>
+<p>中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。</p>
+<p>本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。</p>
+<h2 id="zip文件解析流程">ZIP文件解析流程
+</h2><p>本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。</p>
+<ul>
+<li>标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。</li>
+<li>流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。</li>
+</ul>
+<p>目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。</p>
+<h3 id="标准解析模式">标准解析模式
+</h3><p>从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。</p>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant Parser as 解析器
+    participant File as ZIP文件
+    participant LFH as 本地文件头
+    participant CD as 中央目录
+    participant EOCDR as 中央目录结束记录
+
+    Parser-&gt;&gt;File: 从文件末尾查找EOCDR签名
+    File--&gt;&gt;Parser: 返回EOCDR位置
+    Parser-&gt;&gt;EOCDR: 读取EOCDR内容
+    EOCDR--&gt;&gt;Parser: 返回EOCDR数据
+    Parser-&gt;&gt;Parser: 提取Central Directory偏移量
+    Parser-&gt;&gt;File: 跳转到Central Directory位置
+    loop 读取所有CD项
+        Parser-&gt;&gt;CD: 读取一个CentralDirectoryHeader
+        CD--&gt;&gt;Parser: 返回CD项数据
+        Parser-&gt;&gt;Parser: 保存CD项
+    end
+    loop 根据CD项读取所有LFH
+        Parser-&gt;&gt;CD: 从CD项获取Local File Header偏移量
+        CD--&gt;&gt;Parser: 返回偏移量
+        Parser-&gt;&gt;File: 跳转到对应的Local File Header位置
+        Parser-&gt;&gt;LFH: 读取LocalFileHeader
+        LFH--&gt;&gt;Parser: 返回LFH数据
+        Parser-&gt;&gt;Parser: 保存LFH
+    end
+</code></pre><h3 id="流式解析模式">流式解析模式
+</h3><p>从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。</p>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant Parser as 解析器
+    participant File as ZIP文件
+    participant LFH as 本地文件头
+
+    Parser-&gt;&gt;File: 将文件指针定位到文件开头
+    loop 顺序读取Local File Header
+        Parser-&gt;&gt;LFH: 尝试读取LocalFileHeader
+        alt 成功读取LFH签名
+            LFH--&gt;&gt;Parser: 返回LocalFileHeader数据
+            Parser-&gt;&gt;Parser: 保存LFH
+            Parser-&gt;&gt;File: 继续读取下一个LFH
+        else 未找到有效的LFH签名或读取失败
+            File--&gt;&gt;Parser: 返回读取失败
+            Parser-&gt;&gt;Parser: 停止解析
+        end
+    end
+</code></pre><h3 id="手工篡改zip进行实验">手工篡改ZIP进行实验
+</h3><p><code>zip_analyze</code>目录为一个Zip解析器实例，可以使用两种解析模式读取未加密的Zip文件结构。另外该目录下包含两个Zip文件，分别为<code>zip_demo.zip</code>和<code>zip_demo_hacked.zip</code>。两者的区别在于<code>zip_demo_hacked.zip</code>在<code>zip_demo.zip</code>的基础上，在LFH区添加了一个额外的文件<code>hacked.txt</code>对应的LFH及其数据。具体如下图所示：</p>
+<p><img src="/xingfen-star.github.io/pic/zip_demo%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="zip_demo文件结构"
+	
+	
+></p>
+<p><img src="/xingfen-star.github.io/pic/zip_demo_hacked%e6%96%87%e4%bb%b6%e7%bb%93%e6%9e%84.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="zip_demo_hacked文件结构"
+	
+	
+></p>
+<p>使用<code>zip_analyze</code>解析<code>zip_demo_hacked.zip</code>文件，在标准解析模式下，<code>zip_analyze</code>忽略掉了仅在LFH中存在的<code>hacked.txt</code>文件；而在流式解析模式下，<code>zip_analyze</code>能够成功解析出<code>hacked.txt</code>文件的信息。</p>
+<h3 id="zip文件具体分析">Zip文件具体分析
+</h3><p>根据<a class="link" href="https://pkware.cachefly.net/webdocs/casestudies/ParserNOTE.TXT"  target="_blank" rel="noopener"
+    >官方文档</a>, Zip文件的结构如下:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[local file header 1]
+</span></span><span class="line"><span class="cl">[encryption header 1]
+</span></span><span class="line"><span class="cl">[file data 1]
+</span></span><span class="line"><span class="cl">[data descriptor 1]
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">[local file header n]
+</span></span><span class="line"><span class="cl">[encryption header n]
+</span></span><span class="line"><span class="cl">[file data n]
+</span></span><span class="line"><span class="cl">[data descriptor n]
+</span></span><span class="line"><span class="cl">[archive decryption header]
+</span></span><span class="line"><span class="cl">[archive extra data record]
+</span></span><span class="line"><span class="cl">[central directory header 1]
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">[central directory header n]
+</span></span><span class="line"><span class="cl">[zip64 end of central directory record]
+</span></span><span class="line"><span class="cl">[zip64 end of central directory locator]
+</span></span><span class="line"><span class="cl">[end of central directory record]
+</span></span></code></pre></div><p><img src="/xingfen-star.github.io/pic/zip%e6%96%87%e4%bb%b6%e8%bf%9b%e9%98%b6%e7%bb%93%e6%9e%84.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Zip文件结构图示"
+	
+	
+></p>
+<h4 id="本地文件头---local-file-header">本地文件头 - Local File Header
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">version_needed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">general_bit_flag</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">compression_method</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">last_mod_time</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">last_mod_date</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">crc32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">compressed_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">uncompressed_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">filename_length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">extra_field_length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">filename</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">extra_field</span><span class="p">;</span>
+</span></span></code></pre></div><p>本地文件头的extra_field没有固定的内容，不同的压缩器可能会在extra_field中添加不同的信息。但是在extra_field中添加信息时通常要遵循统一的结构: 标签 - 长度 - 数据。</p>
+<ul>
+<li>Tag（2 字节）：标识该扩展块的类型（如操作系统相关信息、压缩算法扩展等）。</li>
+<li>Length（2 字节）：表示后续数据的长度。</li>
+<li>Data：具体的扩展数据，格式由 Tag 定义。</li>
+</ul>
+<p>具体标签值和含义的映射可以参考官方文档的4.5.2节，其中列举了由PKWARE定义的标签值和含义。</p>
+<h5 id="general_bit_flag">general_bit_flag
+</h5><h4 id="加密头---encryption-header">加密头 - Encryption Header
+</h4><p>是否存在: 仅当<code>general_bit_flag</code>的第0位为1时，才存在加密头。</p>
+<p>加密头的具体长度与结构由<code>general_bit_flag</code>的第6位确定：</p>
+<ul>
+<li>当第六位为0时，加密头格式为传统PKWARE加密格式，长度为12字节；</li>
+<li>当第六位为1时，加密头格式强加密格式，长度为可变，至少30字节。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">IVSize    2 bytes  - 初始化向量大小
+</span></span><span class="line"><span class="cl">IVData    IVSize   - 初始化向量数据
+</span></span><span class="line"><span class="cl">Size      4 bytes  - 剩余解密头数据大小
+</span></span><span class="line"><span class="cl">Format    2 bytes  - 格式定义 (当前必须为3)
+</span></span><span class="line"><span class="cl">AlgID     2 bytes  - 加密算法标识符
+</span></span><span class="line"><span class="cl">Bitlen    2 bytes  - 密钥长度 (32-448 bits)
+</span></span><span class="line"><span class="cl">Flags     2 bytes  - 处理标志
+</span></span><span class="line"><span class="cl">ErdSize   2 bytes  - 加密随机数据大小
+</span></span><span class="line"><span class="cl">ErdData   ErdSize  - 加密的随机数据
+</span></span><span class="line"><span class="cl">Reserved1 4 bytes  - 证书处理保留字段
+</span></span><span class="line"><span class="cl">Reserved2 (var)    - 证书处理保留字段
+</span></span><span class="line"><span class="cl">VSize     2 bytes  - 密码验证数据大小
+</span></span><span class="line"><span class="cl">VData     VSize-4  - 密码验证数据 (加密)
+</span></span><span class="line"><span class="cl">VCRC32    4 bytes  - 密码验证数据的CRC32 (加密)
+</span></span></code></pre></div><p>校验密码是否正确即是通过加密头内的部分字段进行的。</p>
+<h4 id="数据描述符---data-descriptor">数据描述符 - Data Descriptor
+</h4><p>用于在流式压缩场景下，将压缩数据的CRC-32、压缩大小和未压缩大小等信息从文件数据中分离出来。</p>
+<p>由于lfh在文件数据之前，因此在流式压缩场景下，无法提前确定lfh中的crc32, compressed_size和uncompressed_size字段。此时，需要在文件数据之后添加一个数据描述符，用于存储这些信息。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>             <span class="cm">/* 0x08074b50 */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">crc32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">compressed_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">uncompressed_size</span><span class="p">;</span>
+</span></span></code></pre></div><h4 id="归档解密头---archive-decryption-header">归档解密头 - Archive Decryption Header
+</h4><p>结构与加密头相同，不同的是加密头是在每个文件数据之前，而归档解密头是在所有文件数据之后。归档解密头的位置由Zip64 End of Central Directory Record中的Start of Central Directory字段指定。</p>
+<p>使用归档解密头可以支持加密整个中央目录结构，保护所有文件的元数据。</p>
+<p>只在Zip64格式下才会存在归档解密头。</p>
+<p>归档解密头的结构与Encryption Header完全相同。</p>
+<h4 id="归档额外数据记录---archive-extra-data-record">归档额外数据记录 - Archive Extra Data Record
+</h4><p>Archive Extra Data Record 主要用于存储与中央目录加密相关的额外信息，特别是：</p>
+<ul>
+<li>数字证书信息：存储 PKCS#7 证书存储、X.509 证书 ID 和签名等</li>
+<li>加密相关数据：存储加密接收者证书列表等</li>
+</ul>
+<p>其结构定义如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>             <span class="cm">/* 0x08074b50 */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">extra_field_length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">extra_field</span><span class="p">;</span>
+</span></span></code></pre></div><h4 id="中央目录头---central-directory-header">中央目录头 - Central Directory Header
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">version_made_by</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">version_needed</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">general_bit_flag</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">compression_method</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">last_mod_time</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">last_mod_date</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">crc32</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">compressed_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">uncompressed_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">filename_length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">extra_field_length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">file_comment_length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">disk_number_start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">internal_attr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">external_attr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">local_header_offset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">filename</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">extra_field</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">file_comment</span><span class="p">;</span>
+</span></span></code></pre></div><p>中央目录头与本地文件头之间存在许多冗余字段，原则上相对应的一对中央目录头和本地文件头，表示含义相同的字段值应该是相同的。</p>
+<h3 id="相关流程">相关流程
+</h3><h4 id="zip64解析流程">Zip64解析流程
+</h4><pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant Parser AS 解析器
+    participant EOCDR AS End of Central Directory
+    participant ZIP64Locator AS ZIP64 Locator
+    participant ZIP64EOCDR AS ZIP64 End of Central Directory
+    participant 中央目录 AS Central Directory
+    participant CDH AS Central Directory Header
+    participant LFH AS Local File Header
+    participant 文件数据 AS File Data
+    participant DD AS Data Descriptor
+
+    Note over Parser: 初始化阶段
+    Parser-&gt;&gt;EOCDR: 1. 读取End of Central Directory Record
+    EOCDR-&gt;&gt;Parser: 返回EOCDR数据
+    Parser-&gt;&gt;Parser: 2. 检查ZIP64格式标志
+    alt 检测到ZIP64标志
+        Parser-&gt;&gt;ZIP64Locator: 3. 读取ZIP64 Locator
+        ZIP64Locator-&gt;&gt;Parser: 返回ZIP64 EOCDR位置
+        Parser-&gt;&gt;ZIP64EOCDR: 4. 读取ZIP64 EOCDR
+        ZIP64EOCDR-&gt;&gt;Parser: 返回完整中央目录信息
+    end
+    Parser-&gt;&gt;中央目录: 5. 定位中央目录
+    Parser-&gt;&gt;Parser: 6. 初始化文件计数器 = 0
+
+    Note over Parser: 循环处理所有文件
+    loop 对于每个文件条目
+        Parser-&gt;&gt;Parser: 7. 文件计数器 += 1
+        Parser-&gt;&gt;CDH: 8. 读取Central Directory Header
+        CDH-&gt;&gt;Parser: 返回文件元数据
+        Parser-&gt;&gt;Parser: 9. 检查是否需要ZIP64扩展
+        alt 需要ZIP64扩展
+            Parser-&gt;&gt;CDH: 10. 提取ZIP64扩展信息
+            CDH-&gt;&gt;Parser: 返回8字节大小和偏移量
+        end
+
+        Note over Parser: 处理Local File Header
+        Parser-&gt;&gt;LFH: 11. 根据CDH定位LFH
+        LFH-&gt;&gt;Parser: 返回Local File Header数据
+        Parser-&gt;&gt;Parser: 12. 验证LFH与CDH一致性
+
+        Note over Parser: 处理文件数据
+        Parser-&gt;&gt;文件数据: 13. 读取压缩文件数据
+        文件数据-&gt;&gt;Parser: 返回文件数据
+        Parser-&gt;&gt;Parser: 14. 解压/解密文件数据
+
+        alt 存在Data Descriptor
+            Parser-&gt;&gt;DD: 15. 读取Data Descriptor
+            DD-&gt;&gt;Parser: 返回实际CRC和大小
+            Parser-&gt;&gt;Parser: 16. 验证数据完整性
+        end
+
+        Parser-&gt;&gt;Parser: 17. 存储文件信息
+        Parser-&gt;&gt;Parser: 18. 检查是否还有更多文件
+    end
+
+    Note over Parser: 完成阶段
+    Parser-&gt;&gt;Parser: 19. 生成完整文件列表
+    Parser-&gt;&gt;Parser: 20. 验证所有文件完整性
+    Parser-&gt;&gt;Parser: 21. 返回解析结果
+</code></pre><h4 id="启用中央目录加密时的解析流程">启用中央目录加密时的解析流程
+</h4><pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant Parser AS 解析器
+    participant User AS 用户
+    participant EOCD AS End of Central Directory
+    participant ZIP64Locator AS ZIP64 Locator
+    participant ZIP64EOCD AS ZIP64 End of Central Directory
+    participant ArchiveDH AS Archive Decryption Header
+    participant ArchiveExtra AS Archive Extra Data Record
+    participant EncryptedCD AS Encrypted Central Directory
+    participant CDH AS Central Directory Header
+    participant LFH AS Local File Header
+    participant FileData AS File Data
+
+    Note over Parser: 阶段1: 定位和读取目录结构
+    Parser-&gt;&gt;EOCD: 1. 读取End of Central Directory
+    EOCD-&gt;&gt;Parser: 返回EOCD数据
+    Parser-&gt;&gt;Parser: 2. 检测ZIP64格式标志
+    Parser-&gt;&gt;ZIP64Locator: 3. 读取ZIP64 Locator
+    ZIP64Locator-&gt;&gt;Parser: 返回ZIP64 EOCD位置
+    Parser-&gt;&gt;ZIP64EOCD: 4. 读取ZIP64 EOCD
+    ZIP64EOCD-&gt;&gt;Parser: 返回完整目录信息(含加密标志)
+
+    Note over Parser: 阶段2: 检测中央目录加密
+    Parser-&gt;&gt;Parser: 5. 检查general purpose bit flag 13
+    alt 中央目录已加密
+        Parser-&gt;&gt;User: 6. 请求密码或证书
+        User-&gt;&gt;Parser: 7. 提供密码/证书
+        Parser-&gt;&gt;ArchiveDH: 8. 读取Archive Decryption Header
+        ArchiveDH-&gt;&gt;Parser: 返回加密的解密头
+        Parser-&gt;&gt;Parser: 9. 使用密码/证书解密ArchiveDH
+        ArchiveDH-&gt;&gt;Parser: 返回解密后的解密头数据
+
+        Note over Parser: 阶段3: 解密中央目录
+        Parser-&gt;&gt;EncryptedCD: 10. 读取加密的中央目录
+        EncryptedCD-&gt;&gt;Parser: 返回加密的中央目录数据
+        Parser-&gt;&gt;Parser: 11. 使用ArchiveDH中的密钥解密中央目录
+        EncryptedCD-&gt;&gt;Parser: 返回解密后的中央目录
+
+        Note over Parser: 阶段4: 处理Archive Extra Data
+        Parser-&gt;&gt;ArchiveExtra: 12. 读取Archive Extra Data Record
+        ArchiveExtra-&gt;&gt;Parser: 返回额外数据(证书等)
+    else 中央目录未加密
+        Parser-&gt;&gt;EncryptedCD: 8. 直接读取中央目录
+        EncryptedCD-&gt;&gt;Parser: 返回未加密的中央目录
+    end
+
+    Note over Parser: 阶段5: 解析中央目录
+    Parser-&gt;&gt;CDH: 13. 解析中央目录条目
+    CDH-&gt;&gt;Parser: 返回文件元数据
+    Parser-&gt;&gt;Parser: 14. 检查是否需要ZIP64扩展
+
+    Note over Parser: 阶段6: 解压文件数据
+    loop 对于每个文件
+        Parser-&gt;&gt;LFH: 15. 根据CDH定位LFH
+        LFH-&gt;&gt;Parser: 返回Local File Header
+        Parser-&gt;&gt;Parser: 16. 验证LFH(注意掩码字段)
+        Parser-&gt;&gt;FileData: 17. 读取文件数据
+        FileData-&gt;&gt;Parser: 返回压缩/加密的文件数据
+        Parser-&gt;&gt;Parser: 18. 解密/解压文件数据
+        Parser-&gt;&gt;Parser: 19. 验证文件完整性
+        Parser-&gt;&gt;Parser: 20. 输出解压后的文件
+    end
+
+    Note over Parser: 阶段7: 完成解压
+    Parser-&gt;&gt;User: 21. 显示解压完成信息
+</code></pre><h4 id="校验密码是否正确">校验密码是否正确
+</h4><h5 id="传统pkware加密格式校验密码">传统PKWARE加密格式校验密码
+</h5><pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    User-&gt;&gt;Parser: 提供密码
+    Parser-&gt;&gt;ZIP: 读取Local File Header
+    ZIP-&gt;&gt;Parser: 返回LFH数据 (包含加密标志)
+    Parser-&gt;&gt;ZIP: 读取12字节加密头
+    ZIP-&gt;&gt;Parser: 返回加密头数据
+
+    Parser-&gt;&gt;Parser: 使用密码初始化加密密钥
+    Parser-&gt;&gt;Parser: 解密12字节加密头
+
+    Parser-&gt;&gt;ZIP: 读取文件CRC值
+    ZIP-&gt;&gt;Parser: 返回文件CRC
+
+    Parser-&gt;&gt;Parser: 提取解密后加密头的最后1/2字节
+    Parser-&gt;&gt;Parser: 比较是否等于文件CRC的高位字节
+
+    alt 密码验证成功
+        Parser-&gt;&gt;User: 密码验证成功
+        Parser-&gt;&gt;ZIP: 继续读取文件数据
+        ZIP-&gt;&gt;Parser: 返回文件数据
+        Parser-&gt;&gt;Parser: 解密文件数据
+        Parser-&gt;&gt;User: 解压完成
+    else 密码验证失败
+        Parser-&gt;&gt;User: 密码验证失败
+        Parser-&gt;&gt;User: 提示重新输入密码
+    end
+</code></pre><h5 id="强加密">强加密
+</h5><pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    User-&gt;&gt;Parser: 提供密码
+    Parser-&gt;&gt;ZIP: 读取Local File Header
+    ZIP-&gt;&gt;Parser: 返回LFH数据 (包含强加密标志)
+    Parser-&gt;&gt;ZIP: 读取强加密解密头
+    ZIP-&gt;&gt;Parser: 返回解密头数据 (IVSize, IVData, AlgID, VSize等)
+
+    Parser-&gt;&gt;Parser: 解析解密头明文字段
+    Parser-&gt;&gt;Parser: 使用密码和IVData生成主会话密钥
+
+    Parser-&gt;&gt;ZIP: 读取ErdData字段
+    ZIP-&gt;&gt;Parser: 返回ErdData
+
+    Parser-&gt;&gt;Parser: 解密ErdData获取随机数据
+    Parser-&gt;&gt;Parser: 生成文件会话密钥
+
+    Parser-&gt;&gt;ZIP: 读取VData和VCRC32字段
+    ZIP-&gt;&gt;Parser: 返回VData和VCRC32
+
+    Parser-&gt;&gt;Parser: 使用会话密钥解密VData和VCRC32
+    Parser-&gt;&gt;Parser: 计算解密后VData的CRC32
+    Parser-&gt;&gt;Parser: 比较计算的CRC32与解密的VCRC32
+
+    alt 密码验证成功
+        Parser-&gt;&gt;User: 密码验证成功
+        Parser-&gt;&gt;ZIP: 读取文件数据
+        ZIP-&gt;&gt;Parser: 返回文件数据
+        Parser-&gt;&gt;Parser: 解密文件数据
+        Parser-&gt;&gt;User: 解压完成
+    else 密码验证失败
+        Parser-&gt;&gt;User: 密码验证失败
+        Parser-&gt;&gt;User: 提示重新输入密码
+    end
+</code></pre><h5 id="启用中央目录加密">启用中央目录加密
+</h5><pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    Parser-&gt;&gt;ZIP: 读取EOCD和ZIP64记录
+    ZIP-&gt;&gt;Parser: 返回记录数据 (包含中央目录加密标志)
+
+    Parser-&gt;&gt;User: 检测到中央目录加密，请提供密码
+    User-&gt;&gt;Parser: 提供密码
+
+    Parser-&gt;&gt;ZIP: 根据ZIP64记录定位Archive Decryption Header
+    ZIP-&gt;&gt;Parser: 返回Archive Decryption Header
+
+    Parser-&gt;&gt;Parser: 解析解密头明文字段
+    Parser-&gt;&gt;Parser: 使用密码生成主会话密钥
+
+    Parser-&gt;&gt;ZIP: 读取ErdData字段
+    ZIP-&gt;&gt;Parser: 返回ErdData
+
+    Parser-&gt;&gt;Parser: 解密ErdData获取随机数据
+    Parser-&gt;&gt;Parser: 生成中央目录解密密钥
+
+    Parser-&gt;&gt;ZIP: 读取VData和VCRC32字段
+    ZIP-&gt;&gt;Parser: 返回VData和VCRC32
+
+    Parser-&gt;&gt;Parser: 解密VData和VCRC32
+    Parser-&gt;&gt;Parser: 验证VData的CRC32
+
+    alt 密码验证成功
+        Parser-&gt;&gt;ZIP: 读取加密的中央目录
+        ZIP-&gt;&gt;Parser: 返回加密的中央目录数据
+        Parser-&gt;&gt;Parser: 解密中央目录
+        Parser-&gt;&gt;Parser: 解析中央目录获取文件列表
+        Parser-&gt;&gt;User: 显示文件列表
+        User-&gt;&gt;Parser: 选择要解压的文件
+        Parser-&gt;&gt;Parser: 继续解压选中的文件
+        Parser-&gt;&gt;User: 解压完成
+    else 密码验证失败
+        Parser-&gt;&gt;User: 密码验证失败，无法解密中央目录
+        Parser-&gt;&gt;User: 无法显示文件列表，请重新输入密码
+    end
+</code></pre>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/xingfen-star.github.io/tags/zip/">ZIP</a>
+        
+            <a href="/xingfen-star.github.io/tags/%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">文件格式</a>
+        
+            <a href="/xingfen-star.github.io/tags/%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/">协议解析</a>
+        
+    </section>
+
+
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            Last updated on Apr 23, 2026 18:24 UTC
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+
+    
+
+
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy;
+        
+            2025 -
+        
+        2026 远楒
+    </section>
+
+    <section class="powerby">
+        
+            星藏点雪，月隐晦明 <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.3e0587bea8834cd3d9d3020bdfadb3d6ef435900c301cfd4c0ffaa0825b9b711.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<style>
+    #TableOfContents > ul, ol {
+        ul, ol {
+            display: none;
+        }
+        .open {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    function initTocHide() {
+        
+        let toc = document.querySelector(".widget--toc");
+        if (!toc) {
+            return;
+        }
+        
+        window.addEventListener('scroll', function() {
+            
+            let currentLi = document.querySelector(".active-class");
+            if (!currentLi) {
+                return
+            }
+            
+            let elementsByClassName = document.querySelectorAll(".open");
+            if (elementsByClassName.length > 0) {
+                elementsByClassName.forEach((ul) => {
+                    ul.classList.remove("open")
+                })
+            }
+            
+            if (currentLi.children.length > 1) {
+                currentLi.children[1].classList.add("open")
+            }
+            
+            let ul = currentLi.parentElement;
+            do {
+                ul.classList.add("open");
+                ul = ul.parentElement.parentElement
+            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+        });
+    }
+    initTocHide()
+</script>
+
+    </body>
+</html>
