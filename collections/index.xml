@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Collections on 远楒</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/collections/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/collections/</link>
         <description>Recent content in Collections on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/collections/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/collections/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>网络对抗演练作业</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/collections/wldk-report/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/collections/wldk-report/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/collections/wldk-report/</guid>
+        <guid>https://xingfend.github.io/blog-by-hugo/collections/wldk-report/</guid>
         <description></description>
         </item>
         <item>
         <title>软件逆向分析作业</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/collections/rvs-enr-crs/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/collections/rvs-enr-crs/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/collections/rvs-enr-crs/</guid>
-        <description>&lt;img src="https://xingfend.github.io/xingfen-star.github.io/collections/rvs-enr-crs/image.png" alt="Featured image of post 软件逆向分析作业" /&gt;</description>
+        <guid>https://xingfend.github.io/blog-by-hugo/collections/rvs-enr-crs/</guid>
+        <description>&lt;img src="https://xingfend.github.io/blog-by-hugo/collections/rvs-enr-crs/image.png" alt="Featured image of post 软件逆向分析作业" /&gt;</description>
         </item>
         
     </channel>

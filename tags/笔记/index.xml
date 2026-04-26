@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>笔记 on 远楒</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/</link>
         <description>Recent content in 笔记 on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>hugo&#43;GithubIO自建博客踩坑实录</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/</link>
         <pubDate>Sun, 02 Feb 2025 17:21:58 +0800</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/</guid>
-        <description>&lt;img src="https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.png" alt="Featured image of post hugo&#43;GithubIO自建博客踩坑实录" /&gt;&lt;p&gt;    此博客搭建过程参考的资料在&amp;quot;关于&amp;quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。&lt;/p&gt;
+        <guid>https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/</guid>
+        <description>&lt;img src="https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/facebook_cover_photo_2.png" alt="Featured image of post hugo&#43;GithubIO自建博客踩坑实录" /&gt;&lt;p&gt;    此博客搭建过程参考的资料在&amp;quot;关于&amp;quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。&lt;/p&gt;
 &lt;h2 id=&#34;不能正确渲染主题---20250128&#34;&gt;不能正确渲染主题 - 2025.01.28
 &lt;/h2&gt;&lt;p&gt;    此博客采用源码-博客页分离的结构搭建。&lt;/p&gt;
 &lt;p&gt;    源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过&lt;code&gt;hugo -D&lt;/code&gt;命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到&lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD/xingfen-star.github.io.git&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -85,10 +85,10 @@
 &lt;/h2&gt;&lt;p&gt;    使用&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack.git&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;hugo-theme-stack&lt;/a&gt;主题后&lt;/p&gt;
 &lt;p&gt;    发现在白天模式下的代码块颜色异常，如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/codeblock_abnormal.png&#34;
 	width=&#34;2062&#34;
 	height=&#34;659&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_94e54e05a64afd3e.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/codeblock_abnormal_hu_5f6bdd1db88fb21d.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/codeblock_abnormal_hu_94e54e05a64afd3e.png 480w, https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/codeblock_abnormal_hu_5f6bdd1db88fb21d.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;代码块颜色异常例图&#34;
@@ -139,10 +139,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;              &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;limit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    配置生效后右侧边栏效果如下图:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/right_sidebar.png&#34;
 	width=&#34;788&#34;
 	height=&#34;975&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_ac8f3173ff0cf381.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/right_sidebar_hu_db4896826dca191f.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/right_sidebar_hu_ac8f3173ff0cf381.png 480w, https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/right_sidebar_hu_db4896826dca191f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;右侧边栏效果图&#34;
@@ -158,10 +158,10 @@
     &gt;修复Hugo静态生成器中忽略原始HTML的方法&lt;/a&gt;后，在&lt;code&gt;hugo.toml&lt;/code&gt;中添加配置项：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;markup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;goldmark&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;renderer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;unsafe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;    成功渲染，效果如图。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/special_tag_fix.png&#34;
 	width=&#34;2195&#34;
 	height=&#34;554&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_1799989da48b5859.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/hugo-githubio/special_tag_fix_hu_5eb86c35d790f284.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/special_tag_fix_hu_1799989da48b5859.png 480w, https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/special_tag_fix_hu_5eb86c35d790f284.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;修改配置前后渲染对比图&#34;

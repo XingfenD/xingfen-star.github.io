@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Pages on 远楒</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/page/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/page/</link>
         <description>Recent content in Pages on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>归档</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/page/archives/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/page/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/page/archives/</guid>
+        <guid>https://xingfend.github.io/blog-by-hugo/page/archives/</guid>
         <description></description>
         </item>
         <item>
         <title>关于</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/page/about/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/page/about/</link>
         <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/page/about/</guid>
+        <guid>https://xingfend.github.io/blog-by-hugo/page/about/</guid>
         <description>&lt;h2 id=&#34;关于远楒&#34;&gt;关于远楒
 &lt;/h2&gt;&lt;p&gt;「远楒」取音「远思」，意在表达两层含义：一是对事物进行深入的思考与探究，二是对过往的人、事、时光怀有遥远的思念。&lt;/p&gt;
 &lt;p&gt;英文名为 yoresee（/ˈjɔːsiː/），由古英语词汇 yore（往昔）与 see（看见）组合而成，直译为「看见往昔」或「回望过去」。这一命名与中文「远楒」相呼应——既体现对过往的注视，也暗含对未来的展望。&lt;/p&gt;
@@ -82,18 +82,18 @@
         </item>
         <item>
         <title>搜索</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/page/search/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/page/search/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/page/search/</guid>
+        <guid>https://xingfend.github.io/blog-by-hugo/page/search/</guid>
         <description></description>
         </item>
         <item>
         <title>链接</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/page/links/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/page/links/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/page/links/</guid>
+        <guid>https://xingfend.github.io/blog-by-hugo/page/links/</guid>
         <description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
 &lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;links&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;

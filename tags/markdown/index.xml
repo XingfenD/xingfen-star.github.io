@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Markdown on 远楒</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/tags/markdown/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/tags/markdown/</link>
         <description>Recent content in Markdown on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/tags/markdown/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Markdown 语法指南</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/post/markdown-syntax/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/post/markdown-syntax/</link>
         <pubDate>Sun, 02 Feb 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://xingfend.github.io/xingfen-star.github.io/post/markdown-syntax/</guid>
-        <description>&lt;img src="https://xingfend.github.io/xingfen-star.github.io/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" alt="Featured image of post Markdown 语法指南" /&gt;&lt;p&gt;本文提供了可以在 Hugo 内容文件中使用的最基本 Markdown 语法样本，同时也展示了基本 HTML 元素是否可以通过 Hugo 主题中的 CSS 被装饰。&lt;/p&gt;
+        <guid>https://xingfend.github.io/blog-by-hugo/post/markdown-syntax/</guid>
+        <description>&lt;img src="https://xingfend.github.io/blog-by-hugo/post/markdown-syntax/pawel-czerwinski-8uZPynIu-rQ-unsplash.jpg" alt="Featured image of post Markdown 语法指南" /&gt;&lt;p&gt;本文提供了可以在 Hugo 内容文件中使用的最基本 Markdown 语法样本，同时也展示了基本 HTML 元素是否可以通过 Hugo 主题中的 CSS 被装饰。&lt;/p&gt;
 &lt;h2 id=&#34;标题&#34;&gt;标题
 &lt;/h2&gt;&lt;p&gt;以下 HTML &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;—&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; 元素代表六个级别的章节标题。&lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; 是最高级别，而 &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; 是最低级别。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;# H1

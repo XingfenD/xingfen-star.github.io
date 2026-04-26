@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>渗透测试 on 远楒</title>
-        <link>https://xingfend.github.io/xingfen-star.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</link>
+        <link>https://xingfend.github.io/blog-by-hugo/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</link>
         <description>Recent content in 渗透测试 on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate></lastBuildDate><atom:link href="https://xingfend.github.io/xingfen-star.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+        <lastBuildDate></lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 </rss>

@@ -4,16 +4,16 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
 <title>【武大软件逆向课程/第二周】IDA的使用</title>
 
-<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
+<link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/reverse-program-course-week2/'>
 
-<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.4d1f1d0ba0946642521204c22cac9e95a334e06a474fd46b82cd09992c69e726.css"><meta property='og:title' content="【武大软件逆向课程/第二周】IDA的使用">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.4d1f1d0ba0946642521204c22cac9e95a334e06a474fd46b82cd09992c69e726.css"><meta property='og:title' content="【武大软件逆向课程/第二周】IDA的使用">
 <meta property='og:description' content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
-<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/reverse-program-course-week2/'>
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/reverse-program-course-week2/'>
 <meta property='og:site_name' content='远楒'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='软件逆向' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-03-01T13:39:16&#43;08:00'/><meta property='article:modified_time' content='2026-04-26T14:52:27&#43;08:00'/>
 <meta name="twitter:title" content="【武大软件逆向课程/第二周】IDA的使用">
 <meta name="twitter:description" content="环境搭建 WindowsXP系统家庭版（虚拟机）\n在XP系统中安装VC++6.0\nWindows11（物理机）\n在Win11中安装Visual Studio2022\n新建工程与配置页面 使用VC++6.0生成Hello World模板工程。文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序。\n进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;\nC程序PE文件的运行 在&quot;组件&quot;菜单栏中，确保构建目标为&quot;Win32 Debug&quot;，构建项目。\n在&quot;调试&quot;菜单栏中，设置任意断点后，开始调试程序。\n在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：\n在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为KERNEL32到mainCRTStartup()。第二次为mainCRTStartup()调用main()函数。c语言main()函数的两个参数argc与argv就是mainCRTStartup()传递的。\n在&quot;Call Stack&quot;窗口中双击mainCRTStartup()项进入该地址。\n在语句_acmdln = (char *)GetCommandLineA();处设断点重新运行。\n在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。\n在Watch窗口中添加变量\\_acmdln后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。\n可见该变量指向命令行参数。\n">
-    <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
+    <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
     </head>
     <body class="
@@ -52,13 +52,13 @@
         
             
             <figure class="site-avatar">
-                <a href="/xingfen-star.github.io/">
+                <a href="/blog-by-hugo/">
                 
                     
 
                     
                         
-                        <img src="/xingfen-star.github.io/img/avatar_hu_d5cb2293594012db.png" width="300"
+                        <img src="/blog-by-hugo/img/avatar_hu_d5cb2293594012db.png" width="300"
                             height="279" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -71,7 +71,7 @@
         
 
         <div class="site-meta">
-            <h1 class="site-name"><a href="/xingfen-star.github.io">远楒</a></h1>
+            <h1 class="site-name"><a href="/blog-by-hugo">远楒</a></h1>
             <h2 class="site-description">星分.</h2>
         </div>
     </header><ol class="menu-social">
@@ -109,7 +109,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/' >
+            <a href='/blog-by-hugo/' >
                 
                 
                 
@@ -129,7 +129,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/archives/' >
+            <a href='/blog-by-hugo/page/archives/' >
                 
                 
                 
@@ -149,7 +149,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/search/' >
+            <a href='/blog-by-hugo/page/search/' >
                 
                 
                 
@@ -168,7 +168,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/about/' >
+            <a href='/blog-by-hugo/page/about/' >
                 
                 
                 
@@ -187,7 +187,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/links/' >
+            <a href='/blog-by-hugo/page/links/' >
                 
                 
                 
@@ -285,11 +285,11 @@
     <h2 class="widget-title section-title">Tags of current blog</h2>
     <div class="curTags-tags">
         
-            <a href="/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">
+            <a href="/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">
                 软件逆向
             </a>
         
-            <a href="/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/">
+            <a href="/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/">
                 笔记
             </a>
         
@@ -309,7 +309,7 @@
     
     <header class="article-category">
         
-            <a href="/xingfen-star.github.io/categories/course/" style="background-color: #2a9d8f; color: #fff;">
+            <a href="/blog-by-hugo/categories/course/" style="background-color: #2a9d8f; color: #fff;">
                 课程作业
             </a>
         
@@ -318,7 +318,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/xingfen-star.github.io/post/reverse-program-course-week2/">【武大软件逆向课程/第二周】IDA的使用</a>
+            <a href="/blog-by-hugo/post/reverse-program-course-week2/">【武大软件逆向课程/第二周】IDA的使用</a>
         </h2>
 
         
@@ -401,10 +401,10 @@
 </ul>
 <h3 id="新建工程与配置页面">新建工程与配置页面
 </h3><p>    使用VC++6.0生成Hello World模板工程。<code>文件-&gt;新建-&gt;工程-&gt;Win32 Console Application-&gt;一个&quot;Hello, World&quot;程序</code>。</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image.png"
+<p><img src="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image.png"
 	width="2369"
 	height="823"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_2f8594bf533bae6c.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_90aafc9a68a52b54.png 1024w"
+	srcset="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_2f8594bf533bae6c.png 480w, /blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-01-22-image_hu_90aafc9a68a52b54.png 1024w"
 	loading="lazy"
 	
 	
@@ -414,10 +414,10 @@
 	
 ></p>
 <p>    进入工程后，在工具栏右键勾选&quot;组件&quot;与&quot;调试&quot;</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image.png"
+<p><img src="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image.png"
 	width="1012"
 	height="496"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_dee888bf8cc06147.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_dcc5bbd38d9b7bd0.png 1024w"
+	srcset="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_dee888bf8cc06147.png 480w, /blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-33-54-image_hu_dcc5bbd38d9b7bd0.png 1024w"
 	loading="lazy"
 	
 	
@@ -436,10 +436,10 @@
 </li>
 </ul>
 <p>    在调试状态的窗口下，右键菜单栏，勾选&quot;Call Stack&quot;。显示函数调用栈窗口。此时窗口状态如下：</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image.png"
+<p><img src="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image.png"
 	width="2312"
 	height="1251"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_8ee4c65989025dd8.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_a8435ce5be347ab1.png 1024w"
+	srcset="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_8ee4c65989025dd8.png 480w, /blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-14-42-41-image_hu_a8435ce5be347ab1.png 1024w"
 	loading="lazy"
 	
 	
@@ -451,10 +451,10 @@
 <p>    在&quot;Call Stack&quot;窗口中可以看见，该C语言程序在刚进入主函数后，就已经经过了两次调用。第一次为<code>KERNEL32</code>到<code>mainCRTStartup()</code>。第二次为<code>mainCRTStartup()</code>调用<code>main()</code>函数。c语言<code>main()</code>函数的两个参数<code>argc</code>与<code>argv</code>就是<code>mainCRTStartup()</code>传递的。</p>
 <p>    在&quot;Call Stack&quot;窗口中双击<code>mainCRTStartup()</code>项进入该地址。</p>
 <p>    在语句<code>_acmdln = (char *)GetCommandLineA();</code>处设断点重新运行。</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image.png"
+<p><img src="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image.png"
 	width="1358"
 	height="900"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_6ce03fa72b8799de.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_45a2fc1d4565cafd.png 1024w"
+	srcset="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_6ce03fa72b8799de.png 480w, /blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-15-08-39-image_hu_45a2fc1d4565cafd.png 1024w"
 	loading="lazy"
 	
 	
@@ -465,10 +465,10 @@
 ></p>
 <p>    在菜单栏-&gt;查看-&gt;调试窗口中打开Memory与Watch窗口，并将Memory窗口的宽度调整为一行16个字节。</p>
 <p>    在Watch窗口中添加变量<code>\_acmdln</code>后，单步执行该赋值语句，可以发现Watch窗口中该变量的值发生变化，在Memory窗口中跳转到该变量所存地址。</p>
-<p><img src="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image.png"
+<p><img src="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image.png"
 	width="2316"
 	height="348"
-	srcset="/xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_4007f52675003cb3.png 480w, /xingfen-star.github.io/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_f3349a522d1d87bd.png 1024w"
+	srcset="/blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_4007f52675003cb3.png 480w, /blog-by-hugo/post/reverse-program-course-week2/img/2025-03-01-15-17-44-image_hu_f3349a522d1d87bd.png 1024w"
 	loading="lazy"
 	
 	
@@ -486,9 +486,9 @@
     
     <section class="article-tags">
         
-            <a href="/xingfen-star.github.io/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">软件逆向</a>
+            <a href="/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">软件逆向</a>
         
-            <a href="/xingfen-star.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
+            <a href="/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
         
     </section>
 
@@ -522,7 +522,7 @@
             
                 
 <article class="">
-    <a href="/xingfen-star.github.io/post/reverse-program-course-week1/">
+    <a href="/blog-by-hugo/post/reverse-program-course-week1/">
 
         
 
@@ -535,11 +535,11 @@
             
                 
 <article class="has-image">
-    <a href="/xingfen-star.github.io/post/hugo-githubio/">
+    <a href="/blog-by-hugo/post/hugo-githubio/">
 
         
             <div class="article-image">
-                <img src="/xingfen-star.github.io/post/hugo-githubio/facebook_cover_photo_2.15eb225ce97cdcb1b00b8d1252e0a89f_hu_5b8892fb349e4b05.png"
+                <img src="/blog-by-hugo/post/hugo-githubio/facebook_cover_photo_2.15eb225ce97cdcb1b00b8d1252e0a89f_hu_5b8892fb349e4b05.png"
                         width="250"
                         height="150"
                         loading="lazy"
@@ -668,7 +668,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
+            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');

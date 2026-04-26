@@ -4,16 +4,16 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
 <title>c语言getopt.h库解析</title>
 
-<link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/'>
+<link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/c-getopt_h-analysis/'>
 
-<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.4d1f1d0ba0946642521204c22cac9e95a334e06a474fd46b82cd09992c69e726.css"><meta property='og:title' content="c语言getopt.h库解析">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.4d1f1d0ba0946642521204c22cac9e95a334e06a474fd46b82cd09992c69e726.css"><meta property='og:title' content="c语言getopt.h库解析">
 <meta property='og:description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
-<meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/'>
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/c-getopt_h-analysis/'>
 <meta property='og:site_name' content='远楒'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='c语言' /><meta property='article:tag' content='参数解析' /><meta property='article:published_time' content='2025-01-22T13:29:03&#43;08:00'/><meta property='article:modified_time' content='2026-04-26T14:52:27&#43;08:00'/>
 <meta name="twitter:title" content="c语言getopt.h库解析">
 <meta name="twitter:description" content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
-    <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
+    <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
     </head>
     <body class="
@@ -52,13 +52,13 @@
         
             
             <figure class="site-avatar">
-                <a href="/xingfen-star.github.io/">
+                <a href="/blog-by-hugo/">
                 
                     
 
                     
                         
-                        <img src="/xingfen-star.github.io/img/avatar_hu_d5cb2293594012db.png" width="300"
+                        <img src="/blog-by-hugo/img/avatar_hu_d5cb2293594012db.png" width="300"
                             height="279" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -71,7 +71,7 @@
         
 
         <div class="site-meta">
-            <h1 class="site-name"><a href="/xingfen-star.github.io">远楒</a></h1>
+            <h1 class="site-name"><a href="/blog-by-hugo">远楒</a></h1>
             <h2 class="site-description">星分.</h2>
         </div>
     </header><ol class="menu-social">
@@ -109,7 +109,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/' >
+            <a href='/blog-by-hugo/' >
                 
                 
                 
@@ -129,7 +129,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/archives/' >
+            <a href='/blog-by-hugo/page/archives/' >
                 
                 
                 
@@ -149,7 +149,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/search/' >
+            <a href='/blog-by-hugo/page/search/' >
                 
                 
                 
@@ -168,7 +168,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/about/' >
+            <a href='/blog-by-hugo/page/about/' >
                 
                 
                 
@@ -187,7 +187,7 @@
         
         
         <li >
-            <a href='/xingfen-star.github.io/page/links/' >
+            <a href='/blog-by-hugo/page/links/' >
                 
                 
                 
@@ -294,11 +294,11 @@
     <h2 class="widget-title section-title">Tags of current blog</h2>
     <div class="curTags-tags">
         
-            <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/">
+            <a href="/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/">
                 C语言
             </a>
         
-            <a href="/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">
+            <a href="/blog-by-hugo/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">
                 参数解析
             </a>
         
@@ -318,7 +318,7 @@
     
     <header class="article-category">
         
-            <a href="/xingfen-star.github.io/categories/program/" style="background-color: #2a9d8f; color: #fff;">
+            <a href="/blog-by-hugo/categories/program/" style="background-color: #2a9d8f; color: #fff;">
                 编程
             </a>
         
@@ -327,7 +327,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/xingfen-star.github.io/post/c-getopt_h-analysis/">c语言getopt.h库解析</a>
+            <a href="/blog-by-hugo/post/c-getopt_h-analysis/">c语言getopt.h库解析</a>
         </h2>
 
         
@@ -816,9 +816,9 @@
     
     <section class="article-tags">
         
-            <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+            <a href="/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
         
-            <a href="/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">参数解析</a>
+            <a href="/blog-by-hugo/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">参数解析</a>
         
     </section>
 
@@ -952,7 +952,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
+            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
