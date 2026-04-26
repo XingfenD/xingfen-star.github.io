@@ -599,6 +599,7 @@
         ul, ol {
             display: none;
         }
+
         .open {
             display: block;
         }
@@ -607,11 +608,24 @@
     .article-content .mermaid-block {
         overflow-x: auto;
         margin: 1.5rem 0;
+        padding: 1rem;
+        border-radius: var(--card-border-radius);
+        background: rgba(127, 127, 127, 0.08);
     }
 
     .article-content .mermaid {
         min-width: max-content;
         text-align: center;
+    }
+
+    .article-content .mermaid svg {
+        display: block;
+        height: auto;
+    }
+
+    [data-scheme="dark"] .article-content .mermaid-block {
+        border: 1px solid var(--card-separator-color);
+        background: rgba(255, 255, 255, 0.04);
     }
 </style>
 
@@ -622,6 +636,16 @@
             </script>
 
 <script>
+    const mermaidSelector = ".article-content .mermaid";
+    let mermaidRenderQueue = Promise.resolve();
+
+    if (window.mermaid) {
+        window.mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "loose"
+        });
+    }
+
     function initTocHide() {
         let toc = document.querySelector(".widget--toc");
         if (!toc) {
@@ -653,8 +677,199 @@
         });
     }
 
-    function getMermaidTheme() {
-        return document.documentElement.dataset.scheme === "dark" ? "dark" : "default";
+    function isDarkMode() {
+        return document.documentElement.dataset.scheme === "dark";
+    }
+
+    function getMermaidThemeConfig() {
+        if (isDarkMode()) {
+            return {
+                theme: "base",
+                themeVariables: {
+                    darkMode: true,
+                    background: "#424242",
+                    primaryColor: "#4b5563",
+                    primaryTextColor: "#f5f5f5",
+                    primaryBorderColor: "#d1d5db",
+                    secondaryColor: "#5b5b5b",
+                    secondaryTextColor: "#f5f5f5",
+                    secondaryBorderColor: "#d1d5db",
+                    tertiaryColor: "#3f3f46",
+                    tertiaryTextColor: "#f5f5f5",
+                    tertiaryBorderColor: "#d1d5db",
+                    lineColor: "#d1d5db",
+                    textColor: "#f5f5f5",
+                    mainBkg: "#4b5563",
+                    noteBkgColor: "#57534e",
+                    noteTextColor: "#f5f5f5",
+                    noteBorderColor: "#d6d3d1",
+                    actorBkg: "#4b5563",
+                    actorBorder: "#d1d5db",
+                    actorLineColor: "#d1d5db",
+                    actorTextColor: "#f5f5f5",
+                    signalColor: "#e5e7eb",
+                    signalTextColor: "#f5f5f5",
+                    labelBoxBkgColor: "#4b5563",
+                    labelBoxBorderColor: "#d1d5db",
+                    labelTextColor: "#f5f5f5",
+                    loopTextColor: "#f5f5f5",
+                    activationBkgColor: "#5b5b5b",
+                    activationBorderColor: "#d1d5db",
+                    sequenceNumberColor: "#111827"
+                }
+            };
+        }
+
+        return {
+            theme: "base",
+            themeVariables: {
+                darkMode: false,
+                background: "#ffffff",
+                primaryColor: "#eef2ff",
+                primaryTextColor: "#1f2937",
+                primaryBorderColor: "#6366f1",
+                secondaryColor: "#f3f4f6",
+                secondaryTextColor: "#1f2937",
+                secondaryBorderColor: "#9ca3af",
+                tertiaryColor: "#f8fafc",
+                tertiaryTextColor: "#1f2937",
+                tertiaryBorderColor: "#cbd5e1",
+                lineColor: "#4b5563",
+                textColor: "#1f2937",
+                mainBkg: "#eef2ff",
+                noteBkgColor: "#fef3c7",
+                noteTextColor: "#1f2937",
+                noteBorderColor: "#d97706",
+                actorBkg: "#eef2ff",
+                actorBorder: "#6366f1",
+                actorLineColor: "#6366f1",
+                actorTextColor: "#111827",
+                signalColor: "#374151",
+                signalTextColor: "#1f2937",
+                labelBoxBkgColor: "#eef2ff",
+                labelBoxBorderColor: "#6366f1",
+                labelTextColor: "#111827",
+                loopTextColor: "#111827",
+                activationBkgColor: "#f3f4f6",
+                activationBorderColor: "#9ca3af",
+                sequenceNumberColor: "#ffffff"
+            }
+        };
+    }
+
+    function getMermaidNodes() {
+        return Array.from(document.querySelectorAll(mermaidSelector));
+    }
+
+    function getMermaidSource(node) {
+        const sourceTemplate = node.parentElement?.querySelector(".mermaid-source");
+
+        if (sourceTemplate instanceof HTMLTemplateElement) {
+            return sourceTemplate.innerHTML.trim();
+        }
+
+        return node.innerHTML.trim();
+    }
+
+    function prepareMermaidNodes(theme) {
+        const nodes = getMermaidNodes();
+
+        nodes.forEach((node) => {
+            if (!node.dataset.mermaidSource) {
+                node.dataset.mermaidSource = getMermaidSource(node);
+            }
+
+            if (node.dataset.mermaidRenderedTheme !== theme) {
+                node.removeAttribute("data-processed");
+                node.innerHTML = node.dataset.mermaidSource;
+            }
+        });
+
+        return nodes;
+    }
+
+    function getMermaidStyleOverrides(svgId) {
+        if (!isDarkMode()) {
+            return "";
+        }
+
+        const selector = "#" + svgId;
+
+        return `
+${selector} {
+    background: transparent !important;
+}
+
+${selector} .actor,
+${selector} .labelBox {
+    fill: #4b5563 !important;
+    stroke: #d1d5db !important;
+}
+
+${selector} .actor-line,
+${selector} .innerArc,
+${selector} .messageLine0,
+${selector} .messageLine1,
+${selector} .loopLine {
+    stroke: #d1d5db !important;
+}
+
+${selector} [id$="-arrowhead"] path,
+${selector} [id$="-crosshead"] path,
+${selector} .marker,
+${selector} .marker.cross {
+    fill: #d1d5db !important;
+    stroke: #d1d5db !important;
+}
+
+${selector} .actor-box,
+${selector} .messageText,
+${selector} .messageText tspan,
+${selector} .labelText,
+${selector} .labelText tspan,
+${selector} .loopText,
+${selector} .loopText tspan,
+${selector} .noteText,
+${selector} .noteText tspan,
+${selector} text.actor > tspan {
+    fill: #f5f5f5 !important;
+    stroke: none !important;
+}
+
+${selector} .note {
+    fill: #57534e !important;
+    stroke: #d6d3d1 !important;
+}
+
+${selector} .activation0,
+${selector} .activation1,
+${selector} .activation2 {
+    fill: #5b5b5b !important;
+    stroke: #d1d5db !important;
+}
+
+${selector} [id$="-sequencenumber"] {
+    fill: #d1d5db !important;
+}
+
+${selector} .sequenceNumber {
+    fill: #111827 !important;
+}
+`;
+    }
+
+    function applyMermaidThemeStyles() {
+        document.querySelectorAll(`${mermaidSelector} svg[id]`).forEach((svg) => {
+            let styleEl = svg.querySelector("style[data-stack-mermaid-theme]");
+
+            if (!styleEl) {
+                styleEl = document.createElementNS("http://www.w3.org/2000/svg", "style");
+                styleEl.setAttribute("data-stack-mermaid-theme", "true");
+                svg.appendChild(styleEl);
+            }
+
+            styleEl.textContent = getMermaidStyleOverrides(svg.id);
+        });
     }
 
     async function renderMermaidDiagrams() {
@@ -662,21 +877,61 @@
             return;
         }
 
+        const { theme, themeVariables } = getMermaidThemeConfig();
+        const nodes = getMermaidNodes();
+
+        if (!nodes.length) {
+            return;
+        }
+
+        const needsRender = nodes.some((node) => {
+            return node.dataset.mermaidRenderedTheme !== theme || node.getAttribute("data-processed") !== "true";
+        });
+
+        if (!needsRender) {
+            return;
+        }
+
+        prepareMermaidNodes(theme);
+
         window.mermaid.initialize({
             startOnLoad: false,
-            theme: getMermaidTheme(),
+            theme,
+            themeVariables,
             securityLevel: "loose"
         });
 
         await window.mermaid.run({
-            querySelector: ".article-content .mermaid"
+            querySelector: mermaidSelector
         });
+
+        getMermaidNodes().forEach((node) => {
+            node.dataset.mermaidRenderedTheme = theme;
+        });
+
+        applyMermaidThemeStyles();
+    }
+
+    function queueMermaidRender() {
+        mermaidRenderQueue = mermaidRenderQueue
+            .catch(() => undefined)
+            .then(() => renderMermaidDiagrams())
+            .catch((error) => {
+                console.error("Failed to render Mermaid diagrams:", error);
+            });
+
+        return mermaidRenderQueue;
     }
 
     initTocHide();
 
     window.addEventListener("load", function() {
-        renderMermaidDiagrams();
+        queueMermaidRender();
+    });
+
+    window.addEventListener("onColorSchemeChange", function() {
+        applyMermaidThemeStyles();
+        queueMermaidRender();
     });
 </script>
 

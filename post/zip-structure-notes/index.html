@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
 <title>ZIP 文件结构与解析流程核心笔记</title>
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/zip-structure-notes/'>
 
 <link rel="stylesheet" href="/blog-by-hugo/scss/style.min.4d1f1d0ba0946642521204c22cac9e95a334e06a474fd46b82cd09992c69e726.css"><meta property='og:title' content="ZIP 文件结构与解析流程核心笔记">
-<meta property='og:description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
+<meta property='og:description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/zip-structure-notes/'>
 <meta property='og:site_name' content='远楒'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ZIP' /><meta property='article:tag' content='文件格式' /><meta property='article:tag' content='协议解析' /><meta property='article:published_time' content='2026-04-24T02:10:00&#43;08:00'/><meta property='article:modified_time' content='2026-04-26T14:52:27&#43;08:00'/>
 <meta name="twitter:title" content="ZIP 文件结构与解析流程核心笔记">
-<meta name="twitter:description" content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
+<meta name="twitter:description" content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
     </head>
@@ -376,7 +376,7 @@
 
 
                 <time class="article-time--reading">
-                    5 minute read
+                    9 minute read
                 </time>
             </div>
         
@@ -428,6 +428,32 @@
 <h3 id="标准解析模式">标准解析模式
 </h3><p>从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。</p>
 <div class="mermaid-block">
+    <template class="mermaid-source">sequenceDiagram
+    participant Parser as 解析器
+    participant File as ZIP文件
+    participant LFH as 本地文件头
+    participant CD as 中央目录
+    participant EOCDR as 中央目录结束记录
+
+    Parser->>File: 从文件末尾查找EOCDR签名
+    File-->>Parser: 返回EOCDR位置
+    Parser->>EOCDR: 读取EOCDR内容
+    EOCDR-->>Parser: 返回EOCDR数据
+    Parser->>Parser: 提取Central Directory偏移量
+    Parser->>File: 跳转到Central Directory位置
+    loop 读取所有CD项
+        Parser->>CD: 读取一个CentralDirectoryHeader
+        CD-->>Parser: 返回CD项数据
+        Parser->>Parser: 保存CD项
+    end
+    loop 根据CD项读取所有LFH
+        Parser->>CD: 从CD项获取Local File Header偏移量
+        CD-->>Parser: 返回偏移量
+        Parser->>File: 跳转到对应的Local File Header位置
+        Parser->>LFH: 读取LocalFileHeader
+        LFH-->>Parser: 返回LFH数据
+        Parser->>Parser: 保存LFH
+    end</template>
     <div class="mermaid">sequenceDiagram
     participant Parser as 解析器
     participant File as ZIP文件
@@ -458,6 +484,23 @@
 <h3 id="流式解析模式">流式解析模式
 </h3><p>从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。</p>
 <div class="mermaid-block">
+    <template class="mermaid-source">sequenceDiagram
+    participant Parser as 解析器
+    participant File as ZIP文件
+    participant LFH as 本地文件头
+
+    Parser->>File: 将文件指针定位到文件开头
+    loop 顺序读取Local File Header
+        Parser->>LFH: 尝试读取LocalFileHeader
+        alt 成功读取LFH签名
+            LFH-->>Parser: 返回LocalFileHeader数据
+            Parser->>Parser: 保存LFH
+            Parser->>File: 继续读取下一个LFH
+        else 未找到有效的LFH签名或读取失败
+            File-->>Parser: 返回读取失败
+            Parser->>Parser: 停止解析
+        end
+    end</template>
     <div class="mermaid">sequenceDiagram
     participant Parser as 解析器
     participant File as ZIP文件
@@ -636,6 +679,65 @@
 <h3 id="相关流程">相关流程
 </h3><h4 id="zip64解析流程">Zip64解析流程
 </h4><div class="mermaid-block">
+    <template class="mermaid-source">sequenceDiagram
+    participant Parser AS 解析器
+    participant EOCDR AS End of Central Directory
+    participant ZIP64Locator AS ZIP64 Locator
+    participant ZIP64EOCDR AS ZIP64 End of Central Directory
+    participant 中央目录 AS Central Directory
+    participant CDH AS Central Directory Header
+    participant LFH AS Local File Header
+    participant 文件数据 AS File Data
+    participant DD AS Data Descriptor
+
+    Note over Parser: 初始化阶段
+    Parser->>EOCDR: 1. 读取End of Central Directory Record
+    EOCDR->>Parser: 返回EOCDR数据
+    Parser->>Parser: 2. 检查ZIP64格式标志
+    alt 检测到ZIP64标志
+        Parser->>ZIP64Locator: 3. 读取ZIP64 Locator
+        ZIP64Locator->>Parser: 返回ZIP64 EOCDR位置
+        Parser->>ZIP64EOCDR: 4. 读取ZIP64 EOCDR
+        ZIP64EOCDR->>Parser: 返回完整中央目录信息
+    end
+    Parser->>中央目录: 5. 定位中央目录
+    Parser->>Parser: 6. 初始化文件计数器 = 0
+
+    Note over Parser: 循环处理所有文件
+    loop 对于每个文件条目
+        Parser->>Parser: 7. 文件计数器 += 1
+        Parser->>CDH: 8. 读取Central Directory Header
+        CDH->>Parser: 返回文件元数据
+        Parser->>Parser: 9. 检查是否需要ZIP64扩展
+        alt 需要ZIP64扩展
+            Parser->>CDH: 10. 提取ZIP64扩展信息
+            CDH->>Parser: 返回8字节大小和偏移量
+        end
+
+        Note over Parser: 处理Local File Header
+        Parser->>LFH: 11. 根据CDH定位LFH
+        LFH->>Parser: 返回Local File Header数据
+        Parser->>Parser: 12. 验证LFH与CDH一致性
+
+        Note over Parser: 处理文件数据
+        Parser->>文件数据: 13. 读取压缩文件数据
+        文件数据->>Parser: 返回文件数据
+        Parser->>Parser: 14. 解压/解密文件数据
+
+        alt 存在Data Descriptor
+            Parser->>DD: 15. 读取Data Descriptor
+            DD->>Parser: 返回实际CRC和大小
+            Parser->>Parser: 16. 验证数据完整性
+        end
+
+        Parser->>Parser: 17. 存储文件信息
+        Parser->>Parser: 18. 检查是否还有更多文件
+    end
+
+    Note over Parser: 完成阶段
+    Parser->>Parser: 19. 生成完整文件列表
+    Parser->>Parser: 20. 验证所有文件完整性
+    Parser->>Parser: 21. 返回解析结果</template>
     <div class="mermaid">sequenceDiagram
     participant Parser AS 解析器
     participant EOCDR AS End of Central Directory
@@ -698,6 +800,71 @@
 </div>
 <h4 id="启用中央目录加密时的解析流程">启用中央目录加密时的解析流程
 </h4><div class="mermaid-block">
+    <template class="mermaid-source">sequenceDiagram
+    participant Parser AS 解析器
+    participant User AS 用户
+    participant EOCD AS End of Central Directory
+    participant ZIP64Locator AS ZIP64 Locator
+    participant ZIP64EOCD AS ZIP64 End of Central Directory
+    participant ArchiveDH AS Archive Decryption Header
+    participant ArchiveExtra AS Archive Extra Data Record
+    participant EncryptedCD AS Encrypted Central Directory
+    participant CDH AS Central Directory Header
+    participant LFH AS Local File Header
+    participant FileData AS File Data
+
+    Note over Parser: 阶段1: 定位和读取目录结构
+    Parser->>EOCD: 1. 读取End of Central Directory
+    EOCD->>Parser: 返回EOCD数据
+    Parser->>Parser: 2. 检测ZIP64格式标志
+    Parser->>ZIP64Locator: 3. 读取ZIP64 Locator
+    ZIP64Locator->>Parser: 返回ZIP64 EOCD位置
+    Parser->>ZIP64EOCD: 4. 读取ZIP64 EOCD
+    ZIP64EOCD->>Parser: 返回完整目录信息(含加密标志)
+
+    Note over Parser: 阶段2: 检测中央目录加密
+    Parser->>Parser: 5. 检查general purpose bit flag 13
+    alt 中央目录已加密
+        Parser->>User: 6. 请求密码或证书
+        User->>Parser: 7. 提供密码/证书
+        Parser->>ArchiveDH: 8. 读取Archive Decryption Header
+        ArchiveDH->>Parser: 返回加密的解密头
+        Parser->>Parser: 9. 使用密码/证书解密ArchiveDH
+        ArchiveDH->>Parser: 返回解密后的解密头数据
+
+        Note over Parser: 阶段3: 解密中央目录
+        Parser->>EncryptedCD: 10. 读取加密的中央目录
+        EncryptedCD->>Parser: 返回加密的中央目录数据
+        Parser->>Parser: 11. 使用ArchiveDH中的密钥解密中央目录
+        EncryptedCD->>Parser: 返回解密后的中央目录
+
+        Note over Parser: 阶段4: 处理Archive Extra Data
+        Parser->>ArchiveExtra: 12. 读取Archive Extra Data Record
+        ArchiveExtra->>Parser: 返回额外数据(证书等)
+    else 中央目录未加密
+        Parser->>EncryptedCD: 8. 直接读取中央目录
+        EncryptedCD->>Parser: 返回未加密的中央目录
+    end
+
+    Note over Parser: 阶段5: 解析中央目录
+    Parser->>CDH: 13. 解析中央目录条目
+    CDH->>Parser: 返回文件元数据
+    Parser->>Parser: 14. 检查是否需要ZIP64扩展
+
+    Note over Parser: 阶段6: 解压文件数据
+    loop 对于每个文件
+        Parser->>LFH: 15. 根据CDH定位LFH
+        LFH->>Parser: 返回Local File Header
+        Parser->>Parser: 16. 验证LFH(注意掩码字段)
+        Parser->>FileData: 17. 读取文件数据
+        FileData->>Parser: 返回压缩/加密的文件数据
+        Parser->>Parser: 18. 解密/解压文件数据
+        Parser->>Parser: 19. 验证文件完整性
+        Parser->>Parser: 20. 输出解压后的文件
+    end
+
+    Note over Parser: 阶段7: 完成解压
+    Parser->>User: 21. 显示解压完成信息</template>
     <div class="mermaid">sequenceDiagram
     participant Parser AS 解析器
     participant User AS 用户
@@ -767,6 +934,36 @@
 <h4 id="校验密码是否正确">校验密码是否正确
 </h4><h5 id="传统pkware加密格式校验密码">传统PKWARE加密格式校验密码
 </h5><div class="mermaid-block">
+    <template class="mermaid-source">sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    User->>Parser: 提供密码
+    Parser->>ZIP: 读取Local File Header
+    ZIP->>Parser: 返回LFH数据 (包含加密标志)
+    Parser->>ZIP: 读取12字节加密头
+    ZIP->>Parser: 返回加密头数据
+
+    Parser->>Parser: 使用密码初始化加密密钥
+    Parser->>Parser: 解密12字节加密头
+
+    Parser->>ZIP: 读取文件CRC值
+    ZIP->>Parser: 返回文件CRC
+
+    Parser->>Parser: 提取解密后加密头的最后1/2字节
+    Parser->>Parser: 比较是否等于文件CRC的高位字节
+
+    alt 密码验证成功
+        Parser->>User: 密码验证成功
+        Parser->>ZIP: 继续读取文件数据
+        ZIP->>Parser: 返回文件数据
+        Parser->>Parser: 解密文件数据
+        Parser->>User: 解压完成
+    else 密码验证失败
+        Parser->>User: 密码验证失败
+        Parser->>User: 提示重新输入密码
+    end</template>
     <div class="mermaid">sequenceDiagram
     participant User as 用户
     participant Parser as 解析器
@@ -800,6 +997,43 @@
 </div>
 <h5 id="强加密">强加密
 </h5><div class="mermaid-block">
+    <template class="mermaid-source">sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    User->>Parser: 提供密码
+    Parser->>ZIP: 读取Local File Header
+    ZIP->>Parser: 返回LFH数据 (包含强加密标志)
+    Parser->>ZIP: 读取强加密解密头
+    ZIP->>Parser: 返回解密头数据 (IVSize, IVData, AlgID, VSize等)
+
+    Parser->>Parser: 解析解密头明文字段
+    Parser->>Parser: 使用密码和IVData生成主会话密钥
+
+    Parser->>ZIP: 读取ErdData字段
+    ZIP->>Parser: 返回ErdData
+
+    Parser->>Parser: 解密ErdData获取随机数据
+    Parser->>Parser: 生成文件会话密钥
+
+    Parser->>ZIP: 读取VData和VCRC32字段
+    ZIP->>Parser: 返回VData和VCRC32
+
+    Parser->>Parser: 使用会话密钥解密VData和VCRC32
+    Parser->>Parser: 计算解密后VData的CRC32
+    Parser->>Parser: 比较计算的CRC32与解密的VCRC32
+
+    alt 密码验证成功
+        Parser->>User: 密码验证成功
+        Parser->>ZIP: 读取文件数据
+        ZIP->>Parser: 返回文件数据
+        Parser->>Parser: 解密文件数据
+        Parser->>User: 解压完成
+    else 密码验证失败
+        Parser->>User: 密码验证失败
+        Parser->>User: 提示重新输入密码
+    end</template>
     <div class="mermaid">sequenceDiagram
     participant User as 用户
     participant Parser as 解析器
@@ -840,6 +1074,48 @@
 </div>
 <h5 id="启用中央目录加密">启用中央目录加密
 </h5><div class="mermaid-block">
+    <template class="mermaid-source">sequenceDiagram
+    participant User as 用户
+    participant Parser as 解析器
+    participant ZIP as ZIP文件
+
+    Parser->>ZIP: 读取EOCD和ZIP64记录
+    ZIP->>Parser: 返回记录数据 (包含中央目录加密标志)
+
+    Parser->>User: 检测到中央目录加密，请提供密码
+    User->>Parser: 提供密码
+
+    Parser->>ZIP: 根据ZIP64记录定位Archive Decryption Header
+    ZIP->>Parser: 返回Archive Decryption Header
+
+    Parser->>Parser: 解析解密头明文字段
+    Parser->>Parser: 使用密码生成主会话密钥
+
+    Parser->>ZIP: 读取ErdData字段
+    ZIP->>Parser: 返回ErdData
+
+    Parser->>Parser: 解密ErdData获取随机数据
+    Parser->>Parser: 生成中央目录解密密钥
+
+    Parser->>ZIP: 读取VData和VCRC32字段
+    ZIP->>Parser: 返回VData和VCRC32
+
+    Parser->>Parser: 解密VData和VCRC32
+    Parser->>Parser: 验证VData的CRC32
+
+    alt 密码验证成功
+        Parser->>ZIP: 读取加密的中央目录
+        ZIP->>Parser: 返回加密的中央目录数据
+        Parser->>Parser: 解密中央目录
+        Parser->>Parser: 解析中央目录获取文件列表
+        Parser->>User: 显示文件列表
+        User->>Parser: 选择要解压的文件
+        Parser->>Parser: 继续解压选中的文件
+        Parser->>User: 解压完成
+    else 密码验证失败
+        Parser->>User: 密码验证失败，无法解密中央目录
+        Parser->>User: 无法显示文件列表，请重新输入密码
+    end</template>
     <div class="mermaid">sequenceDiagram
     participant User as 用户
     participant Parser as 解析器
@@ -1046,6 +1322,7 @@
         ul, ol {
             display: none;
         }
+
         .open {
             display: block;
         }
@@ -1054,11 +1331,24 @@
     .article-content .mermaid-block {
         overflow-x: auto;
         margin: 1.5rem 0;
+        padding: 1rem;
+        border-radius: var(--card-border-radius);
+        background: rgba(127, 127, 127, 0.08);
     }
 
     .article-content .mermaid {
         min-width: max-content;
         text-align: center;
+    }
+
+    .article-content .mermaid svg {
+        display: block;
+        height: auto;
+    }
+
+    [data-scheme="dark"] .article-content .mermaid-block {
+        border: 1px solid var(--card-separator-color);
+        background: rgba(255, 255, 255, 0.04);
     }
 </style>
 
@@ -1069,6 +1359,16 @@
             </script>
 
 <script>
+    const mermaidSelector = ".article-content .mermaid";
+    let mermaidRenderQueue = Promise.resolve();
+
+    if (window.mermaid) {
+        window.mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "loose"
+        });
+    }
+
     function initTocHide() {
         let toc = document.querySelector(".widget--toc");
         if (!toc) {
@@ -1100,8 +1400,199 @@
         });
     }
 
-    function getMermaidTheme() {
-        return document.documentElement.dataset.scheme === "dark" ? "dark" : "default";
+    function isDarkMode() {
+        return document.documentElement.dataset.scheme === "dark";
+    }
+
+    function getMermaidThemeConfig() {
+        if (isDarkMode()) {
+            return {
+                theme: "base",
+                themeVariables: {
+                    darkMode: true,
+                    background: "#424242",
+                    primaryColor: "#4b5563",
+                    primaryTextColor: "#f5f5f5",
+                    primaryBorderColor: "#d1d5db",
+                    secondaryColor: "#5b5b5b",
+                    secondaryTextColor: "#f5f5f5",
+                    secondaryBorderColor: "#d1d5db",
+                    tertiaryColor: "#3f3f46",
+                    tertiaryTextColor: "#f5f5f5",
+                    tertiaryBorderColor: "#d1d5db",
+                    lineColor: "#d1d5db",
+                    textColor: "#f5f5f5",
+                    mainBkg: "#4b5563",
+                    noteBkgColor: "#57534e",
+                    noteTextColor: "#f5f5f5",
+                    noteBorderColor: "#d6d3d1",
+                    actorBkg: "#4b5563",
+                    actorBorder: "#d1d5db",
+                    actorLineColor: "#d1d5db",
+                    actorTextColor: "#f5f5f5",
+                    signalColor: "#e5e7eb",
+                    signalTextColor: "#f5f5f5",
+                    labelBoxBkgColor: "#4b5563",
+                    labelBoxBorderColor: "#d1d5db",
+                    labelTextColor: "#f5f5f5",
+                    loopTextColor: "#f5f5f5",
+                    activationBkgColor: "#5b5b5b",
+                    activationBorderColor: "#d1d5db",
+                    sequenceNumberColor: "#111827"
+                }
+            };
+        }
+
+        return {
+            theme: "base",
+            themeVariables: {
+                darkMode: false,
+                background: "#ffffff",
+                primaryColor: "#eef2ff",
+                primaryTextColor: "#1f2937",
+                primaryBorderColor: "#6366f1",
+                secondaryColor: "#f3f4f6",
+                secondaryTextColor: "#1f2937",
+                secondaryBorderColor: "#9ca3af",
+                tertiaryColor: "#f8fafc",
+                tertiaryTextColor: "#1f2937",
+                tertiaryBorderColor: "#cbd5e1",
+                lineColor: "#4b5563",
+                textColor: "#1f2937",
+                mainBkg: "#eef2ff",
+                noteBkgColor: "#fef3c7",
+                noteTextColor: "#1f2937",
+                noteBorderColor: "#d97706",
+                actorBkg: "#eef2ff",
+                actorBorder: "#6366f1",
+                actorLineColor: "#6366f1",
+                actorTextColor: "#111827",
+                signalColor: "#374151",
+                signalTextColor: "#1f2937",
+                labelBoxBkgColor: "#eef2ff",
+                labelBoxBorderColor: "#6366f1",
+                labelTextColor: "#111827",
+                loopTextColor: "#111827",
+                activationBkgColor: "#f3f4f6",
+                activationBorderColor: "#9ca3af",
+                sequenceNumberColor: "#ffffff"
+            }
+        };
+    }
+
+    function getMermaidNodes() {
+        return Array.from(document.querySelectorAll(mermaidSelector));
+    }
+
+    function getMermaidSource(node) {
+        const sourceTemplate = node.parentElement?.querySelector(".mermaid-source");
+
+        if (sourceTemplate instanceof HTMLTemplateElement) {
+            return sourceTemplate.innerHTML.trim();
+        }
+
+        return node.innerHTML.trim();
+    }
+
+    function prepareMermaidNodes(theme) {
+        const nodes = getMermaidNodes();
+
+        nodes.forEach((node) => {
+            if (!node.dataset.mermaidSource) {
+                node.dataset.mermaidSource = getMermaidSource(node);
+            }
+
+            if (node.dataset.mermaidRenderedTheme !== theme) {
+                node.removeAttribute("data-processed");
+                node.innerHTML = node.dataset.mermaidSource;
+            }
+        });
+
+        return nodes;
+    }
+
+    function getMermaidStyleOverrides(svgId) {
+        if (!isDarkMode()) {
+            return "";
+        }
+
+        const selector = "#" + svgId;
+
+        return `
+${selector} {
+    background: transparent !important;
+}
+
+${selector} .actor,
+${selector} .labelBox {
+    fill: #4b5563 !important;
+    stroke: #d1d5db !important;
+}
+
+${selector} .actor-line,
+${selector} .innerArc,
+${selector} .messageLine0,
+${selector} .messageLine1,
+${selector} .loopLine {
+    stroke: #d1d5db !important;
+}
+
+${selector} [id$="-arrowhead"] path,
+${selector} [id$="-crosshead"] path,
+${selector} .marker,
+${selector} .marker.cross {
+    fill: #d1d5db !important;
+    stroke: #d1d5db !important;
+}
+
+${selector} .actor-box,
+${selector} .messageText,
+${selector} .messageText tspan,
+${selector} .labelText,
+${selector} .labelText tspan,
+${selector} .loopText,
+${selector} .loopText tspan,
+${selector} .noteText,
+${selector} .noteText tspan,
+${selector} text.actor > tspan {
+    fill: #f5f5f5 !important;
+    stroke: none !important;
+}
+
+${selector} .note {
+    fill: #57534e !important;
+    stroke: #d6d3d1 !important;
+}
+
+${selector} .activation0,
+${selector} .activation1,
+${selector} .activation2 {
+    fill: #5b5b5b !important;
+    stroke: #d1d5db !important;
+}
+
+${selector} [id$="-sequencenumber"] {
+    fill: #d1d5db !important;
+}
+
+${selector} .sequenceNumber {
+    fill: #111827 !important;
+}
+`;
+    }
+
+    function applyMermaidThemeStyles() {
+        document.querySelectorAll(`${mermaidSelector} svg[id]`).forEach((svg) => {
+            let styleEl = svg.querySelector("style[data-stack-mermaid-theme]");
+
+            if (!styleEl) {
+                styleEl = document.createElementNS("http://www.w3.org/2000/svg", "style");
+                styleEl.setAttribute("data-stack-mermaid-theme", "true");
+                svg.appendChild(styleEl);
+            }
+
+            styleEl.textContent = getMermaidStyleOverrides(svg.id);
+        });
     }
 
     async function renderMermaidDiagrams() {
@@ -1109,21 +1600,61 @@
             return;
         }
 
+        const { theme, themeVariables } = getMermaidThemeConfig();
+        const nodes = getMermaidNodes();
+
+        if (!nodes.length) {
+            return;
+        }
+
+        const needsRender = nodes.some((node) => {
+            return node.dataset.mermaidRenderedTheme !== theme || node.getAttribute("data-processed") !== "true";
+        });
+
+        if (!needsRender) {
+            return;
+        }
+
+        prepareMermaidNodes(theme);
+
         window.mermaid.initialize({
             startOnLoad: false,
-            theme: getMermaidTheme(),
+            theme,
+            themeVariables,
             securityLevel: "loose"
         });
 
         await window.mermaid.run({
-            querySelector: ".article-content .mermaid"
+            querySelector: mermaidSelector
         });
+
+        getMermaidNodes().forEach((node) => {
+            node.dataset.mermaidRenderedTheme = theme;
+        });
+
+        applyMermaidThemeStyles();
+    }
+
+    function queueMermaidRender() {
+        mermaidRenderQueue = mermaidRenderQueue
+            .catch(() => undefined)
+            .then(() => renderMermaidDiagrams())
+            .catch((error) => {
+                console.error("Failed to render Mermaid diagrams:", error);
+            });
+
+        return mermaidRenderQueue;
     }
 
     initTocHide();
 
     window.addEventListener("load", function() {
-        renderMermaidDiagrams();
+        queueMermaidRender();
+    });
+
+    window.addEventListener("onColorSchemeChange", function() {
+        applyMermaidThemeStyles();
+        queueMermaidRender();
     });
 </script>
 
