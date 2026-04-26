@@ -703,6 +703,7 @@
     function getMermaidThemeConfig() {
         if (isDarkMode()) {
             return {
+                scheme: "dark",
                 theme: "base",
                 themeVariables: {
                     darkMode: true,
@@ -740,6 +741,7 @@
         }
 
         return {
+            scheme: "light",
             theme: "base",
             themeVariables: {
                 darkMode: false,
@@ -790,7 +792,7 @@
         return node.innerHTML.trim();
     }
 
-    function prepareMermaidNodes(theme) {
+    function prepareMermaidNodes(scheme) {
         const nodes = getMermaidNodes();
 
         nodes.forEach((node) => {
@@ -798,7 +800,7 @@
                 node.dataset.mermaidSource = getMermaidSource(node);
             }
 
-            if (node.dataset.mermaidRenderedTheme !== theme) {
+            if (node.dataset.mermaidRenderedScheme !== scheme) {
                 node.removeAttribute("data-processed");
                 node.innerHTML = node.dataset.mermaidSource;
             }
@@ -896,7 +898,7 @@ ${selector} .sequenceNumber {
             return;
         }
 
-        const { theme, themeVariables } = getMermaidThemeConfig();
+        const { scheme, theme, themeVariables } = getMermaidThemeConfig();
         const nodes = getMermaidNodes();
 
         if (!nodes.length) {
@@ -904,14 +906,14 @@ ${selector} .sequenceNumber {
         }
 
         const needsRender = nodes.some((node) => {
-            return node.dataset.mermaidRenderedTheme !== theme || node.getAttribute("data-processed") !== "true";
+            return node.dataset.mermaidRenderedScheme !== scheme || node.getAttribute("data-processed") !== "true";
         });
 
         if (!needsRender) {
             return;
         }
 
-        prepareMermaidNodes(theme);
+        prepareMermaidNodes(scheme);
 
         window.mermaid.initialize({
             startOnLoad: false,
@@ -925,7 +927,7 @@ ${selector} .sequenceNumber {
         });
 
         getMermaidNodes().forEach((node) => {
-            node.dataset.mermaidRenderedTheme = theme;
+            node.dataset.mermaidRenderedScheme = scheme;
         });
 
         applyMermaidThemeStyles();

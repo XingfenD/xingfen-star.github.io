@@ -1021,6 +1021,7 @@ call    sub_140001020
     function getMermaidThemeConfig() {
         if (isDarkMode()) {
             return {
+                scheme: "dark",
                 theme: "base",
                 themeVariables: {
                     darkMode: true,
@@ -1058,6 +1059,7 @@ call    sub_140001020
         }
 
         return {
+            scheme: "light",
             theme: "base",
             themeVariables: {
                 darkMode: false,
@@ -1108,7 +1110,7 @@ call    sub_140001020
         return node.innerHTML.trim();
     }
 
-    function prepareMermaidNodes(theme) {
+    function prepareMermaidNodes(scheme) {
         const nodes = getMermaidNodes();
 
         nodes.forEach((node) => {
@@ -1116,7 +1118,7 @@ call    sub_140001020
                 node.dataset.mermaidSource = getMermaidSource(node);
             }
 
-            if (node.dataset.mermaidRenderedTheme !== theme) {
+            if (node.dataset.mermaidRenderedScheme !== scheme) {
                 node.removeAttribute("data-processed");
                 node.innerHTML = node.dataset.mermaidSource;
             }
@@ -1214,7 +1216,7 @@ ${selector} .sequenceNumber {
             return;
         }
 
-        const { theme, themeVariables } = getMermaidThemeConfig();
+        const { scheme, theme, themeVariables } = getMermaidThemeConfig();
         const nodes = getMermaidNodes();
 
         if (!nodes.length) {
@@ -1222,14 +1224,14 @@ ${selector} .sequenceNumber {
         }
 
         const needsRender = nodes.some((node) => {
-            return node.dataset.mermaidRenderedTheme !== theme || node.getAttribute("data-processed") !== "true";
+            return node.dataset.mermaidRenderedScheme !== scheme || node.getAttribute("data-processed") !== "true";
         });
 
         if (!needsRender) {
             return;
         }
 
-        prepareMermaidNodes(theme);
+        prepareMermaidNodes(scheme);
 
         window.mermaid.initialize({
             startOnLoad: false,
@@ -1243,7 +1245,7 @@ ${selector} .sequenceNumber {
         });
 
         getMermaidNodes().forEach((node) => {
-            node.dataset.mermaidRenderedTheme = theme;
+            node.dataset.mermaidRenderedScheme = scheme;
         });
 
         applyMermaidThemeStyles();
