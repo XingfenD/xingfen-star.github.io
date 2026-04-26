@@ -2,16 +2,16 @@
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="星分.">
-<title>Tag: tag with whitespaces - 远楒</title>
+<title>Tag: Tag With Whitespaces - 远楒</title>
 
 <link rel='canonical' href='https://xingfend.github.io/xingfen-star.github.io/tags/tag-with-whitespaces/'>
 
-<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.c0fa910106829adb3edb67524eba5dffc21500fdd220ea53e6ba412a6f0ce2fe.css"><meta property='og:title' content="Tag: tag with whitespaces - 远楒">
+<link rel="stylesheet" href="/xingfen-star.github.io/scss/style.min.533e2af4156028378661836b8551c6754ffb900db576693b9004a786e09cbeef.css"><meta property='og:title' content="Tag: Tag With Whitespaces - 远楒">
 <meta property='og:description' content="星分.">
 <meta property='og:url' content='https://xingfend.github.io/xingfen-star.github.io/tags/tag-with-whitespaces/'>
 <meta property='og:site_name' content='远楒'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content='2026-04-23T18:31:51&#43;00:00'/>
-<meta name="twitter:title" content="Tag: tag with whitespaces - 远楒">
+<meta property='og:type' content='website'><meta property='og:updated_time' content='2026-04-26T06:02:10&#43;00:00'/>
+<meta name="twitter:title" content="Tag: Tag With Whitespaces - 远楒">
 <meta name="twitter:description" content="星分."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/xingfen-star.github.io/tags/tag-with-whitespaces/index.xml">
     <link rel="shortcut icon" href="/xingfen-star.github.io/favicon.ico" />
 
@@ -56,7 +56,7 @@
 
                     
                         
-                        <img src="/xingfen-star.github.io/img/avatar_hu493e02d3d92a93d51eb4b2df9911732e_131869_300x0_resize_box_3.png" width="300"
+                        <img src="/xingfen-star.github.io/img/avatar_hu_d5cb2293594012db.png" width="300"
                             height="279" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -375,13 +375,17 @@
             
         
                 <a href="/xingfen-star.github.io/tags/c%E8%AF%AD%E8%A8%80/" class="font_size_2">
-                    c语言
+                    C语言
                 </a>
             
         
+                <a href="/xingfen-star.github.io/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/" class="font_size_1">
+                    参数解析
+                </a>
+            
         
                 <a href="/xingfen-star.github.io/tags/markdown/" class="font_size_1">
-                    markdown
+                    Markdown
                 </a>
             
         
@@ -403,7 +407,7 @@
 
         <div class="section-card">
             <div class="section-details"><h3 class="section-count">0 pages</h3>
-                <h1 class="section-term">tag with whitespaces</h1>
+                <h1 class="section-term">Tag With Whitespaces</h1>
                 
             </div>
         </div>
@@ -436,7 +440,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.3e0587bea8834cd3d9d3020bdfadb3d6ef435900c301cfd4c0ffaa0825b9b711.js" defer></script>
+            </script><script type="text/javascript" src="/xingfen-star.github.io/ts/main.1b68ca70253b523eabb06a943631ea672d424976a40c495cc6a889635f51d0f9.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -457,42 +461,81 @@
             display: block;
         }
     }
+
+    .article-content .mermaid-block {
+        overflow-x: auto;
+        margin: 1.5rem 0;
+    }
+
+    .article-content .mermaid {
+        min-width: max-content;
+        text-align: center;
+    }
 </style>
+
+<script
+                src="https://cdn.jsdelivr.net/npm/mermaid@11.14.0/dist/mermaid.min.js"crossorigin="anonymous"
+                
+                >
+            </script>
 
 <script>
     function initTocHide() {
-        
         let toc = document.querySelector(".widget--toc");
         if (!toc) {
             return;
         }
-        
-        window.addEventListener('scroll', function() {
-            
+
+        window.addEventListener("scroll", function() {
             let currentLi = document.querySelector(".active-class");
             if (!currentLi) {
-                return
+                return;
             }
-            
+
             let elementsByClassName = document.querySelectorAll(".open");
             if (elementsByClassName.length > 0) {
                 elementsByClassName.forEach((ul) => {
-                    ul.classList.remove("open")
-                })
+                    ul.classList.remove("open");
+                });
             }
-            
+
             if (currentLi.children.length > 1) {
-                currentLi.children[1].classList.add("open")
+                currentLi.children[1].classList.add("open");
             }
-            
+
             let ul = currentLi.parentElement;
             do {
                 ul.classList.add("open");
-                ul = ul.parentElement.parentElement
-            } while (ul !== undefined && (ul.localName === 'ul' || ul.localName === 'ol'))
+                ul = ul.parentElement.parentElement;
+            } while (ul !== undefined && (ul.localName === "ul" || ul.localName === "ol"));
         });
     }
-    initTocHide()
+
+    function getMermaidTheme() {
+        return document.documentElement.dataset.scheme === "dark" ? "dark" : "default";
+    }
+
+    async function renderMermaidDiagrams() {
+        if (!window.mermaid) {
+            return;
+        }
+
+        window.mermaid.initialize({
+            startOnLoad: false,
+            theme: getMermaidTheme(),
+            securityLevel: "loose"
+        });
+
+        await window.mermaid.run({
+            querySelector: ".article-content .mermaid"
+        });
+    }
+
+    initTocHide();
+
+    window.addEventListener("load", function() {
+        renderMermaidDiagrams();
+    });
 </script>
 
     </body>

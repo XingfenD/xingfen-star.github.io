@@ -14,10 +14,10 @@
         <description>&lt;h1 id=&#34;zip-文件结构与解析流程核心笔记&#34;&gt;ZIP 文件结构与解析流程核心笔记
 &lt;/h1&gt;&lt;h2 id=&#34;zip文件基础结构图示&#34;&gt;ZIP文件基础结构图示
 &lt;/h2&gt;&lt;p&gt;具体的结构和解析流程在后面会有详细介绍。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png&#34;
 	width=&#34;671&#34;
 	height=&#34;401&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu2e24475741db885874f58c154a249b64_67196_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu2e24475741db885874f58c154a249b64_67196_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_820166149674224d.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_6f4c1e5f7a21ef5e.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;ZIP文件基础结构图示&#34;
@@ -46,57 +46,61 @@
 &lt;p&gt;目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。&lt;/p&gt;
 &lt;h3 id=&#34;标准解析模式&#34;&gt;标准解析模式
 &lt;/h3&gt;&lt;p&gt;从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+&lt;div class=&#34;mermaid-block&#34;&gt;
+    &lt;div class=&#34;mermaid&#34;&gt;sequenceDiagram
     participant Parser as 解析器
     participant File as ZIP文件
     participant LFH as 本地文件头
     participant CD as 中央目录
     participant EOCDR as 中央目录结束记录
 
-    Parser-&amp;gt;&amp;gt;File: 从文件末尾查找EOCDR签名
-    File--&amp;gt;&amp;gt;Parser: 返回EOCDR位置
-    Parser-&amp;gt;&amp;gt;EOCDR: 读取EOCDR内容
-    EOCDR--&amp;gt;&amp;gt;Parser: 返回EOCDR数据
-    Parser-&amp;gt;&amp;gt;Parser: 提取Central Directory偏移量
-    Parser-&amp;gt;&amp;gt;File: 跳转到Central Directory位置
+    Parser-&gt;&gt;File: 从文件末尾查找EOCDR签名
+    File--&gt;&gt;Parser: 返回EOCDR位置
+    Parser-&gt;&gt;EOCDR: 读取EOCDR内容
+    EOCDR--&gt;&gt;Parser: 返回EOCDR数据
+    Parser-&gt;&gt;Parser: 提取Central Directory偏移量
+    Parser-&gt;&gt;File: 跳转到Central Directory位置
     loop 读取所有CD项
-        Parser-&amp;gt;&amp;gt;CD: 读取一个CentralDirectoryHeader
-        CD--&amp;gt;&amp;gt;Parser: 返回CD项数据
-        Parser-&amp;gt;&amp;gt;Parser: 保存CD项
+        Parser-&gt;&gt;CD: 读取一个CentralDirectoryHeader
+        CD--&gt;&gt;Parser: 返回CD项数据
+        Parser-&gt;&gt;Parser: 保存CD项
     end
     loop 根据CD项读取所有LFH
-        Parser-&amp;gt;&amp;gt;CD: 从CD项获取Local File Header偏移量
-        CD--&amp;gt;&amp;gt;Parser: 返回偏移量
-        Parser-&amp;gt;&amp;gt;File: 跳转到对应的Local File Header位置
-        Parser-&amp;gt;&amp;gt;LFH: 读取LocalFileHeader
-        LFH--&amp;gt;&amp;gt;Parser: 返回LFH数据
-        Parser-&amp;gt;&amp;gt;Parser: 保存LFH
-    end
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;流式解析模式&#34;&gt;流式解析模式
+        Parser-&gt;&gt;CD: 从CD项获取Local File Header偏移量
+        CD--&gt;&gt;Parser: 返回偏移量
+        Parser-&gt;&gt;File: 跳转到对应的Local File Header位置
+        Parser-&gt;&gt;LFH: 读取LocalFileHeader
+        LFH--&gt;&gt;Parser: 返回LFH数据
+        Parser-&gt;&gt;Parser: 保存LFH
+    end&lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;流式解析模式&#34;&gt;流式解析模式
 &lt;/h3&gt;&lt;p&gt;从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+&lt;div class=&#34;mermaid-block&#34;&gt;
+    &lt;div class=&#34;mermaid&#34;&gt;sequenceDiagram
     participant Parser as 解析器
     participant File as ZIP文件
     participant LFH as 本地文件头
 
-    Parser-&amp;gt;&amp;gt;File: 将文件指针定位到文件开头
+    Parser-&gt;&gt;File: 将文件指针定位到文件开头
     loop 顺序读取Local File Header
-        Parser-&amp;gt;&amp;gt;LFH: 尝试读取LocalFileHeader
+        Parser-&gt;&gt;LFH: 尝试读取LocalFileHeader
         alt 成功读取LFH签名
-            LFH--&amp;gt;&amp;gt;Parser: 返回LocalFileHeader数据
-            Parser-&amp;gt;&amp;gt;Parser: 保存LFH
-            Parser-&amp;gt;&amp;gt;File: 继续读取下一个LFH
+            LFH--&gt;&gt;Parser: 返回LocalFileHeader数据
+            Parser-&gt;&gt;Parser: 保存LFH
+            Parser-&gt;&gt;File: 继续读取下一个LFH
         else 未找到有效的LFH签名或读取失败
-            File--&amp;gt;&amp;gt;Parser: 返回读取失败
-            Parser-&amp;gt;&amp;gt;Parser: 停止解析
+            File--&gt;&gt;Parser: 返回读取失败
+            Parser-&gt;&gt;Parser: 停止解析
         end
-    end
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;手工篡改zip进行实验&#34;&gt;手工篡改ZIP进行实验
+    end&lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;手工篡改zip进行实验&#34;&gt;手工篡改ZIP进行实验
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;zip_analyze&lt;/code&gt;目录为一个Zip解析器实例，可以使用两种解析模式读取未加密的Zip文件结构。另外该目录下包含两个Zip文件，分别为&lt;code&gt;zip_demo.zip&lt;/code&gt;和&lt;code&gt;zip_demo_hacked.zip&lt;/code&gt;。两者的区别在于&lt;code&gt;zip_demo_hacked.zip&lt;/code&gt;在&lt;code&gt;zip_demo.zip&lt;/code&gt;的基础上，在LFH区添加了一个额外的文件&lt;code&gt;hacked.txt&lt;/code&gt;对应的LFH及其数据。具体如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png&#34;
 	width=&#34;2764&#34;
 	height=&#34;2084&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu27ec4bf030d78ef86751b5dab25f6321_323638_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu27ec4bf030d78ef86751b5dab25f6321_323638_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_e826c22c00ebfaf3.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_3969d60171380bba.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;zip_demo文件结构&#34;
@@ -107,10 +111,10 @@
 		data-flex-basis=&#34;318px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84.png&#34;
 	width=&#34;2764&#34;
 	height=&#34;2484&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_huc47f3ed70fe582e22d55b336f30525f8_367692_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_huc47f3ed70fe582e22d55b336f30525f8_367692_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_acd8053d5fb93ea7.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip_demo_hacked%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84_hu_248c7cd453e7464f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;zip_demo_hacked文件结构&#34;
@@ -146,10 +150,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[zip64 end of central directory record]
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[zip64 end of central directory locator]
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[end of central directory record]
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84.png&#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84.png&#34;
 	width=&#34;2432&#34;
 	height=&#34;5968&#34;
-	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_huce9dbe6b0360992f27d1cfb71c2b090e_531283_480x0_resize_box_3.png 480w, https://xingfend.github.io/xingfen-star.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_huce9dbe6b0360992f27d1cfb71c2b090e_531283_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_abb4c424401f55da.png 480w, https://xingfend.github.io/xingfen-star.github.io/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_43d23898607a226f.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;Zip文件结构图示&#34;
@@ -250,7 +254,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;中央目录头与本地文件头之间存在许多冗余字段，原则上相对应的一对中央目录头和本地文件头，表示含义相同的字段值应该是相同的。&lt;/p&gt;
 &lt;h3 id=&#34;相关流程&#34;&gt;相关流程
 &lt;/h3&gt;&lt;h4 id=&#34;zip64解析流程&#34;&gt;Zip64解析流程
-&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+&lt;/h4&gt;&lt;div class=&#34;mermaid-block&#34;&gt;
+    &lt;div class=&#34;mermaid&#34;&gt;sequenceDiagram
     participant Parser AS 解析器
     participant EOCDR AS End of Central Directory
     participant ZIP64Locator AS ZIP64 Locator
@@ -262,55 +267,57 @@
     participant DD AS Data Descriptor
 
     Note over Parser: 初始化阶段
-    Parser-&amp;gt;&amp;gt;EOCDR: 1. 读取End of Central Directory Record
-    EOCDR-&amp;gt;&amp;gt;Parser: 返回EOCDR数据
-    Parser-&amp;gt;&amp;gt;Parser: 2. 检查ZIP64格式标志
+    Parser-&gt;&gt;EOCDR: 1. 读取End of Central Directory Record
+    EOCDR-&gt;&gt;Parser: 返回EOCDR数据
+    Parser-&gt;&gt;Parser: 2. 检查ZIP64格式标志
     alt 检测到ZIP64标志
-        Parser-&amp;gt;&amp;gt;ZIP64Locator: 3. 读取ZIP64 Locator
-        ZIP64Locator-&amp;gt;&amp;gt;Parser: 返回ZIP64 EOCDR位置
-        Parser-&amp;gt;&amp;gt;ZIP64EOCDR: 4. 读取ZIP64 EOCDR
-        ZIP64EOCDR-&amp;gt;&amp;gt;Parser: 返回完整中央目录信息
+        Parser-&gt;&gt;ZIP64Locator: 3. 读取ZIP64 Locator
+        ZIP64Locator-&gt;&gt;Parser: 返回ZIP64 EOCDR位置
+        Parser-&gt;&gt;ZIP64EOCDR: 4. 读取ZIP64 EOCDR
+        ZIP64EOCDR-&gt;&gt;Parser: 返回完整中央目录信息
     end
-    Parser-&amp;gt;&amp;gt;中央目录: 5. 定位中央目录
-    Parser-&amp;gt;&amp;gt;Parser: 6. 初始化文件计数器 = 0
+    Parser-&gt;&gt;中央目录: 5. 定位中央目录
+    Parser-&gt;&gt;Parser: 6. 初始化文件计数器 = 0
 
     Note over Parser: 循环处理所有文件
     loop 对于每个文件条目
-        Parser-&amp;gt;&amp;gt;Parser: 7. 文件计数器 += 1
-        Parser-&amp;gt;&amp;gt;CDH: 8. 读取Central Directory Header
-        CDH-&amp;gt;&amp;gt;Parser: 返回文件元数据
-        Parser-&amp;gt;&amp;gt;Parser: 9. 检查是否需要ZIP64扩展
+        Parser-&gt;&gt;Parser: 7. 文件计数器 += 1
+        Parser-&gt;&gt;CDH: 8. 读取Central Directory Header
+        CDH-&gt;&gt;Parser: 返回文件元数据
+        Parser-&gt;&gt;Parser: 9. 检查是否需要ZIP64扩展
         alt 需要ZIP64扩展
-            Parser-&amp;gt;&amp;gt;CDH: 10. 提取ZIP64扩展信息
-            CDH-&amp;gt;&amp;gt;Parser: 返回8字节大小和偏移量
+            Parser-&gt;&gt;CDH: 10. 提取ZIP64扩展信息
+            CDH-&gt;&gt;Parser: 返回8字节大小和偏移量
         end
 
         Note over Parser: 处理Local File Header
-        Parser-&amp;gt;&amp;gt;LFH: 11. 根据CDH定位LFH
-        LFH-&amp;gt;&amp;gt;Parser: 返回Local File Header数据
-        Parser-&amp;gt;&amp;gt;Parser: 12. 验证LFH与CDH一致性
+        Parser-&gt;&gt;LFH: 11. 根据CDH定位LFH
+        LFH-&gt;&gt;Parser: 返回Local File Header数据
+        Parser-&gt;&gt;Parser: 12. 验证LFH与CDH一致性
 
         Note over Parser: 处理文件数据
-        Parser-&amp;gt;&amp;gt;文件数据: 13. 读取压缩文件数据
-        文件数据-&amp;gt;&amp;gt;Parser: 返回文件数据
-        Parser-&amp;gt;&amp;gt;Parser: 14. 解压/解密文件数据
+        Parser-&gt;&gt;文件数据: 13. 读取压缩文件数据
+        文件数据-&gt;&gt;Parser: 返回文件数据
+        Parser-&gt;&gt;Parser: 14. 解压/解密文件数据
 
         alt 存在Data Descriptor
-            Parser-&amp;gt;&amp;gt;DD: 15. 读取Data Descriptor
-            DD-&amp;gt;&amp;gt;Parser: 返回实际CRC和大小
-            Parser-&amp;gt;&amp;gt;Parser: 16. 验证数据完整性
+            Parser-&gt;&gt;DD: 15. 读取Data Descriptor
+            DD-&gt;&gt;Parser: 返回实际CRC和大小
+            Parser-&gt;&gt;Parser: 16. 验证数据完整性
         end
 
-        Parser-&amp;gt;&amp;gt;Parser: 17. 存储文件信息
-        Parser-&amp;gt;&amp;gt;Parser: 18. 检查是否还有更多文件
+        Parser-&gt;&gt;Parser: 17. 存储文件信息
+        Parser-&gt;&gt;Parser: 18. 检查是否还有更多文件
     end
 
     Note over Parser: 完成阶段
-    Parser-&amp;gt;&amp;gt;Parser: 19. 生成完整文件列表
-    Parser-&amp;gt;&amp;gt;Parser: 20. 验证所有文件完整性
-    Parser-&amp;gt;&amp;gt;Parser: 21. 返回解析结果
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;启用中央目录加密时的解析流程&#34;&gt;启用中央目录加密时的解析流程
-&lt;/h4&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+    Parser-&gt;&gt;Parser: 19. 生成完整文件列表
+    Parser-&gt;&gt;Parser: 20. 验证所有文件完整性
+    Parser-&gt;&gt;Parser: 21. 返回解析结果&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;启用中央目录加密时的解析流程&#34;&gt;启用中央目录加密时的解析流程
+&lt;/h4&gt;&lt;div class=&#34;mermaid-block&#34;&gt;
+    &lt;div class=&#34;mermaid&#34;&gt;sequenceDiagram
     participant Parser AS 解析器
     participant User AS 用户
     participant EOCD AS End of Central Directory
@@ -324,171 +331,178 @@
     participant FileData AS File Data
 
     Note over Parser: 阶段1: 定位和读取目录结构
-    Parser-&amp;gt;&amp;gt;EOCD: 1. 读取End of Central Directory
-    EOCD-&amp;gt;&amp;gt;Parser: 返回EOCD数据
-    Parser-&amp;gt;&amp;gt;Parser: 2. 检测ZIP64格式标志
-    Parser-&amp;gt;&amp;gt;ZIP64Locator: 3. 读取ZIP64 Locator
-    ZIP64Locator-&amp;gt;&amp;gt;Parser: 返回ZIP64 EOCD位置
-    Parser-&amp;gt;&amp;gt;ZIP64EOCD: 4. 读取ZIP64 EOCD
-    ZIP64EOCD-&amp;gt;&amp;gt;Parser: 返回完整目录信息(含加密标志)
+    Parser-&gt;&gt;EOCD: 1. 读取End of Central Directory
+    EOCD-&gt;&gt;Parser: 返回EOCD数据
+    Parser-&gt;&gt;Parser: 2. 检测ZIP64格式标志
+    Parser-&gt;&gt;ZIP64Locator: 3. 读取ZIP64 Locator
+    ZIP64Locator-&gt;&gt;Parser: 返回ZIP64 EOCD位置
+    Parser-&gt;&gt;ZIP64EOCD: 4. 读取ZIP64 EOCD
+    ZIP64EOCD-&gt;&gt;Parser: 返回完整目录信息(含加密标志)
 
     Note over Parser: 阶段2: 检测中央目录加密
-    Parser-&amp;gt;&amp;gt;Parser: 5. 检查general purpose bit flag 13
+    Parser-&gt;&gt;Parser: 5. 检查general purpose bit flag 13
     alt 中央目录已加密
-        Parser-&amp;gt;&amp;gt;User: 6. 请求密码或证书
-        User-&amp;gt;&amp;gt;Parser: 7. 提供密码/证书
-        Parser-&amp;gt;&amp;gt;ArchiveDH: 8. 读取Archive Decryption Header
-        ArchiveDH-&amp;gt;&amp;gt;Parser: 返回加密的解密头
-        Parser-&amp;gt;&amp;gt;Parser: 9. 使用密码/证书解密ArchiveDH
-        ArchiveDH-&amp;gt;&amp;gt;Parser: 返回解密后的解密头数据
+        Parser-&gt;&gt;User: 6. 请求密码或证书
+        User-&gt;&gt;Parser: 7. 提供密码/证书
+        Parser-&gt;&gt;ArchiveDH: 8. 读取Archive Decryption Header
+        ArchiveDH-&gt;&gt;Parser: 返回加密的解密头
+        Parser-&gt;&gt;Parser: 9. 使用密码/证书解密ArchiveDH
+        ArchiveDH-&gt;&gt;Parser: 返回解密后的解密头数据
 
         Note over Parser: 阶段3: 解密中央目录
-        Parser-&amp;gt;&amp;gt;EncryptedCD: 10. 读取加密的中央目录
-        EncryptedCD-&amp;gt;&amp;gt;Parser: 返回加密的中央目录数据
-        Parser-&amp;gt;&amp;gt;Parser: 11. 使用ArchiveDH中的密钥解密中央目录
-        EncryptedCD-&amp;gt;&amp;gt;Parser: 返回解密后的中央目录
+        Parser-&gt;&gt;EncryptedCD: 10. 读取加密的中央目录
+        EncryptedCD-&gt;&gt;Parser: 返回加密的中央目录数据
+        Parser-&gt;&gt;Parser: 11. 使用ArchiveDH中的密钥解密中央目录
+        EncryptedCD-&gt;&gt;Parser: 返回解密后的中央目录
 
         Note over Parser: 阶段4: 处理Archive Extra Data
-        Parser-&amp;gt;&amp;gt;ArchiveExtra: 12. 读取Archive Extra Data Record
-        ArchiveExtra-&amp;gt;&amp;gt;Parser: 返回额外数据(证书等)
+        Parser-&gt;&gt;ArchiveExtra: 12. 读取Archive Extra Data Record
+        ArchiveExtra-&gt;&gt;Parser: 返回额外数据(证书等)
     else 中央目录未加密
-        Parser-&amp;gt;&amp;gt;EncryptedCD: 8. 直接读取中央目录
-        EncryptedCD-&amp;gt;&amp;gt;Parser: 返回未加密的中央目录
+        Parser-&gt;&gt;EncryptedCD: 8. 直接读取中央目录
+        EncryptedCD-&gt;&gt;Parser: 返回未加密的中央目录
     end
 
     Note over Parser: 阶段5: 解析中央目录
-    Parser-&amp;gt;&amp;gt;CDH: 13. 解析中央目录条目
-    CDH-&amp;gt;&amp;gt;Parser: 返回文件元数据
-    Parser-&amp;gt;&amp;gt;Parser: 14. 检查是否需要ZIP64扩展
+    Parser-&gt;&gt;CDH: 13. 解析中央目录条目
+    CDH-&gt;&gt;Parser: 返回文件元数据
+    Parser-&gt;&gt;Parser: 14. 检查是否需要ZIP64扩展
 
     Note over Parser: 阶段6: 解压文件数据
     loop 对于每个文件
-        Parser-&amp;gt;&amp;gt;LFH: 15. 根据CDH定位LFH
-        LFH-&amp;gt;&amp;gt;Parser: 返回Local File Header
-        Parser-&amp;gt;&amp;gt;Parser: 16. 验证LFH(注意掩码字段)
-        Parser-&amp;gt;&amp;gt;FileData: 17. 读取文件数据
-        FileData-&amp;gt;&amp;gt;Parser: 返回压缩/加密的文件数据
-        Parser-&amp;gt;&amp;gt;Parser: 18. 解密/解压文件数据
-        Parser-&amp;gt;&amp;gt;Parser: 19. 验证文件完整性
-        Parser-&amp;gt;&amp;gt;Parser: 20. 输出解压后的文件
+        Parser-&gt;&gt;LFH: 15. 根据CDH定位LFH
+        LFH-&gt;&gt;Parser: 返回Local File Header
+        Parser-&gt;&gt;Parser: 16. 验证LFH(注意掩码字段)
+        Parser-&gt;&gt;FileData: 17. 读取文件数据
+        FileData-&gt;&gt;Parser: 返回压缩/加密的文件数据
+        Parser-&gt;&gt;Parser: 18. 解密/解压文件数据
+        Parser-&gt;&gt;Parser: 19. 验证文件完整性
+        Parser-&gt;&gt;Parser: 20. 输出解压后的文件
     end
 
     Note over Parser: 阶段7: 完成解压
-    Parser-&amp;gt;&amp;gt;User: 21. 显示解压完成信息
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;校验密码是否正确&#34;&gt;校验密码是否正确
+    Parser-&gt;&gt;User: 21. 显示解压完成信息&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;校验密码是否正确&#34;&gt;校验密码是否正确
 &lt;/h4&gt;&lt;h5 id=&#34;传统pkware加密格式校验密码&#34;&gt;传统PKWARE加密格式校验密码
-&lt;/h5&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+&lt;/h5&gt;&lt;div class=&#34;mermaid-block&#34;&gt;
+    &lt;div class=&#34;mermaid&#34;&gt;sequenceDiagram
     participant User as 用户
     participant Parser as 解析器
     participant ZIP as ZIP文件
 
-    User-&amp;gt;&amp;gt;Parser: 提供密码
-    Parser-&amp;gt;&amp;gt;ZIP: 读取Local File Header
-    ZIP-&amp;gt;&amp;gt;Parser: 返回LFH数据 (包含加密标志)
-    Parser-&amp;gt;&amp;gt;ZIP: 读取12字节加密头
-    ZIP-&amp;gt;&amp;gt;Parser: 返回加密头数据
+    User-&gt;&gt;Parser: 提供密码
+    Parser-&gt;&gt;ZIP: 读取Local File Header
+    ZIP-&gt;&gt;Parser: 返回LFH数据 (包含加密标志)
+    Parser-&gt;&gt;ZIP: 读取12字节加密头
+    ZIP-&gt;&gt;Parser: 返回加密头数据
 
-    Parser-&amp;gt;&amp;gt;Parser: 使用密码初始化加密密钥
-    Parser-&amp;gt;&amp;gt;Parser: 解密12字节加密头
+    Parser-&gt;&gt;Parser: 使用密码初始化加密密钥
+    Parser-&gt;&gt;Parser: 解密12字节加密头
 
-    Parser-&amp;gt;&amp;gt;ZIP: 读取文件CRC值
-    ZIP-&amp;gt;&amp;gt;Parser: 返回文件CRC
+    Parser-&gt;&gt;ZIP: 读取文件CRC值
+    ZIP-&gt;&gt;Parser: 返回文件CRC
 
-    Parser-&amp;gt;&amp;gt;Parser: 提取解密后加密头的最后1/2字节
-    Parser-&amp;gt;&amp;gt;Parser: 比较是否等于文件CRC的高位字节
+    Parser-&gt;&gt;Parser: 提取解密后加密头的最后1/2字节
+    Parser-&gt;&gt;Parser: 比较是否等于文件CRC的高位字节
 
     alt 密码验证成功
-        Parser-&amp;gt;&amp;gt;User: 密码验证成功
-        Parser-&amp;gt;&amp;gt;ZIP: 继续读取文件数据
-        ZIP-&amp;gt;&amp;gt;Parser: 返回文件数据
-        Parser-&amp;gt;&amp;gt;Parser: 解密文件数据
-        Parser-&amp;gt;&amp;gt;User: 解压完成
+        Parser-&gt;&gt;User: 密码验证成功
+        Parser-&gt;&gt;ZIP: 继续读取文件数据
+        ZIP-&gt;&gt;Parser: 返回文件数据
+        Parser-&gt;&gt;Parser: 解密文件数据
+        Parser-&gt;&gt;User: 解压完成
     else 密码验证失败
-        Parser-&amp;gt;&amp;gt;User: 密码验证失败
-        Parser-&amp;gt;&amp;gt;User: 提示重新输入密码
-    end
-&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;强加密&#34;&gt;强加密
-&lt;/h5&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+        Parser-&gt;&gt;User: 密码验证失败
+        Parser-&gt;&gt;User: 提示重新输入密码
+    end&lt;/div&gt;
+&lt;/div&gt;
+&lt;h5 id=&#34;强加密&#34;&gt;强加密
+&lt;/h5&gt;&lt;div class=&#34;mermaid-block&#34;&gt;
+    &lt;div class=&#34;mermaid&#34;&gt;sequenceDiagram
     participant User as 用户
     participant Parser as 解析器
     participant ZIP as ZIP文件
 
-    User-&amp;gt;&amp;gt;Parser: 提供密码
-    Parser-&amp;gt;&amp;gt;ZIP: 读取Local File Header
-    ZIP-&amp;gt;&amp;gt;Parser: 返回LFH数据 (包含强加密标志)
-    Parser-&amp;gt;&amp;gt;ZIP: 读取强加密解密头
-    ZIP-&amp;gt;&amp;gt;Parser: 返回解密头数据 (IVSize, IVData, AlgID, VSize等)
+    User-&gt;&gt;Parser: 提供密码
+    Parser-&gt;&gt;ZIP: 读取Local File Header
+    ZIP-&gt;&gt;Parser: 返回LFH数据 (包含强加密标志)
+    Parser-&gt;&gt;ZIP: 读取强加密解密头
+    ZIP-&gt;&gt;Parser: 返回解密头数据 (IVSize, IVData, AlgID, VSize等)
 
-    Parser-&amp;gt;&amp;gt;Parser: 解析解密头明文字段
-    Parser-&amp;gt;&amp;gt;Parser: 使用密码和IVData生成主会话密钥
+    Parser-&gt;&gt;Parser: 解析解密头明文字段
+    Parser-&gt;&gt;Parser: 使用密码和IVData生成主会话密钥
 
-    Parser-&amp;gt;&amp;gt;ZIP: 读取ErdData字段
-    ZIP-&amp;gt;&amp;gt;Parser: 返回ErdData
+    Parser-&gt;&gt;ZIP: 读取ErdData字段
+    ZIP-&gt;&gt;Parser: 返回ErdData
 
-    Parser-&amp;gt;&amp;gt;Parser: 解密ErdData获取随机数据
-    Parser-&amp;gt;&amp;gt;Parser: 生成文件会话密钥
+    Parser-&gt;&gt;Parser: 解密ErdData获取随机数据
+    Parser-&gt;&gt;Parser: 生成文件会话密钥
 
-    Parser-&amp;gt;&amp;gt;ZIP: 读取VData和VCRC32字段
-    ZIP-&amp;gt;&amp;gt;Parser: 返回VData和VCRC32
+    Parser-&gt;&gt;ZIP: 读取VData和VCRC32字段
+    ZIP-&gt;&gt;Parser: 返回VData和VCRC32
 
-    Parser-&amp;gt;&amp;gt;Parser: 使用会话密钥解密VData和VCRC32
-    Parser-&amp;gt;&amp;gt;Parser: 计算解密后VData的CRC32
-    Parser-&amp;gt;&amp;gt;Parser: 比较计算的CRC32与解密的VCRC32
+    Parser-&gt;&gt;Parser: 使用会话密钥解密VData和VCRC32
+    Parser-&gt;&gt;Parser: 计算解密后VData的CRC32
+    Parser-&gt;&gt;Parser: 比较计算的CRC32与解密的VCRC32
 
     alt 密码验证成功
-        Parser-&amp;gt;&amp;gt;User: 密码验证成功
-        Parser-&amp;gt;&amp;gt;ZIP: 读取文件数据
-        ZIP-&amp;gt;&amp;gt;Parser: 返回文件数据
-        Parser-&amp;gt;&amp;gt;Parser: 解密文件数据
-        Parser-&amp;gt;&amp;gt;User: 解压完成
+        Parser-&gt;&gt;User: 密码验证成功
+        Parser-&gt;&gt;ZIP: 读取文件数据
+        ZIP-&gt;&gt;Parser: 返回文件数据
+        Parser-&gt;&gt;Parser: 解密文件数据
+        Parser-&gt;&gt;User: 解压完成
     else 密码验证失败
-        Parser-&amp;gt;&amp;gt;User: 密码验证失败
-        Parser-&amp;gt;&amp;gt;User: 提示重新输入密码
-    end
-&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;启用中央目录加密&#34;&gt;启用中央目录加密
-&lt;/h5&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-mermaid&#34; data-lang=&#34;mermaid&#34;&gt;sequenceDiagram
+        Parser-&gt;&gt;User: 密码验证失败
+        Parser-&gt;&gt;User: 提示重新输入密码
+    end&lt;/div&gt;
+&lt;/div&gt;
+&lt;h5 id=&#34;启用中央目录加密&#34;&gt;启用中央目录加密
+&lt;/h5&gt;&lt;div class=&#34;mermaid-block&#34;&gt;
+    &lt;div class=&#34;mermaid&#34;&gt;sequenceDiagram
     participant User as 用户
     participant Parser as 解析器
     participant ZIP as ZIP文件
 
-    Parser-&amp;gt;&amp;gt;ZIP: 读取EOCD和ZIP64记录
-    ZIP-&amp;gt;&amp;gt;Parser: 返回记录数据 (包含中央目录加密标志)
+    Parser-&gt;&gt;ZIP: 读取EOCD和ZIP64记录
+    ZIP-&gt;&gt;Parser: 返回记录数据 (包含中央目录加密标志)
 
-    Parser-&amp;gt;&amp;gt;User: 检测到中央目录加密，请提供密码
-    User-&amp;gt;&amp;gt;Parser: 提供密码
+    Parser-&gt;&gt;User: 检测到中央目录加密，请提供密码
+    User-&gt;&gt;Parser: 提供密码
 
-    Parser-&amp;gt;&amp;gt;ZIP: 根据ZIP64记录定位Archive Decryption Header
-    ZIP-&amp;gt;&amp;gt;Parser: 返回Archive Decryption Header
+    Parser-&gt;&gt;ZIP: 根据ZIP64记录定位Archive Decryption Header
+    ZIP-&gt;&gt;Parser: 返回Archive Decryption Header
 
-    Parser-&amp;gt;&amp;gt;Parser: 解析解密头明文字段
-    Parser-&amp;gt;&amp;gt;Parser: 使用密码生成主会话密钥
+    Parser-&gt;&gt;Parser: 解析解密头明文字段
+    Parser-&gt;&gt;Parser: 使用密码生成主会话密钥
 
-    Parser-&amp;gt;&amp;gt;ZIP: 读取ErdData字段
-    ZIP-&amp;gt;&amp;gt;Parser: 返回ErdData
+    Parser-&gt;&gt;ZIP: 读取ErdData字段
+    ZIP-&gt;&gt;Parser: 返回ErdData
 
-    Parser-&amp;gt;&amp;gt;Parser: 解密ErdData获取随机数据
-    Parser-&amp;gt;&amp;gt;Parser: 生成中央目录解密密钥
+    Parser-&gt;&gt;Parser: 解密ErdData获取随机数据
+    Parser-&gt;&gt;Parser: 生成中央目录解密密钥
 
-    Parser-&amp;gt;&amp;gt;ZIP: 读取VData和VCRC32字段
-    ZIP-&amp;gt;&amp;gt;Parser: 返回VData和VCRC32
+    Parser-&gt;&gt;ZIP: 读取VData和VCRC32字段
+    ZIP-&gt;&gt;Parser: 返回VData和VCRC32
 
-    Parser-&amp;gt;&amp;gt;Parser: 解密VData和VCRC32
-    Parser-&amp;gt;&amp;gt;Parser: 验证VData的CRC32
+    Parser-&gt;&gt;Parser: 解密VData和VCRC32
+    Parser-&gt;&gt;Parser: 验证VData的CRC32
 
     alt 密码验证成功
-        Parser-&amp;gt;&amp;gt;ZIP: 读取加密的中央目录
-        ZIP-&amp;gt;&amp;gt;Parser: 返回加密的中央目录数据
-        Parser-&amp;gt;&amp;gt;Parser: 解密中央目录
-        Parser-&amp;gt;&amp;gt;Parser: 解析中央目录获取文件列表
-        Parser-&amp;gt;&amp;gt;User: 显示文件列表
-        User-&amp;gt;&amp;gt;Parser: 选择要解压的文件
-        Parser-&amp;gt;&amp;gt;Parser: 继续解压选中的文件
-        Parser-&amp;gt;&amp;gt;User: 解压完成
+        Parser-&gt;&gt;ZIP: 读取加密的中央目录
+        ZIP-&gt;&gt;Parser: 返回加密的中央目录数据
+        Parser-&gt;&gt;Parser: 解密中央目录
+        Parser-&gt;&gt;Parser: 解析中央目录获取文件列表
+        Parser-&gt;&gt;User: 显示文件列表
+        User-&gt;&gt;Parser: 选择要解压的文件
+        Parser-&gt;&gt;Parser: 继续解压选中的文件
+        Parser-&gt;&gt;User: 解压完成
     else 密码验证失败
-        Parser-&amp;gt;&amp;gt;User: 密码验证失败，无法解密中央目录
-        Parser-&amp;gt;&amp;gt;User: 无法显示文件列表，请重新输入密码
-    end
-&lt;/code&gt;&lt;/pre&gt;</description>
+        Parser-&gt;&gt;User: 密码验证失败，无法解密中央目录
+        Parser-&gt;&gt;User: 无法显示文件列表，请重新输入密码
+    end&lt;/div&gt;
+&lt;/div&gt;
+</description>
         </item>
         <item>
         <title>Markdown 语法指南</title>
@@ -500,7 +514,7 @@
 &lt;h2 id=&#34;标题&#34;&gt;标题
 &lt;/h2&gt;&lt;p&gt;以下 HTML &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;—&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; 元素代表六个级别的章节标题。&lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; 是最高级别，而 &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; 是最低级别。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;# H1
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gh&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gu&#34;&gt;## H2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;## H2
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;### H3
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;#### H4
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gu&#34;&gt;##### H5
@@ -523,9 +537,9 @@
 &lt;/blockquote&gt;
 &lt;h4 id=&#34;带有属性的引用块&#34;&gt;带有属性的引用块
 &lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;ge&#34;&gt;不要通过共享内存来通信，而是通过通信来共享内存。&amp;lt;br&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;ge&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;ge&#34;&gt;— &amp;lt;cite&amp;gt;Rob Pike[^1]&amp;lt;/cite&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;ge&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[^1]: 上述引用摘自 Rob Pike 在 Gopherfest 2015 年 11 月 18 日[演讲](https://www.youtube.com/watch?v=PAAkCSZUG1c)的部分内容。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;&amp;gt; &lt;/span&gt;&lt;span class=&#34;ge&#34;&gt;— &amp;lt;cite&amp;gt;Rob Pike[^1]&amp;lt;/cite&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[^1]: 上述引用摘自 Rob Pike 在 Gopherfest 2015 年 11 月 18 日[&lt;span class=&#34;nt&#34;&gt;演讲&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;https://www.youtube.com/watch?v=PAAkCSZUG1c&lt;/span&gt;)的部分内容。
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
 &lt;p&gt;不要通过共享内存来通信，而是通过通信来共享内存。&lt;br&gt;
 — &lt;cite&gt;Rob Pike&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/cite&gt;&lt;/p&gt;
@@ -533,61 +547,61 @@
 &lt;h2 id=&#34;表格&#34;&gt;表格
 &lt;/h2&gt;&lt;p&gt;表格不属于核心 Markdown 规范的一部分，但 Hugo 开箱即用地支持它们。&lt;/p&gt;
 &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;名称&lt;/th&gt;
-&lt;th&gt;年龄&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Bob&lt;/td&gt;
-&lt;td&gt;27&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Alice&lt;/td&gt;
-&lt;td&gt;23&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;名称&lt;/th&gt;
+          &lt;th&gt;年龄&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Bob&lt;/td&gt;
+          &lt;td&gt;27&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Alice&lt;/td&gt;
+          &lt;td&gt;23&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;表格中的内联-markdown&#34;&gt;表格中的内联 Markdown
 &lt;/h4&gt;&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;斜体&lt;/th&gt;
-&lt;th&gt;粗体&lt;/th&gt;
-&lt;th&gt;代码&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;粗体&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;代码&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;斜体&lt;/th&gt;
+          &lt;th&gt;粗体&lt;/th&gt;
+          &lt;th&gt;代码&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&lt;em&gt;斜体&lt;/em&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;strong&gt;粗体&lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;代码&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;A&lt;/th&gt;
-&lt;th&gt;B&lt;/th&gt;
-&lt;th&gt;C&lt;/th&gt;
-&lt;th&gt;D&lt;/th&gt;
-&lt;th&gt;E&lt;/th&gt;
-&lt;th&gt;F&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td&gt;
-&lt;td&gt;Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td&gt;
-&lt;td&gt;Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td&gt;
-&lt;td&gt;Proin sit amet velit nec enim imperdiet vehicula.&lt;/td&gt;
-&lt;td&gt;Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td&gt;
-&lt;td&gt;Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;A&lt;/th&gt;
+          &lt;th&gt;B&lt;/th&gt;
+          &lt;th&gt;C&lt;/th&gt;
+          &lt;th&gt;D&lt;/th&gt;
+          &lt;th&gt;E&lt;/th&gt;
+          &lt;th&gt;F&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td&gt;
+          &lt;td&gt;Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td&gt;
+          &lt;td&gt;Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td&gt;
+          &lt;td&gt;Proin sit amet velit nec enim imperdiet vehicula.&lt;/td&gt;
+          &lt;td&gt;Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td&gt;
+          &lt;td&gt;Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;代码块&#34;&gt;代码块
 &lt;/h2&gt;&lt;h4 id=&#34;使用反引号的代码块&#34;&gt;使用反引号的代码块
@@ -602,16 +616,16 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;使用四个空格缩进的代码块&#34;&gt;使用四个空格缩进的代码块
-&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cp&#34;&gt;&amp;lt;!doctype html&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;html&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;lang&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;charset&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;utf-8&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;示例 HTML5 文档&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;测试&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;!doctype html&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &amp;lt;meta charset=&amp;#34;utf-8&amp;#34;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &amp;lt;title&amp;gt;示例 HTML5 文档&amp;lt;/title&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;/head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &amp;lt;p&amp;gt;测试&amp;lt;/p&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;/body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;/html&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt;&amp;lt;!doctype html&amp;gt;
 &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
 &amp;lt;head&amp;gt;
@@ -639,7 +653,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git = &amp;#34;https://github.com/bevyengine/bevy&amp;#34;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;rev = &amp;#34;11f52b8c72fc3a568e8bb4a4cd1f3eb025ac2e13&amp;#34;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;- features = [&amp;#34;dynamic&amp;#34;]
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gd&#34;&gt;&lt;/span&gt;&lt;span class=&#34;gi&#34;&gt;+ features = [&amp;#34;jpeg&amp;#34;, &amp;#34;dynamic&amp;#34;]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;gi&#34;&gt;+ features = [&amp;#34;jpeg&amp;#34;, &amp;#34;dynamic&amp;#34;]
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;列表类型&#34;&gt;列表类型
 &lt;/h2&gt;&lt;h4 id=&#34;有序列表&#34;&gt;有序列表
 &lt;/h4&gt;&lt;ol&gt;
@@ -670,15 +684,15 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;其他元素abbr-sub-sup-kbd-mark&#34;&gt;其他元素——abbr, sub, sup, kbd, mark
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;abbr&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;图形交换格式&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;GIF&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;abbr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; 是一种位图图像格式。
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;abbr title=&amp;#34;图形交换格式&amp;#34;&amp;gt;GIF&amp;lt;/abbr&amp;gt; 是一种位图图像格式。
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;H&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sub&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;2&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sub&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;O
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;X&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;n&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; + Y&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;n&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; = Z&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;n&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;sup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;X&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; + Y&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; = Z&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;按下 &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;kbd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;CTRL&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;kbd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; + &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;kbd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;ALT&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;kbd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; + &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;kbd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Delete&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;kbd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; 结束会话。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;按下 &amp;lt;kbd&amp;gt;CTRL&amp;lt;/kbd&amp;gt; + &amp;lt;kbd&amp;gt;ALT&amp;lt;/kbd&amp;gt; + &amp;lt;kbd&amp;gt;Delete&amp;lt;/kbd&amp;gt; 结束会话。
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;大多数 &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;mark&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;蝾螈&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;mark&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt; 是夜行性的，并猎食昆虫、蠕虫和其他小生物。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;大多数 &amp;lt;mark&amp;gt;蝾螈&amp;lt;/mark&amp;gt; 是夜行性的，并猎食昆虫、蠕虫和其他小生物。
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;abbr title=&#34;图形交换格式&#34;&gt;GIF&lt;/abbr&gt; 是一种位图图像格式。&lt;/p&gt;
 &lt;p&gt;H&lt;sub&gt;2&lt;/sub&gt;O&lt;/p&gt;
 &lt;p&gt;X&lt;sup&gt;n&lt;/sup&gt; + Y&lt;sup&gt;n&lt;/sup&gt; = Z&lt;sup&gt;n&lt;/sup&gt;&lt;/p&gt;
@@ -707,13 +721,13 @@
 &lt;/div&gt;</description>
         </item>
         <item>
-        <title>How to parse arguments using getopt.h</title>
+        <title>c语言getopt.h库解析</title>
         <link>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</link>
         <pubDate>Wed, 22 Jan 2025 13:29:03 +0800</pubDate>
         
         <guid>https://xingfend.github.io/xingfen-star.github.io/post/c-getopt_h-analysis/</guid>
-        <description>&lt;h2 id=&#34;introduction-to-getopth&#34;&gt;Introduction to &lt;code&gt;getopt.h&lt;/code&gt;
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; is an embedded library of c language to handle command line arguments. It&amp;rsquo;s function can be accessed by calling the two functions below:&lt;/p&gt;
+        <description>&lt;h2 id=&#34;getopth简介&#34;&gt;getopt.h简介
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt.h&lt;/code&gt; 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt;&lt;/p&gt;
@@ -722,13 +736,13 @@
 &lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;function-getopt&#34;&gt;Function &lt;code&gt;getopt()&lt;/code&gt;
-&lt;/h3&gt;&lt;p&gt;Function &lt;code&gt;getopt()&lt;/code&gt;  is used to parse instructions which have only short options like &lt;code&gt;-g&lt;/code&gt;, &lt;code&gt;-o&lt;/code&gt;, &lt;code&gt;-f&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;example-program-of-getopt&#34;&gt;Example program of &lt;code&gt;getopt()&lt;/code&gt;
-&lt;/h4&gt;&lt;p&gt;The arguments-handling framework using &lt;code&gt;getopt()&lt;/code&gt; is basicly below:&lt;/p&gt;
+&lt;h2 id=&#34;函数-getopt&#34;&gt;函数 &lt;code&gt;getopt()&lt;/code&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt()&lt;/code&gt; 用于解析仅包含短选项的指令，例如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;getopt-示例程序&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt; 示例程序
+&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;getopt()&lt;/code&gt; 的参数处理框架如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[])&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;opt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -748,7 +762,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Arg -k do not need arguments:%s&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optarg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;k&#34;&gt;break&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;?&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// An invalid option was found or a required argument is missing.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;                &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optopt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;f&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optopt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;o&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optopt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;f&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optopt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;o&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Option -%c requires an argument.&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optopt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Unknown option -%c.&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\n&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optopt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
@@ -768,7 +782,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* optind &amp;lt; argc */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;compile and run the executable file with instruction: &lt;code&gt;./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h&lt;/code&gt;&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译并运行如下指令：&lt;code&gt;./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h&lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_short.out: invalid option -- &amp;#39;v&amp;#39;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Invalid option: v
@@ -777,59 +791,58 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Arg -k do not need arguments:(null)
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Remaining arguments: yuanshen arg:k arg:h %
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;detailed-introduction-to-getopt&#34;&gt;Detailed introduction to &lt;code&gt;getopt()&lt;/code&gt;
-&lt;/h4&gt;&lt;h5 id=&#34;the-global-variables&#34;&gt;The global variables
-&lt;/h5&gt;&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;global variables&lt;/th&gt;
-&lt;th&gt;usage&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;optopt (int)&lt;/td&gt;
-&lt;td&gt;It is set when an unknown option or an option lacking the necessary parameters is encountered; it stores the option character that caused the error.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;optarg (char *)&lt;/td&gt;
-&lt;td&gt;It is used to store the value of the current option&amp;rsquo;s argument. When parsing an option that requires an argument (for example, &lt;code&gt;file.txt&lt;/code&gt; in &lt;code&gt;-f file.txt&lt;/code&gt;), optarg will point to this argument string.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;optind (int)&lt;/td&gt;
-&lt;td&gt;It is used to track the position during the process of parsing command-line arguments, specifically indicating the index of the next argument to be processed.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;getopt详细说明&#34;&gt;&lt;code&gt;getopt()&lt;/code&gt;详细说明
+&lt;/h3&gt;&lt;h4 id=&#34;全局变量&#34;&gt;全局变量
+&lt;/h4&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;全局变量&lt;/th&gt;
+          &lt;th&gt;用途&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;optopt (int)&lt;/td&gt;
+          &lt;td&gt;遇到未知选项或缺少必要参数时设置，存储导致错误的选项字符。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;optarg (char*)&lt;/td&gt;
+          &lt;td&gt;存储当前选项的参数值。当解析需要参数的选项（例如 &lt;code&gt;-f file.txt&lt;/code&gt; 中的 &lt;code&gt;file.txt&lt;/code&gt;）时，&lt;code&gt;optarg&lt;/code&gt; 指向该字符串。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;optind (int)&lt;/td&gt;
+          &lt;td&gt;在解析命令行参数过程中，追踪位置，具体指示下一个要处理的参数的索引。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;Ignoring the input sequence of these arguments， The code block blow will print all the arguments not recognized by the &lt;code&gt;getopt()&lt;/code&gt; function.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* extra arguments handling */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Remaining arguments: &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%s &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;cm&#34;&gt;/* optind &amp;lt; argc */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;the-pattern-string&#34;&gt;&lt;strong&gt;The pattern string&lt;/strong&gt;
-&lt;/h3&gt;&lt;p&gt;The defination is &lt;code&gt;const char *__shortopts&lt;/code&gt;, in the example program, it&amp;rsquo;s instance is &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Just as the name &lt;code&gt;__shortopts&lt;/code&gt; shows, the pattern string defines the short options that will be recognized in the &lt;code&gt;getopt()&lt;/code&gt; and &lt;code&gt;getopt_long()&lt;/code&gt; function. The colon &lt;code&gt;:&lt;/code&gt; follows a short option character refers that this option requests for an argument.&lt;/p&gt;
-&lt;p&gt;Take &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt; as an example, this pattern string receives 4 options. options &lt;code&gt;-f&lt;/code&gt; and &lt;code&gt;-o&lt;/code&gt; request an argument input, while options &lt;code&gt;-k&lt;/code&gt; and &lt;code&gt;-h&lt;/code&gt; not.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; if &lt;code&gt;-f&lt;/code&gt; is followed with an option, the following option will be regarded as an argument.&lt;/p&gt;
-&lt;h3 id=&#34;function-getopt_long&#34;&gt;Function &lt;code&gt;getopt_long()&lt;/code&gt;
-&lt;/h3&gt;&lt;p&gt;Function &lt;code&gt;getopt_long()&lt;/code&gt; is used to parse instructions which have both short options like &lt;code&gt;-g&lt;/code&gt;, &lt;code&gt;-o&lt;/code&gt;, &lt;code&gt;-f&lt;/code&gt; and long options like &lt;code&gt;--version&lt;/code&gt;, &lt;code&gt;--input&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The function &lt;code&gt;getopt_long&lt;/code&gt; recognizes an array of &lt;code&gt;struct option&lt;/code&gt;, which defines the information of long options.&lt;/p&gt;
-&lt;p&gt;The prototype of &lt;code&gt;struct option&lt;/code&gt; and related introduction are below:&lt;/p&gt;
+&lt;p&gt;以下代码段会打印所有未被 &lt;code&gt;getopt()&lt;/code&gt; 识别的参数（忽略这些参数的输入顺序）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* extra arguments handling */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Remaining arguments: &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nf&#34;&gt;printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;%s &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;argv&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;optind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;模式字符串&#34;&gt;&lt;strong&gt;模式字符串&lt;/strong&gt;
+&lt;/h2&gt;&lt;p&gt;模式字符串的定义是 &lt;code&gt;const char *__shortopts&lt;/code&gt;，在示例程序中，其实例为 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;顾名思义，模式字符串定义了 &lt;code&gt;getopt()&lt;/code&gt; 和 &lt;code&gt;getopt_long()&lt;/code&gt; 函数中将被识别的短选项。冒号 &lt;code&gt;:&lt;/code&gt; 跟在短选项字符后表示该选项需要一个参数。&lt;/p&gt;
+&lt;p&gt;以 &lt;code&gt;&amp;quot;f:o:kh&amp;quot;&lt;/code&gt; 为例，此模式字符串接收4个选项。选项 &lt;code&gt;-f&lt;/code&gt; 和 &lt;code&gt;-o&lt;/code&gt; 需要输入参数，而选项 &lt;code&gt;-k&lt;/code&gt; 和 &lt;code&gt;-h&lt;/code&gt; 不需要。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：如果 &lt;code&gt;-f&lt;/code&gt; 后跟一个选项，该选项会被视为参数。&lt;/p&gt;
+&lt;h2 id=&#34;函数-getopt_long&#34;&gt;函数 &lt;code&gt;getopt_long()&lt;/code&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 用于解析既包含短选项（如 &lt;code&gt;-g&lt;/code&gt;、&lt;code&gt;-o&lt;/code&gt;、&lt;code&gt;-f&lt;/code&gt;）又包含长选项（如 &lt;code&gt;--version&lt;/code&gt;、&lt;code&gt;--input&lt;/code&gt;）的指令。&lt;/p&gt;
+&lt;p&gt;函数 &lt;code&gt;getopt_long&lt;/code&gt; 识别一个结构体数组 &lt;code&gt;struct option&lt;/code&gt;，该数组定义了长选项的信息。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;struct option&lt;/code&gt; 的原型及相关介绍如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;option&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;cm&#34;&gt;/* the name of long option */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;has_arg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* whether this option request an argument */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;cm&#34;&gt;/* if this option are provided by user, *flag will be assigned the value of @val */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;cm&#34;&gt;/* bind long option with short option or the value to assign to @*flag */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;cm&#34;&gt;/* 长选项的名称 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;has_arg&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;        &lt;span class=&#34;cm&#34;&gt;/* 是否需要参数 */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;flag&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;          &lt;span class=&#34;cm&#34;&gt;/* 如果用户提供了此选项，*flag 将被赋值为 @val */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;            &lt;span class=&#34;cm&#34;&gt;/* 将长选项与短选项绑定，或赋值给 @*flag */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Field &lt;code&gt;has_arg&lt;/code&gt; has two valid values, which are macros between &lt;code&gt;no_argument&lt;/code&gt; and &lt;code&gt;required_argument&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;If field &lt;code&gt;flag&lt;/code&gt; is not provided, then the field &lt;code&gt;val&lt;/code&gt; will be regarded as the short option bound with current long option.&lt;/p&gt;
-&lt;p&gt;While the field &lt;code&gt;flag&lt;/code&gt; is provided the field &lt;code&gt;val&lt;/code&gt; will be assigned to &lt;code&gt;*flag&lt;/code&gt; when the current long option is provided by user.&lt;/p&gt;
-&lt;h4 id=&#34;elaboration-with-an-instance&#34;&gt;Elaboration with an instance
-&lt;/h4&gt;&lt;p&gt;Now we use instance with &lt;code&gt;struct option&lt;/code&gt; array and pattern string to elaborate.&lt;/p&gt;
-&lt;p&gt;The instance of &lt;code&gt;struct option&lt;/code&gt; array and pattern string:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;字段 &lt;code&gt;has_arg&lt;/code&gt; 有两个有效值，即宏 &lt;code&gt;no_argument&lt;/code&gt; 和 &lt;code&gt;required_argument&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;如果字段 &lt;code&gt;flag&lt;/code&gt; 未提供，则字段 &lt;code&gt;val&lt;/code&gt; 会被视为与当前长选项绑定的短选项。&lt;/p&gt;
+&lt;p&gt;如果提供了字段 &lt;code&gt;flag&lt;/code&gt;，当用户提供当前长选项时，字段 &lt;code&gt;val&lt;/code&gt; 将被赋值给 &lt;code&gt;*flag&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;用实例详细说明&#34;&gt;用实例详细说明
+&lt;/h3&gt;&lt;p&gt;以下是一个使用 &lt;code&gt;struct option&lt;/code&gt; 数组和模式字符串的实例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;suR:&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -858,61 +871,55 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* require argument */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;RequireArg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;required_argument&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;nb&#34;&gt;NULL&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;           &lt;span class=&#34;sc&#34;&gt;&amp;#39;R&amp;#39;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Considering both short and long options, when referring to the options for a certain function, there might be three possible situations, which are listed below.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;考虑到短选项和长选项，当提到某个功能的option时，可能会有以下三种情况：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;short option only&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;long option only&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;short and long option both&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;仅有短选项&lt;/li&gt;
+&lt;li&gt;仅有长选项&lt;/li&gt;
+&lt;li&gt;同时具有短选项和长选项&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Combine the pattern string and &lt;code&gt;struct option&lt;/code&gt; array, the options that the program receives are:&lt;/p&gt;
+&lt;p&gt;结合模式字符串和 &lt;code&gt;struct option&lt;/code&gt; 数组，程序接收的选项如下：&lt;/p&gt;
 &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;short option&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;long option&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;onlyset3&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;setbind&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;-s&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;-u&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;unsetbind&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;-R&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;&amp;ndash;RequireArg&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;短选项&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;长选项&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset2&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;onlyset3&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;setbind&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;-s&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;-u&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;unsetbind&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;-R&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;ndash;RequireArg&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;The options &lt;code&gt;-s&lt;/code&gt; and &lt;code&gt;--setbind&lt;/code&gt; are not bound together, because the field &lt;code&gt;flag&lt;/code&gt; is provided in the element corresponding &lt;code&gt;&amp;quot;setbind&amp;quot;&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;conflict-argument-require&#34;&gt;Conflict argument require
-&lt;/h4&gt;&lt;p&gt;There exists mutiple defination of argument require in both short and long options. Consequently, conflicts may occur.&lt;/p&gt;
-&lt;p&gt;we use a instance to elaborate:&lt;/p&gt;
+&lt;p&gt;选项 &lt;code&gt;-s&lt;/code&gt; 和 &lt;code&gt;--setbind&lt;/code&gt; 并未绑定在一起，因为在与 &lt;code&gt;&amp;quot;setbind&amp;quot;&lt;/code&gt; 对应的结构体元素中设置了字段 flag。&lt;/p&gt;
+&lt;h3 id=&#34;参数需求冲突&#34;&gt;参数需求冲突
+&lt;/h3&gt;&lt;p&gt;当短选项和长选项中都定义了参数需求时，可能会发生冲突。&lt;/p&gt;
+&lt;p&gt;我们通过一个实例进行说明：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* the corresponding pattern string */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;char&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pattern&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;c:d&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -928,16 +935,16 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;cm&#34;&gt;/* end of the array ( all zero ) */&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;            &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;                  &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;              &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;   &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can see the given program above bind a required-arg short option &lt;code&gt;-c&lt;/code&gt; with a non-arg long option &lt;code&gt;--Conflict1&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;And bind a non-arg short option &lt;code&gt;-d&lt;/code&gt; with a required-arg long option &lt;code&gt;--Conflict2&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;This program runs well, but the configure about argument will take effects, too.&lt;/p&gt;
-&lt;p&gt;When the user provide &lt;code&gt;-c&lt;/code&gt; or &lt;code&gt;--Conflict1&lt;/code&gt;, the program will enter the same branch, but &lt;code&gt;--Conflict1&lt;/code&gt; will not read the following argument, while &lt;code&gt;-c&lt;/code&gt; does.&lt;/p&gt;
-&lt;p&gt;When the user provide &lt;code&gt;-d&lt;/code&gt; or &lt;code&gt;--Conflict2&lt;/code&gt;, the result will reverse.&lt;/p&gt;
-&lt;h4 id=&#34;example-program-of-getopt_long&#34;&gt;Example program of &lt;code&gt;getopt_long()&lt;/code&gt;
-&lt;/h4&gt;&lt;p&gt;The arguments-handling framework using &lt;code&gt;getopt()&lt;/code&gt; is basicly below:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们可以看到，上述程序将一个需要参数的短选项 &lt;code&gt;-c&lt;/code&gt; 与一个不需要参数的长选项 &lt;code&gt;--Conflict1&lt;/code&gt; 绑定在一起。&lt;/p&gt;
+&lt;p&gt;同时，它还将一个不需要参数的短选项 &lt;code&gt;-d&lt;/code&gt; 与一个需要参数的长选项 &lt;code&gt;--Conflict2&lt;/code&gt; 绑定在一起。&lt;/p&gt;
+&lt;p&gt;该程序运行正常，但关于参数的配置也会生效。&lt;/p&gt;
+&lt;p&gt;当用户提供 &lt;code&gt;-c&lt;/code&gt; 或 &lt;code&gt;--Conflict1&lt;/code&gt; 时，程序会进入同一个分支，但 &lt;code&gt;--Conflict1&lt;/code&gt; 不会读取后续的参数，而 &lt;code&gt;-c&lt;/code&gt; 会读取。&lt;/p&gt;
+&lt;p&gt;当用户提供 &lt;code&gt;-d&lt;/code&gt; 或 &lt;code&gt;--Conflict2&lt;/code&gt; 时，结果则相反。&lt;/p&gt;
+&lt;h3 id=&#34;getopt_long-示例程序&#34;&gt;&lt;code&gt;getopt_long()&lt;/code&gt; 示例程序
+&lt;/h3&gt;&lt;p&gt;以下是使用 &lt;code&gt;getopt_long()&lt;/code&gt; 的参数处理框架：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;getopt.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/* test instructions:
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;    ./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;    ./test_long.out -s --setbind
@@ -1043,8 +1050,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;run-and-analyse-the-test-result-of-getopt_long&#34;&gt;Run and analyse the test result of &lt;code&gt;getopt_long()&lt;/code&gt;
-&lt;/h5&gt;&lt;p&gt;We design these instructions to test the program.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;运行测试指令并分析测试结果&#34;&gt;运行测试指令并分析测试结果
+&lt;/h4&gt;&lt;p&gt;编译运行时的测试指令如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out -s --setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --unsetbind --RequireArg arg:RequireArg
@@ -1055,7 +1062,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out -c arg:c --Conflict1 arg:Conflict1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./test_long.out --Conflict1 arg:Conflict1 -c arg:c
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The results are as follows:&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out --onlyset1 --onlyset2 --onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is onlyset1
@@ -1068,7 +1075,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is onlyset3
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the flag value is 3
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This instruction &lt;code&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3&lt;/code&gt; demonstrates the basic functionality of &lt;code&gt;getopt_long()&lt;/code&gt;. It modifies the value at the address &lt;code&gt;flag&lt;/code&gt;.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指令 &lt;code&gt;./test_long.out --onlyset1 --onlyset2 --onlyset3&lt;/code&gt; 展示了 &lt;code&gt;getopt_long()&lt;/code&gt; 的基本功能。&lt;/p&gt;
+&lt;p&gt;它改变了 &lt;code&gt;flag&lt;/code&gt; 地址中的值。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -s --setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option (short option only), with flag set, with val bound.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;setbind_flag == 0
@@ -1076,7 +1084,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option with flag set recognized!
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option name is setbind
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the flag value is 115
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The instruction &lt;code&gt;./test_long.out -s --setbind&lt;/code&gt; demonstrates a failure in binding (when the &lt;code&gt;flag&lt;/code&gt; field is set). &lt;code&gt;--setbind&lt;/code&gt; and &lt;code&gt;-s&lt;/code&gt; enter different branches.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;指令 &lt;code&gt;./test_long.out -s --setbind&lt;/code&gt; 展示了绑定失败（当 &lt;code&gt;flag&lt;/code&gt; 字段被设置时）。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--setbind&lt;/code&gt; 和 &lt;code&gt;-s&lt;/code&gt; 会进入不同的分支。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out --unsetbind --RequireArg arg:RequireArg
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option, without flag set, with val bound.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
@@ -1088,7 +1097,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;long option require argument.
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:R
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This comparison shows the result of successful binding (when the &lt;code&gt;flag&lt;/code&gt; field is not set). &lt;code&gt;--unsetbind&lt;/code&gt; and &lt;code&gt;-u&lt;/code&gt; are bound together and enter the same branch. Similarly, &lt;code&gt;--RequireArg&lt;/code&gt; and &lt;code&gt;-R&lt;/code&gt; are bound together.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这对比展示了绑定成功的结果（当 &lt;code&gt;flag&lt;/code&gt; 字段未设置时）。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--unsetbind&lt;/code&gt; 和 &lt;code&gt;-u&lt;/code&gt; 被绑定在一起，进入相同的分支。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--RequireArg&lt;/code&gt; 和 &lt;code&gt;-R&lt;/code&gt; 也是一样。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -c arg:c -d arg:d
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;conflict argument require - 1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
@@ -1106,8 +1117,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:Conflict2
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Non-option argument arg:Conflict1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This comparison illustrates the conflict of argument requirements. &lt;code&gt;-c&lt;/code&gt; and &lt;code&gt;--Conflict1&lt;/code&gt; are bound together, but &lt;code&gt;-c&lt;/code&gt; requires an argument. &lt;code&gt;-d&lt;/code&gt; and &lt;code&gt;--Conflict2&lt;/code&gt; are bound together, but &lt;code&gt;--Conflict2&lt;/code&gt; requires an argument.&lt;/p&gt;
-&lt;p&gt;The results show that the bound options enter the same branch. However, the arguments are either read or ignored based on whether the option provided by the user requires an argument.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这对比展示了参数要求的冲突。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-c&lt;/code&gt; 和 &lt;code&gt;--Conflict1&lt;/code&gt; 被绑定在一起，但 &lt;code&gt;-c&lt;/code&gt; 需要一个参数。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-d&lt;/code&gt; 和 &lt;code&gt;--Conflict2&lt;/code&gt; 被绑定在一起，但 &lt;code&gt;--Conflict2&lt;/code&gt; 需要一个参数。&lt;/p&gt;
+&lt;p&gt;结果显示，绑定在一起的选项会进入相同的分支。&lt;/p&gt;
+&lt;p&gt;但是，是否读取或忽略参数取决于用户提供的选项是否需要参数。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-plaintext&#34; data-lang=&#34;plaintext&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; ./test_long.out -c arg:c --Conflict1 arg:Conflict1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;conflict argument require - 1
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
@@ -1126,9 +1140,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;the argument: arg:c
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Non-option argument arg:Conflict1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here, we observe another result of conflict options.&lt;/p&gt;
-&lt;h2 id=&#34;advanced-arguments-parser&#34;&gt;Advanced arguments parser
-&lt;/h2&gt;</description>
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;冲突选项的另一个对比结果。&lt;/p&gt;
+</description>
         </item>
         
     </channel>
