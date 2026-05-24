@@ -2,10 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://xingfend.github.io/blog-by-hugo/categories/</loc>
-    <lastmod>2026-04-26T14:52:27+08:00</lastmod>
+    <loc>https://xingfend.github.io/blog-by-hugo/collections/</loc>
+    <lastmod>2026-05-25T07:57:34+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/post/</loc>
+    <lastmod>2026-05-25T07:57:34+08:00</lastmod>
+  </url><url>
+    <loc>https://xingfend.github.io/blog-by-hugo/post/about-xingfen/</loc>
+    <lastmod>2026-05-25T07:57:34+08:00</lastmod>
+  </url><url>
+    <loc>https://xingfend.github.io/blog-by-hugo/categories/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/tags/</loc>
@@ -26,13 +32,13 @@
     <loc>https://xingfend.github.io/blog-by-hugo/post/reverse-program-course-week4/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
-    <loc>https://xingfend.github.io/blog-by-hugo/collections/</loc>
-    <lastmod>2026-04-26T14:52:27+08:00</lastmod>
-  </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/post/wldk-week2/</loc>
+    <lastmod>2026-04-26T14:52:27+08:00</lastmod>
+  </url><url>
+    <loc>https://xingfend.github.io/blog-by-hugo/collections/wldk-report/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/</loc>
@@ -113,6 +119,9 @@
     <loc>https://xingfend.github.io/blog-by-hugo/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
+    <loc>https://xingfend.github.io/blog-by-hugo/collections/mykind/</loc>
+    <lastmod>2026-05-25T07:57:34+08:00</lastmod>
+  </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/categories/blog/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
@@ -126,9 +135,6 @@
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/categories/program/</loc>
-    <lastmod>2026-04-26T14:52:27+08:00</lastmod>
-  </url><url>
-    <loc>https://xingfend.github.io/blog-by-hugo/collections/wldk-report/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/categories/course/</loc>
