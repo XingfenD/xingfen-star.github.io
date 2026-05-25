@@ -6,7 +6,7 @@
         <description>Recent content in Pages on 远楒</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Sun, 26 Apr 2026 14:52:27 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 26 May 2026 03:29:49 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>归档</title>
         <link>https://xingfend.github.io/blog-by-hugo/page/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
@@ -74,10 +74,12 @@
     &gt;Hugo使用Github Action自动部署博客到Github Pages - Tomial&amp;rsquo;s Blog&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stack.jimmycai.com/config/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Stack主题配置文件说明文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://weilado.github.io/2025/06/18/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9F%BA%E4%BA%8Egiscus%EF%BC%89/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;如何为博客添加评论系统（基于giscus）&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;使用的Hugo主题为&lt;a class=&#34;link&#34; href=&#34;https://themes.gohugo.io/themes/hugo-theme-stack/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Stack&lt;/a&gt;，本博客站使用的定制化主题仓库为&lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD/hugo-theme-custom&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;XingfenD/hugo-theme-custom&lt;/a&gt;。本站的具体开发与改造过程可进入站内归档页的&amp;quot;博客搭建&amp;quot;类别具体了解。&lt;/p&gt;
+    &gt;Stack&lt;/a&gt;，本博客站使用的定制化主题仓库为&lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;XingfenD/hugo-theme-stack&lt;/a&gt;，由于搭建过程中的特殊原因，并未 fork 原项目进行开发。本站的具体开发与改造过程可进入站内归档页的&amp;quot;博客搭建&amp;quot;类别具体了解。&lt;/p&gt;
 </description>
         </item>
         <item>
