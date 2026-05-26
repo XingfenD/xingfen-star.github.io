@@ -3,18 +3,18 @@
     <head>
 	<meta name="generator" content="Hugo 0.160.1"><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name="view-transition" content="same-origin"><meta name='description' content="星分.">
-<title>远楒</title>
+<meta name="view-transition" content="same-origin"><meta name='description' content="挽星.">
+<title>星分</title>
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.f4879a5e4d7fa189ce88043af611ac4f2f39389ecbb73836c36df7a76d45409f.css"><meta property='og:title' content="远楒">
-<meta property='og:description' content="星分.">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.f4879a5e4d7fa189ce88043af611ac4f2f39389ecbb73836c36df7a76d45409f.css"><meta property='og:title' content="星分">
+<meta property='og:description' content="挽星.">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/'>
-<meta property='og:site_name' content='远楒'>
+<meta property='og:site_name' content='星分'>
 <meta property='og:type' content='website'><meta property='og:updated_time' content='2026-04-26T14:52:27&#43;08:00'/>
-<meta name="twitter:title" content="远楒">
-<meta name="twitter:description" content="星分."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/index.xml">
+<meta name="twitter:title" content="星分">
+<meta name="twitter:description" content="挽星."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/index.xml">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
 
@@ -22,7 +22,128 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     </head>
-    <body class="">
+    <body class=""><div id="entrance-overlay" onclick="this.classList.add('dismiss');document.documentElement.style.overflow='';setTimeout(function(){var e=document.getElementById('entrance-overlay');if(e)e.remove()},900)">
+    <div class="entrance-stars" id="entrance-stars"></div>
+    <div class="entrance-content">
+        <h1 class="entrance-title">星分</h1>
+        <p class="entrance-tagline">星藏点雪，月隐晦明。</p>
+        <span class="entrance-hint">轻触任意处进入</span>
+    </div>
+</div>
+
+<style>
+#entrance-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #1a1a1a 0%, #0a0a0a 60%, #000 100%);
+    cursor: pointer;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#entrance-overlay.dismiss {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.entrance-stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.entrance-star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--twinkle-dur, 2s) ease-in-out infinite;
+    animation-delay: var(--twinkle-delay, 0s);
+    opacity: 0;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+.entrance-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    animation: contentFadeIn 1.2s ease both;
+    pointer-events: none;
+}
+
+@keyframes contentFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.entrance-title {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: clamp(3.6rem, 8vw, 7.2rem);
+    font-weight: 700;
+    color: #e8e0d0;
+    margin: 0;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 60px rgba(200, 180, 150, 0.4), 0 0 120px rgba(180, 160, 130, 0.2);
+    user-select: none;
+}
+
+.entrance-tagline {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: 1.4rem;
+    color: rgba(200, 190, 170, 0.6);
+    margin: 1.2rem 0 0;
+    letter-spacing: 0.2em;
+    user-select: none;
+}
+
+.entrance-hint {
+    display: inline-block;
+    margin-top: 3rem;
+    font-size: 1.2rem;
+    color: rgba(200, 190, 170, 0.35);
+    letter-spacing: 0.1em;
+    animation: hintPulse 3s ease-in-out infinite;
+    user-select: none;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+}
+</style>
+
+<script>
+(function() {
+    if (sessionStorage.getItem('entrance-shown')) {
+        var el = document.getElementById('entrance-overlay');
+        if (el) el.remove();
+        return;
+    }
+    sessionStorage.setItem('entrance-shown', '1');
+    document.documentElement.style.overflow = 'hidden';
+
+    var container = document.getElementById('entrance-stars');
+    var starCount = 50;
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < starCount; i++) {
+        var star = document.createElement('div');
+        star.className = 'entrance-star';
+        var size = Math.random() * 3 + 1;
+        star.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 100) + '%;--twinkle-dur:' + (Math.random() * 3 + 2) + 's;--twinkle-delay:' + (Math.random() * 4) + 's';
+        frag.appendChild(star);
+    }
+    container.appendChild(frag);
+})();
+</script>
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -75,8 +196,8 @@
         
 
         <div class="site-meta">
-            <h1 class="site-name"><a href="/blog-by-hugo">远楒</a></h1>
-            <h2 class="site-description">星分.</h2>
+            <h1 class="site-name"><a href="/blog-by-hugo">星分</a></h1>
+            <h2 class="site-description">挽星.</h2>
         </div>
     </header><ol class="menu-social">
             
@@ -1294,7 +1415,7 @@
         
             2025 -
         
-        2026 远楒
+        2026 星分
     </section>
 
     <section class="powerby">
@@ -1656,7 +1777,7 @@ ${selector} .sequenceNumber {
 
     
     (function() {
-        if (!document.querySelector('.article-content')) return;
+        if (!document.body.classList.contains('article-page')) return;
 
         const bar = document.createElement('div');
         bar.id = 'reading-progress-bar';
