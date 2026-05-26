@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="星分.">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="view-transition" content="same-origin"><meta name='description' content="星分.">
 <title>Tag: Test - 远楒</title>
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/tags/test/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.11677340958715056b5d8cd917c1638ea02cafb85e7b0aa640dde7906408f527.css"><meta property='og:title' content="Tag: Test - 远楒">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.f4879a5e4d7fa189ce88043af611ac4f2f39389ecbb73836c36df7a76d45409f.css"><meta property='og:title' content="Tag: Test - 远楒">
 <meta property='og:description' content="星分.">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/tags/test/'>
 <meta property='og:site_name' content='远楒'>
@@ -15,6 +16,10 @@
 <meta name="twitter:description" content="星分."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/tags/test/index.xml">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     </head>
     <body class="">
     <script>
@@ -820,6 +825,54 @@ ${selector} .sequenceNumber {
 
         return mermaidRenderQueue;
     }
+
+    
+    (function() {
+        if (!document.querySelector('.article-content')) return;
+
+        const bar = document.createElement('div');
+        bar.id = 'reading-progress-bar';
+        document.body.prepend(bar);
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const article = document.querySelector('.article-content');
+                    if (!article) return;
+
+                    const rect = article.getBoundingClientRect();
+                    const scrolled = -Math.min(rect.top, 0);
+                    const total = rect.height - window.innerHeight;
+
+                    if (total <= 0) {
+                        bar.style.width = '100%';
+                    } else {
+                        bar.style.width = Math.min(scrolled / total, 1) * 100 + '%';
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    })();
+
+    
+    (function() {
+        const btn = document.createElement('button');
+        btn.id = 'back-to-top';
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
+        btn.setAttribute('aria-label', '返回顶部');
+        document.body.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('visible', window.scrollY > 300);
+        });
+    })();
 
     initTocHide();
 

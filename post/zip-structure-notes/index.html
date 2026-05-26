@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="view-transition" content="same-origin"><meta name='description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
 <title>ZIP 文件结构与解析流程核心笔记</title>
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/zip-structure-notes/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.11677340958715056b5d8cd917c1638ea02cafb85e7b0aa640dde7906408f527.css"><meta property='og:title' content="ZIP 文件结构与解析流程核心笔记">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.f4879a5e4d7fa189ce88043af611ac4f2f39389ecbb73836c36df7a76d45409f.css"><meta property='og:title' content="ZIP 文件结构与解析流程核心笔记">
 <meta property='og:description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/zip-structure-notes/'>
 <meta property='og:site_name' content='远楒'>
@@ -15,6 +16,10 @@
 <meta name="twitter:description" content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end sequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end 流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     </head>
     <body class="
     article-page
@@ -350,6 +355,7 @@
             <main class="main full-width">
     <article class="main-article">
     <header class="article-header">
+    
 
     <div class="article-details">
     
@@ -1203,6 +1209,8 @@
 
     <footer class="article-footer">
     
+
+    
     <section class="article-tags">
         
             <a href="/blog-by-hugo/tags/zip/">ZIP</a>
@@ -1231,6 +1239,8 @@
 
     
 </article>
+
+    
 
     
 
@@ -1736,6 +1746,54 @@ ${selector} .sequenceNumber {
 
         return mermaidRenderQueue;
     }
+
+    
+    (function() {
+        if (!document.querySelector('.article-content')) return;
+
+        const bar = document.createElement('div');
+        bar.id = 'reading-progress-bar';
+        document.body.prepend(bar);
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const article = document.querySelector('.article-content');
+                    if (!article) return;
+
+                    const rect = article.getBoundingClientRect();
+                    const scrolled = -Math.min(rect.top, 0);
+                    const total = rect.height - window.innerHeight;
+
+                    if (total <= 0) {
+                        bar.style.width = '100%';
+                    } else {
+                        bar.style.width = Math.min(scrolled / total, 1) * 100 + '%';
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    })();
+
+    
+    (function() {
+        const btn = document.createElement('button');
+        btn.id = 'back-to-top';
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
+        btn.setAttribute('aria-label', '返回顶部');
+        document.body.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('visible', window.scrollY > 300);
+        });
+    })();
 
     initTocHide();
 

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="view-transition" content="same-origin"><meta name='description' content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <title>Widgets修复与开发</title>
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.11677340958715056b5d8cd917c1638ea02cafb85e7b0aa640dde7906408f527.css"><meta property='og:title' content="Widgets修复与开发">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.f4879a5e4d7fa189ce88043af611ac4f2f39389ecbb73836c36df7a76d45409f.css"><meta property='og:title' content="Widgets修复与开发">
 <meta property='og:description' content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 <meta property='og:site_name' content='远楒'>
@@ -16,6 +17,10 @@
     <meta name="twitter:image" content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/blogbuild2.png' />
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     </head>
     <body class="
     article-page
@@ -325,6 +330,7 @@
             <main class="main full-width">
     <article class="has-image main-article">
     <header class="article-header">
+    
         <div class="article-image">
             <a href="/blog-by-hugo/post/blogbuild2-widgets/">
                 <img src="/blog-by-hugo/post/blogbuild2-widgets/blogbuild2_hu_d8d02d78d4aec707.png"
@@ -505,6 +511,8 @@
     <footer class="article-footer">
     
 
+    
+
     <section class="article-lastmod">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
@@ -522,6 +530,8 @@
 
     
 </article>
+
+    
 
     
 
@@ -1027,6 +1037,54 @@ ${selector} .sequenceNumber {
 
         return mermaidRenderQueue;
     }
+
+    
+    (function() {
+        if (!document.querySelector('.article-content')) return;
+
+        const bar = document.createElement('div');
+        bar.id = 'reading-progress-bar';
+        document.body.prepend(bar);
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const article = document.querySelector('.article-content');
+                    if (!article) return;
+
+                    const rect = article.getBoundingClientRect();
+                    const scrolled = -Math.min(rect.top, 0);
+                    const total = rect.height - window.innerHeight;
+
+                    if (total <= 0) {
+                        bar.style.width = '100%';
+                    } else {
+                        bar.style.width = Math.min(scrolled / total, 1) * 100 + '%';
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    })();
+
+    
+    (function() {
+        const btn = document.createElement('button');
+        btn.id = 'back-to-top';
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>';
+        btn.setAttribute('aria-label', '返回顶部');
+        document.body.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('visible', window.scrollY > 300);
+        });
+    })();
 
     initTocHide();
 
