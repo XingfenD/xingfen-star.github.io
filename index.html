@@ -8,7 +8,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.c9822df5c7260d323550286be729089b541f6cabb0015317c889e4602a320827.css"><meta property='og:title' content="星分">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.60fa116b3e170eef8a79b10240bceb070f16fa09eee43c04f85598c9239d0148.css"><meta property='og:title' content="星分">
 <meta property='og:description' content="挽星.">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/'>
 <meta property='og:site_name' content='星分'>
@@ -554,12 +554,12 @@
     <section class="micro-home-card">
         <div class="micro-card-header">
             <span class="micro-badge">随笔</span>
-            <time datetime='2026-05-25T10:45:45&#43;08:00'>
-                2026-05-25 10:45
+            <time datetime='2026-05-27T12:04:22&#43;08:00'>
+                2026-05-27 12:04
             </time>
         </div>
         <div class="article-content">
-            <p>开发完了随笔功能，这里用来放我的碎碎念。</p>
+            <p>你会想起我吗，你会因为我而难过吗，你会后悔吗🥹，为什么每次都是我一个人会痛苦很久。</p>
 
         </div>
         <a href="/blog-by-hugo/micro/" class="micro-more">查看全部 &raquo;</a>
@@ -1484,7 +1484,9 @@
 <script>
     
     (function() {
-        if (!document.querySelector('.article-content')) return;
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const elements = document.querySelectorAll(selectors);
+        if (!elements.length) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1495,9 +1497,7 @@
             });
         }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
 
-        document.querySelectorAll('.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > figure').forEach(el => {
-            observer.observe(el);
-        });
+        elements.forEach(el => observer.observe(el));
     })();
 </script>
 

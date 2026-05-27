@@ -7,7 +7,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.c9822df5c7260d323550286be729089b541f6cabb0015317c889e4602a320827.css"><meta property='og:title' content="Widgets修复与开发">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.60fa116b3e170eef8a79b10240bceb070f16fa09eee43c04f85598c9239d0148.css"><meta property='og:title' content="Widgets修复与开发">
 <meta property='og:description' content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 <meta property='og:site_name' content='星分'>
@@ -745,7 +745,9 @@
 <script>
     
     (function() {
-        if (!document.querySelector('.article-content')) return;
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const elements = document.querySelectorAll(selectors);
+        if (!elements.length) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -756,9 +758,7 @@
             });
         }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
 
-        document.querySelectorAll('.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > figure').forEach(el => {
-            observer.observe(el);
-        });
+        elements.forEach(el => observer.observe(el));
     })();
 </script>
 

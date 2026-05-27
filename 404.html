@@ -7,7 +7,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/404.html'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.c9822df5c7260d323550286be729089b541f6cabb0015317c889e4602a320827.css"><meta property='og:title' content="404 Page not found">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.60fa116b3e170eef8a79b10240bceb070f16fa09eee43c04f85598c9239d0148.css"><meta property='og:title' content="404 Page not found">
 <meta property='og:description' content="挽星.">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/404.html'>
 <meta property='og:site_name' content='星分'>
@@ -389,7 +389,9 @@
 <script>
     
     (function() {
-        if (!document.querySelector('.article-content')) return;
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const elements = document.querySelectorAll(selectors);
+        if (!elements.length) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -400,9 +402,7 @@
             });
         }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
 
-        document.querySelectorAll('.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > figure').forEach(el => {
-            observer.observe(el);
-        });
+        elements.forEach(el => observer.observe(el));
     })();
 </script>
 

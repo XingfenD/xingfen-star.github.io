@@ -7,7 +7,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/micro/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.c9822df5c7260d323550286be729089b541f6cabb0015317c889e4602a320827.css"><meta property='og:title' content="随笔">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.60fa116b3e170eef8a79b10240bceb070f16fa09eee43c04f85598c9239d0148.css"><meta property='og:title' content="随笔">
 <meta property='og:description' content="挽星.">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/micro/'>
 <meta property='og:site_name' content='星分'>
@@ -264,7 +264,7 @@
         <h3 class="section-title">Micro</h3>
         <div class="section-card">
             <div class="section-details">
-                <h3 class="section-count">1 条</h3>
+                <h3 class="section-count">2 条</h3>
                 <h1 class="section-term">随笔</h1>
             </div>
         </div>
@@ -272,6 +272,20 @@
 
     
     <section class="micro-list">
+        
+        <article class="micro-entry">
+            <a href="/blog-by-hugo/micro/20260527-120422/" class="micro-entry-link">
+                <div class="article-content">
+                    <p>你会想起我吗，你会因为我而难过吗，你会后悔吗🥹，为什么每次都是我一个人会痛苦很久。</p>
+
+                </div>
+                <footer class="article-time">
+                    <time datetime='2026-05-27T12:04:22&#43;08:00'>
+                        2026-05-27 12:04
+                    </time>
+                </footer>
+            </a>
+        </article>
         
         <article class="micro-entry">
             <a href="/blog-by-hugo/micro/20260525-104545/" class="micro-entry-link">
@@ -379,7 +393,9 @@
 <script>
     
     (function() {
-        if (!document.querySelector('.article-content')) return;
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const elements = document.querySelectorAll(selectors);
+        if (!elements.length) return;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -390,9 +406,7 @@
             });
         }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
 
-        document.querySelectorAll('.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > figure').forEach(el => {
-            observer.observe(el);
-        });
+        elements.forEach(el => observer.observe(el));
     })();
 </script>
 
