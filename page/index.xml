@@ -6,7 +6,7 @@
         <description>Recent content in Pages on 星分</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Tue, 26 May 2026 21:43:52 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 28 May 2026 22:05:24 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>归档</title>
         <link>https://xingfend.github.io/blog-by-hugo/page/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
@@ -21,10 +21,13 @@
         
         <guid>https://xingfend.github.io/blog-by-hugo/page/about/</guid>
         <description>&lt;h2 id=&#34;关于远楒&#34;&gt;关于远楒
-&lt;/h2&gt;&lt;p&gt;「远楒」取音「远思」，意在表达两层含义：一是对事物进行深入的思考与探究，二是对过往的人、事、时光怀有遥远的思念。&lt;/p&gt;
-&lt;p&gt;英文名为 yoresee（/ˈjɔːsiː/），由古英语词汇 yore（往昔）与 see（看见）组合而成，直译为「看见往昔」或「回望过去」。这一命名与中文「远楒」相呼应——既体现对过往的注视，也暗含对未来的展望。&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;　　「远楒」取音「远思」，意在表达两层含义：一是对事物进行深入的思考与探究，二是对过往的人、事、时光怀有遥远的思念。&lt;/p&gt;
+&lt;p&gt;　　英文名为 yoresee（/ˈjɔːsiː/），由古英语词汇 yore（往昔）与 see（看见）组合而成，直译为「看见往昔」或「回望过去」。这一命名与中文「远楒」相呼应——既体现对过往的注视，也暗含对未来的展望。&lt;/p&gt;
 &lt;h3 id=&#34;更新计划&#34;&gt;更新计划
-&lt;/h3&gt;&lt;hr&gt;
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;「远楒」的核心功能将由 Claude Code 维护与开发。下面的更新计划已经废弃。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
 &lt;table&gt;
   &lt;thead&gt;
       &lt;tr&gt;
@@ -77,7 +80,7 @@
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://weilado.github.io/2025/06/18/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9F%BA%E4%BA%8Egiscus%EF%BC%89/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;如何为博客添加评论系统（基于giscus）&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;使用的Hugo主题为&lt;a class=&#34;link&#34; href=&#34;https://themes.gohugo.io/themes/hugo-theme-stack/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;　　使用的Hugo主题为&lt;a class=&#34;link&#34; href=&#34;https://themes.gohugo.io/themes/hugo-theme-stack/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Stack&lt;/a&gt;，本博客站使用的定制化主题仓库为&lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;XingfenD/hugo-theme-stack&lt;/a&gt;，由于搭建过程中的特殊原因，并未 fork 原项目进行开发。本站的具体开发与改造过程可进入站内归档页的&amp;quot;博客搭建&amp;quot;类别具体了解。&lt;/p&gt;
 </description>
