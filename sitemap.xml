@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://xingfend.github.io/blog-by-hugo/categories/</loc>
+    <lastmod>2026-05-28T21:29:05+08:00</lastmod>
+  </url><url>
+    <loc>https://xingfend.github.io/blog-by-hugo/post/</loc>
+    <lastmod>2026-05-28T21:29:05+08:00</lastmod>
+  </url><url>
+    <loc>https://xingfend.github.io/blog-by-hugo/post/undergraduate_thesis_acknowledgment/</loc>
+    <lastmod>2026-05-28T21:29:05+08:00</lastmod>
+  </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/micro/20260528-093847/</loc>
     <lastmod>2026-05-28T09:39:11+08:00</lastmod>
   </url><url>
@@ -14,14 +23,8 @@
     <loc>https://xingfend.github.io/blog-by-hugo/collections/</loc>
     <lastmod>2026-05-27T20:54:30+08:00</lastmod>
   </url><url>
-    <loc>https://xingfend.github.io/blog-by-hugo/post/</loc>
-    <lastmod>2026-05-27T20:54:30+08:00</lastmod>
-  </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/post/about-xingfen/</loc>
     <lastmod>2026-05-27T20:54:30+08:00</lastmod>
-  </url><url>
-    <loc>https://xingfend.github.io/blog-by-hugo/categories/</loc>
-    <lastmod>2026-05-25T09:57:14+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/post/import-comment-system/</loc>
     <lastmod>2026-05-25T09:57:14+08:00</lastmod>
@@ -140,6 +143,9 @@
     <loc>https://xingfend.github.io/blog-by-hugo/page/search/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
+    <loc>https://xingfend.github.io/blog-by-hugo/categories/course/</loc>
+    <lastmod>2026-05-28T21:29:05+08:00</lastmod>
+  </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/categories/test/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
@@ -147,9 +153,6 @@
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/categories/program/</loc>
-    <lastmod>2026-04-26T14:52:27+08:00</lastmod>
-  </url><url>
-    <loc>https://xingfend.github.io/blog-by-hugo/categories/course/</loc>
     <lastmod>2026-04-26T14:52:27+08:00</lastmod>
   </url><url>
     <loc>https://xingfend.github.io/blog-by-hugo/collections/rvs-enr-crs/</loc>
