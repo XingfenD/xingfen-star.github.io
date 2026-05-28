@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="">
-<title>归档</title>
+    <head>
+	<meta name="generator" content="Hugo 0.160.1"><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="挽星.">
+<title>Pager 2 - 星分</title>
 
-<link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/page/archives/'>
+<link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="归档">
-<meta property='og:description' content="">
-<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/page/archives/'>
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="星分">
+<meta property='og:description' content="挽星.">
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2019-05-28T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-04-26T14:52:27&#43;08:00'/>
-<meta name="twitter:title" content="归档">
-<meta name="twitter:description" content="">
+<meta property='og:type' content='website'><meta property='og:updated_time' content='2026-04-26T14:52:27&#43;08:00'/>
+<meta name="twitter:title" content="星分">
+<meta name="twitter:description" content="挽星."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/index.xml">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
 
@@ -20,7 +21,128 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     </head>
-    <body class="template-archives">
+    <body class=""><div id="entrance-overlay" onclick="this.classList.add('dismiss');document.documentElement.style.overflow='';setTimeout(function(){var e=document.getElementById('entrance-overlay');if(e)e.remove()},900)">
+    <div class="entrance-stars" id="entrance-stars"></div>
+    <div class="entrance-content">
+        <h1 class="entrance-title">星分</h1>
+        <p class="entrance-tagline">星藏点雪，月隐晦明。</p>
+        <span class="entrance-hint">轻触任意处进入</span>
+    </div>
+</div>
+
+<style>
+#entrance-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #1a1a1a 0%, #0a0a0a 60%, #000 100%);
+    cursor: pointer;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#entrance-overlay.dismiss {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.entrance-stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.entrance-star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--twinkle-dur, 2s) ease-in-out infinite;
+    animation-delay: var(--twinkle-delay, 0s);
+    opacity: 0;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+.entrance-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    animation: contentFadeIn 1.2s ease both;
+    pointer-events: none;
+}
+
+@keyframes contentFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.entrance-title {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: clamp(3.6rem, 8vw, 7.2rem);
+    font-weight: 700;
+    color: #e8e0d0;
+    margin: 0;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 60px rgba(200, 180, 150, 0.4), 0 0 120px rgba(180, 160, 130, 0.2);
+    user-select: none;
+}
+
+.entrance-tagline {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: 1.4rem;
+    color: rgba(200, 190, 170, 0.6);
+    margin: 1.2rem 0 0;
+    letter-spacing: 0.2em;
+    user-select: none;
+}
+
+.entrance-hint {
+    display: inline-block;
+    margin-top: 3rem;
+    font-size: 1.2rem;
+    color: rgba(200, 190, 170, 0.35);
+    letter-spacing: 0.1em;
+    animation: hintPulse 3s ease-in-out infinite;
+    user-select: none;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+}
+</style>
+
+<script>
+(function() {
+    if (sessionStorage.getItem('entrance-shown')) {
+        var el = document.getElementById('entrance-overlay');
+        if (el) el.remove();
+        return;
+    }
+    sessionStorage.setItem('entrance-shown', '1');
+    document.documentElement.style.overflow = 'hidden';
+
+    var container = document.getElementById('entrance-stars');
+    var starCount = 50;
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < starCount; i++) {
+        var star = document.createElement('div');
+        star.className = 'entrance-star';
+        var size = Math.random() * 3 + 1;
+        star.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 100) + '%;--twinkle-dur:' + (Math.random() * 3 + 2) + 's;--twinkle-delay:' + (Math.random() * 4) + 's';
+        frag.appendChild(star);
+    }
+    container.appendChild(frag);
+})();
+</script>
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -114,7 +236,7 @@
         
         
         
-        <li >
+        <li  class='current' >
             <a href='/blog-by-hugo/' >
                 
                 
@@ -134,7 +256,7 @@
         </li>
         
         
-        <li  class='current' >
+        <li >
             <a href='/blog-by-hugo/page/archives/' >
                 
                 
@@ -259,437 +381,296 @@
     </ol>
 </aside>
 
-            <main class="main full-width">
-    
-    <header>
+    <aside class="sidebar right-sidebar sticky">
         
-        <h2 class="section-title">类别 - Categories</h2>
-        <div class="subsection-list">
-            <div class="category-list--tile">
-                
-                        
-<article class="has-image">
-    <a href="/blog-by-hugo/categories/blog/">
+            
+                <form action="/blog-by-hugo/page/search/" class="search-form widget" >
+        <p>
+            <label>Search</label>
+            <input name="keyword" required placeholder="Type something..." />
 
-        
-            <div class="article-image">
-                <img src="/blog-by-hugo/categories/blog/logo_cut.ff76b6edbb9dff3b7a5f023807e953d3_hu_f287aafa1be2888a.png"
-                        width="250"
-                        height="150"
-                        loading="lazy"
-                        alt="Featured image of post 博客搭建"
-                        
-                        data-hash="md5-/3a27bud/zt6XwI4B&#43;lT0w==">
-                
-            </div>
-        
+            <button title="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
 
-        <div class="article-details">
-            <h2 class="article-title">博客搭建</h2>
+
+
+            </button>
+        </p>
+    </form>
+            
+        
+            
+                <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
         </div>
-    </a>
-</article>
+        <h2 class="widget-title section-title">Archives</h2>
 
-                    
-                
+        
+        
+        
+        
+
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/blog-by-hugo/page/archives/#2026">
                         
-<article class="has-image">
-    <a href="/blog-by-hugo/categories/course/">
-
-        
-            <div class="article-image">
-                <img src="/blog-by-hugo/categories/course/ar1.d6e15e7f90ecf36f2cdd003268d66aaa_hu_3390e91ed7d71745.jpg"
-                        width="250"
-                        height="150"
-                        loading="lazy"
-                        alt="Featured image of post 本科课程"
+                            <span class="year">2026</span>
+                            <span class="count">4</span>
                         
-                        data-hash="md5-1uFef5Ds828s3QAyaNZqqg==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">本科课程</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                        
-<article class="has-image">
-    <a href="/blog-by-hugo/categories/test/">
-
-        
-            <div class="article-image">
-                <img src="/blog-by-hugo/categories/test/hutomo-abrianto-l2jk-uxb1BY-unsplash.bec89fe99958d89413edc0f93688bdd6_hu_543ba73fab19d0c8.jpg"
-                        width="250"
-                        height="150"
-                        loading="lazy"
-                        alt="Featured image of post 测试"
-                        data-key="test" 
-                        data-hash="md5-vsif6ZlY2JQT7cD5Noi91g==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">测试</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                
-                        
-<article class="has-image">
-    <a href="/blog-by-hugo/categories/program/">
-
-        
-            <div class="article-image">
-                <img src="/blog-by-hugo/categories/program/bf5e27d8d6e661da9b564cdc9fb3106cd9fc82e2.cee57c0b0c2255d23fa55ba0f3d9b58b_hu_a421de46ad10763d.jpg"
-                        width="250"
-                        height="150"
-                        loading="lazy"
-                        alt="Featured image of post 编程"
-                        
-                        data-hash="md5-zuV8CwwiVdI/pVug89m1iw==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">编程</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-            </div>
-        </div>
-        
-
-        
-        <h2 class="section-title">合集 - Collections</h2>
-        <div class="subsection-list">
-            <div class="category-list--tile">
-                
-                
-                        
-<article class="has-image">
-    <a href="/blog-by-hugo/collections/mykind/">
-
-        
-            <div class="article-image">
-                <img src="/blog-by-hugo/collections/mykind/image.7d0b44971675be1cd96c5cf18c7da885_hu_b32e46ddc32f7f03.jpg"
-                        width="250"
-                        height="150"
-                        loading="lazy"
-                        alt="Featured image of post 何以为我"
-                        
-                        data-hash="md5-fQtElxZ1vhzZbFzxjH2ohQ==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">何以为我</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                        
-<article class="has-image">
-    <a href="/blog-by-hugo/collections/rvs-enr-crs/">
-
-        
-            <div class="article-image">
-                <img src="/blog-by-hugo/collections/rvs-enr-crs/image.fa56e71bfb60874e39cc7e32391519d3_hu_dadf7c33686c4583.png"
-                        width="250"
-                        height="150"
-                        loading="lazy"
-                        alt="Featured image of post 软件逆向分析作业"
-                        
-                        data-hash="md5-&#43;lbnG/tgh045zH4yORUZ0w==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">软件逆向分析作业</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-            </div>
-        </div>
-        
-
-        
-        <h2 class="section-title">标签 - Tags</h2>
-        <div class="subsection-list">
-            <div class="tag-list--tile">
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/zip/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">ZIP</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">协议解析</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">文件格式</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">软件逆向</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">笔记</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">C语言</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">参数解析</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                        
-<article class="">
-    <a href="/blog-by-hugo/tags/markdown/">
-
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Markdown</h2>
-        </div>
-    </a>
-</article>
-
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-            </div>
-        </div>
-        
-    </header>
-
-    
-    
-    
-
-    
-    <div class="timeline">
-        
-        
-        <div class="timeline-year" id="2026">
-            <div class="timeline-year-head">
-                <span class="timeline-year-num">2026</span>
-                <span class="timeline-year-count">4 篇</span>
-            </div>
-            <div class="timeline-year-body">
-                
-                <div class="timeline-month">
-                    <span class="timeline-month-dot"></span>
-                    <span class="timeline-month-label">May</span>
+                    </a>
                 </div>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/undergraduate_thesis_acknowledgment/">
-                    <time datetime="2026-05-28">05-28</time>
-                    <span class="timeline-item-title">本科毕业论文致谢</span>
-                </a>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/all_in_and_nice_fold/">
-                    <time datetime="2026-05-28">05-28</time>
-                    <span class="timeline-item-title">All In 和 Nice Fold</span>
-                </a>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/about-xingfen/">
-                    <time datetime="2026-05-24">05-24</time>
-                    <span class="timeline-item-title">关于星分</span>
-                </a>
-                
-                
-                <div class="timeline-month">
-                    <span class="timeline-month-dot"></span>
-                    <span class="timeline-month-label">April</span>
+            <div class="archives-year">
+                    <a href="/blog-by-hugo/page/archives/#2025">
+                        
+                            <span class="year">2025</span>
+                            <span class="count">7</span>
+                        
+                    </a>
                 </div>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/zip-structure-notes/">
-                    <time datetime="2026-04-24">04-24</time>
-                    <span class="timeline-item-title">ZIP 文件结构与解析流程核心笔记</span>
-                </a>
-                
-                
-            </div>
+            
         </div>
+    </section>
+            
         
+            
+                <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Categories</h2>
+
+    <div class="tagCloud-tags">
         
-        <div class="timeline-year" id="2025">
-            <div class="timeline-year-head">
-                <span class="timeline-year-num">2025</span>
-                <span class="timeline-year-count">7 篇</span>
-            </div>
-            <div class="timeline-year-body">
-                
-                <div class="timeline-month">
-                    <span class="timeline-month-dot"></span>
-                    <span class="timeline-month-label">March</span>
-                </div>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/reverse-program-course-week4/">
-                    <time datetime="2025-03-15">03-15</time>
-                    <span class="timeline-item-title">【武大软件逆向课程/第四周】加减乘除运算的逆向特征</span>
-                </a>
-                
-                
-                <div class="timeline-month">
-                    <span class="timeline-month-dot"></span>
-                    <span class="timeline-month-label">February</span>
-                </div>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/reverse-program-course-week1/">
-                    <time datetime="2025-02-19">02-19</time>
-                    <span class="timeline-item-title">【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</span>
-                </a>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/blogbuild2-widgets/">
-                    <time datetime="2025-02-12">02-12</time>
-                    <span class="timeline-item-title">Widgets修复与开发</span>
-                </a>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/blogbuild1-archive/">
-                    <time datetime="2025-02-02">02-02</time>
-                    <span class="timeline-item-title">Archive页改造</span>
-                </a>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/hugo-githubio/">
-                    <time datetime="2025-02-02">02-02</time>
-                    <span class="timeline-item-title">hugo&#43;GithubIO自建博客踩坑实录</span>
-                </a>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/markdown-syntax/">
-                    <time datetime="2025-02-02">02-02</time>
-                    <span class="timeline-item-title">Markdown 语法指南</span>
-                </a>
-                
-                
-                <div class="timeline-month">
-                    <span class="timeline-month-dot"></span>
-                    <span class="timeline-month-label">January</span>
-                </div>
-                
-                <a class="timeline-item" href="/blog-by-hugo/post/c-getopt_h-analysis/">
-                    <time datetime="2025-01-22">01-22</time>
-                    <span class="timeline-item-title">c语言getopt.h库解析</span>
-                </a>
-                
-                
-            </div>
-        </div>
+            <a href="/blog-by-hugo/categories/test/" class="font_size_6">
+                测试
+            </a>
+        
+            <a href="/blog-by-hugo/categories/course/" class="font_size_5">
+                本科课程
+            </a>
+        
+            <a href="/blog-by-hugo/categories/blog/" class="font_size_4">
+                博客搭建
+            </a>
+        
+            <a href="/blog-by-hugo/categories/program/" class="font_size_4">
+                编程
+            </a>
         
     </div>
+</section>
+
+            
+        
+            
+                <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+                <a href="/blog-by-hugo/tags/zip/" class="font_size_1">
+                    ZIP
+                </a>
+            
+        
+                <a href="/blog-by-hugo/tags/%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/" class="font_size_1">
+                    协议解析
+                </a>
+            
+        
+                <a href="/blog-by-hugo/tags/%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="font_size_1">
+                    文件格式
+                </a>
+            
+        
+                <a href="/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/" class="font_size_2">
+                    软件逆向
+                </a>
+            
+        
+        
+                <a href="/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/" class="font_size_1">
+                    笔记
+                </a>
+            
+        
+                <a href="/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/" class="font_size_2">
+                    C语言
+                </a>
+            
+        
+                <a href="/blog-by-hugo/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/" class="font_size_1">
+                    参数解析
+                </a>
+            
+        
+                <a href="/blog-by-hugo/tags/markdown/" class="font_size_1">
+                    Markdown
+                </a>
+            
+        
+        
+    </div>
+</section>
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    
+    
+    
+    <section class="micro-home-card">
+        <div class="micro-card-header">
+            <span class="micro-badge">随笔</span>
+            <time datetime='2026-05-28T09:38:47&#43;08:00'>
+                2026-05-28 09:38
+            </time>
+        </div>
+        <div class="article-content">
+            <p>醒了，今天是你dy注销的第二天，算了下你应该是在我们断火的下一天提交的注销申请，为什么要注销呢。。。？又会是因为我吗？🥹</p>
+
+        </div>
+        <a href="/blog-by-hugo/micro/" class="micro-more">查看全部 &raquo;</a>
+    </section>
     
 
-    <footer class="site-footer">
+    
+    
+    
+    
+
+    <section class="article-list">
+        
+            
+<article class="">
+    <header class="article-header">
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/blog-by-hugo/categories/program/" style="background-color: #2a9d8f; color: #fff;">
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/blog-by-hugo/post/c-getopt_h-analysis/">c语言getopt.h库解析</a>
+        </h2>
+
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 22, 2025</time>
+            </div>
+        
+
+        
+        <div class="article-lastmod">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time>
+                    Apr 26, 2026 14:52 &#43;0800
+                </time>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    7 minute read
+                </time>
+            </div>
+        
+
+    </footer>
+    
+
+    
+</div>
+
+</header>
+</article>
+        
+    </section>
+    <nav class='pagination'>
+        
+        
+
+        
+            
+                    <a class='page-link' href='/blog-by-hugo/'>1</a>
+                
+            
+            
+                <span class='page-link current'>2</span>
+                
+            
+    </nav>
+
+<footer class="site-footer">
     <section class="copyright">
         &copy;
         
@@ -705,7 +686,6 @@
         Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
-
 
             </main>
         </div>
