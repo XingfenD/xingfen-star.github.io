@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/c-getopt_h-analysis/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="c语言getopt.h库解析">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.0e00749eca283f44214a22c4540b67aba2cab81f5968a4a6c28804c54ad540d0.css"><meta property='og:title' content="c语言getopt.h库解析">
 <meta property='og:description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/c-getopt_h-analysis/'>
 <meta property='og:site_name' content='星分'>
@@ -418,7 +418,8 @@
 
 </header>
 
-    <section class="article-content">
+    
+<section class="article-content">
     
     
     <h2 id="getopth简介">getopt.h简介
@@ -840,6 +841,7 @@
 </section>
 
 
+
     <footer class="article-footer">
     
 
@@ -985,7 +987,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.17162a72d701574d5f5aa4bf754a0255980aa29f55f997f21bdbb8a639c96a4d.js" defer></script>
+            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.da693fc5914fc0c3f79d1aecc7368c81a8f2610143a84febe4024237d20fa47e.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -1052,7 +1054,7 @@
 <script>
     
     (function() {
-        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .article-content > hr, .timeline-year';
         const elements = document.querySelectorAll(selectors);
         if (!elements.length) return;
 
@@ -1070,14 +1072,12 @@
 </script>
 
 <style>
-    #TableOfContents > ul, ol {
-        ul, ol {
-            display: none;
-        }
+    #TableOfContents ul, #TableOfContents ol {
+        display: none;
+    }
 
-        .open {
-            display: block;
-        }
+    #TableOfContents .open {
+        display: block;
     }
 
     .article-content .mermaid-block {
@@ -1121,34 +1121,51 @@
         });
     }
 
+    let tocObserver = null;
+
     function initTocHide() {
         let toc = document.querySelector(".widget--toc");
         if (!toc) {
             return;
         }
 
-        window.addEventListener("scroll", function() {
-            let currentLi = document.querySelector(".active-class");
-            if (!currentLi) {
-                return;
-            }
+        if (tocObserver) {
+            tocObserver.disconnect();
+        }
 
-            let elementsByClassName = document.querySelectorAll(".open");
-            if (elementsByClassName.length > 0) {
-                elementsByClassName.forEach((ul) => {
-                    ul.classList.remove("open");
-                });
-            }
+        let lastActiveLi = null;
+
+        function updateOpenState() {
+            let currentLi = toc.querySelector(".active-class");
+            if (!currentLi || currentLi === lastActiveLi) return;
+            lastActiveLi = currentLi;
+
+            toc.querySelectorAll(".open").forEach(el => el.classList.remove("open"));
 
             if (currentLi.children.length > 1) {
                 currentLi.children[1].classList.add("open");
             }
 
             let ul = currentLi.parentElement;
-            do {
-                ul.classList.add("open");
-                ul = ul.parentElement.parentElement;
-            } while (ul !== undefined && (ul.localName === "ul" || ul.localName === "ol"));
+            while (ul && ul !== toc) {
+                if (ul.localName === "ul" || ul.localName === "ol") {
+                    ul.classList.add("open");
+                }
+                ul = ul.parentElement;
+            }
+        }
+
+        tocObserver = new MutationObserver(function(mutations) {
+            for (let m of mutations) {
+                if (m.type === "attributes" && m.attributeName === "class") {
+                    updateOpenState();
+                    return;
+                }
+            }
+        });
+
+        toc.querySelectorAll("li").forEach(li => {
+            tocObserver.observe(li, { attributes: true, attributeFilter: ["class"] });
         });
     }
 
@@ -1410,6 +1427,54 @@ ${selector} .sequenceNumber {
         applyMermaidThemeStyles();
         queueMermaidRender();
     });
+
+    
+    (function() {
+        const gate = document.querySelector('.password-gate');
+        if (!gate) return;
+
+        const hash = gate.dataset.passwordHash;
+        const overlay = gate.querySelector('.password-gate-overlay');
+        const content = gate.querySelector('.password-gate-content');
+        const input = gate.querySelector('.password-gate-input');
+        const btn = gate.querySelector('.password-gate-btn');
+        const error = gate.querySelector('.password-gate-error');
+
+        async function sha256(str) {
+            const buf = new TextEncoder().encode(str);
+            const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+            return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function verify() {
+            const val = input.value.trim();
+            if (!val) return;
+            const h = await sha256(val);
+            if (h === hash) {
+                overlay.style.display = 'none';
+                content.style.display = 'block';
+                window.dispatchEvent(new Event('toc:refresh'));
+                initTocHide();
+            } else {
+                input.classList.add('error');
+                error.classList.add('visible');
+                input.value = '';
+                input.focus();
+                input.addEventListener('animationend', function handler() {
+                    input.classList.remove('error');
+                    input.removeEventListener('animationend', handler);
+                });
+            }
+        }
+
+        btn.addEventListener('click', verify);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                verify();
+            }
+        });
+    })();
 </script>
 
     </body>

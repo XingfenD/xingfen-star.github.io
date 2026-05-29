@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="hugo+GithubIO自建博客踩坑实录">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.0e00749eca283f44214a22c4540b67aba2cab81f5968a4a6c28804c54ad540d0.css"><meta property='og:title' content="hugo+GithubIO自建博客踩坑实录">
 <meta property='og:description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/'>
 <meta property='og:site_name' content='星分'>
@@ -420,7 +420,8 @@
 
 </header>
 
-    <section class="article-content">
+    
+<section class="article-content">
     
     
     <p>    此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。</p>
@@ -587,6 +588,7 @@
 </section>
 
 
+
     <footer class="article-footer">
     
 
@@ -730,7 +732,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.17162a72d701574d5f5aa4bf754a0255980aa29f55f997f21bdbb8a639c96a4d.js" defer></script>
+            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.da693fc5914fc0c3f79d1aecc7368c81a8f2610143a84febe4024237d20fa47e.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -797,7 +799,7 @@
 <script>
     
     (function() {
-        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .article-content > hr, .timeline-year';
         const elements = document.querySelectorAll(selectors);
         if (!elements.length) return;
 
@@ -815,14 +817,12 @@
 </script>
 
 <style>
-    #TableOfContents > ul, ol {
-        ul, ol {
-            display: none;
-        }
+    #TableOfContents ul, #TableOfContents ol {
+        display: none;
+    }
 
-        .open {
-            display: block;
-        }
+    #TableOfContents .open {
+        display: block;
     }
 
     .article-content .mermaid-block {
@@ -866,34 +866,51 @@
         });
     }
 
+    let tocObserver = null;
+
     function initTocHide() {
         let toc = document.querySelector(".widget--toc");
         if (!toc) {
             return;
         }
 
-        window.addEventListener("scroll", function() {
-            let currentLi = document.querySelector(".active-class");
-            if (!currentLi) {
-                return;
-            }
+        if (tocObserver) {
+            tocObserver.disconnect();
+        }
 
-            let elementsByClassName = document.querySelectorAll(".open");
-            if (elementsByClassName.length > 0) {
-                elementsByClassName.forEach((ul) => {
-                    ul.classList.remove("open");
-                });
-            }
+        let lastActiveLi = null;
+
+        function updateOpenState() {
+            let currentLi = toc.querySelector(".active-class");
+            if (!currentLi || currentLi === lastActiveLi) return;
+            lastActiveLi = currentLi;
+
+            toc.querySelectorAll(".open").forEach(el => el.classList.remove("open"));
 
             if (currentLi.children.length > 1) {
                 currentLi.children[1].classList.add("open");
             }
 
             let ul = currentLi.parentElement;
-            do {
-                ul.classList.add("open");
-                ul = ul.parentElement.parentElement;
-            } while (ul !== undefined && (ul.localName === "ul" || ul.localName === "ol"));
+            while (ul && ul !== toc) {
+                if (ul.localName === "ul" || ul.localName === "ol") {
+                    ul.classList.add("open");
+                }
+                ul = ul.parentElement;
+            }
+        }
+
+        tocObserver = new MutationObserver(function(mutations) {
+            for (let m of mutations) {
+                if (m.type === "attributes" && m.attributeName === "class") {
+                    updateOpenState();
+                    return;
+                }
+            }
+        });
+
+        toc.querySelectorAll("li").forEach(li => {
+            tocObserver.observe(li, { attributes: true, attributeFilter: ["class"] });
         });
     }
 
@@ -1155,6 +1172,54 @@ ${selector} .sequenceNumber {
         applyMermaidThemeStyles();
         queueMermaidRender();
     });
+
+    
+    (function() {
+        const gate = document.querySelector('.password-gate');
+        if (!gate) return;
+
+        const hash = gate.dataset.passwordHash;
+        const overlay = gate.querySelector('.password-gate-overlay');
+        const content = gate.querySelector('.password-gate-content');
+        const input = gate.querySelector('.password-gate-input');
+        const btn = gate.querySelector('.password-gate-btn');
+        const error = gate.querySelector('.password-gate-error');
+
+        async function sha256(str) {
+            const buf = new TextEncoder().encode(str);
+            const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+            return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function verify() {
+            const val = input.value.trim();
+            if (!val) return;
+            const h = await sha256(val);
+            if (h === hash) {
+                overlay.style.display = 'none';
+                content.style.display = 'block';
+                window.dispatchEvent(new Event('toc:refresh'));
+                initTocHide();
+            } else {
+                input.classList.add('error');
+                error.classList.add('visible');
+                input.value = '';
+                input.focus();
+                input.addEventListener('animationend', function handler() {
+                    input.classList.remove('error');
+                    input.removeEventListener('animationend', handler);
+                });
+            }
+        }
+
+        btn.addEventListener('click', verify);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                verify();
+            }
+        });
+    })();
 </script>
 
     </body>

@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="Widgets修复与开发">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.0e00749eca283f44214a22c4540b67aba2cab81f5968a4a6c28804c54ad540d0.css"><meta property='og:title' content="Widgets修复与开发">
 <meta property='og:description' content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n&lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 <meta property='og:site_name' content='星分'>
@@ -404,7 +404,8 @@
 
 </header>
 
-    <section class="article-content">
+    
+<section class="article-content">
     
     
     <h2 id="计划">计划
@@ -490,6 +491,7 @@
 </span></span><span class="line"><span class="cl"><span class="gi">+          - type: cur-tags
 </span></span></span></code></pre></div>
 </section>
+
 
 
     <footer class="article-footer">
@@ -629,7 +631,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.17162a72d701574d5f5aa4bf754a0255980aa29f55f997f21bdbb8a639c96a4d.js" defer></script>
+            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.da693fc5914fc0c3f79d1aecc7368c81a8f2610143a84febe4024237d20fa47e.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -696,7 +698,7 @@
 <script>
     
     (function() {
-        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .article-content > hr, .timeline-year';
         const elements = document.querySelectorAll(selectors);
         if (!elements.length) return;
 
@@ -714,14 +716,12 @@
 </script>
 
 <style>
-    #TableOfContents > ul, ol {
-        ul, ol {
-            display: none;
-        }
+    #TableOfContents ul, #TableOfContents ol {
+        display: none;
+    }
 
-        .open {
-            display: block;
-        }
+    #TableOfContents .open {
+        display: block;
     }
 
     .article-content .mermaid-block {
@@ -765,34 +765,51 @@
         });
     }
 
+    let tocObserver = null;
+
     function initTocHide() {
         let toc = document.querySelector(".widget--toc");
         if (!toc) {
             return;
         }
 
-        window.addEventListener("scroll", function() {
-            let currentLi = document.querySelector(".active-class");
-            if (!currentLi) {
-                return;
-            }
+        if (tocObserver) {
+            tocObserver.disconnect();
+        }
 
-            let elementsByClassName = document.querySelectorAll(".open");
-            if (elementsByClassName.length > 0) {
-                elementsByClassName.forEach((ul) => {
-                    ul.classList.remove("open");
-                });
-            }
+        let lastActiveLi = null;
+
+        function updateOpenState() {
+            let currentLi = toc.querySelector(".active-class");
+            if (!currentLi || currentLi === lastActiveLi) return;
+            lastActiveLi = currentLi;
+
+            toc.querySelectorAll(".open").forEach(el => el.classList.remove("open"));
 
             if (currentLi.children.length > 1) {
                 currentLi.children[1].classList.add("open");
             }
 
             let ul = currentLi.parentElement;
-            do {
-                ul.classList.add("open");
-                ul = ul.parentElement.parentElement;
-            } while (ul !== undefined && (ul.localName === "ul" || ul.localName === "ol"));
+            while (ul && ul !== toc) {
+                if (ul.localName === "ul" || ul.localName === "ol") {
+                    ul.classList.add("open");
+                }
+                ul = ul.parentElement;
+            }
+        }
+
+        tocObserver = new MutationObserver(function(mutations) {
+            for (let m of mutations) {
+                if (m.type === "attributes" && m.attributeName === "class") {
+                    updateOpenState();
+                    return;
+                }
+            }
+        });
+
+        toc.querySelectorAll("li").forEach(li => {
+            tocObserver.observe(li, { attributes: true, attributeFilter: ["class"] });
         });
     }
 
@@ -1054,6 +1071,54 @@ ${selector} .sequenceNumber {
         applyMermaidThemeStyles();
         queueMermaidRender();
     });
+
+    
+    (function() {
+        const gate = document.querySelector('.password-gate');
+        if (!gate) return;
+
+        const hash = gate.dataset.passwordHash;
+        const overlay = gate.querySelector('.password-gate-overlay');
+        const content = gate.querySelector('.password-gate-content');
+        const input = gate.querySelector('.password-gate-input');
+        const btn = gate.querySelector('.password-gate-btn');
+        const error = gate.querySelector('.password-gate-error');
+
+        async function sha256(str) {
+            const buf = new TextEncoder().encode(str);
+            const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+            return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function verify() {
+            const val = input.value.trim();
+            if (!val) return;
+            const h = await sha256(val);
+            if (h === hash) {
+                overlay.style.display = 'none';
+                content.style.display = 'block';
+                window.dispatchEvent(new Event('toc:refresh'));
+                initTocHide();
+            } else {
+                input.classList.add('error');
+                error.classList.add('visible');
+                input.value = '';
+                input.focus();
+                input.addEventListener('animationend', function handler() {
+                    input.classList.remove('error');
+                    input.removeEventListener('animationend', handler);
+                });
+            }
+        }
+
+        btn.addEventListener('click', verify);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                verify();
+            }
+        });
+    })();
 </script>
 
     </body>

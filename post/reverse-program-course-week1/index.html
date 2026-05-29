@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/post/reverse-program-course-week1/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.0e00749eca283f44214a22c4540b67aba2cab81f5968a4a6c28804c54ad540d0.css"><meta property='og:title' content="【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换">
 <meta property='og:description' content="作业目标 逆向分析扫雷程序winmine.exe，并编写程序对其进行批量插旗\n更换机器指令表.exe内的显示字体\n扫雷 定位绘制雷区的代码位置 使用Ollydbg打开winmin.exe。\n在当前模块中右键-&gt;查找-&gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。\n选中Bitblt项后，按回车键Enter，在弹出的窗口中再次按回车Enter。\n执行上述操作后弹出的窗口即为Bitblt的源码，在源码首行按F2或者右键设置断点。\n设置断点后按F9或功能按钮运行程序，程序会暂停在断点处。此时按Ctrl + F9或者功能按钮执行到返回，程序会运行到函数Bitblt调用处的下一行。\n观察上下文程序可以发现是类似于一个循环的结构，其中esi寄存器为循环变量。\n定位雷区数据地址 在这一节内需要观察不同操作下内存区域的变化。\n在Ollydbg中可以通过单击任意数据来刷新数据窗口中的内容。\n如果想要重新绘制扫雷窗口，需要最小化后恢复窗口。\n观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：\nmov al, byte ptr [ebx+esi] push dword ptr [eax*4+1005A20] 这里可以记录一下Bitblt调用处的地址1002706，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。\n然后将在数据窗口中右键-&gt;转到-&gt;表达式或者按Ctrl + G，输入内存读取部分的常量地址1005A20跳转到该地址。观察数据窗口内该地址处的数据。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/reverse-program-course-week1/'>
 <meta property='og:site_name' content='星分'>
@@ -429,7 +429,8 @@
 
 </header>
 
-    <section class="article-content">
+    
+<section class="article-content">
     
     
     <h2 id="作业目标">作业目标
@@ -1020,6 +1021,7 @@
 </section>
 
 
+
     <footer class="article-footer">
     <nav class="collection-nav">
             <div class="collection-nav-header">
@@ -1206,7 +1208,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.17162a72d701574d5f5aa4bf754a0255980aa29f55f997f21bdbb8a639c96a4d.js" defer></script>
+            </script><script type="text/javascript" src="/blog-by-hugo/ts/main.da693fc5914fc0c3f79d1aecc7368c81a8f2610143a84febe4024237d20fa47e.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
@@ -1273,7 +1275,7 @@
 <script>
     
     (function() {
-        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .timeline-year';
+        const selectors = '.article-content > p, .article-content > h2, .article-content > h3, .article-content > h4, .article-content > ul, .article-content > ol, .article-content > pre, .article-content > .highlight, .article-content > blockquote, .article-content > .table-wrapper, .article-content > figure, .article-content > hr, .timeline-year';
         const elements = document.querySelectorAll(selectors);
         if (!elements.length) return;
 
@@ -1291,14 +1293,12 @@
 </script>
 
 <style>
-    #TableOfContents > ul, ol {
-        ul, ol {
-            display: none;
-        }
+    #TableOfContents ul, #TableOfContents ol {
+        display: none;
+    }
 
-        .open {
-            display: block;
-        }
+    #TableOfContents .open {
+        display: block;
     }
 
     .article-content .mermaid-block {
@@ -1342,34 +1342,51 @@
         });
     }
 
+    let tocObserver = null;
+
     function initTocHide() {
         let toc = document.querySelector(".widget--toc");
         if (!toc) {
             return;
         }
 
-        window.addEventListener("scroll", function() {
-            let currentLi = document.querySelector(".active-class");
-            if (!currentLi) {
-                return;
-            }
+        if (tocObserver) {
+            tocObserver.disconnect();
+        }
 
-            let elementsByClassName = document.querySelectorAll(".open");
-            if (elementsByClassName.length > 0) {
-                elementsByClassName.forEach((ul) => {
-                    ul.classList.remove("open");
-                });
-            }
+        let lastActiveLi = null;
+
+        function updateOpenState() {
+            let currentLi = toc.querySelector(".active-class");
+            if (!currentLi || currentLi === lastActiveLi) return;
+            lastActiveLi = currentLi;
+
+            toc.querySelectorAll(".open").forEach(el => el.classList.remove("open"));
 
             if (currentLi.children.length > 1) {
                 currentLi.children[1].classList.add("open");
             }
 
             let ul = currentLi.parentElement;
-            do {
-                ul.classList.add("open");
-                ul = ul.parentElement.parentElement;
-            } while (ul !== undefined && (ul.localName === "ul" || ul.localName === "ol"));
+            while (ul && ul !== toc) {
+                if (ul.localName === "ul" || ul.localName === "ol") {
+                    ul.classList.add("open");
+                }
+                ul = ul.parentElement;
+            }
+        }
+
+        tocObserver = new MutationObserver(function(mutations) {
+            for (let m of mutations) {
+                if (m.type === "attributes" && m.attributeName === "class") {
+                    updateOpenState();
+                    return;
+                }
+            }
+        });
+
+        toc.querySelectorAll("li").forEach(li => {
+            tocObserver.observe(li, { attributes: true, attributeFilter: ["class"] });
         });
     }
 
@@ -1631,6 +1648,54 @@ ${selector} .sequenceNumber {
         applyMermaidThemeStyles();
         queueMermaidRender();
     });
+
+    
+    (function() {
+        const gate = document.querySelector('.password-gate');
+        if (!gate) return;
+
+        const hash = gate.dataset.passwordHash;
+        const overlay = gate.querySelector('.password-gate-overlay');
+        const content = gate.querySelector('.password-gate-content');
+        const input = gate.querySelector('.password-gate-input');
+        const btn = gate.querySelector('.password-gate-btn');
+        const error = gate.querySelector('.password-gate-error');
+
+        async function sha256(str) {
+            const buf = new TextEncoder().encode(str);
+            const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+            return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        async function verify() {
+            const val = input.value.trim();
+            if (!val) return;
+            const h = await sha256(val);
+            if (h === hash) {
+                overlay.style.display = 'none';
+                content.style.display = 'block';
+                window.dispatchEvent(new Event('toc:refresh'));
+                initTocHide();
+            } else {
+                input.classList.add('error');
+                error.classList.add('visible');
+                input.value = '';
+                input.focus();
+                input.addEventListener('animationend', function handler() {
+                    input.classList.remove('error');
+                    input.removeEventListener('animationend', handler);
+                });
+            }
+        }
+
+        btn.addEventListener('click', verify);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                verify();
+            }
+        });
+    })();
 </script>
 
     </body>
