@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
-    <head><meta charset='utf-8'>
+    <head>
+	<meta name="generator" content="Hugo 0.160.1"><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="挽星.">
-<title>Tag: 笔记 - 星分</title>
+<title>Pager 2 - 星分</title>
 
-<link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/'>
+<link rel='canonical' href='https://xingfend.github.io/blog-by-hugo/'>
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="Tag: 笔记 - 星分">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.1fc656023d81d70beb1edd50d57f37d29036831adf5b94fb005c8bb420f916a6.css"><meta property='og:title' content="星分">
 <meta property='og:description' content="挽星.">
-<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/'>
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/'>
 <meta property='og:site_name' content='星分'>
 <meta property='og:type' content='website'><meta property='og:updated_time' content='2026-04-26T14:52:27&#43;08:00'/>
-<meta name="twitter:title" content="Tag: 笔记 - 星分">
-<meta name="twitter:description" content="挽星."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/index.xml">
+<meta name="twitter:title" content="星分">
+<meta name="twitter:description" content="挽星."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/index.xml">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
 
@@ -20,7 +21,128 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
     </head>
-    <body class="">
+    <body class=""><div id="entrance-overlay" onclick="this.classList.add('dismiss');document.documentElement.style.overflow='';setTimeout(function(){var e=document.getElementById('entrance-overlay');if(e)e.remove()},900)">
+    <div class="entrance-stars" id="entrance-stars"></div>
+    <div class="entrance-content">
+        <h1 class="entrance-title">星分</h1>
+        <p class="entrance-tagline">星藏点雪，月隐晦明。</p>
+        <span class="entrance-hint">轻触任意处进入</span>
+    </div>
+</div>
+
+<style>
+#entrance-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #1a1a1a 0%, #0a0a0a 60%, #000 100%);
+    cursor: pointer;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#entrance-overlay.dismiss {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.entrance-stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.entrance-star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--twinkle-dur, 2s) ease-in-out infinite;
+    animation-delay: var(--twinkle-delay, 0s);
+    opacity: 0;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+.entrance-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    animation: contentFadeIn 1.2s ease both;
+    pointer-events: none;
+}
+
+@keyframes contentFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.entrance-title {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: clamp(3.6rem, 8vw, 7.2rem);
+    font-weight: 700;
+    color: #e8e0d0;
+    margin: 0;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 60px rgba(200, 180, 150, 0.4), 0 0 120px rgba(180, 160, 130, 0.2);
+    user-select: none;
+}
+
+.entrance-tagline {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: 1.4rem;
+    color: rgba(200, 190, 170, 0.6);
+    margin: 1.2rem 0 0;
+    letter-spacing: 0.2em;
+    user-select: none;
+}
+
+.entrance-hint {
+    display: inline-block;
+    margin-top: 3rem;
+    font-size: 1.2rem;
+    color: rgba(200, 190, 170, 0.35);
+    letter-spacing: 0.1em;
+    animation: hintPulse 3s ease-in-out infinite;
+    user-select: none;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+}
+</style>
+
+<script>
+(function() {
+    if (sessionStorage.getItem('entrance-shown')) {
+        var el = document.getElementById('entrance-overlay');
+        if (el) el.remove();
+        return;
+    }
+    sessionStorage.setItem('entrance-shown', '1');
+    document.documentElement.style.overflow = 'hidden';
+
+    var container = document.getElementById('entrance-stars');
+    var starCount = 50;
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < starCount; i++) {
+        var star = document.createElement('div');
+        star.className = 'entrance-star';
+        var size = Math.random() * 3 + 1;
+        star.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 100) + '%;--twinkle-dur:' + (Math.random() * 3 + 2) + 's;--twinkle-delay:' + (Math.random() * 4) + 's';
+        frag.appendChild(star);
+    }
+    container.appendChild(frag);
+})();
+</script>
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -114,7 +236,7 @@
         
         
         
-        <li >
+        <li  class='current' >
             <a href='/blog-by-hugo/' >
                 
                 
@@ -425,44 +547,129 @@
 
 
             <main class="main full-width">
-    <header>
-        <h3 class="section-title">
-            
-                Tags
-            
-        </h3>
-
-        <div class="section-card">
-            <div class="section-details"><h3 class="section-count">1 page</h3>
-                <h1 class="section-term">笔记</h1>
-                
-            </div>
+    
+    
+    
+    <section class="micro-home-card">
+        <div class="micro-card-header">
+            <span class="micro-badge">随笔</span>
+            <time datetime='2026-05-28T09:38:47&#43;08:00'>
+                2026-05-28 09:38
+            </time>
         </div>
+        <div class="article-content">
+            <p>醒了，今天是你dy注销的第二天，算了下你应该是在我们断火的下一天提交的注销申请，为什么要注销呢。。。？又会是因为我吗？🥹</p>
+
+        </div>
+        <a href="/blog-by-hugo/micro/" class="micro-more">查看全部 &raquo;</a>
+    </section>
+    
+
+    
+    
+    
+    
+
+    <section class="article-list">
+        
+            
+<article class="">
+    <header class="article-header">
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/blog-by-hugo/categories/program/" style="background-color: #2a9d8f; color: #fff;">
+                编程
+            </a>
+        
     </header>
     
-    <section class="article-list--compact">
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/blog-by-hugo/post/c-getopt_h-analysis/">c语言getopt.h库解析</a>
+        </h2>
+
         
-            <article>
-    <a href="/blog-by-hugo/post/hugo-githubio/">
-        <div class="article-details">
-            <h2 class="article-title">hugo&#43;GithubIO自建博客踩坑实录</h2>
-            <footer class="article-time">
-                <time datetime='2025-02-02T17:21:58&#43;08:00'>Feb 02, 2025</time>
-            </footer>
-        </div>
-            <div class="article-image">
-                <img src="/blog-by-hugo/post/hugo-githubio/facebook_cover_photo_2_hu_6ce2a718f268c9db.png" 
-                        width="120"
-                        height="120" 
-                        alt="hugo&#43;GithubIO自建博客踩坑实录"
-                        loading="lazy">
-                
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 22, 2025</time>
             </div>
         
-    </a>
+
+        
+        <div class="article-lastmod">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time>
+                    Apr 26, 2026 14:52 &#43;0800
+                </time>
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    7 minute read
+                </time>
+            </div>
+        
+
+    </footer>
+    
+
+    
+</div>
+
+</header>
 </article>
         
     </section>
+    <nav class='pagination'>
+        
+        
+
+        
+            
+                    <a class='page-link' href='/blog-by-hugo/'>1</a>
+                
+            
+            
+                <span class='page-link current'>2</span>
+                
+            
+    </nav>
+
 <footer class="site-footer">
     <section class="copyright">
         &copy;
@@ -479,7 +686,6 @@
         Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.29.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
-
 
             </main>
         </div>
