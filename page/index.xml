@@ -6,7 +6,7 @@
         <description>Recent content in Pages on 星分</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Fri, 29 May 2026 15:10:01 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 31 May 2026 12:50:01 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>关于</title>
         <link>https://xingfend.github.io/blog-by-hugo/page/about/</link>
         <pubDate>Sun, 02 Feb 2025 00:00:00 +0000</pubDate>
@@ -74,7 +74,8 @@
 &lt;/blockquote&gt;
 &lt;p&gt;　　使用的Hugo主题为&lt;a class=&#34;link&#34; href=&#34;https://themes.gohugo.io/themes/hugo-theme-stack/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Stack&lt;/a&gt;，本博客站使用的定制化主题仓库为&lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;XingfenD/hugo-theme-stack&lt;/a&gt;，由于搭建过程中的特殊原因，并未 fork 原项目进行开发。本站的具体开发与改造过程可进入站内归档页的&amp;quot;博客搭建&amp;quot;类别具体了解。&lt;/p&gt;
+    &gt;XingfenD/hugo-theme-stack&lt;/a&gt;，由于搭建过程中的特殊原因，并未 fork 原项目进行开发，也因此难以拉取主分支的最新特性。后续将尝试迁移成为一条具有实际依赖关系的下游分支。&lt;/p&gt;
+&lt;p&gt;　　本站由本人手工编码的具体开发与改造过程可进入站内归档页的&amp;quot;博客搭建&amp;quot;类别具体了解，后续维护与迭代将通过 Claude Code 进行，不再更新该类别博客。&lt;/p&gt;
 </description>
         </item>
         <item>
