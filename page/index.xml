@@ -6,12 +6,6 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
         <lastBuildDate>Wed, 03 Jun 2026 11:57:53 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
-            <title>更新日志</title>
-            <link>https://xingfend.github.io/blog-by-hugo/page/changelog/</link>
-            <pubDate>Wed, 03 Jun 2026 00:00:00 +0000</pubDate>
-            <guid>https://xingfend.github.io/blog-by-hugo/page/changelog/</guid>
-            <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;theme/&#34; &gt;主题更新日志&lt;/a&gt; — hugo-theme-stack 定制版的变更记录&lt;/li&gt;&#xA;&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;blog/&#34; &gt;博客更新日志&lt;/a&gt; — 博客功能与基础设施的变更记录&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;</description>
-        </item><item>
             <title>关于</title>
             <link>https://xingfend.github.io/blog-by-hugo/page/about/</link>
             <pubDate>Sun, 02 Feb 2025 00:00:00 +0000</pubDate>
