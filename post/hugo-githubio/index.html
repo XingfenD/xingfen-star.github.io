@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="\u3000此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/blog-by-hugo仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
 <title>hugo&#43;GithubIO自建博客踩坑实录</title>
 
 
@@ -13,12 +13,12 @@
 
 
 <link rel="stylesheet" href="/blog-by-hugo/scss/style.min.69cecc6ca5c7b2de9d8eca435f9e676588205d0058bdb5b20e81dca31f2fc6c9.css"><meta property='og:title' content="hugo+GithubIO自建博客踩坑实录">
-<meta property='og:description' content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
+<meta property='og:description' content="\u3000此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/blog-by-hugo仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2026-05-29T19:21:33&#43;08:00'/><meta property='og:image' content='https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/facebook_cover_photo_2.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='笔记' /><meta property='article:published_time' content='2025-02-02T17:21:58&#43;08:00'/><meta property='article:modified_time' content='2026-06-06T13:53:13&#43;08:00'/><meta property='og:image' content='https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/facebook_cover_photo_2.png' />
 <meta name="twitter:title" content="hugo+GithubIO自建博客踩坑实录">
-<meta name="twitter:description" content="\u00a0此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/xingfen-star.github.io仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="\u3000此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。\n不能正确渲染主题 - 2025.01.28 此博客采用源码-博客页分离的结构搭建。\n源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过hugo -D命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到GitHub - XingfenD/blog-by-hugo仓库中。\n在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。\n我在github action中添加步骤Print Directory以打印路径信息，最终定位此问题并修复，完整的githu action如下。\n最终博客项目的结构为三个仓库：\nHugo源码仓库(通过gitignore忽略public, resources, themes文件夹)\n主题仓库(Hugo源码仓库的public文件夹)\nGithub Page仓库(Hugo源码仓库的public文件夹)\nname: deploy # 代码提交到main分支时触发github action on: push: branches: - main jobs: deploy: runs-on: ubuntu-22.04 steps: - name: Checkout uses: actions/checkout@v4 with: fetch-depth: 0 - name: Setup Hugo uses: peaceiris/actions-hugo@v3 with: hugo-version: &#34;latest&#34; extended: true - name: Print Directory run: tree -L 3 -d - name: Clone Theme run: git clone https://github.com/XingfenD/hugo-theme-custom.git themes - name: Git Configuration run: | git config --global core.quotePath false git config --global core.autocrlf false git config --global core.safecrlf true git config --global core.ignorecase false - name: Build Web run: hugo -D - name: Print Directory run: tree -L 3 -d - name: Deploy Web uses: peaceiris/actions-gh-pages@v4 with: personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }} external_repository: XingfenD/xingfen-star.github.io publish_branch: main publish_dir: public commit_message: auto deploy 主题配置后代码块显示异常 - 2025.02.02 使用hugo-theme-stack主题后\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/blog-by-hugo/post/hugo-githubio/facebook_cover_photo_2.png' />
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
@@ -354,14 +354,14 @@
         <section class="article-content">
     
     
-    <p>    此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。</p>
+    <p>　　此博客搭建过程参考的资料在&quot;关于&quot;页面可详细了解。本文具体步骤也可能会给出具体参考的内容。</p>
 <h2 id="不能正确渲染主题---20250128">不能正确渲染主题 - 2025.01.28
-</h2><p>    此博客采用源码-博客页分离的结构搭建。</p>
-<p>    源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过<code>hugo -D</code>命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到<a class="link" href="https://github.com/XingfenD/xingfen-star.github.io.git"  target="_blank" rel="noopener"
-    >GitHub - XingfenD/xingfen-star.github.io</a>仓库中。</p>
-<p>    在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。</p>
-<p>    我在github action中添加步骤<code>Print Directory</code>以打印路径信息，最终定位此问题并修复，完整的githu action如下。</p>
-<p>    最终博客项目的结构为三个仓库：</p>
+</h2><p>　　此博客采用源码-博客页分离的结构搭建。</p>
+<p>　　源码为hugo个人博客的源码，设为github私有仓库，通过git action，在每次push之后，通过<code>hugo -D</code>命令云端编译生成public文件夹中的内容之后将public文件夹内的内容推送到<a class="link" href="https://github.com/XingfenD/blog-by-hugo.git"  target="_blank" rel="noopener"
+    >GitHub - XingfenD/blog-by-hugo</a>仓库中。</p>
+<p>　　在搭建阶段，我将themes子文件夹下的第三方主题仓库设置为该主项目的子模块，导致在上传到私有仓库后，themes文件夹中没有实际的主题文件。最终导致无法编译出所选主题的页面。</p>
+<p>　　我在github action中添加步骤<code>Print Directory</code>以打印路径信息，最终定位此问题并修复，完整的githu action如下。</p>
+<p>　　最终博客项目的结构为三个仓库：</p>
 <ul>
 <li>
 <p>Hugo源码仓库(通过gitignore忽略public, resources, themes文件夹)</p>
@@ -424,13 +424,12 @@
 </span></span><span class="line"><span class="cl">              <span class="nx">publish_dir</span><span class="o">:</span> <span class="kd">public</span>
 </span></span><span class="line"><span class="cl">              <span class="nx">commit_message</span><span class="o">:</span> <span class="nx">auto</span> <span class="nx">deploy</span>
 </span></span></code></pre></div><h2 id="主题配置后代码块显示异常---20250202">主题配置后代码块显示异常 - 2025.02.02
-</h2><p>    使用<a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack.git"  target="_blank" rel="noopener"
+</h2><p>　　使用<a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack.git"  target="_blank" rel="noopener"
     >hugo-theme-stack</a>主题后</p>
-<p>    发现在白天模式下的代码块颜色异常，如下图所示：</p>
+<p>　　发现在白天模式下的代码块颜色异常，如下图所示：</p>
 <p><img alt="代码块颜色异常例图" class="gallery-image" data-flex-basis="750px" data-flex-grow="312" height="659" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/hugo-githubio/codeblock_abnormal.png" srcset="/blog-by-hugo/post/hugo-githubio/codeblock_abnormal_hu_2303f16bdee17e1b.png 800w, /blog-by-hugo/post/hugo-githubio/codeblock_abnormal_hu_56a6bca4857e2a93.png 1600w, /blog-by-hugo/post/hugo-githubio/codeblock_abnormal.png 2062w" width="2062"></p>
-<p>    在通过修改<code>hugo-theme-stack</code>主题的scss文件后成功定位异常原因：</p>
-<pre><code>hugo编译md文件后生成的博文html文件中的codeblock为如下结构:
-</code></pre>
+<p>　　在通过修改<code>hugo-theme-stack</code>主题的scss文件后成功定位异常原因：</p>
+<p>　　hugo编译md文件后生成的博文html文件中的codeblock为如下结构:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;highlight&#34;</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">pre</span> <span class="na">style</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">code</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;language-markdown&#34;</span><span class="p">&gt;</span>
@@ -439,15 +438,14 @@
 </span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">code</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>    图中所示的深色异常颜色为<code>&lt;pre&gt;</code>标签的<code>style</code>属性控制，因此导致全局scss文件失效。</p>
-<pre><code>阅读官方文档后，在`hugo.toml`中添加配置：
-</code></pre>
+</span></span></code></pre></div><p>　　图中所示的深色异常颜色为<code>&lt;pre&gt;</code>标签的<code>style</code>属性控制，因此导致全局scss文件失效。</p>
+<p>　　阅读官方文档后，在<code>hugo.toml</code>中添加配置：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">markup</span><span class="p">.</span><span class="nx">highlight</span><span class="p">.</span><span class="nx">noClasses</span><span class="p">=</span><span class="kc">false</span>
-</span></span></code></pre></div><p>    问题得以修复。</p>
+</span></span></code></pre></div><p>　　问题得以修复。</p>
 <h2 id="修改配置文件以激活右侧边栏---20250212">修改配置文件以激活右侧边栏 - 2025.02.12
-</h2><p>    阅读Stack主题官方文档<a class="link" href="https://stack.jimmycai.com/config/widgets"  target="_blank" rel="noopener"
+</h2><p>　　阅读Stack主题官方文档<a class="link" href="https://stack.jimmycai.com/config/widgets"  target="_blank" rel="noopener"
     >右侧边栏配置项</a>可以了解如何修改配置文件以激活右边栏。</p>
-<p>    在<code>config.yaml</code>文件中修改配置项[params.widgets]:</p>
+<p>　　在<code>config.yaml</code>文件中修改配置项[params.widgets]:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">params</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">widgets</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">homepage</span><span class="p">:</span><span class="w">
@@ -467,13 +465,13 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span>- <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l">tag-cloud</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">params</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">limit</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
-</span></span></span></code></pre></div><p>    配置生效后右侧边栏效果如下图:</p>
+</span></span></span></code></pre></div><p>　　配置生效后右侧边栏效果如下图:</p>
 <p><img alt="右侧边栏效果图" class="gallery-image" data-flex-basis="193px" data-flex-grow="80" height="975" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/hugo-githubio/right_sidebar.png" width="788"></p>
 <h2 id="不能正确渲染abbr-sub等特殊html标签---20250212">不能正确渲染<code>abbr</code>, <code>sub</code>等特殊html标签 - 2025.02.12
-</h2><p>    查阅在线资料<a class="link" href="https://juejin.cn/post/7119681369831112741"  target="_blank" rel="noopener"
+</h2><p>　　查阅在线资料<a class="link" href="https://juejin.cn/post/7119681369831112741"  target="_blank" rel="noopener"
     >修复Hugo静态生成器中忽略原始HTML的方法</a>后，在<code>hugo.toml</code>中添加配置项：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">markup</span><span class="p">.</span><span class="nx">goldmark</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">unsafe</span><span class="p">=</span><span class="kc">true</span>
-</span></span></code></pre></div><p>    成功渲染，效果如图。</p>
+</span></span></code></pre></div><p>　　成功渲染，效果如图。</p>
 <p><img alt="修改配置前后渲染对比图" class="gallery-image" data-flex-basis="950px" data-flex-grow="396" height="554" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/hugo-githubio/special_tag_fix.png" srcset="/blog-by-hugo/post/hugo-githubio/special_tag_fix_hu_1db1667af8ef2a71.png 800w, /blog-by-hugo/post/hugo-githubio/special_tag_fix_hu_28fe3dafeb45de61.png 1600w, /blog-by-hugo/post/hugo-githubio/special_tag_fix.png 2195w" width="2195"></p>
 
 </section>
@@ -511,7 +509,7 @@
 
 
         <span>
-            最后更新于 May 29, 2026 19:21 &#43;0800
+            最后更新于 Jun 06, 2026 13:53 &#43;0800
         </span>
     </section></footer>
 
