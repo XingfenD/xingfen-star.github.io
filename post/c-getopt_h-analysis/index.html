@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.60038af34a5bc0f88c1e75af216efc44c33ec69c72e05d8234b27ef2433cbec6.css"><meta property='og:title' content="c语言getopt.h库解析">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.c7d920ff751fb2a9b88c25a39fe8a43e8e9a23d2b2ded2471d0aa00f261252df.css"><meta property='og:title' content="c语言getopt.h库解析">
 <meta property='og:description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/c-getopt_h-analysis/'>
 <meta property='og:site_name' content='星分'>
@@ -205,6 +205,13 @@
                         <span>暗色模式</span>
                     </li>
                 
+
+                <li class="sidebar-sitemap-link">
+                    <a href="/page/sitemap/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
+                        <span>站点导航</span>
+                    </a>
+                </li>
             </ol>
         </li>
     </ol>
@@ -793,6 +800,18 @@
     </section>
 
 
+    
+    <section class="article-copyright inline-meta">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>CC BY-NC-ND 4.0</span>
+    </section>
     <section class="article-lastmod inline-meta">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>

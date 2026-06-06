@@ -5,7 +5,13 @@
         <description>Recent content in Pages on 星分</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Wed, 03 Jun 2026 11:57:53 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 06 Jun 2026 12:48:15 +0800</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/page/index.xml" rel="self" type="application/rss+xml" /><item>
+            <title>版权声明</title>
+            <link>https://xingfend.github.io/blog-by-hugo/page/copyright/</link>
+            <pubDate>Sat, 06 Jun 2026 00:00:00 +0000</pubDate>
+            <guid>https://xingfend.github.io/blog-by-hugo/page/copyright/</guid>
+            <description>&lt;h2 id=&#34;版权所有&#34;&gt;版权所有&#xA;&lt;/h2&gt;&lt;p&gt;本站所有原创内容（包括但不限于文章、图片、代码片段）的版权归 &lt;strong&gt;星分（XingfenD）&lt;/strong&gt; 所有。&lt;/p&gt;&#xA;&lt;h2 id=&#34;许可协议&#34;&gt;许可协议&#xA;&lt;/h2&gt;&lt;p&gt;本站原创内容采用 &lt;a class=&#34;link&#34; href=&#34;https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;&#xA;    &gt;知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议（CC BY-NC-ND 4.0）&lt;/a&gt; 进行许可。&lt;/p&gt;&#xA;&lt;h3 id=&#34;你可以做什么&#34;&gt;你可以做什么&#xA;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;分享&lt;/strong&gt; — 在任何媒介或格式下复制和传播本站内容&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;你必须遵守什么&#34;&gt;你必须遵守什么&#xA;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;署名&lt;/strong&gt; — 你必须给出适当的署名，提供指向本博客原文的链接，并标明是否对内容作出了修改&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;非商业性使用&lt;/strong&gt; — 你不得将本站内容用于商业目的&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;禁止演绎&lt;/strong&gt; — 如果你对本站内容进行转换或基于其进行创作，你不得分发修改后的材料&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;你不能做什么&#34;&gt;你不能做什么&#xA;&lt;/h3&gt;&lt;ul&gt;&#xA;&lt;li&gt;将本站内容用于任何商业用途&lt;/li&gt;&#xA;&lt;li&gt;对本站内容进行修改、改编或二次创作后分发&lt;/li&gt;&#xA;&lt;li&gt;移除或修改内容中的版权声明或许可信息&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;联系方式&#34;&gt;联系方式&#xA;&lt;/h2&gt;&lt;p&gt;如果你需要将本站内容用于上述许可范围之外的目的（如商业合作、内容授权等），请通过以下方式联系我：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;GitHub: &lt;a class=&#34;link&#34; href=&#34;https://github.com/XingfenD&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;&#xA;    &gt;XingfenD&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;第三方内容&#34;&gt;第三方内容&#xA;&lt;/h2&gt;&lt;p&gt;本站可能包含第三方内容（如引用、外部图片等），这些内容的版权归其各自作者所有，不受上述许可协议约束。&lt;/p&gt;&#xA;</description>
+        </item><item>
             <title>关于</title>
             <link>https://xingfend.github.io/blog-by-hugo/page/about/</link>
             <pubDate>Sun, 02 Feb 2025 00:00:00 +0000</pubDate>
@@ -22,6 +28,12 @@
             <link>https://xingfend.github.io/blog-by-hugo/page/search/</link>
             <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
             <guid>https://xingfend.github.io/blog-by-hugo/page/search/</guid>
+            <description></description>
+        </item><item>
+            <title>站点导航</title>
+            <link>https://xingfend.github.io/blog-by-hugo/page/sitemap/</link>
+            <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+            <guid>https://xingfend.github.io/blog-by-hugo/page/sitemap/</guid>
             <description></description>
         </item><item>
             <title>链接</title>
