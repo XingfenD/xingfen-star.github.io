@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.94684aaed732183948995ad66d9c28ccc1b5e83ca0f2fbbd42b5f8d174f3062e.css"><meta property='og:title' content="Widgets修复与开发">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.02d964342126e876c7454f80034dc5cc4946b9fc27d21386fcba940e883511db.css"><meta property='og:title' content="Widgets修复与开发">
 <meta property='og:description' content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 &lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 <meta property='og:site_name' content='星分'>
@@ -708,7 +708,7 @@
             </main>
         </div>
         
-<script type="text/javascript" src="/blog-by-hugo/ts/main.3a8cf5d5dfd3f44debd861e245590686355725acffab25219632bb2405792c39.js" defer></script>
+<script type="text/javascript" src="/blog-by-hugo/ts/main.30595aabd53caebb9c0fa41569bd6003662adc93536814b14cfbf38d6924b5da.js" defer></script>
 
 
     </body>
