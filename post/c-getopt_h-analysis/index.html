@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 #include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
 <title>c语言getopt.h库解析</title>
 
 
@@ -12,13 +12,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.69cecc6ca5c7b2de9d8eca435f9e676588205d0058bdb5b20e81dca31f2fc6c9.css"><meta property='og:title' content="c语言getopt.h库解析">
-<meta property='og:description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.94684aaed732183948995ad66d9c28ccc1b5e83ca0f2fbbd42b5f8d174f3062e.css"><meta property='og:title' content="c语言getopt.h库解析">
+<meta property='og:description' content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 #include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/c-getopt_h-analysis/'>
 <meta property='og:site_name' content='星分'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='c语言' /><meta property='article:tag' content='参数解析' /><meta property='article:published_time' content='2025-01-22T13:29:03&#43;08:00'/><meta property='article:modified_time' content='2026-04-26T14:52:27&#43;08:00'/>
 <meta name="twitter:title" content="c语言getopt.h库解析">
-<meta name="twitter:description" content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n#include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
+<meta name="twitter:description" content="getopt.h简介 getopt.h 是C语言中一个用于处理命令行参数的内嵌库。可以通过以下两个函数来调用其功能：\ngetopt()\ngetopt_long()\n函数 getopt() getopt() 用于解析仅包含短选项的指令，例如 -g、-o、-f。\ngetopt() 示例程序 使用 getopt() 的参数处理框架如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 #include &lt;stdio.h&gt; #include &lt;getopt.h&gt; int main(int argc, char *argv[]) { int opt; /* parse the command line input */ while ((opt = getopt(argc, argv, &#34;f:o:kh&#34;)) != -1) { switch (opt) { case &#39;f&#39;: printf(&#34;Arg -f: %s\\n&#34;, optarg); break; case &#39;o&#39;: printf(&#34;Arg -o: %s\\n&#34;, optarg); break; case &#39;k&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;h&#39;: printf(&#34;Arg -k do not need arguments:%s\\n&#34;, optarg); break; case &#39;?&#39;: // An invalid option was found or a required argument is missing. if (optopt == &#39;f&#39; || optopt == &#39;o&#39;) { printf(&#34;Option -%c requires an argument.\\n&#34;, optopt); } else { printf(&#34;Unknown option -%c.\\n&#34;, optopt); } break; default: printf(&#34;Unexpected situation.\\n&#34;); break; } } /* extra arguments handling */ if (optind &lt; argc) { printf(&#34;Remaining arguments: &#34;); for (; optind &lt; argc; optind++) { printf(&#34;%s &#34;, argv[optind]); } } /* optind &lt; argc */ } 编译并运行如下指令：./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h\n">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
     </head>
@@ -383,7 +383,53 @@
 </h2><p><code>getopt()</code> 用于解析仅包含短选项的指令，例如 <code>-g</code>、<code>-o</code>、<code>-f</code>。</p>
 <h3 id="getopt-示例程序"><code>getopt()</code> 示例程序
 </h3><p>使用 <code>getopt()</code> 的参数处理框架如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;getopt.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
@@ -425,8 +471,22 @@
 </span></span><span class="line"><span class="cl">        <span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="cm">/* optind &lt; argc */</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>编译并运行如下指令：<code>./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编译并运行如下指令：<code>./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_short.out -v yuanshen -f arg:f -o arg:o -k arg:k -h arg:h
 </span></span><span class="line"><span class="cl">./test_short.out: invalid option -- &#39;v&#39;
 </span></span><span class="line"><span class="cl">Invalid option: v
 </span></span><span class="line"><span class="cl">Arg -f: arg:f
@@ -434,7 +494,9 @@
 </span></span><span class="line"><span class="cl">Arg -k do not need arguments:(null)
 </span></span><span class="line"><span class="cl">Arg -k do not need arguments:(null)
 </span></span><span class="line"><span class="cl">Remaining arguments: yuanshen arg:k arg:h %
-</span></span></code></pre></div><h3 id="getopt详细说明"><code>getopt()</code>详细说明
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="getopt详细说明"><code>getopt()</code>详细说明
 </h3><h4 id="全局变量">全局变量
 </h4><div class="table-wrapper"><table>
   <thead>
@@ -459,14 +521,27 @@
   </tbody>
 </table></div>
 <p>以下代码段会打印所有未被 <code>getopt()</code> 识别的参数（忽略这些参数的输入顺序）：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* extra arguments handling */</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* extra arguments handling */</span>
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">optind</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;Remaining arguments: &#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(;</span> <span class="n">optind</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">optind</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%s &#34;</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="n">optind</span><span class="p">]);</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h2 id="模式字符串"><strong>模式字符串</strong>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="模式字符串"><strong>模式字符串</strong>
 </h2><p>模式字符串的定义是 <code>const char *__shortopts</code>，在示例程序中，其实例为 <code>&quot;f:o:kh&quot;</code>。</p>
 <p>顾名思义，模式字符串定义了 <code>getopt()</code> 和 <code>getopt_long()</code> 函数中将被识别的短选项。冒号 <code>:</code> 跟在短选项字符后表示该选项需要一个参数。</p>
 <p>以 <code>&quot;f:o:kh&quot;</code> 为例，此模式字符串接收4个选项。选项 <code>-f</code> 和 <code>-o</code> 需要输入参数，而选项 <code>-k</code> 和 <code>-h</code> 不需要。</p>
@@ -475,18 +550,62 @@
 </h2><p><code>getopt_long()</code> 用于解析既包含短选项（如 <code>-g</code>、<code>-o</code>、<code>-f</code>）又包含长选项（如 <code>--version</code>、<code>--input</code>）的指令。</p>
 <p>函数 <code>getopt_long</code> 识别一个结构体数组 <code>struct option</code>，该数组定义了长选项的信息。</p>
 <p><code>struct option</code> 的原型及相关介绍如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">option</span> <span class="p">{</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">option</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span>   <span class="cm">/* 长选项的名称 */</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">has_arg</span><span class="p">;</span>        <span class="cm">/* 是否需要参数 */</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="o">*</span><span class="n">flag</span><span class="p">;</span>          <span class="cm">/* 如果用户提供了此选项，*flag 将被赋值为 @val */</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>            <span class="cm">/* 将长选项与短选项绑定，或赋值给 @*flag */</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></div><p>字段 <code>has_arg</code> 有两个有效值，即宏 <code>no_argument</code> 和 <code>required_argument</code>。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>字段 <code>has_arg</code> 有两个有效值，即宏 <code>no_argument</code> 和 <code>required_argument</code>。</p>
 <p>如果字段 <code>flag</code> 未提供，则字段 <code>val</code> 会被视为与当前长选项绑定的短选项。</p>
 <p>如果提供了字段 <code>flag</code>，当用户提供当前长选项时，字段 <code>val</code> 将被赋值给 <code>*flag</code>。</p>
 <h3 id="用实例详细说明">用实例详细说明
 </h3><p>以下是一个使用 <code>struct option</code> 数组和模式字符串的实例：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* the corresponding pattern string */</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* the corresponding pattern string */</span>
 </span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&#34;suR:&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">option</span> <span class="n">long_options</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
@@ -514,7 +633,9 @@
 </span></span><span class="line"><span class="cl">    <span class="cm">/* require argument */</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="s">&#34;RequireArg&#34;</span><span class="p">,</span> <span class="n">required_argument</span><span class="p">,</span>  <span class="nb">NULL</span><span class="p">,</span>           <span class="sc">&#39;R&#39;</span> <span class="p">},</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></div><p>考虑到短选项和长选项，当提到某个功能的option时，可能会有以下三种情况：</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>考虑到短选项和长选项，当提到某个功能的option时，可能会有以下三种情况：</p>
 <ul>
 <li>仅有短选项</li>
 <li>仅有长选项</li>
@@ -563,7 +684,26 @@
 <h3 id="参数需求冲突">参数需求冲突
 </h3><p>当短选项和长选项中都定义了参数需求时，可能会发生冲突。</p>
 <p>我们通过一个实例进行说明：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* the corresponding pattern string */</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* the corresponding pattern string */</span>
 </span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pattern</span> <span class="o">=</span> <span class="s">&#34;c:d&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">option</span> <span class="n">long_options</span> <span class="o">=</span> <span class="p">{</span>
@@ -578,14 +718,128 @@
 </span></span><span class="line"><span class="cl">    <span class="cm">/* end of the array ( all zero ) */</span>
 </span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="mi">0</span><span class="p">,</span>            <span class="mi">0</span><span class="p">,</span>                  <span class="mi">0</span><span class="p">,</span>              <span class="mi">0</span>   <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">};</span>
-</span></span></code></pre></div><p>我们可以看到，上述程序将一个需要参数的短选项 <code>-c</code> 与一个不需要参数的长选项 <code>--Conflict1</code> 绑定在一起。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们可以看到，上述程序将一个需要参数的短选项 <code>-c</code> 与一个不需要参数的长选项 <code>--Conflict1</code> 绑定在一起。</p>
 <p>同时，它还将一个不需要参数的短选项 <code>-d</code> 与一个需要参数的长选项 <code>--Conflict2</code> 绑定在一起。</p>
 <p>该程序运行正常，但关于参数的配置也会生效。</p>
 <p>当用户提供 <code>-c</code> 或 <code>--Conflict1</code> 时，程序会进入同一个分支，但 <code>--Conflict1</code> 不会读取后续的参数，而 <code>-c</code> 会读取。</p>
 <p>当用户提供 <code>-d</code> 或 <code>--Conflict2</code> 时，结果则相反。</p>
 <h3 id="getopt_long-示例程序"><code>getopt_long()</code> 示例程序
 </h3><p>以下是使用 <code>getopt_long()</code> 的参数处理框架：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;getopt.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="cm">/* test instructions:
@@ -693,9 +947,25 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><h4 id="运行测试指令并分析测试结果">运行测试指令并分析测试结果
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="运行测试指令并分析测试结果">运行测试指令并分析测试结果
 </h4><p>编译运行时的测试指令如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./test_long.out --onlyset1 --onlyset2 --onlyset3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./test_long.out --onlyset1 --onlyset2 --onlyset3
 </span></span><span class="line"><span class="cl">./test_long.out -s --setbind
 </span></span><span class="line"><span class="cl">./test_long.out --unsetbind --RequireArg arg:RequireArg
 </span></span><span class="line"><span class="cl">./test_long.out -u -R arg:R
@@ -705,8 +975,26 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">./test_long.out -c arg:c --Conflict1 arg:Conflict1
 </span></span><span class="line"><span class="cl">./test_long.out --Conflict1 arg:Conflict1 -c arg:c
-</span></span></code></pre></div><p>结果如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out --onlyset1 --onlyset2 --onlyset3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>结果如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out --onlyset1 --onlyset2 --onlyset3
 </span></span><span class="line"><span class="cl">long option with flag set recognized!
 </span></span><span class="line"><span class="cl">long option name is onlyset1
 </span></span><span class="line"><span class="cl">the flag value is 1
@@ -718,18 +1006,48 @@
 </span></span><span class="line"><span class="cl">long option with flag set recognized!
 </span></span><span class="line"><span class="cl">long option name is onlyset3
 </span></span><span class="line"><span class="cl">the flag value is 3
-</span></span></code></pre></div><p>指令 <code>./test_long.out --onlyset1 --onlyset2 --onlyset3</code> 展示了 <code>getopt_long()</code> 的基本功能。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>指令 <code>./test_long.out --onlyset1 --onlyset2 --onlyset3</code> 展示了 <code>getopt_long()</code> 的基本功能。</p>
 <p>它改变了 <code>flag</code> 地址中的值。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -s --setbind
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -s --setbind
 </span></span><span class="line"><span class="cl">long option (short option only), with flag set, with val bound.
 </span></span><span class="line"><span class="cl">setbind_flag == 0
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">long option with flag set recognized!
 </span></span><span class="line"><span class="cl">long option name is setbind
 </span></span><span class="line"><span class="cl">the flag value is 115
-</span></span></code></pre></div><p>指令 <code>./test_long.out -s --setbind</code> 展示了绑定失败（当 <code>flag</code> 字段被设置时）。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>指令 <code>./test_long.out -s --setbind</code> 展示了绑定失败（当 <code>flag</code> 字段被设置时）。</p>
 <p><code>--setbind</code> 和 <code>-s</code> 会进入不同的分支。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out --unsetbind --RequireArg arg:RequireArg
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out --unsetbind --RequireArg arg:RequireArg
 </span></span><span class="line"><span class="cl">long option, without flag set, with val bound.
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">long option require argument.
@@ -740,10 +1058,33 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">long option require argument.
 </span></span><span class="line"><span class="cl">the argument: arg:R
-</span></span></code></pre></div><p>这对比展示了绑定成功的结果（当 <code>flag</code> 字段未设置时）。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这对比展示了绑定成功的结果（当 <code>flag</code> 字段未设置时）。</p>
 <p><code>--unsetbind</code> 和 <code>-u</code> 被绑定在一起，进入相同的分支。</p>
 <p><code>--RequireArg</code> 和 <code>-R</code> 也是一样。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -c arg:c -d arg:d
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -c arg:c -d arg:d
 </span></span><span class="line"><span class="cl">conflict argument require - 1
 </span></span><span class="line"><span class="cl">the argument: arg:c
 </span></span><span class="line"><span class="cl">
@@ -760,12 +1101,36 @@
 </span></span><span class="line"><span class="cl">the argument: arg:Conflict2
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Non-option argument arg:Conflict1
-</span></span></code></pre></div><p>这对比展示了参数要求的冲突。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这对比展示了参数要求的冲突。</p>
 <p><code>-c</code> 和 <code>--Conflict1</code> 被绑定在一起，但 <code>-c</code> 需要一个参数。</p>
 <p><code>-d</code> 和 <code>--Conflict2</code> 被绑定在一起，但 <code>--Conflict2</code> 需要一个参数。</p>
 <p>结果显示，绑定在一起的选项会进入相同的分支。</p>
 <p>但是，是否读取或忽略参数取决于用户提供的选项是否需要参数。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -c arg:c --Conflict1 arg:Conflict1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&gt; ./test_long.out -c arg:c --Conflict1 arg:Conflict1
 </span></span><span class="line"><span class="cl">conflict argument require - 1
 </span></span><span class="line"><span class="cl">the argument: arg:c
 </span></span><span class="line"><span class="cl">
@@ -783,7 +1148,9 @@
 </span></span><span class="line"><span class="cl">the argument: arg:c
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Non-option argument arg:Conflict1
-</span></span></code></pre></div><p>冲突选项的另一个对比结果。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>冲突选项的另一个对比结果。</p>
 
 </section>
 

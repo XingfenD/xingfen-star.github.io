@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.69cecc6ca5c7b2de9d8eca435f9e676588205d0058bdb5b20e81dca31f2fc6c9.css"><meta property='og:title' content="ZIP 文件结构与解析流程核心笔记">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.94684aaed732183948995ad66d9c28ccc1b5e83ca0f2fbbd42b5f8d174f3062e.css"><meta property='og:title' content="ZIP 文件结构与解析流程核心笔记">
 <meta property='og:description' content="ZIP 文件结构与解析流程核心笔记 ZIP文件基础结构图示 具体的结构和解析流程在后面会有详细介绍。\nZIP文件主要由三部分构成:\nLocal File Header: 每个压缩文件的起始位置，包含文件的元数据信息； Central Directory(CD): 压缩文件的目录，记录了所有文件的元数据信息； End of Central Directory(EOCDR): 压缩文件的结束位置，包含目录的元数据信息。 只考虑非分卷压缩的情况，EOCDR中包含指向Central Directory的偏移量，Central Directory的大小，以及CD条目的项数。\n中央目录区包含了所有文件的元数据信息，每个文件的元数据信息由一个Central Directory Entry(CD Entry)表示。每个CD项中含有指向对应Local File Header的偏移量。\n本地文件头区包含了每个压缩文件的元数据信息，每个文件的元数据信息由一个Local File Header(LFH)表示。文件的实际数据(压缩或未压缩)紧跟在其对应的LFH后面。\nZIP文件解析流程 本地文件头区已经包含了每个压缩文件的元数据信息，理论上仅通过读取LFH就能解压出压缩包内的所有文件，因此在解析ZIP文件时就产生了两种解析方式。\n标准解析模式: 先读取整个Central Directory，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。 流式解析模式: 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。 目前大多数ZIP解析器默认采用标准解析模式，忽略掉没有被CD条目指向的LFH。\n标准解析模式 从EOCDR中获取指向Central Directory的偏移量，然后根据CD项中的偏移量，随机访问到对应文件的LFH，从而获取文件的元数据信息。\nsequenceDiagram participant Parser as 解析器 participant File as ZIP文件 participant LFH as 本地文件头 participant CD as 中央目录 participant EOCDR as 中央目录结束记录 Parser->>File: 从文件末尾查找EOCDR签名 File-->>Parser: 返回EOCDR位置 Parser->>EOCDR: 读取EOCDR内容 EOCDR-->>Parser: 返回EOCDR数据 Parser->>Parser: 提取Central Directory偏移量 Parser->>File: 跳转到Central Directory位置 loop 读取所有CD项 Parser->>CD: 读取一个CentralDirectoryHeader CD-->>Parser: 返回CD项数据 Parser->>Parser: 保存CD项 end loop 根据CD项读取所有LFH Parser->>CD: 从CD项获取Local File Header偏移量 CD-->>Parser: 返回偏移量 Parser->>File: 跳转到对应的Local File Header位置 Parser->>LFH: 读取LocalFileHeader LFH-->>Parser: 返回LFH数据 Parser->>Parser: 保存LFH end流式解析模式 从Local File Header开始，顺序解析每个压缩文件的元数据信息，直到无法读取有效的LFH签名为止。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/zip-structure-notes/'>
 <meta property='og:site_name' content='星分'>
@@ -432,7 +432,32 @@
 <h3 id="zip文件具体分析">Zip文件具体分析
 </h3><p>根据<a class="link" href="https://pkware.cachefly.net/webdocs/casestudies/ParserNOTE.TXT"  target="_blank" rel="noopener"
     >官方文档</a>, Zip文件的结构如下:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[local file header 1]
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[local file header 1]
 </span></span><span class="line"><span class="cl">[encryption header 1]
 </span></span><span class="line"><span class="cl">[file data 1]
 </span></span><span class="line"><span class="cl">[data descriptor 1]
@@ -453,9 +478,28 @@
 </span></span><span class="line"><span class="cl">[zip64 end of central directory record]
 </span></span><span class="line"><span class="cl">[zip64 end of central directory locator]
 </span></span><span class="line"><span class="cl">[end of central directory record]
-</span></span></code></pre></div><p><img alt="Zip文件结构图示" class="gallery-image" data-flex-basis="97px" data-flex-grow="40" height="5968" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84.png" srcset="/blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_cefb5759215462f6.png 800w, /blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_12ba87f52d9d5bc4.png 1600w, /blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_ea5a49272436655d.png 2400w, /blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84.png 2432w" width="2432"></p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img alt="Zip文件结构图示" class="gallery-image" data-flex-basis="97px" data-flex-grow="40" height="5968" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84.png" srcset="/blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_cefb5759215462f6.png 800w, /blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_12ba87f52d9d5bc4.png 1600w, /blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84_hu_ea5a49272436655d.png 2400w, /blog-by-hugo/post/zip-structure-notes/pic/zip%E6%96%87%E4%BB%B6%E8%BF%9B%E9%98%B6%E7%BB%93%E6%9E%84.png 2432w" width="2432"></p>
 <h4 id="本地文件头---local-file-header">本地文件头 - Local File Header
-</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">version_needed</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">general_bit_flag</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">compression_method</span><span class="p">;</span>
@@ -468,7 +512,9 @@
 </span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">extra_field_length</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">filename</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">extra_field</span><span class="p">;</span>
-</span></span></code></pre></div><p>本地文件头的extra_field没有固定的内容，不同的压缩器可能会在extra_field中添加不同的信息。但是在extra_field中添加信息时通常要遵循统一的结构: 标签 - 长度 - 数据。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本地文件头的extra_field没有固定的内容，不同的压缩器可能会在extra_field中添加不同的信息。但是在extra_field中添加信息时通常要遵循统一的结构: 标签 - 长度 - 数据。</p>
 <ul>
 <li>Tag（2 字节）：标识该扩展块的类型（如操作系统相关信息、压缩算法扩展等）。</li>
 <li>Length（2 字节）：表示后续数据的长度。</li>
@@ -483,7 +529,25 @@
 <li>当第六位为0时，加密头格式为传统PKWARE加密格式，长度为12字节；</li>
 <li>当第六位为1时，加密头格式强加密格式，长度为可变，至少30字节。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">IVSize    2 bytes  - 初始化向量大小
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">IVSize    2 bytes  - 初始化向量大小
 </span></span><span class="line"><span class="cl">IVData    IVSize   - 初始化向量数据
 </span></span><span class="line"><span class="cl">Size      4 bytes  - 剩余解密头数据大小
 </span></span><span class="line"><span class="cl">Format    2 bytes  - 格式定义 (当前必须为3)
@@ -497,15 +561,27 @@
 </span></span><span class="line"><span class="cl">VSize     2 bytes  - 密码验证数据大小
 </span></span><span class="line"><span class="cl">VData     VSize-4  - 密码验证数据 (加密)
 </span></span><span class="line"><span class="cl">VCRC32    4 bytes  - 密码验证数据的CRC32 (加密)
-</span></span></code></pre></div><p>校验密码是否正确即是通过加密头内的部分字段进行的。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>校验密码是否正确即是通过加密头内的部分字段进行的。</p>
 <h4 id="数据描述符---data-descriptor">数据描述符 - Data Descriptor
 </h4><p>用于在流式压缩场景下，将压缩数据的CRC-32、压缩大小和未压缩大小等信息从文件数据中分离出来。</p>
 <p>由于lfh在文件数据之前，因此在流式压缩场景下，无法提前确定lfh中的crc32, compressed_size和uncompressed_size字段。此时，需要在文件数据之后添加一个数据描述符，用于存储这些信息。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>             <span class="cm">/* 0x08074b50 */</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>             <span class="cm">/* 0x08074b50 */</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">crc32</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">compressed_size</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">uncompressed_size</span><span class="p">;</span>
-</span></span></code></pre></div><h4 id="归档解密头---archive-decryption-header">归档解密头 - Archive Decryption Header
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="归档解密头---archive-decryption-header">归档解密头 - Archive Decryption Header
 </h4><p>结构与加密头相同，不同的是加密头是在每个文件数据之前，而归档解密头是在所有文件数据之后。归档解密头的位置由Zip64 End of Central Directory Record中的Start of Central Directory字段指定。</p>
 <p>使用归档解密头可以支持加密整个中央目录结构，保护所有文件的元数据。</p>
 <p>只在Zip64格式下才会存在归档解密头。</p>
@@ -517,11 +593,44 @@
 <li>加密相关数据：存储加密接收者证书列表等</li>
 </ul>
 <p>其结构定义如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>             <span class="cm">/* 0x08074b50 */</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>             <span class="cm">/* 0x08074b50 */</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">extra_field_length</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">extra_field</span><span class="p">;</span>
-</span></span></code></pre></div><h4 id="中央目录头---central-directory-header">中央目录头 - Central Directory Header
-</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="中央目录头---central-directory-header">中央目录头 - Central Directory Header
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">    <span class="kt">uint32_t</span> <span class="n">signature</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">version_made_by</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">version_needed</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">uint16_t</span> <span class="n">general_bit_flag</span><span class="p">;</span>
@@ -541,7 +650,9 @@
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">filename</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">[]</span><span class="o">&gt;</span> <span class="n">extra_field</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">file_comment</span><span class="p">;</span>
-</span></span></code></pre></div><p>中央目录头与本地文件头之间存在许多冗余字段，原则上相对应的一对中央目录头和本地文件头，表示含义相同的字段值应该是相同的。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>中央目录头与本地文件头之间存在许多冗余字段，原则上相对应的一对中央目录头和本地文件头，表示含义相同的字段值应该是相同的。</p>
 <h3 id="相关流程">相关流程
 </h3><h4 id="zip64解析流程">Zip64解析流程
 </h4><pre class="mermaid" style="visibility:hidden">sequenceDiagram

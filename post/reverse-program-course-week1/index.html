@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.69cecc6ca5c7b2de9d8eca435f9e676588205d0058bdb5b20e81dca31f2fc6c9.css"><meta property='og:title' content="【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.94684aaed732183948995ad66d9c28ccc1b5e83ca0f2fbbd42b5f8d174f3062e.css"><meta property='og:title' content="【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换">
 <meta property='og:description' content="作业目标 逆向分析扫雷程序winmine.exe，并编写程序对其进行批量插旗\n更换机器指令表.exe内的显示字体\n扫雷 定位绘制雷区的代码位置 使用Ollydbg打开winmin.exe。\n在当前模块中右键-&gt;查找-&gt;当前模块中的名称（标签），在弹出的窗口中寻找名称为Bitblt的函数。这里可以直接右键-&gt;在每个参考上设置断点，但是我的Ollydbg会报错。因此采用后续的方法。\n选中Bitblt项后，按回车键Enter，在弹出的窗口中再次按回车Enter。\n执行上述操作后弹出的窗口即为Bitblt的源码，在源码首行按F2或者右键设置断点。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/reverse-program-course-week1/'>
 <meta property='og:site_name' content='星分'>
@@ -412,16 +412,31 @@
 
     </blockquote>
 <p>    观察内存读取部分，代码中只有两句可能是对于数组的读取。分别为：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nasm" data-lang="nasm"><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nb">al</span><span class="p">,</span> <span class="kt">byte</span> <span class="nv">ptr</span> <span class="p">[</span><span class="nb">ebx</span><span class="o">+</span><span class="nb">esi</span><span class="p">]</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nasm" data-lang="nasm"><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nb">al</span><span class="p">,</span> <span class="kt">byte</span> <span class="nv">ptr</span> <span class="p">[</span><span class="nb">ebx</span><span class="o">+</span><span class="nb">esi</span><span class="p">]</span>
 </span></span><span class="line"><span class="cl"><span class="nf">push</span>   <span class="kt">dword</span> <span class="nv">ptr</span> <span class="p">[</span><span class="nb">eax</span><span class="o">*</span><span class="mi">4</span><span class="o">+</span><span class="mi">1005</span><span class="nv">A20</span><span class="p">]</span>
-</span></span></code></pre></div><p>    这里可以记录一下Bitblt调用处的地址<code>1002706</code>，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>    这里可以记录一下Bitblt调用处的地址<code>1002706</code>，然后取消所有断点重新运行程序，将游戏切换到高级模式，随机点击一个地块。这里为了便于定位雷区数据位置，我们多次开局点击地块，直到仅连锁翻开一个地块（这样对雷区数据的影响较小，数据特征更明显）。</p>
 <p><img alt="高级模式点击地块结果" class="gallery-image" data-flex-basis="330px" data-flex-grow="137" height="736" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image.png" srcset="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image_hu_481a980094d9e7f0.png 800w, /blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-31-58-image.png 1012w" width="1012"></p>
 <p>    然后将在数据窗口中<code>右键-&gt;转到-&gt;表达式</code>或者按<kbd>Ctrl</kbd> + <kbd>G</kbd>，输入内存读取部分的常量地址<code>1005A20</code>跳转到该地址。观察数据窗口内该地址处的数据。</p>
 <p><img class="gallery-image" data-flex-basis="361px" data-flex-grow="150" height="789" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image.png" srcset="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image_hu_4adf01135d1a6506.png 800w, /blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-37-22-image.png 1190w" width="1190"></p>
 <p>    发现并不符合雷区数据的特征（至少应该出现大量相同的两种数据）。实际上作为绘制雷区的函数，对数组下标的访问应该具有循环变量，也就是<code>esi</code>寄存器应该参与内存地址的计算，而这条指令并不符合。</p>
 <p>    因此选择下面的指令来寻找雷区数据所在的内存地址。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nasm" data-lang="nasm"><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nb">al</span><span class="p">,</span> <span class="kt">byte</span> <span class="nv">ptr</span> <span class="p">[</span><span class="nb">ebx</span><span class="o">+</span><span class="nb">esi</span><span class="p">]</span>
-</span></span></code></pre></div><p>    在这条指令上打断点后最小化扫雷窗口，再恢复窗口，查看ebx寄存器的值，发现是内存地址<code>1005360</code>，在数据窗口中跟踪该地址。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nasm" data-lang="nasm"><span class="line"><span class="cl"><span class="nf">mov</span>    <span class="nb">al</span><span class="p">,</span> <span class="kt">byte</span> <span class="nv">ptr</span> <span class="p">[</span><span class="nb">ebx</span><span class="o">+</span><span class="nb">esi</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>    在这条指令上打断点后最小化扫雷窗口，再恢复窗口，查看ebx寄存器的值，发现是内存地址<code>1005360</code>，在数据窗口中跟踪该地址。</p>
 <p><img alt="查看ebx寄存器的值" class="gallery-image" data-flex-basis="924px" data-flex-grow="385" height="694" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image.png" srcset="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image_hu_5f3bbac72f139fd1.png 800w, /blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image_hu_de9fcfd8778f16c5.png 1600w, /blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image_hu_c7c86996c5d96a95.png 2400w, /blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-44-59-image.png 2673w" width="2673"></p>
 <p>    该地址处的内存数据如下。可以大致推测，未翻开的雷区和未翻开的空白对应数据为0x0F或0x8F。</p>
 <p><img alt="雷区数据地址内容" class="gallery-image" data-flex-basis="436px" data-flex-grow="182" height="651" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image.png" srcset="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image_hu_c6ebcbe5a9c2edd9.png 800w, /blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-18-46-55-image.png 1185w" width="1185"></p>
@@ -490,7 +505,132 @@
 <p><img class="gallery-image" data-flex-basis="467px" data-flex-grow="194" height="759" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image.png" srcset="/blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image_hu_55f71fda24564166.png 800w, /blog-by-hugo/post/reverse-program-course-week1/img/2025-02-19-21-09-51-image.png 1477w" width="1477"></p>
 <h3 id="编写程序以批量插旗地雷">编写程序以批量插旗地雷
 </h3><p>    程序如下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;windows.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;tchar.h&gt;</span><span class="cp">
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;tlhelp32.h&gt;</span><span class="cp">
@@ -611,7 +751,9 @@
 </span></span><span class="line"><span class="cl">    <span class="c1">// system(&#34;pause&#34;);
 </span></span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>    这段程序将会在打印雷区当前状态后，将所有<code>0x8F</code>修改为<code>0x8E</code>，即将所有的未翻开的地雷插上旗子，用户应当在新一局游戏内翻开任意地块后运行此程序，然后最小化再恢复窗口以重新绘制雷区。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>    这段程序将会在打印雷区当前状态后，将所有<code>0x8F</code>修改为<code>0x8E</code>，即将所有的未翻开的地雷插上旗子，用户应当在新一局游戏内翻开任意地块后运行此程序，然后最小化再恢复窗口以重新绘制雷区。</p>
 <p>    打印当前状态过程中，未翻开的所有地块将记为<code>--</code>，插旗地块记为<code>||</code>，翻开的空地记为<code>..</code>，翻开的数字地块记为该数字，翻开的地雷记为<code>**</code>，踩中的地雷记为<code>XX</code>。</p>
 <h3 id="实验结果">实验结果
 </h3><p>    运行结果如下图所示：</p>
