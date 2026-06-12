@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+    <head>
+	<meta name="generator" content="Hugo 0.160.1"><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="挽星.">
+<title>Page 2 - 星分</title>
+
+
+<link rel="canonical" href="https://xingfend.github.io/blog-by-hugo/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.02d964342126e876c7454f80034dc5cc4946b9fc27d21386fcba940e883511db.css"><meta property='og:title' content="星分">
+<meta property='og:description' content="挽星.">
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/'>
+<meta property='og:site_name' content='星分'>
+<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-06-13T02:13:02&#43;08:00 '/>
+<meta name="twitter:title" content="星分">
+<meta name="twitter:description" content="挽星."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/index.xml">
+    <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
+
+    </head>
+    <body class="">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div id="entrance-overlay" onclick="this.classList.add('dismiss');document.documentElement.style.overflow='';setTimeout(function(){var e=document.getElementById('entrance-overlay');if(e)e.remove()},900)">
+    <div class="entrance-stars" id="entrance-stars"></div>
+    <div class="entrance-content">
+        <h1 class="entrance-title">星分</h1><p class="entrance-tagline">星藏点雪，月隐晦明。</p><span class="entrance-hint">轻触任意处进入</span></div>
+</div>
+
+<style>
+#entrance-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #1a1a1a 0%, #0a0a0a 60%, #000 100%);
+    cursor: pointer;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#entrance-overlay.dismiss {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.entrance-stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.entrance-star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle var(--twinkle-dur, 2s) ease-in-out infinite;
+    animation-delay: var(--twinkle-delay, 0s);
+    opacity: 0;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+.entrance-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    animation: contentFadeIn 1.2s ease both;
+    pointer-events: none;
+}
+
+@keyframes contentFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.entrance-title {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: clamp(3.6rem, 8vw, 7.2rem);
+    font-weight: 700;
+    color: #e8e0d0;
+    margin: 0;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 60px rgba(200, 180, 150, 0.4), 0 0 120px rgba(180, 160, 130, 0.2);
+    user-select: none;
+}
+
+.entrance-tagline {
+    font-family: "Noto Serif SC", Georgia, serif;
+    font-size: 1.4rem;
+    color: rgba(200, 190, 170, 0.6);
+    margin: 1.2rem 0 0;
+    letter-spacing: 0.2em;
+    user-select: none;
+}
+
+.entrance-hint {
+    display: inline-block;
+    margin-top: 3rem;
+    font-size: 1.2rem;
+    color: rgba(200, 190, 170, 0.35);
+    letter-spacing: 0.1em;
+    animation: hintPulse 3s ease-in-out infinite;
+    user-select: none;
+}
+
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+}
+</style>
+
+<script>
+(function() {
+    if (sessionStorage.getItem('entrance-shown')) {
+        var el = document.getElementById('entrance-overlay');
+        if (el) el.remove();
+        return;
+    }
+    sessionStorage.setItem('entrance-shown', '1');
+    document.documentElement.style.overflow = 'hidden';
+
+    var container = document.getElementById('entrance-stars');
+    var starCount = 50;
+    var frag = document.createDocumentFragment();
+
+    for (var i = 0; i < starCount; i++) {
+        var star = document.createElement('div');
+        star.className = 'entrance-star';
+        var size = Math.random() * 3 + 1;
+        star.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 100) + '%;--twinkle-dur:' + (Math.random() * 3 + 2) + 's;--twinkle-delay:' + (Math.random() * 4) + 's';
+        frag.appendChild(star);
+    }
+    container.appendChild(frag);
+})();
+</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        <figure class="site-avatar">
+                <a href="/blog-by-hugo/">
+                    <img src="/blog-by-hugo/img/avatar.png" 
+                        width="1260"
+                        height="1172"
+                        class="site-logo"
+                        loading="lazy"
+                        alt="Avatar">
+                </a>
+                
+                    <span class="emoji">🥹</span>
+                
+            </figure>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/blog-by-hugo/">星分</a></h1>
+            <h2 class="site-description">挽星.</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+        <li  class='current'>
+            <a href='/blog-by-hugo/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/micro/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+  <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+</svg>
+
+
+
+                
+                <span>随笔</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/links/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+
+                <li class="sidebar-sitemap-link">
+                    <a href="/blog-by-hugo/page/sitemap/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
+                        <span>站点导航</span>
+                    </a>
+                </li>
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                <form action="/blog-by-hugo/page/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+            
+        
+            
+                <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">
+            <a href="/blog-by-hugo/page/archives/">
+                归档
+            </a>
+        </h2>
+
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/blog-by-hugo/page/archives/#2026">
+                        
+                            <span class="year">2026</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/blog-by-hugo/page/archives/#2025">
+                        
+                            <span class="year">2025</span>
+                            <span class="count">6</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+            
+        
+            
+                
+<section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">
+        
+            <a href="/blog-by-hugo/categories/">
+                分类
+            </a>
+        
+    </h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/blog-by-hugo/categories/blog/">
+                博客搭建
+            </a>
+        
+            <a href="/blog-by-hugo/categories/course/">
+                本科课程
+            </a>
+        
+            <a href="/blog-by-hugo/categories/program/">
+                编程
+            </a>
+        
+    </div>
+</section>
+
+            
+        
+            
+                
+<section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">
+        
+            <a href="/blog-by-hugo/tags/">
+                标签云
+            </a>
+        
+    </h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/blog-by-hugo/tags/about-love/">
+                About Love
+            </a>
+        
+            <a href="/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/">
+                C语言
+            </a>
+        
+            <a href="/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/">
+                软件逆向
+            </a>
+        
+            <a href="/blog-by-hugo/tags/zip/">
+                ZIP
+            </a>
+        
+            <a href="/blog-by-hugo/tags/%E5%8D%8F%E8%AE%AE%E8%A7%A3%E6%9E%90/">
+                协议解析
+            </a>
+        
+            <a href="/blog-by-hugo/tags/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90/">
+                参数解析
+            </a>
+        
+            <a href="/blog-by-hugo/tags/%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+                文件格式
+            </a>
+        
+            <a href="/blog-by-hugo/tags/%E7%AC%94%E8%AE%B0/">
+                笔记
+            </a>
+        
+    </div>
+</section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    <section class="article-list">
+        
+            
+<article class="">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/blog-by-hugo/categories/program/" style="background-color: #2a9d8f; color: #fff;">
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/blog-by-hugo/post/c-getopt_h-analysis/">c语言getopt.h库解析</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2025-01-22T13:29:03&#43;08:00'>Jan 22, 2025</time>
+                
+
+                
+            </div>
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+</article>
+        
+    </section><nav
+        class="pagination"
+        role="navigation"
+        aria-label="pagination"
+        data-total="2"
+        data-first-url="/blog-by-hugo/"
+        data-format-url="/blog-by-hugo/page/2/"><a
+            class="page-link "href="/blog-by-hugo/"
+                aria-label="Previous page">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>
+        </a><a
+            class="page-link "
+            aria-label="Page 1"href="/blog-by-hugo/">
+            1
+        </a><a
+            class="page-link current"aria-label="Page 2"aria-current="page">
+            2
+        </a><a
+            class="page-link disabled"aria-disabled="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+        </a>
+    </nav>
+
+    <dialog id="pagination-jump-dialog" aria-labelledby="pagination-jump-title">
+        <form method="dialog" class="pagination-jump-form">
+            <header>
+                <label id="pagination-jump-title" class="title" for="pagination-jump-input">
+                    跳转到页码
+                </label>
+                <span class="subtitle">(1 - 2)</span>
+            </header>
+            <div class="pagination-jump-input-group">
+                <input
+                    type="number"
+                    id="pagination-jump-input"
+                    min="1"
+                    max="2"
+                    autofocus
+                    autocomplete="off"
+                    required>
+                <button type="submit" class="btn btn-primary">
+                    跳转
+                </button>
+            </div>
+            <div class="pagination-jump-hint">
+                <kbd>Enter</kbd>
+                <span>按 Enter 键跳转</span>
+            </div>
+        </form>
+    </dialog><footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 星分
+    </section>
+    
+    <section class="powerby">
+        
+            星藏点雪，月隐晦明 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/blog-by-hugo/ts/main.30595aabd53caebb9c0fa41569bd6003662adc93536814b14cfbf38d6924b5da.js" defer></script>
+
+
+    </body>
+</html>
