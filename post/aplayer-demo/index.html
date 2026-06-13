@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="只要聽到你的聲音，我一定會為你轉身。">
-<title>All In 和 Nice Fold</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文展示了如何在博客中使用 APlayer 音乐播放器。\n实际演示 下面是一个真实的播放器示例（使用外部音频源）：\n基础用法 最简单的用法，只需要提供歌曲名和音频地址：\n">
+<title>APlayer 音乐播放器示例</title>
 
 
-<link rel="canonical" href="https://xingfend.github.io/blog-by-hugo/post/all_in_and_nice_fold/">
+<link rel="canonical" href="https://xingfend.github.io/blog-by-hugo/post/aplayer-demo/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.88eb629e3591c86580dfc14f26eaf8123f235313e943640171a123ad4da853bf.css"><meta property='og:title' content="All In 和 Nice Fold">
-<meta property='og:description' content="只要聽到你的聲音，我一定會為你轉身。">
-<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/all_in_and_nice_fold/'>
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.88eb629e3591c86580dfc14f26eaf8123f235313e943640171a123ad4da853bf.css"><meta property='og:title' content="APlayer 音乐播放器示例">
+<meta property='og:description' content="本文展示了如何在博客中使用 APlayer 音乐播放器。\n实际演示 下面是一个真实的播放器示例（使用外部音频源）：\n基础用法 最简单的用法，只需要提供歌曲名和音频地址：\n">
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/aplayer-demo/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='about love' /><meta property='article:published_time' content='2026-05-28T11:43:44&#43;00:00'/><meta property='article:modified_time' content='2026-06-13T17:23:03&#43;08:00'/><meta property='og:image' content='https://xingfend.github.io/blog-by-hugo/post/all_in_and_nice_fold/head.png' />
-<meta name="twitter:title" content="All In 和 Nice Fold">
-<meta name="twitter:description" content="只要聽到你的聲音，我一定會為你轉身。"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://xingfend.github.io/blog-by-hugo/post/all_in_and_nice_fold/head.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='hugo' /><meta property='article:tag' content='aplayer' /><meta property='article:tag' content='音乐播放器' /><meta property='article:published_time' content='2026-06-13T02:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-13T18:31:42&#43;08:00'/>
+<meta name="twitter:title" content="APlayer 音乐播放器示例">
+<meta name="twitter:description" content="本文展示了如何在博客中使用 APlayer 音乐播放器。\n实际演示 下面是一个真实的播放器示例（使用外部音频源）：\n基础用法 最简单的用法，只需要提供歌曲名和音频地址：\n">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
     </head>
@@ -305,9 +304,16 @@
             <nav class="toc-nav" id="TableOfContents">
                 
   <ul>
-    <li><a href="#何以为我">何以为我？</a></li>
-    <li><a href="#阳星">阳星</a></li>
-    <li><a href="#all-in-和-nice-fold">All In 和 Nice Fold</a></li>
+    <li><a href="#实际演示">实际演示</a></li>
+    <li><a href="#基础用法">基础用法</a></li>
+    <li><a href="#本地资源page-bundle">本地资源（Page Bundle）</a></li>
+    <li><a href="#外部网络资源">外部网络资源</a></li>
+    <li><a href="#带歌词的播放器">带歌词的播放器</a></li>
+    <li><a href="#自定义样式">自定义样式</a></li>
+    <li><a href="#自动播放">自动播放</a></li>
+    <li><a href="#完整参数">完整参数</a></li>
+    <li><a href="#注意事项">注意事项</a></li>
+    <li><a href="#更多资源">更多资源</a></li>
   </ul>
 
             </nav>
@@ -320,45 +326,17 @@
 
 
             <main class="main full-width">
-    <article class="has-image main-article">
+    <article class="main-article">
     <header class="article-header">
-    <div class="article-image">
-        <a href="/blog-by-hugo/post/all_in_and_nice_fold/">
-            <img alt="Featured image of post All In 和 Nice Fold" height="649" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/head.png" srcset="/blog-by-hugo/post/all_in_and_nice_fold/head_hu_7b6debd7f2a5b9de.png 800w, /blog-by-hugo/post/all_in_and_nice_fold/head.png 1047w" width="1047">
-        </a>
-    </div>
-    
 
     <div class="article-details">
-    
-    <header class="article-category">
-        
-            
-            
-            
-            <a href="/blog-by-hugo/categories/pastme/" style="background-color: hsl(158, 60%, 84%); color: hsl(158, 60%, 15%);">
-                过往
-            </a>
-        
-            
-            
-            
-            <a href="/blog-by-hugo/categories/mykind/" style="background-color: hsl(93, 60%, 84%); color: hsl(93, 60%, 15%);">
-                自述
-            </a>
-        
-    </header>
     
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/blog-by-hugo/post/all_in_and_nice_fold/">All In 和 Nice Fold</a>
+            <a href="/blog-by-hugo/post/aplayer-demo/">APlayer 音乐播放器示例</a>
         </h2>
     
-        
-        <h3 class="article-subtitle">
-            只要聽到你的聲音，我一定會為你轉身。
-        </h3>
         
     </div>
 
@@ -382,7 +360,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                    <time class="article-time--published" datetime='2026-05-28T11:43:44Z'>May 28, 2026</time>
+                    <time class="article-time--published" datetime='2026-06-13T02:00:00Z'>Jun 13, 2026</time>
                 
 
                 
@@ -406,17 +384,7 @@
 </header>
 
     
-    <div class="collection-bar"><div class="collection-bar-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-collection" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="3" width="7" height="7"/>
-  <rect x="14" y="3" width="7" height="7"/>
-  <rect x="14" y="14" width="7" height="7"/>
-  <rect x="3" y="14" width="7" height="7"/>
-</svg>
-
-                <span>本文属于「<a href="/blog-by-hugo/collections/mykind/">何以为我</a>」系列，共 2 篇</span>
-            </div></div>
+    
 
     
     <section class="widget sidebar-music-player" data-audio-url="/blog-by-hugo/music/%e7%bd%97%e7%94%9f%e9%97%a8.mp3" data-cover-url="">
@@ -459,9 +427,16 @@
             <nav class="toc-nav">
                 
   <ul>
-    <li><a href="#何以为我">何以为我？</a></li>
-    <li><a href="#阳星">阳星</a></li>
-    <li><a href="#all-in-和-nice-fold">All In 和 Nice Fold</a></li>
+    <li><a href="#实际演示">实际演示</a></li>
+    <li><a href="#基础用法">基础用法</a></li>
+    <li><a href="#本地资源page-bundle">本地资源（Page Bundle）</a></li>
+    <li><a href="#外部网络资源">外部网络资源</a></li>
+    <li><a href="#带歌词的播放器">带歌词的播放器</a></li>
+    <li><a href="#自定义样式">自定义样式</a></li>
+    <li><a href="#自动播放">自动播放</a></li>
+    <li><a href="#完整参数">完整参数</a></li>
+    <li><a href="#注意事项">注意事项</a></li>
+    <li><a href="#更多资源">更多资源</a></li>
   </ul>
 
             </nav>
@@ -473,88 +448,218 @@
         <section class="article-content">
     
     
-    
-    <blockquote>
-        <p><strong>All In:</strong> 意为&quot;全押&quot;——将手中所有筹码一次性推入牌局。这是孤注一掷的瞬间，没有退路，也不留余地。放在生活里，它代表一种信念：当你认定手中的牌值得，就把全部押上去，坦然接受命运的翻转。</p>
-<p><strong>Nice Fold:</strong> &ldquo;Fold&quot;意为&quot;弃牌&rdquo;，主动放弃当前这局。一句 &ldquo;nice fold&rdquo; 是对手的赞许——承认你做出了聪明的撤退。不是所有的坚持都叫勇敢，有时候及时放手，才是对自己最大的负责。</p>
+    <p>本文展示了如何在博客中使用 APlayer 音乐播放器。</p>
+<h2 id="实际演示">实际演示
+</h2><p>下面是一个真实的播放器示例（使用外部音频源）：</p>
+<div id="aplayer-266f85db4453d98de0fa127f4d106ab1" class="aplayer-container"></div>
 
-    </blockquote>
-<h2 id="何以为我">何以为我？
-</h2><p>我是一个真诚的人。我已经学会对朋友等直球地、毫不吝惜地表达爱，我愿意对我认准的人付出全部的真心。</p>
-<p>我是一个恋旧的人。生活中的绝大多数人和物我都做不到“断舍离”。我会保留每一场电影的票据、景区公园的门票、一些具有纪念意义的杂物。</p>
-<p>我应该是一个果决的人。面对不需要的杂物和讨厌的人，绝大多数我都能做到“直接扔掉”和“一脚踢开”。沉没成本从来不会影响我的决策，无论我过去付出了多少。</p>
-<p>我也应该是一个犹豫不决的人。我很难做到“一脚踢开”我认准的人，我会挽留每一个我付出真心对待的人，但我挽留的目的也不完全是挽留，我希望为每一段关系留下一个明确的句号。</p>
-<p><img alt="和dqy" class="gallery-image" data-flex-basis="315px" data-flex-grow="131" height="926" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/8bbaefb015ef8f99c9fb5d3e4e814747.jpg" srcset="/blog-by-hugo/post/all_in_and_nice_fold/img/8bbaefb015ef8f99c9fb5d3e4e814747_hu_88cc7a22ae7844a3.jpg 800w, /blog-by-hugo/post/all_in_and_nice_fold/img/8bbaefb015ef8f99c9fb5d3e4e814747.jpg 1216w" width="1216">
-<img alt="和🐻💫" class="gallery-image" data-flex-basis="110px" data-flex-grow="46" height="1920" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/cf3967fe2c3dfd1967e6ed8fef7212c0.jpg" srcset="/blog-by-hugo/post/all_in_and_nice_fold/img/cf3967fe2c3dfd1967e6ed8fef7212c0_hu_3c3f6003faa2f5b8.jpg 800w, /blog-by-hugo/post/all_in_and_nice_fold/img/cf3967fe2c3dfd1967e6ed8fef7212c0.jpg 884w" width="884"></p>
-<p><img alt="和weo" class="gallery-image" data-flex-basis="540px" data-flex-grow="225" height="540" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/f95cd12c1dd470b2d34be62c0aa0c9b2.jpg" srcset="/blog-by-hugo/post/all_in_and_nice_fold/img/f95cd12c1dd470b2d34be62c0aa0c9b2_hu_a00433b49d36b4dd.jpg 800w, /blog-by-hugo/post/all_in_and_nice_fold/img/f95cd12c1dd470b2d34be62c0aa0c9b2.jpg 1216w" width="1216"></p>
+<script>
+(function() {
+  var el = document.getElementById('aplayer-266f85db4453d98de0fa127f4d106ab1');
+  var audioUrl = '\/blog-by-hugo\/music\/罗生门.mp3';
+  var coverUrl = '';
 
-    <blockquote>
-        <p>我的真诚与真心从不廉价，我只会将它交付给我认为值得的人。</p>
+  function createPlayer(url, cover) {
+    if (typeof APlayer === 'undefined') {
+      window.addEventListener('load', function() { createPlayer(url, cover); });
+      return;
+    }
+    new APlayer({
+      container: el,
+      theme: '#2980b9',
+      audio: [{
+        name: '罗生门',
+        artist: '梨冻紧 Wiz_H张子豪',
+        url: url,
+        cover: cover || '',
+        lrc: ''
+      }],
+      autoplay:  false ,
+      lrcType: 0
+    });
+  }
 
-    </blockquote>
-<hr>
-<p>　　我的感情经历非常曲折，每一次经历都没有得到善终。但每一次都从根本上地重塑了我。我不想在这里说出我的故事，我只想介绍我是什么样的人，我期待着什么，什么把我塑造成了现在的样子。</p>
-<p>　　我的文笔并不出彩，无法描绘出我的幸福与美满、挣扎与痛苦，它像我现在的性格一样，像死水一般平静而又弥漫着淡淡的痛苦。</p>
-<h2 id="阳星">阳星
-</h2>
-    <blockquote>
-        <p>我不想和你做朋友。</p>
-<p>或许提前表明心意真的会有不一样的结果，我也愿意相信曾经有那么一瞬间，会分支出我们的美满结局🥹。</p>
-<p>当然也或许我感受到的全部都是我的臆想、我的自以为是。</p>
+  function init() {
+    if (coverUrl) {
+      createPlayer(audioUrl, coverUrl);
+      return;
+    }
+    if (typeof jsmediatags === 'undefined') {
+      window.addEventListener('load', init);
+      return;
+    }
+    fetch(encodeURI(audioUrl))
+      .then(function(r) { return r.arrayBuffer(); })
+      .then(function(buffer) {
+        var blobUrl = URL.createObjectURL(new Blob([buffer]));
+        jsmediatags.read(new Blob([buffer]), {
+          onSuccess: function(tag) {
+            var pic = tag.tags && tag.tags.picture;
+            if (!pic) { createPlayer(blobUrl, ''); return; }
+            var base64 = '';
+            for (var i = 0; i < pic.data.length; i++) {
+              base64 += String.fromCharCode(pic.data[i]);
+            }
+            createPlayer(blobUrl, 'data:' + pic.format + ';base64,' + btoa(base64));
+          },
+          onError: function() { createPlayer(blobUrl, ''); }
+        });
+      })
+      .catch(function() { createPlayer(audioUrl, ''); });
+  }
 
-    </blockquote>
-<p>　　我和她是两三年的朋友。可能在外人眼里我们风轻云淡，实际上内里我们也并没有“暗通款曲”。只是以朋友的身份相处，但可能也偶有暧昧和甜意。</p>
-<p>　　下图是她曾经艾特我的一条图集，我当时只是简单地点赞了她的评论，但内心却是五味杂陈。“我不想和你做朋友”，我如是想，但是那时的我并没有这样说的勇气。</p>
-<p><img alt="不想做朋友" class="gallery-image" data-flex-basis="184px" data-flex-grow="76" height="1585" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/Screenshot_20260529_010711.jpg" srcset="/blog-by-hugo/post/all_in_and_nice_fold/img/Screenshot_20260529_010711_hu_4465a851b08d5622.jpg 800w, /blog-by-hugo/post/all_in_and_nice_fold/img/Screenshot_20260529_010711.jpg 1216w" width="1216"></p>
-<hr>
-<p><em>2023年</em></p>
-<p>　　“阳星”源于群内一次拿群友昵称组合出情侣组合名的事件。她姓杨，我的昵称叫“星分”，她在尝试使用我们的昵称拼出组合名。当我看见她发出“羊星”、“星羊”时，天知道我心里有多开心，也怪我当时榆木脑袋，以现在的眼光来看这是一个推进关系的完美机会，而我却视而不见，并未给出回应。</p>
-<p>　　2023年8月《王者荣耀》瑶无双皮肤上架时，有过很大的节奏，当时大批玩家流向《曙光英雄》这款竞品游戏，我和她也不例外。当时也恰逢七夕将近，《曙光英雄》推出了针对情侣关系的皮肤活动，为了蹭到这个福利，我和她也就顺理成章地绑定了《曙光英雄》内的情侣关系。是的，这并不能说明什么，但也确实是我们曾亲密无间的一个回忆锚点。</p>
-<p>　　我已经记不清我们是因为什么首次断联的了。我只记得当时我们的最后一条消息正是本系列的封面图—— nobi 小兔的“不喜欢我你真的没品”的表情包，然后回应我的就是红色惊叹号。我当时也并未认识到她对我的意义，竟顺势切断了和她的其他联系方式。我无法知道当时的她内心会经历什么样的波澜，如果会痛苦良久，那我难辞其咎。</p>
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        init();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(el);
+  } else {
+    document.addEventListener('DOMContentLoaded', init);
+  }
+})();
+</script>
 
-    <blockquote>
-        <p>已经很久了，为了想起首次断联的原因我又去翻了和朋友的聊天记录，看见和她相关的竟还是会内心悸动，也难免看见后期锋利的话语，像刀刃一样再次扎入我的心中。</p>
+<style>
+.aplayer-container {
+  margin: 1rem 0;
+}
+</style>
 
-    </blockquote>
-<hr>
-<p><em>2024年</em></p>
-<p>　　“亲人的离世像一场漫长的雨季，大部分的时间没有感觉，只是会在一瞬间意识到她已经不在了”。我说：朋友之间也像这样，会在某个瞬间发现分享的对象已经没有陪伴在身旁了。</p>
-<p>　　所以我又把你找回来了，至少这次我要表明我的心意，无论结果如何，我不想再“意难平”。但……确实不是一个天时、地利、人和的时机。</p>
-<p><img alt="雨季" class="gallery-image" data-flex-basis="147px" data-flex-grow="61" height="748" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260529_024629.jpg" width="460">
-<img alt="意难平" class="gallery-image" data-flex-basis="114px" data-flex-grow="47" height="964" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260529_025436.jpg" width="460"></p>
-<p>　　我朋友很多，我善于与人交往。但是我真的不想和你只是做朋友🥹，是的，我喜欢你，yj。</p>
-<hr>
-<p>　　你做出了你的选择，你给了我足够的尊重。我感受到了你的痛苦——我对你也很重要。</p>
-<p>　　“人生南北多歧路”。时至今日，我仍然觉得当时的我做的非常漂亮、非常完美：他结果了过去自己的意难平，也为现在、将来的自己足够的负责。一刀两断，斩断了一切能想到的复燃的途径，唯一留下的念想竟是给上面贴的截图中的图集点了一颗红心。期间的每一个决定我都不会后悔，唯一最后悔的就是没在最有机会的时候大胆表明心意吧。</p>
-<p>　　虽然确实会互相伤害，但是希望这样决绝的结局能让你满意，在我的理解里，这样总比莫名其妙的结束更完美一点。</p>
-<hr>
-<p><em>2025年</em></p>
-<p>　　2025年1月1日，我们再次断联，从此开始是全新的第21我：他再也不会遮掩真心，变得直接、真切与热烈。他学会了勇敢表明心意，也能做到果决斩断关系。他怕因为遮掩而错过最佳时机，也怕因为一时的怯懦就错过认准的人。这就是从与你的相处中学到的、第21我的全新特质——“All In And Nice Fold”。</p>
-<p>　　<em>可悲、可笑又可叹的是，与重要的她的首次分别竟然并未引发我内心的剧烈波动，这也算我对她的亏欠之一吧。</em></p>
-<p><img alt="第21我" class="gallery-image" data-flex-basis="114px" data-flex-grow="47" height="2554" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/Screenshot_20260603_002157.jpg" srcset="/blog-by-hugo/post/all_in_and_nice_fold/img/Screenshot_20260603_002157_hu_66fd92a3b4049c29.jpg 800w, /blog-by-hugo/post/all_in_and_nice_fold/img/Screenshot_20260603_002157.jpg 1216w" width="1216"></p>
-<p>　　除此之外，“第21我”也受到了严厉的惩罚：他将加倍深切地感受到失去的痛苦，此后的每一次分别都如将剜心剔骨般疼痛……</p>
-<hr>
-<p><em>2026年6月2日更新</em></p>
-<p>　　每到感慨万分的时候就会“大赦天下”。正如我致谢中写道“最后，感谢这段独一无二的大学时光，感谢四年来的每一段相遇与离别。它塑造了今天的我，也将照亮我未来的路”。幸福的相遇与痛苦的离别都是我人生的重要组成部分。</p>
-<p>　　非常遗憾没能牵起你的手，我们也确非 <em>Best Match</em>，但毫无疑问，你的出现在我的生活中留下了浓墨重彩的一笔。<strong>如果你也有因我而改变的部分，那我荣幸之至。</strong></p>
-<p>　　<em>“感谢每一段相遇与离别”，尤其是你。</em></p>
-
-    <blockquote>
-        <p>如果不必回头的话，那就慢一点互相忘记吧。</p>
-
-    </blockquote>
-<p><img alt="你很重要" class="gallery-image" data-flex-basis="158px" data-flex-grow="66" height="1832" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260602_210137.jpg" srcset="/blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260602_210137_hu_c3c292e4cc40d3df.jpg 800w, /blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260602_210137.jpg 1212w" width="1212">
-<img alt="Connected, yet silent" class="gallery-image" data-flex-basis="241px" data-flex-grow="100" height="1208" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="/blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260602_210154.jpg" srcset="/blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260602_210154_hu_ddfd2c968a9b3197.jpg 800w, /blog-by-hugo/post/all_in_and_nice_fold/img/IMG_20260602_210154.jpg 1216w" width="1216"></p>
-<h2 id="all-in-和-nice-fold">All In 和 Nice Fold
-</h2><p>　　我从来不知道我所坚持的“All In And Nice Fold”到底是否正确。毫无疑问，“果决地一脚踢开”会把人推离自己的身边。</p>
-<p>　　我十分恐惧原本还有余地的关系被我这样亲手斩断，我也害怕没有结果的联系让双方受到更多的伤害。</p>
-<p>　　我也从来不知道什么才是“Nice Fold”的最佳时机——或许是一个没有很“Nice”的“Fold”。但是在“Fold”之前我会“All In”。</p>
-
-    <blockquote>
-        <p>我的爱直接而真诚。</p>
-<p><strong>我从不后悔给予我全部的真心，只为寻找到同样真心待我的人。</strong></p>
-
-    </blockquote>
+<h2 id="基础用法">基础用法
+</h2><p>最简单的用法，只需要提供歌曲名和音频地址：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{&lt; aplayer name=&#34;歌曲名&#34; artist=&#34;艺术家&#34; url=&#34;音频地址&#34; &gt;}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="本地资源page-bundle">本地资源（Page Bundle）
+</h2><p>把音频文件和博文放在同一个目录下：</p>
+<pre tabindex="0"><code>content/post/your-post/
+├── index.md
+├── forest.mp3        ← 音频文件
+├── cover.jpg         ← 封面图片
+└── song.lrc          ← 歌词文件
+</code></pre><p>使用相对路径引用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{&lt; aplayer name=&#34;森林之声&#34; artist=&#34;大自然&#34; url=&#34;forest.mp3&#34; cover=&#34;cover.jpg&#34; &gt;}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="外部网络资源">外部网络资源
+</h2><p>直接使用完整的 URL 地址：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{&lt; aplayer name=&#34;示例音乐&#34; artist=&#34;艺术家&#34; url=&#34;https://example.com/music.mp3&#34; cover=&#34;https://example.com/cover.jpg&#34; &gt;}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="带歌词的播放器">带歌词的播放器
+</h2><p>支持 LRC 格式的歌词文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{&lt; aplayer name=&#34;歌曲&#34; artist=&#34;歌手&#34; url=&#34;song.mp3&#34; lrc=&#34;song.lrc&#34; &gt;}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="自定义样式">自定义样式
+</h2><p>可以自定义主题颜色：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{&lt; aplayer name=&#34;红色主题&#34; artist=&#34;艺术家&#34; url=&#34;music.mp3&#34; theme=&#34;<span class="ni">#e74c3c</span>&#34; &gt;}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="自动播放">自动播放
+</h2><p>设置 <code>autoplay=&quot;true&quot;</code> 让音乐自动播放（注意：大多数浏览器会阻止自动播放）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">{{&lt; aplayer name=&#34;背景音乐&#34; artist=&#34;轻音乐&#34; url=&#34;bgm.mp3&#34; autoplay=&#34;true&#34; &gt;}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="完整参数">完整参数
+</h2><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>说明</th>
+          <th>默认值</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>name</code></td>
+          <td>歌曲名</td>
+          <td><code>Unknown</code></td>
+      </tr>
+      <tr>
+          <td><code>artist</code></td>
+          <td>艺术家</td>
+          <td><code>Unknown</code></td>
+      </tr>
+      <tr>
+          <td><code>url</code></td>
+          <td>音频文件路径</td>
+          <td>必填</td>
+      </tr>
+      <tr>
+          <td><code>cover</code></td>
+          <td>封面图片</td>
+          <td>空</td>
+      </tr>
+      <tr>
+          <td><code>lrc</code></td>
+          <td>歌词文件</td>
+          <td>空</td>
+      </tr>
+      <tr>
+          <td><code>theme</code></td>
+          <td>主题色</td>
+          <td><code>#2980b9</code></td>
+      </tr>
+      <tr>
+          <td><code>autoplay</code></td>
+          <td>自动播放</td>
+          <td><code>false</code></td>
+      </tr>
+      <tr>
+          <td><code>id</code></td>
+          <td>自定义 ID</td>
+          <td>自动生成</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="注意事项">注意事项
+</h2><ol>
+<li><strong>音频格式</strong>：推荐使用 MP3 格式，兼容性最好</li>
+<li><strong>文件大小</strong>：本地音频文件不要太大，建议压缩后小于 5MB</li>
+<li><strong>版权问题</strong>：使用外部资源时请注意版权</li>
+<li><strong>自动播放</strong>：现代浏览器通常会阻止自动播放，用户需要先与页面交互</li>
+</ol>
+<h2 id="更多资源">更多资源
+</h2><ul>
+<li><a class="link" href="https://aplayer.js.org/"  target="_blank" rel="noopener"
+    >APlayer 官方文档</a></li>
+<li><a class="link" href="https://github.com/DIYgod/APlayer"  target="_blank" rel="noopener"
+    >APlayer GitHub</a></li>
+</ul>
 
 </section>
 
@@ -564,7 +669,11 @@
     
     <section class="article-tags">
         
-            <a href="/blog-by-hugo/tags/about-love/">About Love</a>
+            <a href="/blog-by-hugo/tags/hugo/">Hugo</a>
+        
+            <a href="/blog-by-hugo/tags/aplayer/">Aplayer</a>
+        
+            <a href="/blog-by-hugo/tags/%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/">音乐播放器</a>
         
     </section>
 
@@ -591,7 +700,7 @@
 
 
         <span>
-            最后更新于 Jun 13, 2026 17:23 &#43;0800
+            最后更新于 Jun 13, 2026 18:31 &#43;0800
         </span>
     </section></footer>
 
@@ -600,26 +709,7 @@
 </article>
 
     
-    <nav class="collection-nav">
-            <div class="collection-nav-header">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-collection" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <rect x="3" y="3" width="7" height="7"/>
-  <rect x="14" y="3" width="7" height="7"/>
-  <rect x="14" y="14" width="7" height="7"/>
-  <rect x="3" y="14" width="7" height="7"/>
-</svg>
-
-                <span><a href="/blog-by-hugo/collections/mykind/">何以为我</a> 系列导航</span>
-            </div>
-            <div class="collection-nav-links"><a class="collection-nav-prev" href="/blog-by-hugo/post/about-xingfen/">
-                        <span class="collection-nav-arrow">&larr;</span>
-                        <span class="collection-nav-text">
-                            <span class="collection-nav-label">前一篇</span>
-                            <span class="collection-nav-title">关于星分</span>
-                        </span>
-                    </a><div class="collection-nav-next collection-nav-empty"></div></div>
-        </nav>
+    
 
     
 

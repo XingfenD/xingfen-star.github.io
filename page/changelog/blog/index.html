@@ -16,7 +16,7 @@
 <meta property='og:description' content="博客功能与基础设施变更记录">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/page/changelog/blog/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2026-05-31T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-13T17:23:03&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2026-05-31T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-13T18:31:42&#43;08:00'/>
 <meta name="twitter:title" content="博客更新日志">
 <meta name="twitter:description" content="博客功能与基础设施变更记录">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
@@ -549,6 +549,7 @@
 </h3><ul>
 <li>APlayer 播放器提前于正文内容显示：将其纳入主题 scroll reveal 动画体系</li>
 <li>APlayer <code>autoplay</code> 参数字符串 <code>&quot;false&quot;</code> 被当作 truthy 的问题</li>
+<li>APlayer shortcode URL 解析：<code>relURL</code> 对 <code>/</code> 开头路径不拼接 baseURL 子路径，改用 <code>path.Join</code> 确保子路径前缀正确</li>
 </ul>
 <h2 id="2026-06-10">2026-06-10
 </h2><h3 id="added--新增-1">Added / 新增
@@ -694,7 +695,7 @@
 
 
         <span>
-            最后更新于 Jun 13, 2026 17:23 &#43;0800
+            最后更新于 Jun 13, 2026 18:31 &#43;0800
         </span>
     </section></footer>
 
