@@ -12,11 +12,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.88eb629e3591c86580dfc14f26eaf8123f235313e943640171a123ad4da853bf.css"><meta property='og:title' content="主题更新日志">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.13b2bb8ee6153ed91fef044108961c076bc7098b24ea29fbd22830e39eacf527.css"><meta property='og:title' content="主题更新日志">
 <meta property='og:description' content="hugo-theme-stack 定制版变更记录">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/page/changelog/theme/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2026-06-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-13T18:56:35&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2026-06-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-13T19:31:26&#43;08:00'/>
 <meta name="twitter:title" content="主题更新日志">
 <meta name="twitter:description" content="hugo-theme-stack 定制版变更记录">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
@@ -442,6 +442,9 @@
 </h3><ul>
 <li>侧边栏 mini 音乐播放器组件（响应式：桌面端右边栏 / 移动端正文上方）</li>
 <li>文章卡片音乐标识：frontmatter 配置 music 时在列表页显示音符图标和歌名</li>
+<li>音乐播放器加载状态：fetch 音频期间播放按钮显示旋转动画</li>
+<li>音乐播放器封面淡入：图片加载完成后淡入显示，占位符延迟隐藏避免跳动</li>
+<li>冷加载封面不显示：两个实例（正文+侧边栏）各自发 fetch 导致只有一个拿到封面，改为共享同一 fetch Promise</li>
 </ul>
 <h3 id="changed--变更">Changed / 变更
 </h3><ul>
@@ -547,7 +550,7 @@
 
 
         <span>
-            最后更新于 Jun 13, 2026 18:56 &#43;0800
+            最后更新于 Jun 13, 2026 19:31 &#43;0800
         </span>
     </section></footer>
 
