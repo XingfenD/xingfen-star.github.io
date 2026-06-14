@@ -16,7 +16,7 @@
 <meta property='og:description' content="hugo-theme-stack 定制版变更记录">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/page/changelog/theme/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2026-06-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-13T19:31:26&#43;08:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2026-06-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-06-14T12:09:19&#43;08:00'/>
 <meta name="twitter:title" content="主题更新日志">
 <meta name="twitter:description" content="hugo-theme-stack 定制版变更记录">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
@@ -455,6 +455,7 @@
 <li>侧边栏播放器暗色模式下播放/暂停按钮文字颜色不可见</li>
 <li>APlayer 暗色模式下背景和歌曲名颜色不适配</li>
 <li>音乐播放器 URL 解析：<code>relURL</code> 对 <code>/</code> 开头路径不拼接 baseURL 子路径，改用 <code>path.Join</code> 确保子路径前缀正确</li>
+<li>音乐播放器延迟加载：页面加载时不再立即下载整个音频文件，改为首次用户交互时才 fetch，避免大文件阻塞页面渲染</li>
 <li>音乐文件双重请求：封面提取 fetch 与 audio 播放各请求一次，改为单次 fetch 后复用 blob URL</li>
 </ul>
 <h2 id="2026-06-10">2026-06-10
@@ -550,7 +551,7 @@
 
 
         <span>
-            最后更新于 Jun 13, 2026 19:31 &#43;0800
+            最后更新于 Jun 14, 2026 12:09 &#43;0800
         </span>
     </section></footer>
 
