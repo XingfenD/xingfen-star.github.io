@@ -12,11 +12,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.9e810e887083a794ef6e58fcbac00980a8051074560c696b272240e099f2c371.css"><meta property='og:title' content="Widgets修复与开发">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.96ac86bed36c068482800ceaa76b12c6ed1fe0aaef4cd8c4f06feb7448a7039a.css"><meta property='og:title' content="Widgets修复与开发">
 <meta property='og:description' content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 &lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-12T16:33:24&#43;08:00'/><meta property='article:modified_time' content='2026-06-19T17:12:05&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/blogbuild2.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2025-02-12T16:33:24&#43;08:00'/><meta property='article:modified_time' content='2026-06-19T19:04:25&#43;00:00'/><meta property='og:image' content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/blogbuild2.png' />
 <meta name="twitter:title" content="Widgets修复与开发">
 <meta name="twitter:description" content="计划 添加widget，展示当前博文的tags 右侧边栏的tag-cloud和categories不能处理hidden博文 tag-cloud识别hidden博文 把layouts/partials/widget/tag-cloud.html的渲染tag-cloud的逻辑进行如下修改：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 &lt;div class=&#34;tagCloud-tags&#34;&gt; - {{ range first $limit $context.Site.Taxonomies.tags.ByCount }} - &lt;a href=&#34;{{ .Page.RelPermalink }}&#34; class=&#34;font_size_{{ .Count }}&#34;&gt; - {{ .Page.Title }} - &lt;/a&gt; + {{- $cateTaxonomy := $context.Site.GetPage &#34;tags&#34; -}} + {{- $cateTerms := $cateTaxonomy.Pages -}} + {{ range first $limit $cateTerms }} + {{- $pages := .Pages -}} + {{- $filteredPages := where $pages &#34;.Params.hidden&#34; &#34;!=&#34; true -}} + {{ if $filteredPages }} + &lt;a href=&#34;{{ .RelPermalink }}&#34; class=&#34;font_size_{{ len $filteredPages}}&#34;&gt; + {{ .Title }} + &lt;/a&gt; + {{ end }} + {{ end }} &lt;/div&gt; 如另一篇博文中的方法，从$context.Site中获取所有tags然后过滤掉hidden == true的博文后，判断$filteredPages中是否还有元素，如果有则渲染这个tag。\n"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://xingfend.github.io/blog-by-hugo/post/blogbuild2-widgets/blogbuild2.png' />
@@ -66,7 +66,7 @@
                         alt="Avatar">
                 </a>
                 
-                    <span class="emoji">🥹</span>
+                    <span class="emoji">🙂‍↔️</span>
                 
             </figure>
         
@@ -619,7 +619,7 @@
 
 
         <span>
-            最后更新于 Jun 19, 2026 17:12 UTC
+            最后更新于 Jun 19, 2026 19:04 UTC
         </span>
     </section></footer>
 
