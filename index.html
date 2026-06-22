@@ -13,11 +13,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.42c16be8b8c61eed4a46d56943620ec6d0726045c0f52c28fb52518b5bf66951.css"><meta property='og:title' content="星分">
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.4794121db463ee61b9f68fafa3d2cdbf6e233d9ca9810c8894296273edcc8ad2.css"><meta property='og:title' content="星分">
 <meta property='og:description' content="挽星.">
 <meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-06-20T08:31:00&#43;00:00 '/>
+<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2026-06-22T03:47:01&#43;00:00 '/>
 <meta name="twitter:title" content="星分">
 <meta name="twitter:description" content="挽星."><link rel="alternate" type="application/rss&#43;xml" href="https://xingfend.github.io/blog-by-hugo/index.xml">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
@@ -554,9 +554,7 @@
     
     
     
-    
-    
-    <section class="micro-home-card">
+    <section class="micro-home-card micro-home-card--hidden" data-micro-date="2026-06-20T01:11:38&#43;08:00" data-micro-max-days="1">
         <div class="micro-card-header">
             <span class="micro-badge">随笔</span>
             <time datetime='2026-06-20T01:11:38&#43;08:00'>
@@ -570,7 +568,18 @@
         <a href="/blog-by-hugo/micro/" class="micro-more">查看全部 &raquo;</a>
     </section>
     
-    
+    <script>
+    (function() {
+        var card = document.querySelector('.micro-home-card--hidden');
+        if (!card) return;
+        var date = new Date(card.dataset.microDate);
+        var maxDays = parseInt(card.dataset.microMaxDays, 10) || 3;
+        var now = new Date();
+        if ((now - date) / (1000 * 60 * 60 * 24) <= maxDays) {
+            card.classList.remove('micro-home-card--hidden');
+        }
+    })();
+    </script>
 
     
     
