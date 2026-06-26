@@ -5,7 +5,13 @@
         <description>Recent content in Tags on 星分</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh</language>
-        <lastBuildDate>Mon, 22 Jun 2026 12:34:43 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 26 Jun 2026 08:49:32 +0000</lastBuildDate><atom:link href="https://xingfend.github.io/blog-by-hugo/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+            <title>C语言</title>
+            <link>https://xingfend.github.io/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/</link>
+            <pubDate>Fri, 26 Jun 2026 08:04:20 +0000</pubDate>
+            <guid>https://xingfend.github.io/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/</guid>
+            <description></description>
+        </item><item>
             <title>About Love</title>
             <link>https://xingfend.github.io/blog-by-hugo/tags/about-love/</link>
             <pubDate>Fri, 12 Jun 2026 14:34:18 +0000</pubDate>
@@ -34,12 +40,6 @@
             <link>https://xingfend.github.io/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/</link>
             <pubDate>Sat, 15 Mar 2025 06:27:52 +0000</pubDate>
             <guid>https://xingfend.github.io/blog-by-hugo/tags/%E8%BD%AF%E4%BB%B6%E9%80%86%E5%90%91/</guid>
-            <description></description>
-        </item><item>
-            <title>C语言</title>
-            <link>https://xingfend.github.io/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/</link>
-            <pubDate>Wed, 19 Feb 2025 17:43:52 +0800</pubDate>
-            <guid>https://xingfend.github.io/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/</guid>
             <description></description>
         </item><item>
             <title>笔记</title>

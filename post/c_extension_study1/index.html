@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="pragma #pragma是 C 语言的一种预处理指令，类似于#include。用于告诉编译器进行某种操作。pragma 单词本身的释义为“编译指令”。\n最简单的一种 pragma 可以在编译时输出文本提示。\n1 2 3 4 5 #pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;) int main(void) { return 0; } 编译上面的 C 文件结果输出如下。\n1 2 3 4 5 ❯ gcc pragma.c pragma.c:1:9: warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages] 1 | #pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;) | ^ 1 warning generated. _Pragma 由于宏定义之间不能嵌套，当某种 pragma 想要复用时，无法通过#define复用，此时可以通过_Pragma指令，如下所示。\n1 2 3 4 5 6 7 8 9 #define MSG _Pragma(&#34;message(\\&#34;&gt;&gt;&gt; Compiling ...\\&#34;)&#34;) MSG _Pragma(&#34;message(\\&#34;&gt;&gt;&gt; Compiling ...\\&#34;)&#34;) int main(void) { return 0; } 编译后输出如下提示信息。其中的 note 消息可以忽略，关注warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages]段即可。\n">
+<title>c拓展语法学习</title>
+
+
+<link rel="canonical" href="https://xingfend.github.io/blog-by-hugo/post/c_extension_study1/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
+
+
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.c4cc1c0e1f2d1cff901cb31eb98e345153deb2d3285cd4b8f7ac004186937197.css"><meta property='og:title' content="c拓展语法学习">
+<meta property='og:description' content="pragma #pragma是 C 语言的一种预处理指令，类似于#include。用于告诉编译器进行某种操作。pragma 单词本身的释义为“编译指令”。\n最简单的一种 pragma 可以在编译时输出文本提示。\n1 2 3 4 5 #pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;) int main(void) { return 0; } 编译上面的 C 文件结果输出如下。\n1 2 3 4 5 ❯ gcc pragma.c pragma.c:1:9: warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages] 1 | #pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;) | ^ 1 warning generated. _Pragma 由于宏定义之间不能嵌套，当某种 pragma 想要复用时，无法通过#define复用，此时可以通过_Pragma指令，如下所示。\n1 2 3 4 5 6 7 8 9 #define MSG _Pragma(&#34;message(\\&#34;&gt;&gt;&gt; Compiling ...\\&#34;)&#34;) MSG _Pragma(&#34;message(\\&#34;&gt;&gt;&gt; Compiling ...\\&#34;)&#34;) int main(void) { return 0; } 编译后输出如下提示信息。其中的 note 消息可以忽略，关注warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages]段即可。\n">
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/c_extension_study1/'>
+<meta property='og:site_name' content='星分'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='c语言' /><meta property='article:published_time' content='2026-06-26T08:04:20&#43;00:00'/><meta property='article:modified_time' content='2026-06-26T08:49:32&#43;00:00'/>
+<meta name="twitter:title" content="c拓展语法学习">
+<meta name="twitter:description" content="pragma #pragma是 C 语言的一种预处理指令，类似于#include。用于告诉编译器进行某种操作。pragma 单词本身的释义为“编译指令”。\n最简单的一种 pragma 可以在编译时输出文本提示。\n1 2 3 4 5 #pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;) int main(void) { return 0; } 编译上面的 C 文件结果输出如下。\n1 2 3 4 5 ❯ gcc pragma.c pragma.c:1:9: warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages] 1 | #pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;) | ^ 1 warning generated. _Pragma 由于宏定义之间不能嵌套，当某种 pragma 想要复用时，无法通过#define复用，此时可以通过_Pragma指令，如下所示。\n1 2 3 4 5 6 7 8 9 #define MSG _Pragma(&#34;message(\\&#34;&gt;&gt;&gt; Compiling ...\\&#34;)&#34;) MSG _Pragma(&#34;message(\\&#34;&gt;&gt;&gt; Compiling ...\\&#34;)&#34;) int main(void) { return 0; } 编译后输出如下提示信息。其中的 note 消息可以忽略，关注warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages]段即可。\n">
+    <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        <figure class="site-avatar">
+                <a href="/blog-by-hugo/">
+                    <img src="/blog-by-hugo/img/avatar.png" 
+                        width="1260"
+                        height="1172"
+                        class="site-logo"
+                        loading="lazy"
+                        alt="Avatar">
+                </a>
+                
+                    <span class="emoji">🙂‍↔️</span>
+                
+            </figure>
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/blog-by-hugo/">星分</a></h1>
+            <h2 class="site-description">挽星.</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='mailto:xingfen.fendy@outlook.com'
+                        
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/XingfenD'
+                        
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/blog-by-hugo/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/archives/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/micro/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+  <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
+</svg>
+
+
+
+                
+                <span>随笔</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/search/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/about/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/page/links/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/blog-by-hugo/excerpt/' >
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-collection" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="3" width="7" height="7"/>
+  <rect x="14" y="3" width="7" height="7"/>
+  <rect x="14" y="14" width="7" height="7"/>
+  <rect x="3" y="14" width="7" height="7"/>
+</svg>
+
+                
+                <span>摘抄</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+
+                <li class="sidebar-sitemap-link">
+                    <a href="/blog-by-hugo/page/sitemap/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z" /><path d="M9 4v13" /><path d="M15 7v13" /></svg>
+                        <span>站点导航</span>
+                    </a>
+                </li>
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav class="toc-nav" id="TableOfContents">
+                
+  <ul>
+    <li><a href="#pragma">pragma</a>
+      <ul>
+        <li><a href="#_pragma">_Pragma</a></li>
+        <li><a href="#pragma-指令功能表">pragma 指令功能表</a></li>
+      </ul>
+    </li>
+    <li><a href="#attribute"><strong>attribute</strong></a>
+      <ul>
+        <li><a href="#常见属性表">常见属性表</a>
+          <ul>
+            <li><a href="#函数属性">函数属性</a></li>
+            <li><a href="#类型属性">类型属性</a></li>
+            <li><a href="#变量属性">变量属性</a></li>
+          </ul>
+        </li>
+        <li><a href="#用法示例">用法示例</a></li>
+      </ul>
+    </li>
+    <li><a href="#volatile-关键字">volatile 关键字</a></li>
+  </ul>
+
+            </nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/blog-by-hugo/categories/program/" style="background-color: #2a9d8f; color: #fff;">
+                编程
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/blog-by-hugo/post/c_extension_study1/">c拓展语法学习</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <footer class="article-meta">
+        
+            <div class="inline-meta">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                    <time class="article-time--published" datetime='2026-06-26T08:04:20Z'>Jun 26, 2026</time>
+                
+
+                
+            </div>
+        
+
+        
+
+        
+
+        
+    </footer>
+    
+</div>
+
+</header>
+
+    
+    
+
+    
+    
+
+    
+    <aside class="article-toc">
+        <details>
+            <summary>
+                <div class="article-toc-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    <span>目录</span>
+                </div>
+            </summary>
+            <nav class="toc-nav">
+                
+  <ul>
+    <li><a href="#pragma">pragma</a>
+      <ul>
+        <li><a href="#_pragma">_Pragma</a></li>
+        <li><a href="#pragma-指令功能表">pragma 指令功能表</a></li>
+      </ul>
+    </li>
+    <li><a href="#attribute"><strong>attribute</strong></a>
+      <ul>
+        <li><a href="#常见属性表">常见属性表</a>
+          <ul>
+            <li><a href="#函数属性">函数属性</a></li>
+            <li><a href="#类型属性">类型属性</a></li>
+            <li><a href="#变量属性">变量属性</a></li>
+          </ul>
+        </li>
+        <li><a href="#用法示例">用法示例</a></li>
+      </ul>
+    </li>
+    <li><a href="#volatile-关键字">volatile 关键字</a></li>
+  </ul>
+
+            </nav>
+        </details>
+    </aside>
+    
+
+    
+        <section class="article-content">
+    
+    
+    <h2 id="pragma">pragma
+</h2><p>　　<code>#pragma</code>是 C 语言的一种预处理指令，类似于<code>#include</code>。用于告诉编译器进行某种操作。pragma 单词本身的释义为“编译指令”。</p>
+<p>　　最简单的一种 pragma 可以在编译时输出文本提示。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;)
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>　　编译上面的 C 文件结果输出如下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">❯ gcc pragma.c
+</span></span><span class="line"><span class="cl">pragma.c:1:9: warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages]
+</span></span><span class="line"><span class="cl">    1 | #pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;)
+</span></span><span class="line"><span class="cl">      |         ^
+</span></span><span class="line"><span class="cl">1 warning generated.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="_pragma">_Pragma
+</h3><p>　　由于宏定义之间不能嵌套，当某种 pragma 想要复用时，无法通过<code>#define</code>复用，此时可以通过<code>_Pragma</code>指令，如下所示。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define MSG _Pragma(&#34;message(\&#34;&gt;&gt;&gt; Compiling ...\&#34;)&#34;)
+</span></span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MSG</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">_Pragma</span><span class="p">(</span><span class="s">&#34;message(</span><span class="se">\&#34;</span><span class="s">&gt;&gt;&gt; Compiling ...</span><span class="se">\&#34;</span><span class="s">)&#34;)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>　　编译后输出如下提示信息。其中的 note 消息可以忽略，关注<code>warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages]</code>段即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">❯ gcc pragma.c
+</span></span><span class="line"><span class="cl">pragma.c:3:1: warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages]
+</span></span><span class="line"><span class="cl">    3 | MSG
+</span></span><span class="line"><span class="cl">      | ^
+</span></span><span class="line"><span class="cl">pragma.c:1:13: note: expanded from macro &#39;MSG&#39;
+</span></span><span class="line"><span class="cl">    1 | #define MSG _Pragma(&#34;message(\&#34;&gt;&gt;&gt; Compiling ...\&#34;)&#34;)
+</span></span><span class="line"><span class="cl">      |             ^
+</span></span><span class="line"><span class="cl">&lt;scratch space&gt;:4:2: note: expanded from here
+</span></span><span class="line"><span class="cl">    4 |  message(&#34;&gt;&gt;&gt; Compiling ...&#34;)
+</span></span><span class="line"><span class="cl">      |  ^
+</span></span><span class="line"><span class="cl">pragma.c:5:1: warning: &gt;&gt;&gt; Compiling ... [-W#pragma-messages]
+</span></span><span class="line"><span class="cl">    5 | _Pragma(&#34;message(\&#34;&gt;&gt;&gt; Compiling ...\&#34;)&#34;)
+</span></span><span class="line"><span class="cl">      | ^
+</span></span><span class="line"><span class="cl">&lt;scratch space&gt;:6:2: note: expanded from here
+</span></span><span class="line"><span class="cl">    6 |  message(&#34;&gt;&gt;&gt; Compiling ...&#34;)
+</span></span><span class="line"><span class="cl">      |  ^
+</span></span><span class="line"><span class="cl">2 warnings generated.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>　　根据上面的编译输出结果，我们可以知道，如下两种编译指令是近似等价的。但是<code>_Pragma</code>语法本身可以放在<code>#define</code>中复用。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#pragma message(&#34;&gt;&gt;&gt; Compiling ...&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="nf">_Pragma</span><span class="p">(</span><span class="s">&#34;message(</span><span class="se">\&#34;</span><span class="s">&gt;&gt;&gt; Compiling ...</span><span class="se">\&#34;</span><span class="s">)&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="pragma-指令功能表">pragma 指令功能表
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>指令</th>
+          <th>功能</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>clang diagnostic push</td>
+          <td>保存当前的诊断设置（哪些警告开、哪些关）到内部栈</td>
+      </tr>
+      <tr>
+          <td>clang diagnostic ignored &ldquo;-Wexcessive-regsave&rdquo;</td>
+          <td>告知编译器对接下来遇到的 -Wexcessive-regsave 警告保持沉默</td>
+      </tr>
+      <tr>
+          <td>clang diagnostic pop</td>
+          <td>从栈中恢复诊断设置，这样后面的代码不受影响</td>
+      </tr>
+  </tbody>
+</table></div>
+
+    <blockquote>
+        <p>-Wexcessive-regsave: 这是一个在某些架构上（尤其是 ARM64）编译器生成代码时可能触发的警告：函数太复杂，编译器需要把大量寄存器保存/恢复到栈上，影响性能。通常在非常大的内联函数或深层嵌套调用时出现。</p>
+
+    </blockquote>
+<h2 id="attribute"><strong>attribute</strong>
+</h2><p>　　<code>__attribute__</code> 是 <strong>GCC（GNU Compiler Collection）</strong> 提供的一种语言扩展，用于在 C/C++ 代码中指定函数、变量、类型的特殊属性（attributes），从而告诉编译器对这些实体进行特定的优化、检查或行为控制。
+它也被 Clang 等兼容 GCC 的编译器支持。其基本语法如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">__attribute__</span><span class="p">((</span><span class="n">attribute</span><span class="o">-</span><span class="n">list</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>可放在声明末尾，或紧跟在标识符之后。</li>
+<li>多个属性用逗号分隔，例如 <code>__attribute__((aligned(8), packed))</code></li>
+</ul>
+<h3 id="常见属性表">常见属性表
+</h3><h4 id="函数属性">函数属性
+</h4><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>属性</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>noreturn</code></td>
+          <td>函数永不返回（如 <code>exit</code>、<code>abort</code>），帮助消除 unreachable-code 警告</td>
+      </tr>
+      <tr>
+          <td><code>format(archetype, string-index, first-to-check)</code></td>
+          <td>声明类 printf/scanf 函数的格式串检查，例如 <code>format(printf, 1, 2)</code></td>
+      </tr>
+      <tr>
+          <td><code>nonnull(arg-index, ...)</code></td>
+          <td>声明指针参数不可为 NULL</td>
+      </tr>
+      <tr>
+          <td><code>const</code></td>
+          <td>纯函数 - 只依赖参数值，不读全局内存，无副作用（比 <code>pure</code> 更强）</td>
+      </tr>
+      <tr>
+          <td><code>pure</code></td>
+          <td>函数无副作用，返回值仅依赖参数和全局内存（可被 CSE 优化，但调用次数不可消）</td>
+      </tr>
+      <tr>
+          <td><code>malloc</code></td>
+          <td>返回新分配的内存指针，且该指针不会与任何已有指针别名</td>
+      </tr>
+      <tr>
+          <td><code>warn_unused_result</code></td>
+          <td>调用者忽略返回值时发出警告</td>
+      </tr>
+      <tr>
+          <td><code>used</code></td>
+          <td>即使未引用也保留函数代码（防止被链接器丢弃）</td>
+      </tr>
+      <tr>
+          <td><code>unused</code></td>
+          <td>抑制&quot;未使用函数&quot;警告</td>
+      </tr>
+      <tr>
+          <td><code>weak</code></td>
+          <td>弱符号 - 可被同名强符号覆盖，用于提供默认实现</td>
+      </tr>
+      <tr>
+          <td><code>constructor</code></td>
+          <td>在 <code>main()</code> 之前自动执行（可带优先级参数）</td>
+      </tr>
+      <tr>
+          <td><code>destructor</code></td>
+          <td>在 <code>main()</code> 返回后或 <code>exit()</code> 时自动执行</td>
+      </tr>
+      <tr>
+          <td><code>noinline</code></td>
+          <td>禁止内联此函数</td>
+      </tr>
+      <tr>
+          <td><code>always_inline</code></td>
+          <td>强制内联（即使优化级别不支持）</td>
+      </tr>
+      <tr>
+          <td><code>flatten</code></td>
+          <td>将此函数内的每个调用都视为 <code>always_inline</code></td>
+      </tr>
+      <tr>
+          <td><code>hot</code></td>
+          <td>标记为热点路径，优化分支预测和指令布局</td>
+      </tr>
+      <tr>
+          <td><code>cold</code></td>
+          <td>标记为冷路径，优化代码体积而非速度</td>
+      </tr>
+      <tr>
+          <td><code>no_sanitize(&quot;sanitizer-name&quot;)</code></td>
+          <td>对此函数禁用指定 sanitizer（如 address、thread）</td>
+      </tr>
+      <tr>
+          <td><code>interrupt</code> / <code>interrupt_handler</code></td>
+          <td>声明中断处理函数（自动保存/恢复寄存器，使用特殊返回指令）</td>
+      </tr>
+      <tr>
+          <td><code>sentinel</code></td>
+          <td>参数列表必须以 NULL 结尾（如 <code>execl</code>）</td>
+      </tr>
+      <tr>
+          <td><code>alloc_size(pos)</code> / <code>alloc_size(pos1, pos2)</code></td>
+          <td>标明第几个参数控制分配大小，辅助优化和安全检查</td>
+      </tr>
+      <tr>
+          <td><code>returns_nonnull</code></td>
+          <td>函数保证返回非 NULL 指针</td>
+      </tr>
+      <tr>
+          <td><code>leaf</code></td>
+          <td>函数不会回调当前编译单元内的任何函数</td>
+      </tr>
+      <tr>
+          <td><code>nothrow</code></td>
+          <td>函数保证不抛出 C++ 异常</td>
+      </tr>
+      <tr>
+          <td><code>target(&quot;feature&quot;)</code></td>
+          <td>为特定 CPU 特性编译此函数（如 <code>target(&quot;avx2&quot;)</code>）</td>
+      </tr>
+  </tbody>
+</table></div>
+<h4 id="类型属性">类型属性
+</h4><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>属性</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>aligned(N)</code></td>
+          <td>指定类型或变量的对齐字节数（N 为 2 的幂）</td>
+      </tr>
+      <tr>
+          <td><code>packed</code></td>
+          <td>紧凑布局 - 移除成员间的填充字节</td>
+      </tr>
+      <tr>
+          <td><code>deprecated</code> / <code>deprecated(&quot;message&quot;)</code></td>
+          <td>标记为已弃用，使用时产生警告</td>
+      </tr>
+      <tr>
+          <td><code>unavailable</code></td>
+          <td>标记为不可用，使用时产生错误</td>
+      </tr>
+      <tr>
+          <td><code>visibility(&quot;type&quot;)</code></td>
+          <td>符号可见性：<code>default</code>、<code>hidden</code>、<code>internal</code>、<code>protected</code></td>
+      </tr>
+      <tr>
+          <td><code>mode(TI/QI/HI/SI/DI)</code></td>
+          <td>指定整数类型的宽度（如 <code>__attribute__((mode(DI)))</code>）</td>
+      </tr>
+      <tr>
+          <td><code>may_alias</code></td>
+          <td>声明此类型可能与其他类型别名，抑制严格别名优化</td>
+      </tr>
+      <tr>
+          <td><code>transparent_union</code></td>
+          <td>透明联合体 - 传参时各成员类型可隐含转换</td>
+      </tr>
+      <tr>
+          <td><code>designated_init</code></td>
+          <td>只能通过指定初始化器初始化（可用于 union）</td>
+      </tr>
+      <tr>
+          <td><code>objc_root_class</code></td>
+          <td>标记 Objective-C 根类</td>
+      </tr>
+  </tbody>
+</table></div>
+<h4 id="变量属性">变量属性
+</h4><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>属性</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>section(&quot;name&quot;)</code></td>
+          <td>将变量放入指定段（如 <code>.init_array</code>、<code>.bss.my_section</code>）</td>
+      </tr>
+      <tr>
+          <td><code>used</code></td>
+          <td>即使未引用也保留变量</td>
+      </tr>
+      <tr>
+          <td><code>unused</code></td>
+          <td>抑制&quot;未使用变量&quot;警告</td>
+      </tr>
+      <tr>
+          <td><code>aligned(N)</code></td>
+          <td>指定对齐（同类型属性，直接作用于变量）</td>
+      </tr>
+      <tr>
+          <td><code>packed</code></td>
+          <td>去除结构体成员对齐填充（作用于变量声明时）</td>
+      </tr>
+      <tr>
+          <td><code>cleanup(function)</code></td>
+          <td>变量离开作用域时自动调用给定函数（类似 C++ RAII）</td>
+      </tr>
+      <tr>
+          <td><code>weak</code></td>
+          <td>弱符号 - 可被同名强符号覆盖</td>
+      </tr>
+      <tr>
+          <td><code>tls_model(&quot;model&quot;)</code></td>
+          <td>指定 TLS 模型：<code>global-dynamic</code>、<code>local-dynamic</code>、<code>initial-exec</code>、<code>local-exec</code></td>
+      </tr>
+      <tr>
+          <td><code>noinit</code></td>
+          <td>变量不初始化为零（用于保持复位后的数据）</td>
+      </tr>
+  </tbody>
+</table></div>
+<h3 id="用法示例">用法示例
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">acpi_sdt_header_t</span> <span class="n">header</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint32_t</span>          <span class="n">PointerToOtherSDT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="nf">__attribute__</span><span class="p">((</span><span class="n">packed</span><span class="p">))</span> <span class="kt">rsdt_t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">__attribute__</span><span class="p">((</span><span class="n">noinline</span><span class="p">))</span> <span class="kt">void</span> <span class="nf">compiler_barrier</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span> <span class="n">__asm__</span> <span class="k">volatile</span><span class="p">(</span><span class="s">&#34;&#34;</span> <span class="o">:::</span> <span class="s">&#34;memory&#34;</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">volatile</span> <span class="kt">float</span> <span class="n">__x</span> <span class="nf">__attribute__</span><span class="p">((</span><span class="n">unused</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>aligned(N) 做了两件事：</p>
+<div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>效果</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>起始地址</td>
+          <td>变量/结构体地址满足 addr % N == 0</td>
+      </tr>
+      <tr>
+          <td>sizeof 补整</td>
+          <td>末尾补 padding 使 sizeof % N == 0</td>
+      </tr>
+  </tbody>
+</table></div>
+<h2 id="volatile-关键字">volatile 关键字
+</h2><p>　　<code>volatile</code> 是 C 语言的一个类型修饰符，用于告诉编译器：该变量的值可能在程序控制流之外被意外修改，因此编译器不能对该变量的访问进行某些优化（如缓存到寄存器、消除冗余读取等）。</p>
+<p>　　<code>__asm__</code>和<code>volatile</code>可以一起使用，如下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">__asm__</span> <span class="nf">volatile</span><span class="p">(</span><span class="s">&#34;inw %1, %0&#34;</span> <span class="o">:</span> <span class="s">&#34;=a&#34;</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="o">:</span> <span class="s">&#34;dN&#34;</span><span class="p">(</span><span class="n">port</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编译器必须：</p>
+<ul>
+<li>保留这段汇编，即使输出没用</li>
+<li>每次都生成，不能合并</li>
+<li>保持原位，不和其它 volatile asm 重排</li>
+</ul>
+
+</section>
+
+    
+
+    <footer class="article-meta article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/blog-by-hugo/tags/c%E8%AF%AD%E8%A8%80/">C语言</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright inline-meta">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>CC BY-NC-ND 4.0</span>
+    </section>
+    <section class="article-lastmod inline-meta">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Jun 26, 2026 08:49 UTC
+        </span>
+    </section></footer>
+
+
+    
+</article>
+
+    
+    
+
+    
+
+    
+
+<aside>
+    <h2 class="section-title">相关文章</h2>
+    <div class="subsection-list">
+        <div class="article-list--tile">
+            
+                
+<article class="">
+    <a href="/blog-by-hugo/post/reverse-program-course-week1/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">【武大软件逆向课程/第一周】扫雷逆向分析批量插旗及机器指令表.exe文件字体更换</h2>
+        </div>
+    </a>
+</article>
+            
+                
+<article class="">
+    <a href="/blog-by-hugo/post/c-getopt_h-analysis/">
+        
+
+        <div class="article-details">
+            <h2 class="article-title">c语言getopt.h库解析</h2>
+        </div>
+    </a>
+</article>
+            
+        </div>
+    </div>
+</aside>
+
+
+    
+        
+
+        <script
+    src="https://giscus.app/client.js"
+    data-repo="XingfenD/blog-by-hugo"
+    data-repo-id="R_kgDONtUPdg"
+    data-category="Announcements"
+    data-category-id="DIC_kwDONtUPds4C9w17"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+></script>
+<script>
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
+                },
+                "https://giscus.app"
+            );
+        }
+    }
+
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
+
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2025 - 
+        
+        2026 星分
+    </section>
+    
+    <section class="powerby">
+        
+            星藏点雪，月隐晦明 <br/>
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="4.0.3">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+
+
+<script type="module">
+    import gallery from '\/blog-by-hugo\/ts\/gallery.js';
+
+    const articleContent = document.querySelector('.article-content');
+    const shouldLoad = articleContent && (articleContent.querySelectorAll('figure').length > 0 || articleContent.querySelectorAll('img.gallery-image').length > 0);
+    
+    if (shouldLoad) {
+        gallery(articleContent);
+
+        const PhotoSwipeLightbox = (await import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js")).default;
+        const styleHref = "https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.css";
+
+        const styleTag = document.createElement('link');
+        styleTag.rel = 'stylesheet';
+        styleTag.href = styleHref;
+        document.head.appendChild(styleTag);
+
+        const lightbox = new PhotoSwipeLightbox({
+            gallerySelector: '.article-content',
+            childSelector: 'figure a.image-link',
+            pswpModule: () => import("https:\/\/cdn.jsdelivr.net\/npm\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js")
+        });
+        lightbox.init();
+    }
+</script>
+
+    
+
+    <div id="reading-progress-bar"></div>
+    <button id="back-to-top" aria-label="返回顶部">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5M5 12l7-7 7 7"/>
+        </svg>
+    </button>
+
+            </main>
+        </div>
+        
+<script type="text/javascript" src="/blog-by-hugo/ts/main.777fd9c6e39e226c4432b3ef7ad26519191fe30215c73a58b4677b707b73933b.js" defer></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsmediatags@3.9.7/dist/jsmediatags.min.js"></script>
+
+
+    </body>
+</html>
