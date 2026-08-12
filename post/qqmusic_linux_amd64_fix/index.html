@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="\"觉宇宙之无穷，识盈虚之有数\"">
-<title>关于</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="先说结论 QQ Music 官方 Linux DEB 包可以正常启动。崩溃原因不是显卡硬件故障，而是 QQ Music 内置的旧版 Electron/Chromium 沙箱策略与当前系统 glibc 不兼容。\n通过 QQ Music 的用户级桌面启动项加入以下参数后，应用已经能够正常启动并保持运行：\n1 --disable-seccomp-filter-sandbox 系统环境 项目 值 架构 x86-64 内核 7.0.0-14-generic glibc 2.43-2ubuntu2 QQ Music 包 1.1.8，amd64 内置 Electron 8.2.1 内置 Chromium Chrome 80.0.3987.163 图形会话 Xwayland，显示 :0 QQ Music 的系统桌面文件原路径为：\n1 /usr/share/applications/qqmusic.desktop 崩溃证据 系统 coredump 报告显示：\n1 2 3 4 5 6 Signal: 31 (SIGSYS) Command Line: /opt/qqmusic/qqmusic --type=gpu-process ... --use-gl=disabled ... Stack trace: __clone3 (libc.so.6) Module: libseccomp.so.2 SIGSYS 表示进程执行了被 seccomp 过滤器拒绝的系统调用。这里的调用是 clone3，它被 glibc 用于创建线程。QQ Music 使用的 Electron 8.2.1 搭载了较旧的 Chromium seccomp 白名单，没有允许新系统环境下的 clone3，因此 GPU、renderer 等子进程在创建线程时被系统直接终止。\n">
+<title>Linux版QQ音乐无法打开问题分析及修复</title>
 
 
-<link rel="canonical" href="https://xingfend.github.io/blog-by-hugo/page/about/">
+<link rel="canonical" href="https://xingfend.github.io/blog-by-hugo/post/qqmusic_linux_amd64_fix/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap">
 
 
-<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.09e8f7af1e54367e62fd58eab012374e49046189ed9835dbf12807e82cd189aa.css"><meta property='og:title' content="关于">
-<meta property='og:description' content="\"觉宇宙之无穷，识盈虚之有数\"">
-<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/page/about/'>
+<link rel="stylesheet" href="/blog-by-hugo/scss/style.min.09e8f7af1e54367e62fd58eab012374e49046189ed9835dbf12807e82cd189aa.css"><meta property='og:title' content="Linux版QQ音乐无法打开问题分析及修复">
+<meta property='og:description' content="先说结论 QQ Music 官方 Linux DEB 包可以正常启动。崩溃原因不是显卡硬件故障，而是 QQ Music 内置的旧版 Electron/Chromium 沙箱策略与当前系统 glibc 不兼容。\n通过 QQ Music 的用户级桌面启动项加入以下参数后，应用已经能够正常启动并保持运行：\n1 --disable-seccomp-filter-sandbox 系统环境 项目 值 架构 x86-64 内核 7.0.0-14-generic glibc 2.43-2ubuntu2 QQ Music 包 1.1.8，amd64 内置 Electron 8.2.1 内置 Chromium Chrome 80.0.3987.163 图形会话 Xwayland，显示 :0 QQ Music 的系统桌面文件原路径为：\n1 /usr/share/applications/qqmusic.desktop 崩溃证据 系统 coredump 报告显示：\n1 2 3 4 5 6 Signal: 31 (SIGSYS) Command Line: /opt/qqmusic/qqmusic --type=gpu-process ... --use-gl=disabled ... Stack trace: __clone3 (libc.so.6) Module: libseccomp.so.2 SIGSYS 表示进程执行了被 seccomp 过滤器拒绝的系统调用。这里的调用是 clone3，它被 glibc 用于创建线程。QQ Music 使用的 Electron 8.2.1 搭载了较旧的 Chromium seccomp 白名单，没有允许新系统环境下的 clone3，因此 GPU、renderer 等子进程在创建线程时被系统直接终止。\n">
+<meta property='og:url' content='https://xingfend.github.io/blog-by-hugo/post/qqmusic_linux_amd64_fix/'>
 <meta property='og:site_name' content='星分'>
-<meta property='og:type' content='article'><meta property='article:section' content='Page' /><meta property='article:published_time' content='2025-02-02T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-08-12T06:22:39&#43;00:00'/>
-<meta name="twitter:title" content="关于">
-<meta name="twitter:description" content="\"觉宇宙之无穷，识盈虚之有数\"">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-08-12T06:12:02&#43;00:00'/><meta property='article:modified_time' content='2026-08-12T06:22:39&#43;00:00'/>
+<meta name="twitter:title" content="Linux版QQ音乐无法打开问题分析及修复">
+<meta name="twitter:description" content="先说结论 QQ Music 官方 Linux DEB 包可以正常启动。崩溃原因不是显卡硬件故障，而是 QQ Music 内置的旧版 Electron/Chromium 沙箱策略与当前系统 glibc 不兼容。\n通过 QQ Music 的用户级桌面启动项加入以下参数后，应用已经能够正常启动并保持运行：\n1 --disable-seccomp-filter-sandbox 系统环境 项目 值 架构 x86-64 内核 7.0.0-14-generic glibc 2.43-2ubuntu2 QQ Music 包 1.1.8，amd64 内置 Electron 8.2.1 内置 Chromium Chrome 80.0.3987.163 图形会话 Xwayland，显示 :0 QQ Music 的系统桌面文件原路径为：\n1 /usr/share/applications/qqmusic.desktop 崩溃证据 系统 coredump 报告显示：\n1 2 3 4 5 6 Signal: 31 (SIGSYS) Command Line: /opt/qqmusic/qqmusic --type=gpu-process ... --use-gl=disabled ... Stack trace: __clone3 (libc.so.6) Module: libseccomp.so.2 SIGSYS 表示进程执行了被 seccomp 过滤器拒绝的系统调用。这里的调用是 clone3，它被 glibc 用于创建线程。QQ Music 使用的 Electron 8.2.1 搭载了较旧的 Chromium seccomp 白名单，没有允许新系统环境下的 clone3，因此 GPU、renderer 等子进程在创建线程时被系统直接终止。\n">
     <link rel="shortcut icon" href="/blog-by-hugo/favicon.ico" />
 
     </head>
@@ -185,7 +185,7 @@
         </li>
         
         
-        <li  class='current'>
+        <li >
             <a href='/blog-by-hugo/page/about/' >
                 
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -295,12 +295,12 @@
             <nav class="toc-nav" id="TableOfContents">
                 
   <ul>
-    <li><a href="#关于远楒">关于远楒</a>
-      <ul>
-        <li><a href="#更新计划">更新计划</a></li>
-      </ul>
-    </li>
-    <li><a href="#参考资料">参考资料</a></li>
+    <li><a href="#先说结论">先说结论</a></li>
+    <li><a href="#系统环境">系统环境</a></li>
+    <li><a href="#崩溃证据">崩溃证据</a></li>
+    <li><a href="#修复方案">修复方案</a></li>
+    <li><a href="#验证结果">验证结果</a></li>
+    <li><a href="#安全说明">安全说明</a></li>
   </ul>
 
             </nav>
@@ -318,16 +318,23 @@
 
     <div class="article-details">
     
+    <header class="article-category">
+        
+            
+            
+            
+            <a href="/blog-by-hugo/categories/tutorial/" style="background-color: #2a9d8f; color: #fff;">
+                踩坑实录
+            </a>
+        
+    </header>
+    
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/blog-by-hugo/page/about/">关于</a>
+            <a href="/blog-by-hugo/post/qqmusic_linux_amd64_fix/">Linux版QQ音乐无法打开问题分析及修复</a>
         </h2>
     
-        
-        <h3 class="article-subtitle">
-            &#34;觉宇宙之无穷，识盈虚之有数&#34;
-        </h3>
         
     </div>
 
@@ -351,7 +358,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                    <time class="article-time--published" datetime='2025-02-02T00:00:00Z'>Feb 02, 2025</time>
+                    <time class="article-time--published" datetime='2026-08-12T06:12:02Z'>Aug 12, 2026</time>
                 
 
                 
@@ -387,12 +394,12 @@
             <nav class="toc-nav">
                 
   <ul>
-    <li><a href="#关于远楒">关于远楒</a>
-      <ul>
-        <li><a href="#更新计划">更新计划</a></li>
-      </ul>
-    </li>
-    <li><a href="#参考资料">参考资料</a></li>
+    <li><a href="#先说结论">先说结论</a></li>
+    <li><a href="#系统环境">系统环境</a></li>
+    <li><a href="#崩溃证据">崩溃证据</a></li>
+    <li><a href="#修复方案">修复方案</a></li>
+    <li><a href="#验证结果">验证结果</a></li>
+    <li><a href="#安全说明">安全说明</a></li>
   </ul>
 
             </nav>
@@ -404,76 +411,154 @@
         <section class="article-content">
     
     
-    <h2 id="关于远楒">关于远楒
-</h2><p>　　「远楒」取音「远思」，意在表达两层含义：一是对事物进行深入的思考与探究，二是对过往的人、事、时光怀有遥远的思念。</p>
-<p>　　英文名为 yoresee（/ˈjɔːsiː/），由古英语词汇 yore（往昔）与 see（看见）组合而成，直译为「看见往昔」或「回望过去」。这一命名与中文「远楒」相呼应——既体现对过往的注视，也暗含对未来的展望。</p>
-<h3 id="更新计划">更新计划
-</h3><p>　　本站<strong>由本人手工编码</strong>的具体开发与改造过程可进入站内归档页的&quot;博客搭建&quot;类别具体了解，后续维护与迭代将通过 Claude Code 进行，不再更新该类别博客。</p>
-<p>　　关于本站的更新日志，可以前往<a class="link" href="/blog-by-hugo/page/changelog/" >更新日志</a>中查看，Claude Code 每次迭代将会维护该更新日志。</p>
-
-    <blockquote>
-        <p>「远楒」的核心功能将由 Claude Code 维护与开发。下面的更新计划已经废弃。</p>
-
-    </blockquote>
-<hr>
-<div class="table-wrapper"><table>
+    <h2 id="先说结论">先说结论
+</h2><p>　　QQ Music 官方 Linux DEB 包可以正常启动。崩溃原因不是显卡硬件故障，而是 QQ Music 内置的旧版 Electron/Chromium 沙箱策略与当前系统 glibc 不兼容。</p>
+<p>　　通过 QQ Music 的用户级桌面启动项加入以下参数后，应用已经能够正常启动并保持运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">--disable-seccomp-filter-sandbox
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="系统环境">系统环境
+</h2><div class="table-wrapper"><table>
   <thead>
       <tr>
-          <th>功能</th>
-          <th style="text-align: center">完成日期</th>
-          <th>备注</th>
+          <th>项目</th>
+          <th>值</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td>添加一种widget，显示当前blog的tags</td>
-          <td style="text-align: center">2025-02-18</td>
-          <td></td>
+          <td>架构</td>
+          <td><code>x86-64</code></td>
       </tr>
       <tr>
-          <td>实现代码块过长自动折叠功能</td>
-          <td style="text-align: center"></td>
-          <td>pending</td>
+          <td>内核</td>
+          <td><code>7.0.0-14-generic</code></td>
       </tr>
       <tr>
-          <td>添加回到顶部与底部按钮</td>
-          <td style="text-align: center">2026-05</td>
-          <td>已由Claude Code 开发完成</td>
+          <td>glibc</td>
+          <td><code>2.43-2ubuntu2</code></td>
       </tr>
       <tr>
-          <td>修复代码块颜色不正常显示的问题</td>
-          <td style="text-align: center">-</td>
-          <td>可能是浏览器问题</td>
+          <td>QQ Music 包</td>
+          <td><code>1.1.8</code>，<code>amd64</code></td>
       </tr>
       <tr>
-          <td>新增一种归档方式 - 合集(collection)<br/>并将相关博文的索引逻辑从tag改为collection</td>
-          <td style="text-align: center">2025-02-20</td>
-          <td>已开发完成，Claude Code 进行后续迭代</td>
+          <td>内置 Electron</td>
+          <td><code>8.2.1</code></td>
+      </tr>
+      <tr>
+          <td>内置 Chromium</td>
+          <td><code>Chrome 80.0.3987.163</code></td>
+      </tr>
+      <tr>
+          <td>图形会话</td>
+          <td>Xwayland，显示 <code>:0</code></td>
       </tr>
   </tbody>
 </table></div>
-<h2 id="参考资料">参考资料
-</h2><p>本博客站&quot;远楒&quot;的搭建过程参考如下在线资料:</p>
-
-    <blockquote>
-        <p><a class="link" href="https://hugo.opendocs.io/"  target="_blank" rel="noopener"
-    >Hugo中文文档</a></p>
-<p><a class="link" href="https://letere-gzj.github.io/hugo-stack/"  target="_blank" rel="noopener"
-    >莱特雷-letere的个人博客</a></p>
-<p><a class="link" href="https://krislinzhao.github.io/docs/create-a-wesite-using-github-pages-and-hugo/"  target="_blank" rel="noopener"
-    >如何用 GitHub Pages + Hugo 搭建个人博客 - KrislinBlog</a></p>
-<p><a class="link" href="https://tomial.github.io/posts/hugo%E4%BD%BF%E7%94%A8github-action%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E5%88%B0github-pages/"  target="_blank" rel="noopener"
-    >Hugo使用Github Action自动部署博客到Github Pages - Tomial&rsquo;s Blog</a></p>
-<p><a class="link" href="https://stack.jimmycai.com/config/"  target="_blank" rel="noopener"
-    >Stack主题配置文件说明文档</a></p>
-<p><a class="link" href="https://weilado.github.io/2025/06/18/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%EF%BC%88%E5%9F%BA%E4%BA%8Egiscus%EF%BC%89/"  target="_blank" rel="noopener"
-    >如何为博客添加评论系统（基于giscus）</a></p>
-
-    </blockquote>
-<p>　　使用的Hugo主题为<a class="link" href="https://themes.gohugo.io/themes/hugo-theme-stack/"  target="_blank" rel="noopener"
-    >Stack</a>，本博客站使用的定制化主题仓库为<a class="link" href="https://github.com/XingfenD/hugo-theme-stack"  target="_blank" rel="noopener"
-    >XingfenD/hugo-theme-stack</a>。</p>
-
+<p>　　QQ Music 的系统桌面文件原路径为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/usr/share/applications/qqmusic.desktop
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="崩溃证据">崩溃证据
+</h2><p>　　系统 coredump 报告显示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Signal: 31 (SIGSYS)
+</span></span><span class="line"><span class="cl">Command Line: /opt/qqmusic/qqmusic --type=gpu-process ... --use-gl=disabled ...
+</span></span><span class="line"><span class="cl">Stack trace:
+</span></span><span class="line"><span class="cl">  __clone3 (libc.so.6)
+</span></span><span class="line"><span class="cl">Module:
+</span></span><span class="line"><span class="cl">  libseccomp.so.2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>　　<code>SIGSYS</code> 表示进程执行了被 seccomp 过滤器拒绝的系统调用。这里的调用是 <code>clone3</code>，它被 glibc 用于创建线程。QQ Music 使用的 Electron 8.2.1 搭载了较旧的 Chromium seccomp 白名单，没有允许新系统环境下的 <code>clone3</code>，因此 GPU、renderer 等子进程在创建线程时被系统直接终止。</p>
+<p>　　启动命令中原本已经存在 <code>--use-gl=disabled</code>，但它只关闭了 OpenGL 路径，不能解决 renderer 进程的 seccomp 崩溃。</p>
+<h2 id="修复方案">修复方案
+</h2><p>　　没有修改官方安装目录或 QQ Music 二进制文件，而是在用户目录创建了覆盖系统桌面项：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/home/xingfen/.local/share/applications/qqmusic.desktop
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>　　关键配置如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Desktop Entry]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Name</span><span class="o">=</span><span class="s">qqmusic</span>
+</span></span><span class="line"><span class="cl"><span class="na">Exec</span><span class="o">=</span><span class="s">/opt/qqmusic/qqmusic --disable-seccomp-filter-sandbox %U</span>
+</span></span><span class="line"><span class="cl"><span class="na">Terminal</span><span class="o">=</span><span class="s">false</span>
+</span></span><span class="line"><span class="cl"><span class="na">Type</span><span class="o">=</span><span class="s">Application</span>
+</span></span><span class="line"><span class="cl"><span class="na">Icon</span><span class="o">=</span><span class="s">qqmusic</span>
+</span></span><span class="line"><span class="cl"><span class="na">StartupWMClass</span><span class="o">=</span><span class="s">qqmusic</span>
+</span></span><span class="line"><span class="cl"><span class="na">Comment</span><span class="o">=</span><span class="s">Tencent QQMusic</span>
+</span></span><span class="line"><span class="cl"><span class="na">Categories</span><span class="o">=</span><span class="s">AudioVideo;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>　　用户级桌面文件优先于 <code>/usr/share/applications/qqmusic.desktop</code>，因此从应用菜单启动时会自动使用修复参数。桌面数据库也已经更新：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">update-desktop-database ~/.local/share/applications
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="验证结果">验证结果
+</h2><p>　　验证过程包括：</p>
+<ol>
+<li>使用独立临时配置启动 QQ Music，并加入 <code>--disable-seccomp-filter-sandbox</code>。</li>
+<li>运行期间没有产生新的 <code>SIGSYS</code> coredump。</li>
+<li>通过实际桌面项 <code>gtk-launch qqmusic</code> 启动成功。</li>
+<li>主进程、GPU 进程和 renderer 进程均继承了 <code>--disable-seccomp-filter-sandbox</code> 并持续运行。</li>
+<li>当前安装包版本仍为官方 <code>1.1.8</code>，系统包文件未被改动。</li>
+</ol>
+<h2 id="安全说明">安全说明
+</h2><p>　　该参数会关闭 QQ Music Chromium 子进程的 seccomp filter sandbox，属于针对旧版 Electron 的兼容性绕过方案。QQ Music 仍运行在当前用户权限下，不建议用 <code>sudo</code> 启动它。</p>
+<p>　　如果腾讯发布了更新版 Electron/Chromium 并修复 <code>clone3</code> 沙箱白名单问题，应移除该用户级覆盖项以恢复默认沙箱：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rm ~/.local/share/applications/qqmusic.desktop
+</span></span><span class="line"><span class="cl">update-desktop-database ~/.local/share/applications
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
     
@@ -491,7 +576,7 @@
 
 
 
-        <span>CC BY-NC-ND</span>
+        <span>CC BY-NC-ND 4.0</span>
     </section>
     <section class="article-lastmod inline-meta">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
